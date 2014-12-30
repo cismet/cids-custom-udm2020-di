@@ -4,3 +4,5 @@ pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
+src/udm2020-diDist/lib/cidsLibBase/resource/__tmp_build.xml
+*.jar
