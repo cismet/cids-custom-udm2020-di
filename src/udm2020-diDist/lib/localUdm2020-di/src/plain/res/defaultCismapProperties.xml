@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<cismetConfigurationManager>
+    <metaSearch>
+        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Moose" description="Suche nach Moosen" key="cmdMoss" icon="/de/cismet/cids/custom/udm2020di/treeicons/moss_16.png" selected="false">
+            <!-- arbitrary number of searchClass -->
+            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
+            <searchClass domain="UDM2020-DI" cidsClass="MOSS"/>
+        </searchTopic>
+    </metaSearch>
+    <cismapOverviewComponentPreferences srs="EPSG:4326">
+        <overviewExtent>
+            <!--<BoundingBox x1="-180" y1="-90" x2="180" y2="90" />-->
+            <BoundingBox x1="-40.559635162353516" y1="16.14273476635759" x2="62.82768630981447" y2="86.18421912158185" />
+        </overviewExtent>
+        <background>
+            <simpleWms skip="false" enabled="true">
+                <![CDATA[
+                http://www2.demis.nl/wms/wms.asp?wms=WorldMap&&WMTVER=1.0.0&REQUEST=map&BBOX=<cismap:boundingBox>&WIDTH=<cismap:width>&HEIGHT=<cismap:height>&SRS=EPSG:4326&FORMAT=image/png&TRANSPARENT=true&BGCOLOR=0xF0F0F0&EXCEPTIONS=application/vnd.ogc.se_inimage&LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup%20areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot%20elevations,Airports,Ocean%20features
+                 ]]>
+            </simpleWms>
+        </background>
+    </cismapOverviewComponentPreferences>
+
+    <cismapCapabilitiesPreferences>
+        <capabilities type="OGC-WMS"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
+        </capabilities>
+        <capabilitiesList titlestring="Demis NL WMS"  type="OGC-WMS"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
+        </capabilitiesList>
+    </cismapCapabilitiesPreferences>
+
+    <cismapWFSFormsPreferences/>
+
+    <cismapMappingPreferences interactionMode="ZOOM" creationMode="POLYGON" handleInteractionMode="MOVE_HANDLE" snapping="false">
+        <home default="true" srs="EPSG:4326" metric="true">
+            <BoundingBox x1="-13.194288369255645" y1="34.763647716331306" x2="40.55888613149754" y2="60.22093488558994" />
+        </home>
+        <Position>
+            <BoundingBox x1="-13.194288369255645" y1="34.763647716331306" x2="40.55888613149754" y2="60.22093488558994" />
+        </Position>
+        <crsList>
+            <crs shortname="EPSG:4326" name="EPSG:4326" code="EPSG:4326" metric="true" selected="true"/>
+        </crsList>
+        <defaultCrs geometrySridAlias="4326"/>
+	<printing/>
+    </cismapMappingPreferences>
+
+    <cismapActiveLayerConfiguration>
+        <Layers>
+            <WMSServiceLayer name="World Map" visible="true" enabled="true" translucency="1.0" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+                <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/wms/wms.ashx?Service=WMS&WMS=WorldMap&Version=1.1.0&Request=GetCapabilities]]>
+                </capabilities>
+                <wmsLayer name="Bathymetry" enabled="true" info="false" />
+                <wmsLayer name="Countries" enabled="true" info="false" />
+                <wmsLayer name="Topography" enabled="true" info="false" />
+                <wmsLayer name="Hillshading" enabled="true" info="false" />
+                <wmsLayer name="Builtup areas" enabled="true" info="false" />
+                <wmsLayer name="Coastlines" enabled="true" info="false" />
+                <wmsLayer name="Waterbodies" enabled="true" info="false" />
+                <wmsLayer name="Inundated" enabled="true" info="false" />
+                <wmsLayer name="Rivers" enabled="true" info="false" />
+                <wmsLayer name="Streams" enabled="true" info="false" />
+                <wmsLayer name="Railroads" enabled="true" info="false" />
+                <wmsLayer name="Highways" enabled="true" info="false" />
+                <wmsLayer name="Roads" enabled="true" info="false" />
+                <wmsLayer name="Trails" enabled="true" info="false" />
+                <wmsLayer name="Borders" enabled="true" info="false" />
+                <wmsLayer name="Cities" enabled="true" info="false" />
+                <wmsLayer name="Settlements" enabled="true" info="false" />
+                <wmsLayer name="Spot elevations" enabled="true" info="false" />
+                <wmsLayer name="Airports" enabled="true" info="false" />
+                <wmsLayer name="Ocean features" enabled="true" info="false" />
+            </WMSServiceLayer>
+        </Layers>
+    </cismapActiveLayerConfiguration>
+    <cismapPluginSelectedSearchClasses/>
+    <cismapPluginUIPreferences>
+    </cismapPluginUIPreferences>
+    <cismapFeatureControl/>
+    <serverProfiles/>
+</cismetConfigurationManager>
+

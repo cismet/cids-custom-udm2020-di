@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<settings>
+  <localRepository></localRepository>
+  <profiles>
+    <profile>
+      <id>global-properties</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <de.cismet.keystore.path></de.cismet.keystore.path>
+        <de.cismet.keystore.pass></de.cismet.keystore.pass>
+      </properties>
+    </profile>
+  </profiles>
+  <mirrors>
+    <mirror>
+      <id>central-proxy</id>
+      <name>cismet-repo</name>
+      <url>https://repo.cismet.de/repo</url>
+      <mirrorOf>central</mirrorOf>
+    </mirror>
+  </mirrors>
+</settings>
