@@ -6,5 +6,4 @@ pom.xml.next
 release.properties
 src/udm2020-diDist/lib/cidsLibBase/resource/__tmp_build.xml
 *.jar
-oracleJdbc.log
-boris-import.log
+*.log
