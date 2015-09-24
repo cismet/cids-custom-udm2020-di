@@ -5,11 +5,6 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
@@ -18,13 +13,17 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 
-import javax.swing.Box;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
+import de.cismet.cids.custom.udm2020di.actions.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
+import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
 import de.cismet.cids.custom.udm2020di.types.boris.Standortparameter;
@@ -41,19 +40,23 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
 
     protected static final Logger logger = Logger.getLogger(BorisSiteRenderer.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    private Standort borisStandort;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel exportPanel;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel messwertePanel;
     private javax.swing.JTable messwerteTable;
+    private de.cismet.cids.custom.udm2020di.widgets.export.ParameterSelectionPanel parameterSelectionPanel;
     private javax.swing.JPanel probenparameterPanel;
     private javax.swing.JPanel standortdatenPanel;
-
-    //~ Instance fields --------------------------------------------------------
-
-    private Standort borisStandort;
+    // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
 
@@ -91,7 +94,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final java.awt.GridBagConstraints gridBagConstraints;
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         infoPanel = new javax.swing.JPanel();
@@ -100,7 +103,14 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         messwertePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         messwerteTable = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 32767));
+        exportPanel = new javax.swing.JPanel();
+        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.export.ParameterSelectionPanel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 32767));
 
         setLayout(new java.awt.BorderLayout());
 
@@ -138,8 +148,10 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
             infoPanel); // NOI18N
 
         messwertePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        messwertePanel.setLayout(new java.awt.BorderLayout());
+        messwertePanel.setLayout(new java.awt.GridBagLayout());
 
+        messwerteTable.setBorder(javax.swing.BorderFactory.createLineBorder(
+                javax.swing.UIManager.getDefaults().getColor("Table.dropLineColor")));
         messwerteTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][] {},
                 new String[] { "Parametername", "Datum der Probe", "Maximalwert", "Minimalwert" }) {
@@ -162,19 +174,51 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                     return canEdit[columnIndex];
                 }
             });
+        messwerteTable.setFillsViewportHeight(true);
+        messwerteTable.setPreferredSize(new java.awt.Dimension(300, 500));
+        messwerteTable.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(messwerteTable);
 
-        messwertePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        messwertePanel.add(jScrollPane1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        messwertePanel.add(filler1, gridBagConstraints);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteRenderer.class,
                 "BorisSiteRenderer.messwertePanel.TabConstraints.tabTitle"),
             messwertePanel); // NOI18N
-        jTabbedPane1.addTab("Datenexport", jPanel2);
+
+        exportPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        exportPanel.add(parameterSelectionPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        exportPanel.add(filler2, gridBagConstraints);
+
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                BorisSiteRenderer.class,
+                "BorisSiteRenderer.exportPanel.TabConstraints.tabTitle_1"),
+            exportPanel); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
-    // End of variables declaration//GEN-END:variables
+
     @Override
     protected void init() {
         final Runnable r = new Runnable() {
@@ -200,22 +244,25 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
 
                     int i = 0;
                     for (final Standortparameter standortparameter : borisStandort.getStandortparameter()) {
-                        gridBagConstraints.gridy = i;
-                        gridBagConstraints.gridx = 0;
-                        gridBagConstraints.weightx = 0.0;
-                        label = new JLabel("<html><p>" + standortparameter.getName() + ": </p></html>");
-                        label.setMaximumSize(new Dimension(150, 50));
-                        standortdatenPanel.add(label, gridBagConstraints);
+                        if ((standortparameter.getWert() != null) && !standortparameter.getWert().isEmpty()
+                                    && !standortparameter.getWert().equalsIgnoreCase("null")) {
+                            gridBagConstraints.gridy = i;
+                            gridBagConstraints.gridx = 0;
+                            gridBagConstraints.weightx = 0.0;
+                            label = new JLabel("<html><p>" + standortparameter.getName() + ": </p></html>");
+                            label.setMaximumSize(new Dimension(150, 50));
+                            standortdatenPanel.add(label, gridBagConstraints);
 
-                        if (i == (borisStandort.getStandortparameter().size() - 1)) {
-                            gridBagConstraints.weighty = 1.0;
+                            if (i == (borisStandort.getStandortparameter().size() - 1)) {
+                                gridBagConstraints.weighty = 1.0;
+                            }
+                            gridBagConstraints.gridx = 1;
+                            gridBagConstraints.weightx = 1.0;
+                            label = new JLabel("<html><p>" + standortparameter.getWert() + "</p></html>");
+                            label.setMaximumSize(new Dimension(200, 50));
+                            standortdatenPanel.add(label, gridBagConstraints);
+                            i++;
                         }
-                        gridBagConstraints.gridx = 1;
-                        gridBagConstraints.weightx = 1.0;
-                        label = new JLabel("<html><p>" + standortparameter.getWert() + "</p></html>");
-                        label.setMaximumSize(new Dimension(200, 50));
-                        standortdatenPanel.add(label, gridBagConstraints);
-                        i++;
                     }
 
                     gridBagConstraints.gridy = 0;
@@ -242,6 +289,14 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                             };
                         tableModel.addRow(rowData);
                     }
+
+                    parameterSelectionPanel.setParameters(
+                        new ArrayList<Parameter>(borisStandort.getProbenparameter()));
+                    final BorisExportAction borisExportAction = new BorisExportAction(Arrays.asList(
+                                new String[] { borisStandort.getPk() }),
+                            parameterSelectionPanel.getSelectedParameters());
+
+                    parameterSelectionPanel.setExportAction(borisExportAction);
                 }
             };
 
