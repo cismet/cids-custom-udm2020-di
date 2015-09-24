@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.udm2020di.actions;
+package de.cismet.cids.custom.udm2020di.actions.remote;
 
 import org.apache.log4j.Logger;
 
@@ -15,30 +15,29 @@ import java.awt.event.ActionEvent;
 
 import java.util.Collection;
 
-import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
-import de.cismet.cids.custom.udm2020di.widgets.export.ExportActionDownload;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
+import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_EXPORTFORMAT;
+import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_NAME;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_PARAMETER;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_STANDORTE;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.TASK_NAME;
-
 /**
  * DOCUMENT ME!
  *
  * @author   pd
  * @version  $Revision$, $Date$
  */
-public class BorisExportAction extends AbstractAction {
+public class BorisExportAction extends AbstractExportAction {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -47,8 +46,6 @@ public class BorisExportAction extends AbstractAction {
     //~ Instance fields --------------------------------------------------------
 
     protected Collection<String> standorte;
-
-    protected Collection<Parameter> parameters;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -61,18 +58,17 @@ public class BorisExportAction extends AbstractAction {
     public BorisExportAction(final Collection<String> standorte, final Collection<Parameter> parameters) {
         super("Exportieren");
 
-        this.standorte = standorte;
         this.parameters = parameters;
-        this.setEnabled(!parameters.isEmpty());
+        this.standorte = standorte;
+        this.exportFormat =
+            de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_EXPORTFORMAT_CSV;
+        this.setEnabled(!this.parameters.isEmpty());
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-        log.info("perfoming BORIS Export for  for " + standorte.size() + " standorte and "
-                    + parameters.size() + " parameters");
-
         final Frame frame;
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
             frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
@@ -83,14 +79,19 @@ public class BorisExportAction extends AbstractAction {
 
         if ((standorte != null) && !standorte.isEmpty()
                     && (parameters != null) && !parameters.isEmpty()) {
+            log.info("perfoming BORIS Export for " + standorte.size() + " standorte and "
+                        + parameters.size() + " parameters");
+
             final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
-                    new ServerActionParameter<Collection<String>>(PARAM_STANDORTE, standorte),
-                    new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, parameters)
+                    new ServerActionParameter<Collection<String>>(PARAM_STANDORTE, this.standorte),
+                    new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
+                    new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
+                    new ServerActionParameter<String>(PARAM_NAME, "boris-export")
                 };
 
             if (DownloadManagerDialog.showAskingForUserTitle(frame)) {
                 final String filename = "boris-export";
-                final String extension = "csv";
+                final String extension = this.getExtention(exportFormat);
 
                 DownloadManager.instance()
                         .add(
@@ -98,8 +99,7 @@ public class BorisExportAction extends AbstractAction {
                                 DownloadManagerDialog.getJobname(),
                                 "",
                                 filename,
-                                "."
-                                + extension,
+                                extension,
                                 TASK_NAME,
                                 serverActionParameters));
             } else {
@@ -131,23 +131,5 @@ public class BorisExportAction extends AbstractAction {
      */
     public void setStandorte(final Collection<String> standorte) {
         this.standorte = standorte;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<Parameter> getParameters() {
-        return parameters;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  parameters  DOCUMENT ME!
-     */
-    public void setParameters(final Collection<Parameter> parameters) {
-        this.parameters = parameters;
     }
 }

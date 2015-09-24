@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.udm2020di.widgets.export;
+package de.cismet.cids.custom.udm2020di.actions.remote;
 
 import Sirius.navigator.connection.SessionManager;
 
