@@ -18,10 +18,16 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
 
+import org.openide.util.WeakListeners;
+
 import java.awt.EventQueue;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.Action;
 import javax.swing.JCheckBox;
@@ -34,13 +40,13 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
  * @author   pd
  * @version  $Revision$, $Date$
  */
-public class ParameterSelectionPanel extends javax.swing.JPanel {
+public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemListener {
 
     //~ Instance fields --------------------------------------------------------
 
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
 
-    private Collection<? extends Parameter> parameters;
+    private final SortedSet<Parameter> parameters = new TreeSet<Parameter>();
 
     private final ArrayList selectedParameters = new ArrayList();
 
@@ -67,7 +73,7 @@ public class ParameterSelectionPanel extends javax.swing.JPanel {
      *
      * @param  parameters  DOCUMENT ME!
      */
-    public ParameterSelectionPanel(final Collection<? extends Parameter> parameters) {
+    public ParameterSelectionPanel(final Collection<Parameter> parameters) {
         this();
         this.setParameters(parameters);
     }
@@ -157,7 +163,7 @@ public class ParameterSelectionPanel extends javax.swing.JPanel {
      *
      * @return  the value of parameters
      */
-    public final Collection<? extends Parameter> getParameters() {
+    public final Collection<Parameter> getParameters() {
         return parameters;
     }
 
@@ -166,8 +172,8 @@ public class ParameterSelectionPanel extends javax.swing.JPanel {
      *
      * @param  parameters  new value of parameters
      */
-    public final void setParameters(final Collection<? extends Parameter> parameters) {
-        this.parameters = parameters;
+    public final void setParameters(final Collection<Parameter> parameters) {
+        this.parameters.addAll(parameters);
 
         final Runnable r = new Runnable() {
 
@@ -178,6 +184,10 @@ public class ParameterSelectionPanel extends javax.swing.JPanel {
                     if ((parameters != null) && !ParameterSelectionPanel.this.parameters.isEmpty()) {
                         for (final Parameter parameter : ParameterSelectionPanel.this.parameters) {
                             final JCheckBox checkBox = new JCheckBox(parameter.getParameterName());
+                            checkBox.addItemListener(WeakListeners.create(
+                                    ItemListener.class,
+                                    ParameterSelectionPanel.this,
+                                    checkBox));
                             ParameterSelectionPanel.this.selectionPanel.add(checkBox);
                             final Binding binding = Bindings.createAutoBinding(
                                     AutoBinding.UpdateStrategy.READ_WRITE,
@@ -205,7 +215,7 @@ public class ParameterSelectionPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public final Collection<? extends Parameter> getSelectedParameters() {
+    public final Collection<Parameter> getSelectedParameters() {
         selectedParameters.clear();
         if ((this.parameters != null) && !this.parameters.isEmpty()) {
             for (final Parameter parameter : this.parameters) {
@@ -225,5 +235,14 @@ public class ParameterSelectionPanel extends javax.swing.JPanel {
      */
     public void setExportAction(final Action exportAction) {
         btnExport.setAction(exportAction);
+    }
+
+    @Override
+    public void itemStateChanged(final ItemEvent e) {
+        if (this.getSelectedParameters().isEmpty()) {
+            this.btnExport.getAction().setEnabled(false);
+        } else {
+            this.btnExport.getAction().setEnabled(true);
+        }
     }
 }

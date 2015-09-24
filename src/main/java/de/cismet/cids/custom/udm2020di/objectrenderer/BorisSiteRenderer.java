@@ -13,12 +13,14 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
+import de.cismet.cids.custom.udm2020di.actions.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -288,7 +290,13 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                         tableModel.addRow(rowData);
                     }
 
-                    parameterSelectionPanel.setParameters(borisStandort.getProbenparameter());
+                    parameterSelectionPanel.setParameters(
+                        new ArrayList<Parameter>(borisStandort.getProbenparameter()));
+                    final BorisExportAction borisExportAction = new BorisExportAction(Arrays.asList(
+                                new String[] { borisStandort.getPk() }),
+                            parameterSelectionPanel.getSelectedParameters());
+
+                    parameterSelectionPanel.setExportAction(borisExportAction);
                 }
             };
 
