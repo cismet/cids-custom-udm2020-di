@@ -52,7 +52,7 @@ public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer {
             final InputStream is = getClass().getResourceAsStream("showel_16.png"); // NOI18N
             image = ImageIO.read(is);
         } catch (final IOException ex) {
-            LOG.warn("cannot load moss feature icon", ex);                          // NOI18N
+            LOG.warn("cannot load boris site feature icon", ex);                    // NOI18N
         }
 
         borisSitePointSymbolUnselected = image;

@@ -54,11 +54,13 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
     private javax.swing.JPanel actionPanel;
     private javax.swing.JButton btnExport;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSelectAll;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JRadioButton rbtnCsv;
     private javax.swing.JRadioButton rbtnXlsx;
@@ -102,6 +104,10 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 new java.awt.Dimension(5, 5),
                 new java.awt.Dimension(5, 5));
         btnReset = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5));
+        btnSelectAll = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 0));
@@ -123,6 +129,7 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                             ParameterSelectionPanel.class,
                             "ParameterSelectionPanel.border.insideBorder.outsideBorder.title")),
                     javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
+        setMinimumSize(new java.awt.Dimension(500, 100));
         setLayout(new java.awt.BorderLayout(5, 5));
 
         selectionPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
@@ -155,6 +162,19 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 }
             });
         actionPanel.add(btnReset);
+        actionPanel.add(filler5);
+
+        btnSelectAll.setText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.btnSelectAll.text")); // NOI18N
+        btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnSelectAllActionPerformed(evt);
+                }
+            });
+        actionPanel.add(btnSelectAll);
         actionPanel.add(filler1);
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(
@@ -235,6 +255,17 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
             }
         }
     } //GEN-LAST:event_exportFormatSelected
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
+        for (final Parameter parameter : this.parameters) {
+            parameter.setSelected(true);
+        }
+    }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
      * Get the value of parameters.
@@ -328,10 +359,20 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
 
     @Override
     public void itemStateChanged(final ItemEvent e) {
-        if (this.getSelectedParameters().isEmpty()) {
+        final Collection<Parameter> selParameters = this.getSelectedParameters();
+
+        if (selParameters.isEmpty()) {
             this.btnExport.getAction().setEnabled(false);
+            this.btnReset.setEnabled(false);
         } else {
             this.btnExport.getAction().setEnabled(true);
+            this.btnReset.setEnabled(true);
+        }
+
+        if (selParameters.size() == this.parameters.size()) {
+            this.btnSelectAll.setEnabled(false);
+        } else {
+            this.btnSelectAll.setEnabled(true);
         }
     }
 }

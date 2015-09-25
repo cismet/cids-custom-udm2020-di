@@ -49,12 +49,13 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
     public static final String WMS_DEMIS_WORLDMAP_GETMAP_TEMPLATE =
         "http://www2.demis.nl/WMS/wms.ashx?wms=WorldMap&&VERSION=1.1.0&REQUEST=GetMap&BBOX=<cismap:boundingBox>&WIDTH=<cismap:width>&HEIGHT=<cismap:height>&SRS=EPSG:4326&FORMAT=image/png&TRANSPARENT=TRUE&BGCOLOR=0xF0F0F0&EXCEPTIONS=application/vnd.ogc.se_xml&LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup%20areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot%20elevations,Airports,Ocean%20features&STYLES";
 
-    private static final Double GEOMETRY_BUFFER = 5.0d;
+    private static final Double GEOMETRY_BUFFER = 0.1d;
+
+    private static final Double GEOMETRY_BUFFER_MULTIPLIER = 0.05d;
 
     //~ Instance fields --------------------------------------------------------
 
-    // private static final Double GEOMETRY_BUFFER_MULTIPLIER = 0.8d;
-    private transient Map<CidsBean, CidsFeature> features;
+    private final transient Map<CidsBean, CidsFeature> cidsFeatures = new HashMap<CidsBean, CidsFeature>();
 
     private transient Collection<CidsBean> cidsBeans;
 
@@ -74,6 +75,24 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
     //~ Methods ----------------------------------------------------------------
 
     /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Map<CidsBean, CidsFeature> getFeatures() {
+        return cidsFeatures;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public MappingComponent getMappingComponent() {
+        return mappingComponent;
+    }
+
+    /**
      * Get the value of cidsBeans.
      *
      * @return  the value of cidsBeans
@@ -84,6 +103,33 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
     }
 
     /**
+     * DOCUMENT ME!
+     *
+     * @param   selectedBean  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean gotoCidsBean(final CidsBean selectedBean) {
+        if (cidsFeatures.containsKey(selectedBean)) {
+            final XBoundingBox boxToGoto = new XBoundingBox(cidsFeatures.get(selectedBean).getGeometry().getEnvelope()
+                            .buffer(GEOMETRY_BUFFER));
+            boxToGoto.setX1(boxToGoto.getX1()
+                        - (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getWidth()));
+            boxToGoto.setX2(boxToGoto.getX2()
+                        + (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getWidth()));
+            boxToGoto.setY1(boxToGoto.getY1()
+                        - (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getHeight()));
+            boxToGoto.setY2(boxToGoto.getY2()
+                        + (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getHeight()));
+            mappingComponent.gotoBoundingBox(boxToGoto, false, true, 500);
+            return true;
+        } else {
+            LOG.warn("selected cids bean not found in map of cids features!");
+            return false;
+        }
+    }
+
+    /**
      * Set the value of cidsBeans.
      *
      * @param  cidsBeans  new value of cidsBeans
@@ -91,8 +137,14 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
     @Override
     public void setCidsBeans(final Collection<CidsBean> cidsBeans) {
         this.cidsBeans = cidsBeans;
+        this.cidsFeatures.clear();
 
         if ((this.cidsBeans != null) && !this.cidsBeans.isEmpty()) {
+            for (final CidsBean cidsBean : cidsBeans) {
+                final CidsFeature feature = new CidsFeature(cidsBean.getMetaObject());
+                cidsFeatures.put(cidsBean, feature);
+            }
+
             final Runnable r = new Runnable() {
 
                     @Override
@@ -100,8 +152,6 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("adding " + cidsBeans.size() + " features to map");
                         }
-                        features = new HashMap<CidsBean, CidsFeature>(cidsBeans.size());
-
                         initMap();
                     }
                 };
@@ -126,7 +176,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
         for (final CidsBean deltaSurface : deltaSurfaces) {
             try {
-                final Geometry geomUba = (Geometry)deltaSurface.getProperty("geom.geo_field");
+                final Geometry geomUba = (Geometry)deltaSurface.getProperty("geometry.geo_field");
                 // final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaUtils.EPSG_UBA);
                 geometries.add(geomUba);
             } catch (Exception ex) {
@@ -162,7 +212,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
             final SimpleWMS ortho = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_DEMIS_WORLDMAP_GETMAP_TEMPLATE));
 
-            ortho.setName("Wuppertal Ortophoto"); // NOI18N
+            ortho.setName("Worldmap"); // NOI18N
 
             mappingModel.addLayer(ortho);
 
@@ -173,11 +223,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
             mappingComponent.setInteractionMode(MappingComponent.ZOOM);
             mappingComponent.unlock();
 
-            for (final CidsBean cidsBean : cidsBeans) {
-                final CidsFeature feature = new CidsFeature(cidsBean.getMetaObject());
-                features.put(cidsBean, feature);
-            }
-            mappingComponent.getFeatureCollection().addFeatures(features.values());
+            mappingComponent.getFeatureCollection().addFeatures(cidsFeatures.values());
         } catch (Exception e) {
             LOG.error("cannot initialise mapping component", e);
         }

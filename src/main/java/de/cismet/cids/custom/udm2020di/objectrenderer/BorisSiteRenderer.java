@@ -130,7 +130,6 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         infoPanel.add(standortdatenPanel, java.awt.BorderLayout.CENTER);
 
         parameterPanel.setMinimumSize(new java.awt.Dimension(200, 200));
-        parameterPanel.setPreferredSize(new java.awt.Dimension(200, 300));
         infoPanel.add(parameterPanel, java.awt.BorderLayout.EAST);
 
         jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(

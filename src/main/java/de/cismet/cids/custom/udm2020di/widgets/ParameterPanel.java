@@ -61,7 +61,6 @@ public class ParameterPanel extends javax.swing.JPanel {
                 @Override
                 public void run() {
                     removeAll();
-
                     if ((parameterNames != null) && !parameterNames.isEmpty()) {
                         final GridBagConstraints gridBagConstraints = new GridBagConstraints();
                         gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -69,7 +68,8 @@ public class ParameterPanel extends javax.swing.JPanel {
                         gridBagConstraints.gridy = 0;
                         gridBagConstraints.gridx = 0;
                         gridBagConstraints.weighty = 0.0;
-                        gridBagConstraints.weightx = 0.0;
+                        gridBagConstraints.weightx = 1.0;
+                        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
                         int i = 0;
                         for (final String parameterName : parameterNames) {
                             gridBagConstraints.gridy = i;
@@ -103,6 +103,7 @@ public class ParameterPanel extends javax.swing.JPanel {
                     org.openide.util.NbBundle.getMessage(
                         ParameterPanel.class,
                         "ParameterPanel.border.insideBorder.title")))); // NOI18N
+        setMinimumSize(new java.awt.Dimension(175, 300));
         setLayout(new java.awt.GridBagLayout());
     }                                                                   // </editor-fold>//GEN-END:initComponents
 
