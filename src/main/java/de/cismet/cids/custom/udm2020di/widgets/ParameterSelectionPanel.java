@@ -61,8 +61,10 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JRadioButton rbtnCsv;
+    private javax.swing.JRadioButton rbtnShp;
     private javax.swing.JRadioButton rbtnXlsx;
     private javax.swing.JPanel selectionPanel;
     // End of variables declaration//GEN-END:variables
@@ -120,6 +122,10 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 new java.awt.Dimension(5, 5),
                 new java.awt.Dimension(5, 5));
         rbtnXlsx = new javax.swing.JRadioButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5));
+        rbtnShp = new javax.swing.JRadioButton();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(
                 javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5),
@@ -216,6 +222,23 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 }
             });
         actionPanel.add(rbtnXlsx);
+        actionPanel.add(filler6);
+
+        buttonGroup1.add(rbtnShp);
+        rbtnShp.setText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnShp.text"));        // NOI18N
+        rbtnShp.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnShp.toolTipText")); // NOI18N
+        rbtnShp.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    exportFormatSelected(evt);
+                }
+            });
+        actionPanel.add(rbtnShp);
 
         add(actionPanel, java.awt.BorderLayout.SOUTH);
     } // </editor-fold>//GEN-END:initComponents
@@ -251,6 +274,9 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 } else if (evt.getItemSelectable() == this.rbtnXlsx) {
                     exportAction.setExportFormat(
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLSX);
+                } else if (evt.getItemSelectable() == this.rbtnShp) {
+                    exportAction.setExportFormat(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP);
                 }
             }
         }

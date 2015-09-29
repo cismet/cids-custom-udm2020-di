@@ -18,17 +18,16 @@ import org.apache.log4j.Logger;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
-import de.cismet.cids.custom.udm2020di.objectrenderer.BorisSiteRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
@@ -72,15 +71,6 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<AggregationValue> getAggregationValues() {
-        return aggregationValues;
-    }
 
     /**
      * DOCUMENT ME!
@@ -131,6 +121,15 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     /**
      * DOCUMENT ME!
      */
+    public void reset() {
+        this.parameterValuePanels.clear();
+        this.removeAll();
+        this.initComponents();
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
     protected void addParameterValuePanel() {
         remove(addMeButton);
 
@@ -173,6 +172,21 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         this.add(addMeButton, gridBagConstraints);
 
         validate();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Map<String, Float> getValues() {
+        final Map<String, Float> values = new HashMap<String, Float>();
+        for (final MaxParameterValuePanel parameterValuePanel : this.parameterValuePanels) {
+            final SimpleEntry<String, Float> value = parameterValuePanel.getValue();
+            values.put(value.getKey(), value.getValue());
+        }
+
+        return values;
     }
 
     /**

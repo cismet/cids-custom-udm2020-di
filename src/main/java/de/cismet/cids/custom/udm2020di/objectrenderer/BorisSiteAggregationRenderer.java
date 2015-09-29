@@ -65,6 +65,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
     private javax.swing.JTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel searchPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -126,6 +127,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
+        searchPanel = new de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel();
 
         parameterPanel.setMinimumSize(new java.awt.Dimension(200, 300));
 
@@ -282,6 +284,10 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                 BorisSiteAggregationRenderer.class,
                 "BorisSiteAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
+        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+                BorisSiteAggregationRenderer.class,
+                "BorisSiteAggregationRenderer.searchPanel.TabConstraints.tabTitle"),
+            searchPanel); // NOI18N
 
         add(jTabbedPane1, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
@@ -341,6 +347,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
                         featuresList.setModel(listModel);
                         // parameterPanel.setParameterNames(parameterNamesSet);
+
+                        // Export Tab
                         parameterSelectionPanel.setParameters(parametersSet);
 
                         final BorisExportAction borisExportAction = new BorisExportAction(
@@ -348,6 +356,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 parameterSelectionPanel.getSelectedParameters());
                         parameterSelectionPanel.setExportAction(borisExportAction);
 
+                        // Messwerte Tab
                         final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
                         for (final AggregationValue aggregationValue : aggregationValues) {
                             final Object[] rowData = new Object[] {
@@ -357,6 +366,9 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 };
                             tableModel.addRow(rowData);
                         }
+
+                        // temp search
+                        searchPanel.setCollections(cidsBeans, aggregationValues);
                     }
                 };
 

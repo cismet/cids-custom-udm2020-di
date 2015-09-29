@@ -12,6 +12,8 @@
  */
 package de.cismet.cids.custom.udm2020di.widgets;
 
+import org.jdesktop.beansbinding.Converter;
+
 import java.util.regex.Pattern;
 
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
@@ -27,7 +29,9 @@ public class MaxValuePanel extends javax.swing.JPanel {
     //~ Instance fields --------------------------------------------------------
 
     public final Pattern UNIT_REGEX = Pattern.compile("(?<=\\[)[a-zA-Z0-9]*(?=\\])");
-    protected transient AggregationValue aggregationValue = new AggregationValue();
+    protected AggregationValue aggregationValue = new AggregationValue();
+    protected float factor = 1.0f;
+    protected final FactorConverter factorConverter = new FactorConverter();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblUnit;
@@ -62,6 +66,23 @@ public class MaxValuePanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
+    public FactorConverter getFactorConverter() {
+        return factorConverter;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public float getFactor() {
+        return factor;
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public AggregationValue getAggregationValue() {
         return aggregationValue;
     }
@@ -72,10 +93,28 @@ public class MaxValuePanel extends javax.swing.JPanel {
      * @param  aggregationValue  DOCUMENT ME!
      */
     public void setAggregationValue(final AggregationValue aggregationValue) {
+        if (aggregationValue.getMaxValue() <= 0.01f) {
+            this.factor = 1000.0f;
+        } else if (aggregationValue.getMaxValue() <= 0.1f) {
+            this.factor = 100.0f;
+        } else if (aggregationValue.getMaxValue() <= 1f) {
+            this.factor = 1.0f;
+        } else if (aggregationValue.getMaxValue() <= 100f) {
+            this.factor = 10.0f;
+        } else if (aggregationValue.getMaxValue() <= 1000f) {
+            this.factor = 0.1f;
+        } else if (aggregationValue.getMaxValue() <= 10000f) {
+            this.factor = 0.01f;
+        } else if (aggregationValue.getMaxValue() <= 100000f) {
+            this.factor = 0.001f;
+        } else {
+            this.factor = 0.0001f;
+        }
+
         this.bindingGroup.unbind();
-        this.sldrMaxValue.setValue(0);
         this.aggregationValue = aggregationValue;
         this.bindingGroup.bind();
+        this.sldrMaxValue.setValue(getMinThreshold());
     }
 
     /**
@@ -84,7 +123,7 @@ public class MaxValuePanel extends javax.swing.JPanel {
      * @return  DOCUMENT ME!
      */
     public int getMaxThreshold() {
-        return (int)Math.ceil(aggregationValue.getMaxValue());
+        return (int)Math.ceil(aggregationValue.getMaxValue() * factor);
     }
 
     /**
@@ -93,7 +132,7 @@ public class MaxValuePanel extends javax.swing.JPanel {
      * @return  DOCUMENT ME!
      */
     public int getMinThreshold() {
-        return 0;
+        return (int)Math.floor(aggregationValue.getMinValue() * factor);
     }
 
     /**
@@ -127,8 +166,8 @@ public class MaxValuePanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public int getValue() {
-        return this.sldrMaxValue.getValue();
+    public float getValue() {
+        return this.sldrMaxValue.getValue() / factor;
     }
 
     /**
@@ -147,22 +186,29 @@ public class MaxValuePanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.GridBagLayout());
 
-        sldrMaxValue.setMajorTickSpacing(10);
-        sldrMaxValue.setMinorTickSpacing(1);
         sldrMaxValue.setPaintTicks(true);
         sldrMaxValue.setMinimumSize(new java.awt.Dimension(200, 23));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${maxThreshold}"),
+                org.jdesktop.beansbinding.ELProperty.create("${minThreshold}"),
                 sldrMaxValue,
-                org.jdesktop.beansbinding.BeanProperty.create("maximum"));
+                org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setSourceNullValue(0);
         binding.setSourceUnreadableValue(0);
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${maxThreshold}"),
+                sldrMaxValue,
+                org.jdesktop.beansbinding.BeanProperty.create("maximum"));
+        binding.setSourceNullValue(10);
+        binding.setSourceUnreadableValue(10);
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${minThreshold}"),
                 sldrMaxValue,
@@ -183,6 +229,7 @@ public class MaxValuePanel extends javax.swing.JPanel {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceNullValue("0");       // NOI18N
         binding.setSourceUnreadableValue("0"); // NOI18N
+        binding.setConverter(this.factorConverter);
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -207,4 +254,26 @@ public class MaxValuePanel extends javax.swing.JPanel {
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    protected class FactorConverter extends Converter {
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public Object convertForward(final Object s) {
+            return String.valueOf(MaxValuePanel.this.getValue());
+        }
+
+        @Override
+        public Object convertReverse(final Object t) {
+            return (int)MaxValuePanel.this.getValue();
+        }
+    }
 }

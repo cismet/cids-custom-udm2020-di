@@ -63,7 +63,8 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
             return ".csv";
         } else if (exportFormat.equalsIgnoreCase(
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP)) {
-            return ".shp";
+            // return ".shp";
+            return ".zip";
         } else {
             return ".bin";
         }

@@ -137,9 +137,9 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public SimpleEntry<String, Integer> getValue() {
+    public SimpleEntry<String, Float> getValue() {
         if (cbParameters.getSelectedIndex() > -1) {
-            return new SimpleEntry<String, Integer>(
+            return new SimpleEntry<String, Float>(
                     ((AggregationValue)this.cbParameters.getSelectedItem()).getPollutantKey(),
                     this.maxValuePanel.getValue());
         }
