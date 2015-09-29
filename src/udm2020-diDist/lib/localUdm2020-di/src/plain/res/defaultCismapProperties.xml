@@ -7,6 +7,11 @@
             <!-- domain = name of domainserver, cidsClass = name of class in domain -->
             <searchClass domain="UDM2020-DI" cidsClass="MOSS"/>
         </searchTopic>
+        <searchTopic name="Bodenmesstellen" description="Suche nach Bodenmesstellen" key="cmdBoden" icon="/de/cismet/cids/custom/udm2020di/treeicons/showel_16.png" selected="false">
+            <!-- arbitrary number of searchClass -->
+            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
+            <searchClass domain="UDM2020-DI" cidsClass="BORIS_SITE"/>
+        </searchTopic>
     </metaSearch>
     <cismapOverviewComponentPreferences srs="EPSG:4326">
         <overviewExtent>

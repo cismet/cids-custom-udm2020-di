@@ -10,7 +10,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.cismet.cids.custom.udm2020di.widgets.export;
+package de.cismet.cids.custom.udm2020di.widgets;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -29,9 +29,9 @@ import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.swing.Action;
 import javax.swing.JCheckBox;
 
+import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
 /**
@@ -44,17 +44,28 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
 
     //~ Instance fields --------------------------------------------------------
 
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    protected transient org.jdesktop.beansbinding.BindingGroup bindingGroup;
 
-    private final SortedSet<Parameter> parameters = new TreeSet<Parameter>();
+    protected final transient SortedSet<Parameter> parameters = new TreeSet<Parameter>();
 
-    private final ArrayList selectedParameters = new ArrayList();
+    protected final transient ArrayList selectedParameters = new ArrayList();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionPanel;
     private javax.swing.JButton btnExport;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSelectAll;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler5;
+    private javax.swing.Box.Filler filler6;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JRadioButton rbtnCsv;
+    private javax.swing.JRadioButton rbtnShp;
+    private javax.swing.JRadioButton rbtnXlsx;
     private javax.swing.JPanel selectionPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -87,6 +98,7 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        buttonGroup1 = new javax.swing.ButtonGroup();
         selectionPanel = new javax.swing.JPanel();
         actionPanel = new javax.swing.JPanel();
         btnExport = new javax.swing.JButton();
@@ -94,6 +106,26 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 new java.awt.Dimension(5, 5),
                 new java.awt.Dimension(5, 5));
         btnReset = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5));
+        btnSelectAll = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 0));
+        jLabel1 = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5));
+        rbtnCsv = new javax.swing.JRadioButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5));
+        rbtnXlsx = new javax.swing.JRadioButton();
+        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5),
+                new java.awt.Dimension(5, 5));
+        rbtnShp = new javax.swing.JRadioButton();
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(
                 javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5),
@@ -103,14 +135,10 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                             ParameterSelectionPanel.class,
                             "ParameterSelectionPanel.border.insideBorder.outsideBorder.title")),
                     javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
+        setMinimumSize(new java.awt.Dimension(500, 100));
         setLayout(new java.awt.BorderLayout(5, 5));
 
-        selectionPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(
-                0,
-                0,
-                1,
-                0,
-                javax.swing.UIManager.getDefaults().getColor("activeCaptionBorder")));
+        selectionPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
         selectionPanel.setLayout(new java.awt.GridLayout(0, 3, 5, 5));
         add(selectionPanel, java.awt.BorderLayout.CENTER);
 
@@ -140,6 +168,77 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 }
             });
         actionPanel.add(btnReset);
+        actionPanel.add(filler5);
+
+        btnSelectAll.setText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.btnSelectAll.text")); // NOI18N
+        btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    btnSelectAllActionPerformed(evt);
+                }
+            });
+        actionPanel.add(btnSelectAll);
+        actionPanel.add(filler1);
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.jLabel1.text")); // NOI18N
+        actionPanel.add(jLabel1);
+        actionPanel.add(filler3);
+
+        buttonGroup1.add(rbtnCsv);
+        rbtnCsv.setSelected(true);
+        rbtnCsv.setText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnCsv.text"));        // NOI18N
+        rbtnCsv.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnCsv.toolTipText")); // NOI18N
+        rbtnCsv.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    exportFormatSelected(evt);
+                }
+            });
+        actionPanel.add(rbtnCsv);
+        actionPanel.add(filler4);
+
+        buttonGroup1.add(rbtnXlsx);
+        rbtnXlsx.setText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnXlsx.text"));        // NOI18N
+        rbtnXlsx.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnXlsx.toolTipText")); // NOI18N
+        rbtnXlsx.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    exportFormatSelected(evt);
+                }
+            });
+        actionPanel.add(rbtnXlsx);
+        actionPanel.add(filler6);
+
+        buttonGroup1.add(rbtnShp);
+        rbtnShp.setText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnShp.text"));        // NOI18N
+        rbtnShp.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ParameterSelectionPanel.class,
+                "ParameterSelectionPanel.rbtnShp.toolTipText")); // NOI18N
+        rbtnShp.addItemListener(new java.awt.event.ItemListener() {
+
+                @Override
+                public void itemStateChanged(final java.awt.event.ItemEvent evt) {
+                    exportFormatSelected(evt);
+                }
+            });
+        actionPanel.add(rbtnShp);
 
         add(actionPanel, java.awt.BorderLayout.SOUTH);
     } // </editor-fold>//GEN-END:initComponents
@@ -157,6 +256,42 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
             }
         }
     } //GEN-LAST:event_btnResetActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void exportFormatSelected(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_exportFormatSelected
+        // TODO add your handling code here:
+
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            final ExportAction exportAction = this.getExportAction();
+            if (exportAction != null) {
+                if (evt.getItemSelectable() == this.rbtnCsv) {
+                    exportAction.setExportFormat(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_CSV);
+                } else if (evt.getItemSelectable() == this.rbtnXlsx) {
+                    exportAction.setExportFormat(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLSX);
+                } else if (evt.getItemSelectable() == this.rbtnShp) {
+                    exportAction.setExportFormat(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP);
+                }
+            }
+        }
+    } //GEN-LAST:event_exportFormatSelected
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
+        for (final Parameter parameter : this.parameters) {
+            parameter.setSelected(true);
+        }
+    }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
      * Get the value of parameters.
@@ -233,16 +368,37 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
      *
      * @param  exportAction  DOCUMENT ME!
      */
-    public void setExportAction(final Action exportAction) {
+    public void setExportAction(final ExportAction exportAction) {
         btnExport.setAction(exportAction);
+    }
+
+    /**
+     * Get the value of exportAction.
+     *
+     * @return  the value of exportAction
+     */
+    public ExportAction getExportAction() {
+        return ((btnExport.getAction() != null)
+                        && ExportAction.class.isAssignableFrom(btnExport.getAction().getClass()))
+            ? (ExportAction)btnExport.getAction() : null;
     }
 
     @Override
     public void itemStateChanged(final ItemEvent e) {
-        if (this.getSelectedParameters().isEmpty()) {
+        final Collection<Parameter> selParameters = this.getSelectedParameters();
+
+        if (selParameters.isEmpty()) {
             this.btnExport.getAction().setEnabled(false);
+            this.btnReset.setEnabled(false);
         } else {
             this.btnExport.getAction().setEnabled(true);
+            this.btnReset.setEnabled(true);
+        }
+
+        if (selParameters.size() == this.parameters.size()) {
+            this.btnSelectAll.setEnabled(false);
+        } else {
+            this.btnSelectAll.setEnabled(true);
         }
     }
 }

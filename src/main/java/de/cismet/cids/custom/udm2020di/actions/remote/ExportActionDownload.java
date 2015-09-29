@@ -5,7 +5,7 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.udm2020di.widgets.export;
+package de.cismet.cids.custom.udm2020di.actions.remote;
 
 import Sirius.navigator.connection.SessionManager;
 
@@ -13,7 +13,6 @@ import Sirius.util.image.ImageAnnotator;
 
 import org.apache.log4j.Logger;
 
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
