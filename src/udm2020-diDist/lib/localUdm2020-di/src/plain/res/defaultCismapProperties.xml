@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <cismetConfigurationManager>
     <metaSearch>
         <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
@@ -45,6 +45,7 @@
         </Position>
         <crsList>
             <crs shortname="EPSG:4326" name="EPSG:4326" code="EPSG:4326" metric="true" selected="true"/>
+            <crs shortname="EPSG:31287" name="EPSG:31287" code="EPSG:31287" metric="true" selected="false"/>
         </crsList>
         <defaultCrs geometrySridAlias="4326"/>
 	<printing/>

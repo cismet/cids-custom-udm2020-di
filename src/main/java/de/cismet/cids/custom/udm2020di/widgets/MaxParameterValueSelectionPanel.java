@@ -114,9 +114,9 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_addMeButtonActionPerformed
+    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMeButtonActionPerformed
         this.addParameterValuePanel();
-    }                                                                               //GEN-LAST:event_addMeButtonActionPerformed
+    }//GEN-LAST:event_addMeButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -204,7 +204,6 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
             final AggregationValues aggregationValues = new AggregationValues(borisStandort.getAggregationValues());
 
-            aggregationValues.addAll(borisStandort.getAggregationValues());
             aggregationValues.addAll(borisStandort.getAggregationValues());
 
             final MaxParameterValueSelectionPanel panel = new MaxParameterValueSelectionPanel(
