@@ -8,9 +8,10 @@
             <searchClass domain="UDM2020-DI" cidsClass="MOSS"/>
         </searchTopic>
         <searchTopic name="Bodenmesstellen" description="Suche nach Bodenmesstellen" key="cmdBoden" icon="/de/cismet/cids/custom/udm2020di/treeicons/showel_16.png" selected="false">
-            <!-- arbitrary number of searchClass -->
-            <!-- domain = name of domainserver, cidsClass = name of class in domain -->
             <searchClass domain="UDM2020-DI" cidsClass="BORIS_SITE"/>
+        </searchTopic>
+        <searchTopic name="ePRTR Emittenten" description="Suche nach PRTR Betriebseinrichtungen" key="cmdEprtr" icon="/de/cismet/cids/custom/udm2020di/treeicons/factory_16.png" selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="EPRTR_INSTALLATION"/>
         </searchTopic>
     </metaSearch>
     <cismapOverviewComponentPreferences srs="EPSG:4326">
@@ -48,7 +49,7 @@
             <crs shortname="EPSG:31287" name="EPSG:31287" code="EPSG:31287" metric="true" selected="false"/>
         </crsList>
         <defaultCrs geometrySridAlias="4326"/>
-	<printing/>
+        <printing/>
     </cismapMappingPreferences>
 
     <cismapActiveLayerConfiguration>

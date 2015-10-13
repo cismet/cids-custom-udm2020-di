@@ -5,21 +5,28 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.udm2020di.widgets;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package de.cismet.cids.custom.udm2020di.widgets.eprtr;
 
-import de.cismet.cids.custom.udm2020di.types.eprtr.Address;
+import java.awt.Dimension;
+
+import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
 
 /**
  * DOCUMENT ME!
  *
- * @author   Pascal Dihé
+ * @author   pd
  * @version  $Revision$, $Date$
  */
-public class AddressPanel extends javax.swing.JPanel {
+public class InstallationPanel extends javax.swing.JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
-    private Address address;
+    private Installation installation;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -29,8 +36,6 @@ public class AddressPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
@@ -38,30 +43,35 @@ public class AddressPanel extends javax.swing.JPanel {
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form AddressPanel.
+     * Creates new form InstallationPanel.
      */
-    public AddressPanel() {
-        initComponents();
+    public InstallationPanel() {
     }
 
     //~ Methods ----------------------------------------------------------------
 
     /**
-     * Get the value of address.
+     * Get the value of installation.
      *
-     * @return  the value of address
+     * @return  the value of installation
      */
-    public Address getAddress() {
-        return address;
+    public Installation getInstallation() {
+        return installation;
     }
 
     /**
-     * Set the value of address.
+     * Set the value of installation.
      *
-     * @param  address  new value of address
+     * @param  installation  new value of installation
      */
-    public void setAddress(final Address address) {
-        this.address = address;
+    public void setInstallation(final Installation installation) {
+        this.installation = installation;
+        initComponents();
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return new Dimension(super.getMaximumSize().width, getPreferredSize().height);
     }
 
     /**
@@ -82,35 +92,28 @@ public class AddressPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
 
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createTitledBorder(this.getAddress().getType()),
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        setBorder(javax.swing.BorderFactory.createTitledBorder(
+                org.openide.util.NbBundle.getMessage(InstallationPanel.class, "InstallationPanel.border.title"))); // NOI18N
         setLayout(new java.awt.GridBagLayout());
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel1,
-            org.openide.util.NbBundle.getMessage(AddressPanel.class, "AddressPanel.jLabel1.text")); // NOI18N
+            org.openide.util.NbBundle.getMessage(InstallationPanel.class, "InstallationPanel.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         add(jLabel1, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
-            org.openide.util.NbBundle.getMessage(AddressPanel.class, "AddressPanel.jLabel2.text")); // NOI18N
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${address.district}"),
+                org.jdesktop.beansbinding.ELProperty.create("${installation.erasId}"),
                 jLabel2,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue("");
-        binding.setSourceUnreadableValue("");
+        binding.setSourceNullValue(" ");
+        binding.setSourceUnreadableValue(" ");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -122,25 +125,21 @@ public class AddressPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel3,
-            org.openide.util.NbBundle.getMessage(AddressPanel.class, "AddressPanel.jLabel3.text")); // NOI18N
+            org.openide.util.NbBundle.getMessage(InstallationPanel.class, "InstallationPanel.jLabel3.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         add(jLabel3, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel4,
-            org.openide.util.NbBundle.getMessage(AddressPanel.class, "AddressPanel.jLabel4.text")); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${address.district}"),
+                org.jdesktop.beansbinding.ELProperty.create("${installation.naceClass}"),
                 jLabel4,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue(" ");
+        binding.setSourceUnreadableValue(" ");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -153,21 +152,21 @@ public class AddressPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel5,
-            org.openide.util.NbBundle.getMessage(AddressPanel.class, "AddressPanel.jLabel5.text")); // NOI18N
+            org.openide.util.NbBundle.getMessage(InstallationPanel.class, "InstallationPanel.jLabel5.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         add(jLabel5, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${address.postcode}"),
+                org.jdesktop.beansbinding.ELProperty.create("${installation.riverCatchment}"),
                 jLabel6,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue(" ");
+        binding.setSourceUnreadableValue(" ");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -180,21 +179,21 @@ public class AddressPanel extends javax.swing.JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(
             jLabel9,
-            org.openide.util.NbBundle.getMessage(AddressPanel.class, "AddressPanel.jLabel9.text")); // NOI18N
+            org.openide.util.NbBundle.getMessage(InstallationPanel.class, "InstallationPanel.jLabel9.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
         add(jLabel9, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
                 this,
-                org.jdesktop.beansbinding.ELProperty.create("${address.city}"),
+                org.jdesktop.beansbinding.ELProperty.create("${installation.obligatedParty}"),
                 jLabel10,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setSourceNullValue(null);
-        binding.setSourceUnreadableValue(null);
+        binding.setSourceNullValue(" ");
+        binding.setSourceUnreadableValue(" ");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -204,31 +203,6 @@ public class AddressPanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         add(jLabel10, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel7,
-            org.openide.util.NbBundle.getMessage(AddressPanel.class, "AddressPanel.jLabel7.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
-        add(jLabel7, gridBagConstraints);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${address.streetName}"),
-                jLabel8,
-                org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        add(jLabel8, gridBagConstraints);
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
