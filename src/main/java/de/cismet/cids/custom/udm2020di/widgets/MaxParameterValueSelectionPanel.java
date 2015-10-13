@@ -205,7 +205,6 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             final AggregationValues aggregationValues = new AggregationValues(borisStandort.getAggregationValues());
 
             aggregationValues.addAll(borisStandort.getAggregationValues());
-            aggregationValues.addAll(borisStandort.getAggregationValues());
 
             final MaxParameterValueSelectionPanel panel = new MaxParameterValueSelectionPanel(
                     borisStandort.getAggregationValues());
