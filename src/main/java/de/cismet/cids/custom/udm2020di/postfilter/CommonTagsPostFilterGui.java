@@ -74,10 +74,6 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
             @Override
             public Collection<Node> filter(final Collection<Node> input) {
-                if (logger.isDebugEnabled()) {
-                    logger.info("PostFilter: filtering " + input.size() + " nodes");
-                }
-
                 EventQueue.invokeLater(new Runnable() {
 
                         @Override
@@ -86,14 +82,17 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         }
                     });
 
-                final List<Node> nodes;
-                if (List.class.isAssignableFrom(input.getClass())) {
-                    nodes = (List<Node>)input;
-                } else {
-                    nodes = new ArrayList<Node>(input);
+                final List<Node> preFilteredNodes = preFilterNodes(input);
+                final Collection<Node> postFilteredNodes 
+                            = new ArrayList<Node>(input);
+                postFilteredNodes.removeAll(preFilteredNodes);
+                
+                if (logger.isDebugEnabled()) {
+                    logger.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
+                                + input.size() + " available nodes");
                 }
 
-                filterByTagsSearch.setNodes(nodes);
+                filterByTagsSearch.setNodes(preFilteredNodes);
                 final ArrayList filterTagIds = new ArrayList<Integer>();
                 for (final Integer tagId : filterButtons.keySet()) {
                     if (filterButtons.get(tagId).isSelected()) {
@@ -110,12 +109,18 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 try {
                     final Collection<Node> filteredNodes = SessionManager.getProxy()
                                 .customServerSearch(filterByTagsSearch);
+                    
+                    postFilteredNodes.addAll(filteredNodes);
                     if (logger.isDebugEnabled()) {
-                        logger.debug(filteredNodes.size() + " of " + input.size() + " nodes remaining after applying "
-                                    + filterTagIds.size() + " filter tags");
+                        logger.debug(postFilteredNodes.size() + " of " + input.size() + " nodes remaining after applying "
+                                    + filterTagIds.size() + " filter tags to " + preFilteredNodes.size() 
+                        + "pre-filtered nodes (" + filteredNodes + " actuially filtered nodes)");
                     }
-
-                    return filteredNodes;
+                    
+                    return postFilteredNodes;
+                
+                
+                
                 } catch (Exception e) {
                     logger.error("could not apply filter tags for '" + input.size() + " nodes!", e);
                     return input;
@@ -294,35 +299,38 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
-    }                                                                               //GEN-LAST:event_applyButtonActionPerformed
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         setEventsEnabled(false);
         for (final Integer tagId : filterButtons.keySet()) {
-            if (!availableTagIds.contains(tagId)) {
-                filterButtons.get(tagId).setSelected(false);
-            } else {
-                filterButtons.get(tagId).setSelected(true);
-            }
+            filterButtons.get(tagId).setSelected(true);
+            
+            // does not work as expected
+//            if (!availableTagIds.contains(tagId)) {
+//                filterButtons.get(tagId).setSelected(false);
+//            } else {
+//                filterButtons.get(tagId).setSelected(true);
+//            }
         }
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    }                                                                               //GEN-LAST:event_resetButtonActionPerformed
+    }//GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_switchButtonActionPerformed
+    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
         setEventsEnabled(false);
         for (final JToggleButton toggleButton : this.filterButtons.values()) {
             toggleButton.setSelected(!toggleButton.isSelected());
@@ -330,7 +338,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    }                                                                                //GEN-LAST:event_switchButtonActionPerformed
+    }//GEN-LAST:event_switchButtonActionPerformed
 
     @Override
     public void initializeFilter(final Collection<Node> nodes) {
@@ -496,11 +504,30 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         return cidsBeans;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   input  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected List<Node> preFilterNodes(final Collection<Node> input) {
+        final List<Node> nodes;
+        if (List.class.isAssignableFrom(input.getClass())) {
+            nodes = (List<Node>)input;
+        } else {
+            nodes = new ArrayList<Node>(input);
+        }
+
+        return nodes;
+    }
+
     @Override
     public void adjustFilter(final Collection<Node> nodes) {
         if (logger.isDebugEnabled()) {
             logger.debug("adjust Filter with " + nodes.size() + " nodes");
         }
+       
         final SwingWorker<Collection<CidsBean>, Void> worker = new SwingWorker<Collection<CidsBean>, Void>() {
 
                 @Override
@@ -526,11 +553,14 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 }
             };
 
-        if ((nodes != null) && !nodes.isEmpty()) {
-            worker.execute();
-        } else {
-            logger.warn("no nodes provided, filter disabled");
-        }
+// FIXME: Does not work as expected!
+//        if ((nodes != null) && !nodes.isEmpty()) {
+//            worker.execute();
+//        } else {
+//            logger.warn("no nodes provided, filter disabled");
+//        }
+        
+        enableButtons();
     }
 
     @Override
@@ -557,7 +587,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
     @Override
     public Integer getDisplayOrderKeyPrio() {
-        return 100;
+        return 1000;
     }
 
     @Override
@@ -609,14 +639,14 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     protected void enableButtons() {
         final int selectedTagButtons = selectedTagButtons();
-        CommonTagsPostFilterGui.this.applyButton.setEnabled(!availableTagIds.isEmpty()
-                    && !filterButtons.isEmpty()
+        CommonTagsPostFilterGui.this.applyButton.setEnabled(/*!availableTagIds.isEmpty()
+                    && */!filterButtons.isEmpty()
                     && (selectedTagButtons > 0));
-        CommonTagsPostFilterGui.this.switchButton.setEnabled(!availableTagIds.isEmpty()
-                    && !filterButtons.isEmpty()
+        CommonTagsPostFilterGui.this.switchButton.setEnabled(/*!availableTagIds.isEmpty()
+                    && */!filterButtons.isEmpty()
                     && (selectedTagButtons > 0));
-        CommonTagsPostFilterGui.this.resetButton.setEnabled(!availableTagIds.isEmpty()
-                    && !filterButtons.isEmpty()
+        CommonTagsPostFilterGui.this.resetButton.setEnabled(/*!availableTagIds.isEmpty()
+                    && */!filterButtons.isEmpty()
                     && (selectedTagButtons < filterButtons.size()));
     }
 }
