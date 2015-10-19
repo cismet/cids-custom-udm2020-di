@@ -9,6 +9,8 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.WeakListeners;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JLabel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
@@ -27,6 +31,8 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
 import de.cismet.cids.custom.udm2020di.types.boris.Standortparameter;
+
+import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRenderer.SELECTED_TAB;
 
 /**
  * DOCUMENT ME!
@@ -39,6 +45,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger logger = Logger.getLogger(BorisSiteRenderer.class);
+    protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -255,12 +262,15 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                     }
 
                     // ParameterPanel ------------------------------------------
-                    final ArrayList<String> parameterNames = new ArrayList<String>(borisStandort.getProbenparameter()
-                                    .size());
-                    for (final Probenparameter probenparameter : borisStandort.getProbenparameter()) {
-                        parameterNames.add(probenparameter.getParameterName());
+                    if ((borisStandort.getProbenparameter() != null)
+                                && !borisStandort.getProbenparameter().isEmpty()) {
+                        final ArrayList<String> parameterNames = new ArrayList<String>(
+                                borisStandort.getProbenparameter().size());
+                        for (final Probenparameter probenparameter : borisStandort.getProbenparameter()) {
+                            parameterNames.add(probenparameter.getParameterName());
+                        }
+                        parameterPanel.setParameterNames(parameterNames);
                     }
-                    parameterPanel.setParameterNames(parameterNames);
 
                     // AggregationTable ----------------------------------------
                     final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
@@ -281,6 +291,19 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                                 new String[] { borisStandort.getPk() }),
                             parameterSelectionPanel.getSelectedParameters());
                     parameterSelectionPanel.setExportAction(borisExportAction);
+
+                    jTabbedPane.setSelectedIndex(SELECTED_TAB);
+
+                    jTabbedPane.addChangeListener(WeakListeners.create(
+                            ChangeListener.class,
+                            new ChangeListener() {
+
+                                @Override
+                                public void stateChanged(final ChangeEvent evt) {
+                                    SELECTED_TAB = jTabbedPane.getSelectedIndex();
+                                }
+                            },
+                            jTabbedPane));
                 }
             };
 

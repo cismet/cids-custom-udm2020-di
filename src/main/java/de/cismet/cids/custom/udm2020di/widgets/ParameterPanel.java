@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class ParameterPanel extends javax.swing.JPanel {
@@ -76,7 +76,10 @@ public class ParameterPanel extends javax.swing.JPanel {
                             if (i == (parameterNames.size() - 1)) {
                                 gridBagConstraints.weighty = 1.0;
                             }
-                            add(new JLabel(parameterName), gridBagConstraints);
+                            final JLabel paramLabel = new JLabel("<html>" + parameterName + "</html>");
+                            // paramLabel.setMaximumSize(new Dimension(175, Integer.MAX_VALUE));
+                            // paramLabel.setMinimumSize(new Dimension(175, 21));
+                            add(paramLabel, gridBagConstraints);
                             i++;
                         }
                     }
@@ -103,7 +106,6 @@ public class ParameterPanel extends javax.swing.JPanel {
                     org.openide.util.NbBundle.getMessage(
                         ParameterPanel.class,
                         "ParameterPanel.border.insideBorder.title")))); // NOI18N
-        setMinimumSize(new java.awt.Dimension(175, 300));
         setLayout(new java.awt.GridBagLayout());
     }                                                                   // </editor-fold>//GEN-END:initComponents
 
