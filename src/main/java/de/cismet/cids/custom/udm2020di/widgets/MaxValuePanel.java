@@ -98,11 +98,11 @@ public class MaxValuePanel extends javax.swing.JPanel {
         } else if (aggregationValue.getMaxValue() <= 0.1f) {
             this.factor = 100.0f;
         } else if (aggregationValue.getMaxValue() <= 1f) {
-            this.factor = 1.0f;
+            this.factor = 100.0f;
         } else if (aggregationValue.getMaxValue() <= 100f) {
             this.factor = 10.0f;
         } else if (aggregationValue.getMaxValue() <= 1000f) {
-            this.factor = 0.1f;
+            this.factor = 1f;
         } else if (aggregationValue.getMaxValue() <= 10000f) {
             this.factor = 0.01f;
         } else if (aggregationValue.getMaxValue() <= 100000f) {
@@ -123,7 +123,7 @@ public class MaxValuePanel extends javax.swing.JPanel {
      * @return  DOCUMENT ME!
      */
     public int getMaxThreshold() {
-        return (int)Math.ceil(aggregationValue.getMaxValue() * factor);
+        return (int)Math.floor(aggregationValue.getMaxValue() * factor);
     }
 
     /**
@@ -132,7 +132,7 @@ public class MaxValuePanel extends javax.swing.JPanel {
      * @return  DOCUMENT ME!
      */
     public int getMinThreshold() {
-        return (int)Math.floor(aggregationValue.getMinValue() * factor);
+        return (int)Math.ceil(aggregationValue.getMinValue() * factor);
     }
 
     /**
@@ -187,7 +187,6 @@ public class MaxValuePanel extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
 
         sldrMaxValue.setPaintTicks(true);
-        sldrMaxValue.setMinimumSize(new java.awt.Dimension(200, 23));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
                 org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
@@ -218,7 +217,9 @@ public class MaxValuePanel extends javax.swing.JPanel {
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         add(sldrMaxValue, gridBagConstraints);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
@@ -233,6 +234,7 @@ public class MaxValuePanel extends javax.swing.JPanel {
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lblValue, gridBagConstraints);
 
@@ -248,7 +250,6 @@ public class MaxValuePanel extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         add(lblUnit, gridBagConstraints);
 

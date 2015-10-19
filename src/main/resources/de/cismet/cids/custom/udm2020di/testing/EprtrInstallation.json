@@ -1,8 +1,8 @@
 {
-    "id": 156569,
-    "name": "EVN AG Kraftwerk Dürnrohr Zwentendorf",
-    "longitude": 15.084250450134277,
-    "latitude": 48.01822280883789,
+    "id": 150881,
+    "name": "Sunpor Kunststoff GesmbH Werk I",
+    "longitude": 15.637139320373535,
+    "latitude": 48.19416809082031,
     "tags": [{
             "id": 781,
             "key": "2007",
@@ -18,26 +18,12 @@
             "taggroupid": 101,
             "taggroupkey": "EPRTR.NOTIFICATION_PERIOD"
         }, {
-            "id": 783,
-            "key": "2009",
-            "name": "PRTR-Meldung 2009",
-            "description": "PRTR-Meldung 2009",
-            "taggroupid": 101,
-            "taggroupkey": "EPRTR.NOTIFICATION_PERIOD"
-        }, {
             "id": 784,
             "key": "2010",
             "name": "PRTR-Meldung 2010",
             "description": "PRTR-Meldung 2010",
             "taggroupid": 101,
             "taggroupkey": "EPRTR.NOTIFICATION_PERIOD"
-        }, {
-            "id": 787,
-            "key": "LUFT",
-            "name": "Luft",
-            "description": "Freisetzung in die Luft",
-            "taggroupid": 102,
-            "taggroupkey": "EPRTR.RELEASE_TYPE"
         }, {
             "id": 788,
             "key": "WASSER DIREKT",
@@ -46,64 +32,43 @@
             "taggroupid": 102,
             "taggroupkey": "EPRTR.RELEASE_TYPE"
         }, {
-            "id": 134,
-            "key": "CO2",
-            "name": "Kohlendioxid",
-            "description": "Kohlendioxid (CO2)",
+            "id": 789,
+            "key": "WASSER INDIREKT",
+            "name": "Wasser (indirekt)",
+            "description": "Verbringung von im Abwasser enthaltenen Schadstoffen außerhalb des Standorts",
+            "taggroupid": 102,
+            "taggroupkey": "EPRTR.RELEASE_TYPE"
+        }, {
+            "id": 199,
+            "key": "P",
+            "name": "Phosphor",
+            "description": "Gesamtphosphor (P)",
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
-            "id": 147,
-            "key": "Cu",
-            "name": "Kupfer",
-            "description": "Kupfer und Verbindungen (Cu)",
+            "id": 228,
+            "key": "TOC",
+            "name": "TOC",
+            "description": "Gesamter organischer Kohlenstoff (TOC) (als Gesamt-C oder CSB/3)",
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
-            "id": 192,
-            "key": "NOx",
-            "name": "Stickoxide",
-            "description": "Stickoxide (NO/NO2)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 210,
-            "key": "PM10",
-            "name": "PM10",
-            "description": "Feinstaub (PM10)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 217,
-            "key": "SOx",
-            "name": "Schwefeloxid",
-            "description": "Schwefeloxide (SOx/SO2)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 240,
-            "key": "Zn",
-            "name": "Zink",
-            "description": "Zink und Verbindungen (Zn)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 182,
-            "key": "MET",
-            "name": "Metalle und Schwermetalle",
-            "description": "Metalle und Schwermetalle",
+            "id": 151,
+            "key": "DNM",
+            "name": "Düngemittel",
+            "description": "Düngemittel",
             "taggroupid": 1,
             "taggroupkey": "POLLUTANTGROUP"
         }, {
-            "id": 225,
-            "key": "THGundLSS",
-            "name": "Treibhausgase und Luftschadstoffe",
-            "description": "Treibhausgase und Luftschadstoffe",
+            "id": 227,
+            "key": "TOC",
+            "name": "Gesamter organischer Kohlenstoff ",
+            "description": "Gesamter organischer Kohlenstoff ",
             "taggroupid": 1,
             "taggroupkey": "POLLUTANTGROUP"
         }],
     "notifications": [{
-            "id": 10608,
+            "id": 10481,
             "mnemonic": "2007",
             "name": "PRTR-Meldung 2007",
             "notificationstartdate": "2007-01-01",
@@ -111,7 +76,7 @@
             "reportingstartdate": "2008-01-01",
             "reportingenddate": "2008-05-31"
         }, {
-            "id": 61658,
+            "id": 62074,
             "mnemonic": "2008",
             "name": "PRTR-Meldung 2008",
             "notificationstartdate": "2008-01-01",
@@ -119,82 +84,38 @@
             "reportingstartdate": "2009-01-01",
             "reportingenddate": "2009-05-31"
         }, {
-            "id": 156557,
+            "id": 150875,
             "mnemonic": "2010",
             "name": "PRTR-Meldung 2010",
             "notificationstartdate": "2010-01-01",
             "notificationenddate": "2010-12-31",
             "reportingstartdate": "2011-01-01",
             "reportingenddate": "2011-05-31"
-        }, {
-            "id": 120471,
-            "mnemonic": "2009",
-            "name": "PRTR-Meldung 2009",
-            "notificationstartdate": "2009-01-01",
-            "notificationenddate": "2009-12-31",
-            "reportingstartdate": "2010-01-01",
-            "reportingenddate": "2010-05-31"
         }],
     "activities": [{
-            "name": "Wärmekraftwerke und andere Verbrennungsanlagen",
-            "code": "mn8fwhcx9wrer6",
-            "mnemonic": "1.c",
+            "name": "Chemieanlagen zur industriellen Herstellung von organischen Grundchemikalien wie i) einfachen Kohlenwasserstoffen (linearen oder ringförmigen, gesättigten oder ungesättigten, aliphatischen oder aromatischen) ii) sauerstoffhaltigen Kohlenwasserstoffen wie Alkoholen, Aldehyden, Ketonen, Carbonsäuren, Estern, Acetaten, Ethern, Peroxiden, Epoxidharzen iii) schwefelhaltigen Kohlenwasserstoffen iv) stickstoffhaltigen Kohlenwasserstoffen wie Aminen, Amiden, Nitroso-, Nitro- oder Nitratverbindungen, Nitrilen, Cyanaten, Isocyanaten v) phosphorhaltigen Kohlenwasserstoffen vi) halogenhaltigen Kohlenwasserstoffen vii) metallorganischen Verbindungen viii) Basiskunststoffen (Polymeren, Chemiefasern, Fasern auf Zellstoffbasis) ix) synthetischen Kautschuken x) Farbstoffe und Pigmente xi) Tensiden",
+            "code": "dfaru7hwqi2zr2",
+            "mnemonic": "4.a",
             "product": null,
             "notificationperiod": "2007",
             "primaryactivity": "Y",
             "productionvolume": -1,
             "operatinghours": -1
         }, {
-            "name": "Deponien (außer Deponien für Inertabfälle und Deponien, die vor dem 16.7.2001 endgültig geschlossen wurden bzw. deren Nachsorgephase, die von den zuständigen Behörden gemäß Artikel 13 der Richtlinie 1993/31/EG des Rates vom 26. April 1999 über Abfalldeponien verlangt wurde, abgelaufen ist)",
-            "code": "rbbwuikdxu6c3w",
-            "mnemonic": "5.d",
-            "product": null,
-            "notificationperiod": "2008",
-            "primaryactivity": "N",
-            "productionvolume": -1,
-            "operatinghours": -1
-        }, {
-            "name": "Wärmekraftwerke und andere Verbrennungsanlagen",
-            "code": "mn8fwhcx9wrer6",
-            "mnemonic": "1.c",
+            "name": "Chemieanlagen zur industriellen Herstellung von organischen Grundchemikalien wie i) einfachen Kohlenwasserstoffen (linearen oder ringförmigen, gesättigten oder ungesättigten, aliphatischen oder aromatischen) ii) sauerstoffhaltigen Kohlenwasserstoffen wie Alkoholen, Aldehyden, Ketonen, Carbonsäuren, Estern, Acetaten, Ethern, Peroxiden, Epoxidharzen iii) schwefelhaltigen Kohlenwasserstoffen iv) stickstoffhaltigen Kohlenwasserstoffen wie Aminen, Amiden, Nitroso-, Nitro- oder Nitratverbindungen, Nitrilen, Cyanaten, Isocyanaten v) phosphorhaltigen Kohlenwasserstoffen vi) halogenhaltigen Kohlenwasserstoffen vii) metallorganischen Verbindungen viii) Basiskunststoffen (Polymeren, Chemiefasern, Fasern auf Zellstoffbasis) ix) synthetischen Kautschuken x) Farbstoffe und Pigmente xi) Tensiden",
+            "code": "dfaru7hwqi2zr2",
+            "mnemonic": "4.a",
             "product": null,
             "notificationperiod": "2008",
             "primaryactivity": "Y",
             "productionvolume": -1,
             "operatinghours": -1
         }, {
-            "name": "Deponien (außer Deponien für Inertabfälle und Deponien, die vor dem 16.7.2001 endgültig geschlossen wurden bzw. deren Nachsorgephase, die von den zuständigen Behörden gemäß Artikel 13 der Richtlinie 1993/31/EG des Rates vom 26. April 1999 über Abfalldeponien verlangt wurde, abgelaufen ist)",
-            "code": "rbbwuikdxu6c3w",
-            "mnemonic": "5.d",
+            "name": "Chemieanlagen zur industriellen Herstellung von organischen Grundchemikalien wie i) einfachen Kohlenwasserstoffen (linearen oder ringförmigen, gesättigten oder ungesättigten, aliphatischen oder aromatischen) ii) sauerstoffhaltigen Kohlenwasserstoffen wie Alkoholen, Aldehyden, Ketonen, Carbonsäuren, Estern, Acetaten, Ethern, Peroxiden, Epoxidharzen iii) schwefelhaltigen Kohlenwasserstoffen iv) stickstoffhaltigen Kohlenwasserstoffen wie Aminen, Amiden, Nitroso-, Nitro- oder Nitratverbindungen, Nitrilen, Cyanaten, Isocyanaten v) phosphorhaltigen Kohlenwasserstoffen vi) halogenhaltigen Kohlenwasserstoffen vii) metallorganischen Verbindungen viii) Basiskunststoffen (Polymeren, Chemiefasern, Fasern auf Zellstoffbasis) ix) synthetischen Kautschuken x) Farbstoffe und Pigmente xi) Tensiden",
+            "code": "dfaru7hwqi2zr2",
+            "mnemonic": "4.a",
             "product": null,
             "notificationperiod": "2010",
-            "primaryactivity": "N",
-            "productionvolume": -1,
-            "operatinghours": -1
-        }, {
-            "name": "Wärmekraftwerke und andere Verbrennungsanlagen",
-            "code": "mn8fwhcx9wrer6",
-            "mnemonic": "1.c",
-            "product": null,
-            "notificationperiod": "2010",
-            "primaryactivity": "Y",
-            "productionvolume": -1,
-            "operatinghours": -1
-        }, {
-            "name": "Deponien (außer Deponien für Inertabfälle und Deponien, die vor dem 16.7.2001 endgültig geschlossen wurden bzw. deren Nachsorgephase, die von den zuständigen Behörden gemäß Artikel 13 der Richtlinie 1993/31/EG des Rates vom 26. April 1999 über Abfalldeponien verlangt wurde, abgelaufen ist)",
-            "code": "rbbwuikdxu6c3w",
-            "mnemonic": "5.d",
-            "product": null,
-            "notificationperiod": "2009",
-            "primaryactivity": "N",
-            "productionvolume": -1,
-            "operatinghours": -1
-        }, {
-            "name": "Wärmekraftwerke und andere Verbrennungsanlagen",
-            "code": "mn8fwhcx9wrer6",
-            "mnemonic": "1.c",
-            "product": null,
-            "notificationperiod": "2009",
             "primaryactivity": "Y",
             "productionvolume": -1,
             "operatinghours": -1
@@ -202,123 +123,78 @@
     "addresses": [{
             "type": "Adresse der Anlage",
             "region": "Niederösterreich",
-            "district": "Tulln",
-            "city": "Zwentendorf an der Donau",
-            "postcode": 3435,
-            "streetname": "Kraftwerksstraße"
+            "district": "Sankt Pölten(Stadt)",
+            "city": "St. Pölten",
+            "postcode": 3100,
+            "streetname": "Stattersdorfer Hauptstraße"
         }, {
             "type": "Firmenadresse des Anlagenbetreibers",
             "region": "Niederösterreich",
-            "district": "Mödling",
-            "city": "Maria Enzersdorf",
-            "postcode": 2344,
-            "streetname": "EVN Platz"
+            "district": "Sankt Pölten(Stadt)",
+            "city": "Stattersdorf",
+            "postcode": 3100,
+            "streetname": "Stattersdorfer Hauptstraße"
         }],
-    "erasid": 4229,
-    "naceclass": "Elektrizitätserzeugung",
+    "erasid": 11958,
+    "naceclass": "Herstellung von Kunststoffen in Primärformen",
+    "obligatedparty": "Sunpor Kunststoff GesmbH,",
     "rivercatchment": "Donau unterhalb Jochenstein",
     "aggregationvalues": [{
-            "name": "Kohlendioxid",
-            "pollutantkey": "CO2",
-            "pollutantgroupkey": "THGundLSS",
-            "mindate": "2009-01-01",
+            "name": "Gesamter organischer Kohlenstoff",
+            "pollutantkey": "TOC",
+            "pollutantgroupkey": "TOC",
+            "mindate": "2007-01-01",
             "maxdate": "2007-12-31",
-            "minvalue": 7.5168E8,
-            "maxvalue": 1.047731008E9,
+            "minvalue": 75000.0,
+            "maxvalue": 75000.0,
             "unit": null,
             "probepk": null,
-            "releasetype": "LUFT"
+            "releasetype": "WASSER DIREKT"
         }, {
-            "name": "Stickoxide",
-            "pollutantkey": "NOx",
-            "pollutantgroupkey": "THGundLSS",
-            "mindate": "2010-01-01",
-            "maxdate": "2007-12-31",
-            "minvalue": 431775.21875,
-            "maxvalue": 648765.0,
-            "unit": null,
-            "probepk": null,
-            "releasetype": "LUFT"
-        }, {
-            "name": "Feinstaub",
-            "pollutantkey": "PM10",
-            "pollutantgroupkey": "THGundLSS",
+            "name": "Gesamter organischer Kohlenstoff",
+            "pollutantkey": "TOC",
+            "pollutantgroupkey": "TOC",
             "mindate": "2008-01-01",
-            "maxdate": "2007-12-31",
-            "minvalue": 51262.0,
-            "maxvalue": 64218.0,
+            "maxdate": "2008-12-31",
+            "minvalue": 54000.0,
+            "maxvalue": 54000.0,
             "unit": null,
             "probepk": null,
-            "releasetype": "LUFT"
+            "releasetype": "WASSER INDIREKT"
         }, {
-            "name": "Schwefeloxide",
-            "pollutantkey": "SOx",
-            "pollutantgroupkey": "THGundLSS",
-            "mindate": "2009-01-01",
+            "name": "Gesamtphosphor",
+            "pollutantkey": "P",
+            "pollutantgroupkey": "DNM",
+            "mindate": "2007-01-01",
             "maxdate": "2007-12-31",
-            "minvalue": 153236.0,
-            "maxvalue": 287666.0,
-            "unit": null,
-            "probepk": null,
-            "releasetype": "LUFT"
-        }, {
-            "name": "Kupfer und Verbindungen",
-            "pollutantkey": "Cu",
-            "pollutantgroupkey": "MET",
-            "mindate": "2009-01-01",
-            "maxdate": "2007-12-31",
-            "minvalue": 401.0,
-            "maxvalue": 1032.0,
+            "minvalue": 6000.0,
+            "maxvalue": 6000.0,
             "unit": null,
             "probepk": null,
             "releasetype": "WASSER DIREKT"
         }, {
-            "name": "Zink und Verbindungen",
-            "pollutantkey": "Zn",
-            "pollutantgroupkey": "MET",
-            "mindate": "2009-01-01",
-            "maxdate": "2007-12-31",
-            "minvalue": 158.0,
-            "maxvalue": 424.0,
+            "name": "Gesamtphosphor",
+            "pollutantkey": "P",
+            "pollutantgroupkey": "DNM",
+            "mindate": "2010-01-01",
+            "maxdate": "2008-12-31",
+            "minvalue": 6412.5,
+            "maxvalue": 7273.0,
             "unit": null,
             "probepk": null,
-            "releasetype": "WASSER DIREKT"
+            "releasetype": "WASSER INDIREKT"
         }],
     "releaseparameters": [{
-            "parameterpk": "xinjdzrcpf2jph",
-            "parametergruppepk": "LUFT",
-            "parametername": "Feinstaub (PM10)",
-            "parametergruppename": "Freisetzung in die Luft",
-            "parametereinheit": "kg/Jahr"
-        }, {
-            "parameterpk": "g6exbw2kyryag8",
+            "parameterpk": "jnmeennvf5w8dm",
             "parametergruppepk": "WASSER DIREKT",
-            "parametername": "Kupfer und Verbindungen (als Cu)",
+            "parametername": "Gesamter organischer Kohlenstoff (TOC) (als Gesamt-C oder CSB/3)",
             "parametergruppename": "Freisetzung in das Wasser (Direkteinleitung)",
             "parametereinheit": "kg/Jahr"
         }, {
-            "parameterpk": "ngdv2wnsgjz8w2",
-            "parametergruppepk": "LUFT",
-            "parametername": "Schwefeloxide (SOx/SO2)",
-            "parametergruppename": "Freisetzung in die Luft",
-            "parametereinheit": "kg/Jahr"
-        }, {
-            "parameterpk": "cycyf8zkpiccgr",
-            "parametergruppepk": "LUFT",
-            "parametername": "Kohlendioxid (CO2)",
-            "parametergruppename": "Freisetzung in die Luft",
-            "parametereinheit": "kg/Jahr"
-        }, {
-            "parameterpk": "mwfd49u7vas88b",
+            "parameterpk": "qud5fj33wufpsm",
             "parametergruppepk": "WASSER DIREKT",
-            "parametername": "Zink und Verbindungen (als Zn)",
+            "parametername": "Gesamtphosphor",
             "parametergruppename": "Freisetzung in das Wasser (Direkteinleitung)",
-            "parametereinheit": "kg/Jahr"
-        }, {
-            "parameterpk": "2wdixwiua7cjxm",
-            "parametergruppepk": "LUFT",
-            "parametername": "Stickoxide (NO/NO2)",
-            "parametergruppename": "Freisetzung in die Luft",
             "parametereinheit": "kg/Jahr"
         }]
 }

@@ -25,6 +25,7 @@ public class ActivityPanel extends javax.swing.JPanel {
     private Activity activity;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -89,6 +90,19 @@ public class ActivityPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public String getActivityDescription() {
+        if (this.activity != null) {
+            return "<html>" + this.activity.getName() + "</html>";
+        } else {
+            return "";
+        }
+    }
+
     @Override
     public Dimension getMaximumSize() {
         return new Dimension(super.getMaximumSize().width, getPreferredSize().height);
@@ -108,6 +122,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         lblProductValue = new javax.swing.JLabel();
         lblProductionVolumne = new javax.swing.JLabel();
         lblProductionVolumneValue = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jTextArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -142,31 +157,48 @@ public class ActivityPanel extends javax.swing.JPanel {
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        jLabel1.setMaximumSize(new java.awt.Dimension(500, 2147483647));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${activityDescription}"),
+                jLabel1,
+                org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(" ");
+        binding.setSourceUnreadableValue(" ");
+        bindingGroup.addBinding(binding);
+
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+        setMaximumSize(new java.awt.Dimension(600, 2147483647));
         setLayout(new java.awt.GridBagLayout());
 
         jTextArea.setEditable(false);
         jTextArea.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
         jTextArea.setColumns(25);
         jTextArea.setLineWrap(true);
-        jTextArea.setRows(2);
+        jTextArea.setRows(3);
         jTextArea.setWrapStyleWord(true);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
                 this,
                 org.jdesktop.beansbinding.ELProperty.create("${activity.name}"),
                 jTextArea,
                 org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding.setSourceNullValue(" ");
+        binding.setSourceUnreadableValue(" ");
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         add(jTextArea, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -175,7 +207,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         add(jLabel3, gridBagConstraints);
 
@@ -192,7 +224,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         add(jLabel4, gridBagConstraints);
@@ -203,7 +235,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         add(jLabel5, gridBagConstraints);
 
@@ -220,7 +252,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         add(jLabel6, gridBagConstraints);
@@ -231,7 +263,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
         add(lblOpertingHours, gridBagConstraints);
 
@@ -248,7 +280,7 @@ public class ActivityPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         add(lblOpertingHoursValue, gridBagConstraints);

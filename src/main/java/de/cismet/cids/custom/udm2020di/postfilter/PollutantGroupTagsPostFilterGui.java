@@ -11,10 +11,14 @@ import Sirius.navigator.ui.tree.postfilter.PostFilterGUI;
 
 import Sirius.server.middleware.types.MetaObject;
 
+import org.apache.log4j.Logger;
+
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.swing.ImageIcon;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -30,6 +34,16 @@ public class PollutantGroupTagsPostFilterGui extends CommonTagsPostFilterGui {
     //~ Static fields/initializers ---------------------------------------------
 
     public static final String TAG_GROUP = "POLLUTANTGROUP";
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new PollutantGroupTagsPostFilterGui object.
+     */
+    public PollutantGroupTagsPostFilterGui() {
+        super();
+        logger = Logger.getLogger(PollutantGroupTagsPostFilterGui.class);
+    }
 
     //~ Methods ----------------------------------------------------------------
 
