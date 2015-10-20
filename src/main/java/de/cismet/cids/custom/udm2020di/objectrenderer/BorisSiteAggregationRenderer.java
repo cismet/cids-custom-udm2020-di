@@ -61,18 +61,14 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
     private javax.swing.JPanel exportPanel;
     private javax.swing.JPanel featureSelectionPanel;
     private javax.swing.JList featuresList;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane;
     private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel;
-    private javax.swing.JPanel messwertePanel;
-    private javax.swing.JTable messwerteTable;
+    private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
-    private de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel searchPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -123,18 +119,12 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         featureSelectionPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         featuresList = new javax.swing.JList();
-        messwertePanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        messwerteTable = new javax.swing.JTable();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 32767));
+        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
         parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
-        searchPanel = new de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel();
 
         parameterPanel.setMinimumSize(new java.awt.Dimension(200, 300));
 
@@ -208,70 +198,11 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteAggregationRenderer.class,
                 "BorisSiteAggregationRenderer.infoPanel.TabConstraints.tabTitle_1"),
-            infoPanel); // NOI18N
-
-        messwertePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        messwertePanel.setLayout(new java.awt.GridBagLayout());
-
-        messwerteTable.setBorder(javax.swing.BorderFactory.createLineBorder(
-                javax.swing.UIManager.getDefaults().getColor("Table.dropLineColor")));
-        messwerteTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] { "Parametername", "Max. Maximalwert", "Min. Maximalwert" }) {
-
-                Class[] types = new Class[] { java.lang.String.class, java.lang.Float.class, java.lang.Float.class };
-                boolean[] canEdit = new boolean[] { false, false, false };
-
-                @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-
-                @Override
-                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-                    return canEdit[columnIndex];
-                }
-            });
-        messwerteTable.setFillsViewportHeight(true);
-        messwerteTable.setPreferredSize(new java.awt.Dimension(300, 500));
-        messwerteTable.setRequestFocusEnabled(false);
-        messwerteTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(messwerteTable);
-        if (messwerteTable.getColumnModel().getColumnCount() > 0) {
-            messwerteTable.getColumnModel()
-                    .getColumn(0)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.messwerteTable.columnModel.title0")); // NOI18N
-            messwerteTable.getColumnModel()
-                    .getColumn(1)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.messwerteTable.columnModel.title2")); // NOI18N
-            messwerteTable.getColumnModel()
-                    .getColumn(2)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.messwerteTable.columnModel.title3")); // NOI18N
-        }
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        messwertePanel.add(jScrollPane1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        messwertePanel.add(filler1, gridBagConstraints);
-
+            infoPanel);      // NOI18N
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteAggregationRenderer.class,
-                "BorisSiteAggregationRenderer.messwertePanel.TabConstraints.tabTitle_2"),
-            messwertePanel); // NOI18N
+                "BorisSiteAggregationRenderer.messwerteTable.TabConstraints.tabTitle"),
+            messwerteTable); // NOI18N
 
         exportPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -291,10 +222,6 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                 BorisSiteAggregationRenderer.class,
                 "BorisSiteAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
-        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
-                BorisSiteAggregationRenderer.class,
-                "BorisSiteAggregationRenderer.searchPanel.TabConstraints.tabTitle"),
-            searchPanel); // NOI18N
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
@@ -367,18 +294,9 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                         parameterSelectionPanel.setExportAction(borisExportAction);
 
                         // Messwerte Tab -------------------------------
-                        final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
-                        for (final AggregationValue aggregationValue : aggregationValues) {
-                            final Object[] rowData = new Object[] {
-                                    aggregationValue.getName(),
-                                    aggregationValue.getMaxValue(),
-                                    aggregationValue.getMinValue()
-                                };
-                            tableModel.addRow(rowData);
-                        }
-
-                        // temp search
-                        searchPanel.setCollections(cidsBeans, aggregationValues);
+                        messwerteTable.setAggregationValues(
+                            aggregationValues.toArray(
+                                new AggregationValue[0]));
 
                         jTabbedPane.setSelectedIndex(SELECTED_TAB);
 

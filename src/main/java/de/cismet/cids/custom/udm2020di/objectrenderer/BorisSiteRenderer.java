@@ -21,7 +21,6 @@ import java.util.Arrays;
 import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
@@ -31,8 +30,6 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
 import de.cismet.cids.custom.udm2020di.types.boris.Standortparameter;
-
-import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRenderer.SELECTED_TAB;
 
 /**
  * DOCUMENT ME!

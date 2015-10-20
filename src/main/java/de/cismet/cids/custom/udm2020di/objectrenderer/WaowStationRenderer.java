@@ -7,7 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.objectrenderer;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import java.awt.Dimension;
@@ -15,14 +14,12 @@ import java.awt.GridBagConstraints;
 
 import java.io.IOException;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
-import de.cismet.cids.custom.udm2020di.types.wa.GwMessstelle;
 import de.cismet.cids.custom.udm2020di.types.wa.Messstelle;
 import de.cismet.cids.custom.udm2020di.types.wa.OwMessstelle;
-import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel;
 
 /**
  * DOCUMENT ME!
@@ -31,6 +28,21 @@ import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel;
  * @version  $Revision$, $Date$
  */
 public class WaowStationRenderer extends WagwStationRenderer {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static int SELECTED_TAB = 0;
+
+    //~ Constructors -----------------------------------------------------------
+
+    /**
+     * Creates a new WaowStationRenderer object.
+     */
+    public WaowStationRenderer() {
+        super();
+        this.stationType = WaExportAction.WAOW;
+        this.logger = Logger.getLogger(WaowStationRenderer.class);
+    }
 
     //~ Methods ----------------------------------------------------------------
 
