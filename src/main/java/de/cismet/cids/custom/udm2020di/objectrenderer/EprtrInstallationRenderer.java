@@ -52,8 +52,8 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger logger = Logger.getLogger(EprtrInstallationRenderer.class);
-    protected static final DateFormat dateFormat = new SimpleDateFormat("YYYY");
+    protected static final Logger LOGGER = Logger.getLogger(EprtrInstallationRenderer.class);
+    protected static final DateFormat DATE_FORMAT = new SimpleDateFormat("YYYY");
     protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------
@@ -164,9 +164,9 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
                                 aggregationValue.getReleaseType(),
                                 aggregationValue.getName(),
                                 aggregationValue.getMinValue(),
-                                dateFormat.format(aggregationValue.getMinDate()),
+                                DATE_FORMAT.format(aggregationValue.getMinDate()),
                                 aggregationValue.getMaxValue(),
-                                dateFormat.format(aggregationValue.getMaxDate()),
+                                DATE_FORMAT.format(aggregationValue.getMaxDate()),
                             };
                         tableModel.addRow(rowData);
                     }
@@ -201,7 +201,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
                             this.getCidsBean().getProperty("src_content_confidential").toString(),
                             Installation.class);
 
-                    logger.info("showing confidential activity information");
+                    LOGGER.info("showing confidential activity information");
                     if (confidentialInstallation.getActivities() != null) {
                         installation.setActivities(confidentialInstallation.getActivities());
                     }
@@ -210,8 +210,8 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
             EprtrInstallationRenderer.this.setEprtrInstallation(installation);
 
             jTabbedPane.setSelectedIndex(SELECTED_TAB);
-            if (logger.isDebugEnabled()) {
-                logger.debug("setting saved tab: " + SELECTED_TAB);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("setting saved tab: " + SELECTED_TAB);
             }
 
             jTabbedPane.addChangeListener(WeakListeners.create(
@@ -225,7 +225,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
                     },
                     jTabbedPane));
         } catch (Exception ex) {
-            logger.error("could not deserialize EPRTR Installation JSON: " + ex.getMessage(), ex);
+            LOGGER.error("could not deserialize EPRTR Installation JSON: " + ex.getMessage(), ex);
             return;
         }
     }
@@ -381,7 +381,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
             frame.pack();
             frame.setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(MaxParameterValueSelectionPanel.class).fatal(ex.getMessage(), ex);
+            Logger.getLogger(EprtrInstallationRenderer.class).fatal(ex.getMessage(), ex);
             System.exit(1);
         }
     }

@@ -53,13 +53,10 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel exportPanel;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JPanel messwertePanel;
-    private javax.swing.JTable messwerteTable;
+    private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
     private javax.swing.JPanel standortdatenPanel;
@@ -107,12 +104,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         infoPanel = new javax.swing.JPanel();
         standortdatenPanel = new javax.swing.JPanel();
         parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
-        messwertePanel = new javax.swing.JPanel();
-        jScrollPane = new javax.swing.JScrollPane();
-        messwerteTable = new javax.swing.JTable();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 32767));
+        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
         parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
@@ -142,57 +134,11 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteRenderer.class,
                 "BorisSiteRenderer.infoPanel.TabConstraints.tabTitle"),
-            infoPanel); // NOI18N
-
-        messwertePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        messwertePanel.setLayout(new java.awt.GridBagLayout());
-
-        messwerteTable.setBorder(javax.swing.BorderFactory.createLineBorder(
-                javax.swing.UIManager.getDefaults().getColor("Table.dropLineColor")));
-        messwerteTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] { "Parametername", "Datum der Probe", "Maximalwert", "Minimalwert" }) {
-
-                Class[] types = new Class[] {
-                        java.lang.String.class,
-                        java.lang.Object.class,
-                        java.lang.Float.class,
-                        java.lang.Float.class
-                    };
-                boolean[] canEdit = new boolean[] { false, false, false, false };
-
-                @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-
-                @Override
-                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-                    return canEdit[columnIndex];
-                }
-            });
-        messwerteTable.setFillsViewportHeight(true);
-        messwerteTable.setPreferredSize(new java.awt.Dimension(300, 500));
-        messwerteTable.setRequestFocusEnabled(false);
-        jScrollPane.setViewportView(messwerteTable);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        messwertePanel.add(jScrollPane, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        messwertePanel.add(filler1, gridBagConstraints);
-
+            infoPanel);      // NOI18N
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteRenderer.class,
-                "BorisSiteRenderer.messwertePanel.TabConstraints.tabTitle"),
-            messwertePanel); // NOI18N
+                "BorisSiteRenderer.messwerteTable.TabConstraints.tabTitle"),
+            messwerteTable); // NOI18N
 
         exportPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -273,16 +219,9 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                     }
 
                     // AggregationTable ----------------------------------------
-                    final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
-                    for (final AggregationValue aggregationValue : borisStandort.getAggregationValues()) {
-                        final Object[] rowData = new Object[] {
-                                aggregationValue.getName(),
-                                aggregationValue.getMaxDate(),
-                                aggregationValue.getMaxValue(),
-                                aggregationValue.getMinValue()
-                            };
-                        tableModel.addRow(rowData);
-                    }
+                    messwerteTable.setAggregationValues(
+                        borisStandort.getAggregationValues().toArray(
+                            new AggregationValue[0]));
 
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(

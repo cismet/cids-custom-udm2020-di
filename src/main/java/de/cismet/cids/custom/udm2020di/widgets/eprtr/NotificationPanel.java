@@ -32,7 +32,7 @@ public class NotificationPanel extends javax.swing.JPanel {
     protected static final String URI_TEMPLATE =
         "http://www5.umweltbundesamt.at/PRTR-web/auswahlNachSchadstoffen.do?event=showDetail&selectedId=";
     protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.YYYY");
-    protected static final Logger logger = Logger.getLogger(NotificationPanel.class);
+    protected static final Logger LOGGER = Logger.getLogger(NotificationPanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -191,10 +191,10 @@ public class NotificationPanel extends javax.swing.JPanel {
                 final URI uri = new URI(URI_TEMPLATE + this.getNotification().getId());
                 desktop.browse(uri);
             } catch (Exception e) {
-                logger.error("Could not open URI: " + URI_TEMPLATE + this.getNotification().getId(), e); // NOI18N
+                LOGGER.error("Could not open URI: " + URI_TEMPLATE + this.getNotification().getId(), e); // NOI18N
             }
         } else {
-            logger.info("Opening a website is not supported.");                                          // NOI18N
+            LOGGER.info("Opening a website is not supported.");                                          // NOI18N
         }
     }                                                                                                    //GEN-LAST:event_jXHyperlinkActionPerformed
 }
