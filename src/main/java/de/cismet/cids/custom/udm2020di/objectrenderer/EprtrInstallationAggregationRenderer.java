@@ -20,19 +20,22 @@ import java.util.TreeSet;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 
-import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.EprtrExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
-import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
-import de.cismet.cids.custom.udm2020di.types.boris.Standort;
+import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanAggregationRendererPanel;
+
+import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRenderer.DATE_FORMAT;
 
 /**
  * DOCUMENT ME!
@@ -40,12 +43,13 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanAggregationRendererPanel;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPanel {
+public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRendererPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger LOGGER = Logger.getLogger(BorisSiteAggregationRenderer.class);
     protected static int SELECTED_TAB = 0;
+
+    protected static final Logger logger = Logger.getLogger(EprtrInstallationAggregationRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -60,7 +64,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane;
     private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel;
-    private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
+    private javax.swing.JScrollPane messwerteScrollPane;
+    private javax.swing.JTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
     // End of variables declaration//GEN-END:variables
@@ -68,9 +73,9 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form BorisSiteRenderer.
+     * Creates new form EprtrSiteRenderer.
      */
-    public BorisSiteAggregationRenderer() {
+    public EprtrInstallationAggregationRenderer() {
         initComponents();
     }
 
@@ -113,7 +118,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         featureSelectionPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         featuresList = new javax.swing.JList();
-        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
+        messwerteScrollPane = new javax.swing.JScrollPane();
+        messwerteTable = new javax.swing.JTable();
         exportPanel = new javax.swing.JPanel();
         parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
@@ -125,13 +131,6 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
-
-                @Override
-                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
-                    jTabbedPaneStateChanged(evt);
-                }
-            });
 
         infoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -140,8 +139,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                 javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createTitledBorder(
                         org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.mapPanel.border.insideBorder.outsideBorder.title")),
+                            EprtrInstallationAggregationRenderer.class,
+                            "EprtrInstallationAggregationRenderer.mapPanel.border.insideBorder.outsideBorder.title")),
                     javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
         mapPanel.setMinimumSize(new java.awt.Dimension(300, 500));
         mapPanel.setPreferredSize(new java.awt.Dimension(300, 500));
@@ -158,8 +157,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                 javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createTitledBorder(
                         org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.featureSelectionPanel.border.insideBorder.outsideBorder.title")),
+                            EprtrInstallationAggregationRenderer.class,
+                            "EprtrInstallationAggregationRenderer.featureSelectionPanel.border.insideBorder.outsideBorder.title")),
                     javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
         featureSelectionPanel.setMinimumSize(new java.awt.Dimension(300, 300));
         featureSelectionPanel.setLayout(new java.awt.GridLayout(1, 0));
@@ -197,13 +196,49 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         infoPanel.add(featureSelectionPanel, gridBagConstraints);
 
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
-                BorisSiteAggregationRenderer.class,
-                "BorisSiteAggregationRenderer.infoPanel.TabConstraints.tabTitle_1"),
-            infoPanel);      // NOI18N
-        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
-                BorisSiteAggregationRenderer.class,
-                "BorisSiteAggregationRenderer.messwerteTable.TabConstraints.tabTitle"),
-            messwerteTable); // NOI18N
+                EprtrInstallationAggregationRenderer.class,
+                "EprtrInstallationAggregationRenderer.infoPanel.TabConstraints.tabTitle_1"),
+            infoPanel); // NOI18N
+
+        messwerteTable.setBorder(javax.swing.BorderFactory.createLineBorder(
+                javax.swing.UIManager.getDefaults().getColor("Table.dropLineColor")));
+        messwerteTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {},
+                new String[] {
+                    "Art der Freisetzung",
+                    "Schadstoff",
+                    "Minimalwert [kg/J]",
+                    "in Periode",
+                    "Maximalwert [kg/J]",
+                    "in Periode"
+                }) {
+
+                Class[] types = new Class[] {
+                        java.lang.String.class,
+                        java.lang.String.class,
+                        java.lang.Float.class,
+                        java.lang.String.class,
+                        java.lang.Float.class,
+                        java.lang.String.class
+                    };
+                boolean[] canEdit = new boolean[] { false, false, false, false, false, false };
+
+                @Override
+                public Class getColumnClass(final int columnIndex) {
+                    return types[columnIndex];
+                }
+
+                @Override
+                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+        messwerteTable.setFillsViewportHeight(true);
+        messwerteTable.setPreferredSize(new java.awt.Dimension(300, 500));
+        messwerteTable.setRequestFocusEnabled(false);
+        messwerteScrollPane.setViewportView(messwerteTable);
+
+        jTabbedPane.addTab("Aggregierte Messwerte", messwerteScrollPane);
 
         exportPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -220,8 +255,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         exportPanel.add(filler2, gridBagConstraints);
 
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
-                BorisSiteAggregationRenderer.class,
-                "BorisSiteAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
+                EprtrInstallationAggregationRenderer.class,
+                "EprtrInstallationAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
@@ -240,19 +275,10 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
-        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
-
-    /**
-     * DOCUMENT ME!
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
-            LOGGER.info("processing " + cidsBeans.size() + "cids beans");
+            logger.info("processing " + cidsBeans.size() + "cids beans");
             final Runnable r = new Runnable() {
 
                     @Override
@@ -261,7 +287,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
                         // final TreeSet<String> parameterNamesSet = new TreeSet<String>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
-                        final TreeSet<String> standortPks = new TreeSet<String>();
+                        final TreeSet<Long> installationnPks = new TreeSet<Long>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
@@ -269,26 +295,23 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                             listModel.addElement(cidsBean);
 
                             try {
-                                final Standort borisStandort = OracleImport.JSON_MAPPER.readValue(
+                                final Installation installation = OracleImport.JSON_MAPPER.readValue(
                                         cidsBean.getProperty("src_content").toString(),
-                                        Standort.class);
+                                        Installation.class);
 
                                 final ArrayList<String> parameterNames = new ArrayList<String>(
-                                        borisStandort.getProbenparameter().size());
-                                for (final Probenparameter probenparameter : borisStandort.getProbenparameter()) {
+                                        installation.getReleaseParameters().size());
+                                for (final Parameter probenparameter : installation.getReleaseParameters()) {
                                     parameterNames.add(probenparameter.getParameterName());
                                 }
 
-                                standortPks.add(borisStandort.getPk());
-                                // parameterNamesSet.addAll(parameterNames);
-                                parametersSet.addAll(borisStandort.getProbenparameter());
+                                installationnPks.add(installation.getErasId());
 
-                                // boris samples values are already aggregated.
-                                // Set the maximum values of the aggregated maximum values and
-                                // the minimum values of the aggregated maximum values
-                                aggregationValues.addAllMax(borisStandort.getAggregationValues());
+                                parametersSet.addAll(installation.getReleaseParameters());
+
+                                aggregationValues.addAll(installation.getAggregationValues());
                             } catch (Exception ex) {
-                                LOGGER.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
+                                logger.error("could not deserialize eprtr Installation JSON: " + ex.getMessage(), ex);
                             }
                         }
 
@@ -297,16 +320,24 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
                         // Export Tab
                         parameterSelectionPanel.setParameters(parametersSet);
-
-                        final BorisExportAction borisExportAction = new BorisExportAction(
-                                standortPks,
+                        final EprtrExportAction exportAction = new EprtrExportAction(
+                                installationnPks,
                                 parameterSelectionPanel.getSelectedParameters());
-                        parameterSelectionPanel.setExportAction(borisExportAction);
+                        parameterSelectionPanel.setExportAction(exportAction);
 
                         // Messwerte Tab -------------------------------
-                        messwerteTable.setAggregationValues(
-                            aggregationValues.toArray(
-                                new AggregationValue[0]));
+                        final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
+                        for (final AggregationValue aggregationValue : aggregationValues) {
+                            final Object[] rowData = new Object[] {
+                                    aggregationValue.getReleaseType(),
+                                    aggregationValue.getName(),
+                                    aggregationValue.getMinValue(),
+                                    DATE_FORMAT.format(aggregationValue.getMinDate()),
+                                    aggregationValue.getMaxValue(),
+                                    DATE_FORMAT.format(aggregationValue.getMaxDate()),
+                                };
+                            tableModel.addRow(rowData);
+                        }
 
                         jTabbedPane.setSelectedIndex(SELECTED_TAB);
 
@@ -341,7 +372,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         String desc = "";
         final Collection<CidsBean> beans = cidsBeans;
         if ((beans != null) && (beans.size() > 0)) {
-            desc += beans.size() + " Boris Standorte ausgewählt";
+            desc += beans.size() + " EPRTR Emittenten ausgewählt";
         }
         return desc;
     }
