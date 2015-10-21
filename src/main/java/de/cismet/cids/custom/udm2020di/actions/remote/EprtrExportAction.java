@@ -26,10 +26,12 @@ import de.cismet.cids.server.actions.ServerActionParameter;
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
-import static de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT;
-import static de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_CSV;
-import static de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_NAME;
-import static de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_PARAMETER;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_EXPORTFORMAT;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_EXPORTFORMAT_CSV;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_INSTALLATIONS;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_NAME;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_PARAMETER;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.TASK_NAME;
 
 /**
  * DOCUMENT ME!
@@ -41,21 +43,21 @@ public class EprtrExportAction extends AbstractExportAction {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger log = Logger.getLogger(EprtrExportAction.class);
+    protected static final Logger LOGGER = Logger.getLogger(EprtrExportAction.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    protected long[] installations;
+    protected Collection<Long> installations;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new BorisExportAction object.
+     * Creates a new EprtrExportAction object.
      *
      * @param  installations  standorte DOCUMENT ME!
      * @param  parameters     DOCUMENT ME!
      */
-    public EprtrExportAction(final long[] installations,
+    public EprtrExportAction(final Collection<Long> installations,
             final Collection<Parameter> parameters) {
         super("Exportieren");
 
@@ -73,7 +75,7 @@ public class EprtrExportAction extends AbstractExportAction {
      *
      * @return  DOCUMENT ME!
      */
-    public long[] getInstallations() {
+    public Collection<Long> getInstallations() {
         return installations;
     }
 
@@ -82,7 +84,7 @@ public class EprtrExportAction extends AbstractExportAction {
      *
      * @param  installations  DOCUMENT ME!
      */
-    public void setInstallations(final long[] installations) {
+    public void setInstallations(final Collection<Long> installations) {
         this.installations = installations;
     }
 
@@ -90,22 +92,23 @@ public class EprtrExportAction extends AbstractExportAction {
     public void actionPerformed(final ActionEvent e) {
         final Frame frame;
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
+            // FIXME: support for jdialog
             frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
         } else {
-            log.warn("could not determine source frame of action");
+            LOGGER.warn("could not determine source frame of action");
             frame = JFrame.getFrames()[0];
         }
 
-        if ((installations != null) && (installations.length > 0)
+        if ((installations != null) && (installations.size() > 0)
                     && (parameters != null) && !parameters.isEmpty()) {
-            log.info("perfoming EPRTR Export for " + installations.length + " installations and "
+            LOGGER.info("perfoming EPRTR Export for " + installations.size() + " installations and "
                         + parameters.size() + " parameters");
 
             final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
-                    // new ServerActionParameter<long[]>(PARAM_STANDORTE, this.installations),
+                    new ServerActionParameter<Collection<Long>>(PARAM_INSTALLATIONS, this.installations),
                     new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                     new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
-                    new ServerActionParameter<String>(PARAM_NAME, "boris-export")
+                    new ServerActionParameter<String>(PARAM_NAME, "eprtr-export")
                 };
 
             if (DownloadManagerDialog.showAskingForUserTitle(frame)) {
@@ -119,14 +122,13 @@ public class EprtrExportAction extends AbstractExportAction {
                                 "",
                                 filename,
                                 extension,
-                                null,
-                                // TASK_NAME,
+                                TASK_NAME,
                                 serverActionParameters));
             } else {
-                log.warn("Export Action aborted!");
+                LOGGER.warn("Export Action aborted!");
             }
         } else {
-            log.error("no PARAM_STANDORTE and PARAM_PARAMETER server action parameters provided");
+            LOGGER.error("no PARAM_INSTALLATIONS and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
                 frame,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",

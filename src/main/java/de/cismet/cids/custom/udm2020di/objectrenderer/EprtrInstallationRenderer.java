@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -64,11 +65,11 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
     private javax.swing.JPanel activitiesPanel;
     private javax.swing.JScrollPane activitiesScrollPane;
     private javax.swing.JPanel exportPanel;
+    private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JPanel instPanel;
     private de.cismet.cids.custom.udm2020di.widgets.eprtr.InstallationPanel installationPanel;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JPanel messwertePanel;
     private javax.swing.JScrollPane messwerteScrollPane;
     private javax.swing.JTable messwerteTable;
     private javax.swing.JPanel notifPanel;
@@ -175,7 +176,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
                     parameterSelectionPanel.setParameters(
                         new ArrayList<Parameter>(eprtrInstallation.getReleaseParameters()));
                     final EprtrExportAction eprtrExportAction = new EprtrExportAction(
-                            new long[] { eprtrInstallation.getErasId() },
+                            Arrays.asList(new Long[] { eprtrInstallation.getErasId() }),
                             parameterSelectionPanel.getSelectedParameters());
                     parameterSelectionPanel.setExportAction(eprtrExportAction);
                 }
@@ -237,11 +238,8 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final java.awt.GridBagConstraints gridBagConstraints;
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        messwertePanel = new javax.swing.JPanel();
-        exportPanel = new javax.swing.JPanel();
-        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
         jTabbedPane = new javax.swing.JTabbedPane();
         infoPanel = new javax.swing.JPanel();
         parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
@@ -253,23 +251,22 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
         activitiesPanel = new javax.swing.JPanel();
         messwerteScrollPane = new javax.swing.JScrollPane();
         messwerteTable = new javax.swing.JTable();
-
-        messwertePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        messwertePanel.setLayout(new java.awt.GridBagLayout());
-
-        exportPanel.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        exportPanel.add(parameterSelectionPanel, gridBagConstraints);
+        exportPanel = new javax.swing.JPanel();
+        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(0, 0),
+                new java.awt.Dimension(32767, 32767));
 
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    jTabbedPaneStateChanged(evt);
+                }
+            });
 
         infoPanel.setLayout(new java.awt.BorderLayout());
 
@@ -353,8 +350,33 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
                 "EprtrInstallationRenderer.messwerteScrollPane.TabConstraints.tabTitle"),
             messwerteScrollPane); // NOI18N
 
+        exportPanel.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        exportPanel.add(parameterSelectionPanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        exportPanel.add(filler2, gridBagConstraints);
+
+        jTabbedPane.addTab("Originaldatenexport", exportPanel);
+
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
+        SELECTED_TAB = jTabbedPane.getSelectedIndex();
+    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
 
     /**
      * DOCUMENT ME!
