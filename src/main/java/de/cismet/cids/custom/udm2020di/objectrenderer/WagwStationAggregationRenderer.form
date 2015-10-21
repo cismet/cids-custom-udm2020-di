@@ -46,7 +46,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Objektinformationen">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="BorisSiteAggregationRenderer.infoPanel.TabConstraints.tabTitle_1" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="WagwStationAggregationRenderer.infoPanel.TabConstraints.tabTitle_1" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -66,7 +66,7 @@
                         <CompoundBorder>
                           <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Selektierte Standorte">
-                              <ResourceString PropertyName="titleX" bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="BorisSiteAggregationRenderer.mapPanel.border.insideBorder.outsideBorder.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString PropertyName="titleX" bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="WagwStationAggregationRenderer.mapPanel.border.insideBorder.outsideBorder.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </TitledBorder>
                           </Border>
                           <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -102,7 +102,7 @@
                         <CompoundBorder>
                           <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                             <TitledBorder title="Objektauswahl">
-                              <ResourceString PropertyName="titleX" bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="BorisSiteAggregationRenderer.featureSelectionPanel.border.insideBorder.outsideBorder.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                              <ResourceString PropertyName="titleX" bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="WagwStationAggregationRenderer.featureSelectionPanel.border.insideBorder.outsideBorder.title" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                             </TitledBorder>
                           </Border>
                           <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -166,7 +166,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Aggregierte Messwerte">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="BorisSiteAggregationRenderer.messwerteTable.TabConstraints.tabTitle" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="WagwStationAggregationRenderer.messwerteTable.TabConstraints.tabTitle" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -177,7 +177,7 @@
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Originaldatenexport">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-                  <ResourceString bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="BorisSiteAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+                  <ResourceString bundle="de/cismet/cids/custom/udm2020di/objectrenderer/Bundle.properties" key="WagwStationAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>

@@ -28,7 +28,7 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class MaxParameterValuePanel extends javax.swing.JPanel {
