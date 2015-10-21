@@ -7,6 +7,7 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.objectrenderer;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import java.awt.Dimension;
@@ -18,16 +19,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
-import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.wa.GwMessstelle;
 import de.cismet.cids.custom.udm2020di.types.wa.Messstelle;
+import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel;
 
 /**
  * DOCUMENT ME!
@@ -39,23 +41,23 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger logger = Logger.getLogger(WagwStationRenderer.class);
     protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------
+
+    protected Logger logger = Logger.getLogger(WagwStationRenderer.class);
+    protected String stationType = WaExportAction.WAGW;
 
     private Messstelle messstelle;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel exportPanel;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JPanel messwertePanel;
-    private javax.swing.JTable messwerteTable;
+    private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
+    private javax.swing.JScrollPane parameterScrollPane;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
     protected javax.swing.JPanel standortdatenPanel;
     // End of variables declaration//GEN-END:variables
@@ -97,35 +99,17 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jTabbedPane = new javax.swing.JTabbedPane();
+        infoPanel = new javax.swing.JPanel();
+        standortdatenPanel = new javax.swing.JPanel();
+        parameterScrollPane = new javax.swing.JScrollPane();
+        parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
+        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
         parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
-        jTabbedPane = new javax.swing.JTabbedPane();
-        infoPanel = new javax.swing.JPanel();
-        standortdatenPanel = new javax.swing.JPanel();
-        parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
-        messwertePanel = new javax.swing.JPanel();
-        jScrollPane = new javax.swing.JScrollPane();
-        messwerteTable = new javax.swing.JTable();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 32767));
-
-        exportPanel.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        exportPanel.add(parameterSelectionPanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        exportPanel.add(filler2, gridBagConstraints);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -151,63 +135,42 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
         standortdatenPanel.setLayout(new java.awt.GridBagLayout());
         infoPanel.add(standortdatenPanel, java.awt.BorderLayout.CENTER);
 
-        parameterPanel.setMinimumSize(new java.awt.Dimension(200, 200));
-        infoPanel.add(parameterPanel, java.awt.BorderLayout.EAST);
+        parameterScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        parameterScrollPane.setHorizontalScrollBar(null);
+        parameterScrollPane.setMaximumSize(new java.awt.Dimension(250, 32767));
+        parameterScrollPane.setMinimumSize(new java.awt.Dimension(250, 300));
+        parameterScrollPane.setPreferredSize(new java.awt.Dimension(250, 500));
+        parameterScrollPane.setViewportView(parameterPanel);
+
+        infoPanel.add(parameterScrollPane, java.awt.BorderLayout.EAST);
 
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 WagwStationRenderer.class,
                 "WagwStationRenderer.infoPanel.TabConstraints.tabTitle"),
-            infoPanel); // NOI18N
+            infoPanel);      // NOI18N
+        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
+                WagwStationRenderer.class,
+                "WagwStationRenderer.messwerteTable.TabConstraints.tabTitle"),
+            messwerteTable); // NOI18N
 
-        messwertePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        messwertePanel.setLayout(new java.awt.GridBagLayout());
-
-        messwerteTable.setBorder(javax.swing.BorderFactory.createLineBorder(
-                javax.swing.UIManager.getDefaults().getColor("Table.dropLineColor")));
-        messwerteTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] { "Parametername", "Datum der Probe", "Maximalwert", "Minimalwert" }) {
-
-                Class[] types = new Class[] {
-                        java.lang.String.class,
-                        java.lang.Object.class,
-                        java.lang.Float.class,
-                        java.lang.Float.class
-                    };
-                boolean[] canEdit = new boolean[] { false, false, false, false };
-
-                @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-
-                @Override
-                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-                    return canEdit[columnIndex];
-                }
-            });
-        messwerteTable.setFillsViewportHeight(true);
-        messwerteTable.setPreferredSize(new java.awt.Dimension(300, 500));
-        messwerteTable.setRequestFocusEnabled(false);
-        jScrollPane.setViewportView(messwerteTable);
-
+        exportPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        messwertePanel.add(jScrollPane, gridBagConstraints);
+        exportPanel.add(parameterSelectionPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        messwertePanel.add(filler1, gridBagConstraints);
+        exportPanel.add(filler2, gridBagConstraints);
 
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 WagwStationRenderer.class,
-                "WagwStationRenderer.messwertePanel.TabConstraints.tabTitle"),
-            messwertePanel); // NOI18N
+                "WagwStationRenderer.exportPanel.TabConstraints.tabTitle"),
+            exportPanel); // NOI18N
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
@@ -231,7 +194,9 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
                         WagwStationRenderer.this.messstelle = WagwStationRenderer.this.deserializeStation();
                     } catch (Exception ex) {
                         logger.error("could not deserialize WA Messtelle JSON: " + ex.getMessage(), ex);
-                        return;
+                        if (WagwStationRenderer.this.messstelle == null) {
+                            return;
+                        }
                     }
 
                     final GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -241,67 +206,82 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
 
                     // Messtelleninfo ---------------------------------------
                     JLabel label;
-
                     gridBagConstraints.gridy = 0;
-                    gridBagConstraints.gridx = 0;
-                    gridBagConstraints.weightx = 0.0;
-                    label = new JLabel("Name:");
-                    label.setMaximumSize(new Dimension(150, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
-                    gridBagConstraints.gridx = 1;
-                    gridBagConstraints.weightx = 1.0;
-                    label = new JLabel("<html>" + messstelle.getName() + "</html>");
-                    label.setMaximumSize(new Dimension(200, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
 
-                    gridBagConstraints.gridy++;
-                    gridBagConstraints.gridx = 0;
-                    gridBagConstraints.weightx = 0.0;
-                    label = new JLabel("Type:");
-                    label.setMaximumSize(new Dimension(150, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
-                    gridBagConstraints.gridx = 1;
-                    gridBagConstraints.weightx = 1.0;
-                    label = new JLabel("<html>" + messstelle.getTyp() + "</html>");
-                    label.setMaximumSize(new Dimension(200, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
+                    if ((messstelle.getName() != null)
+                                && !messstelle.getName().isEmpty()) {
+                        gridBagConstraints.gridx = 0;
+                        gridBagConstraints.weightx = 0.0;
+                        label = new JLabel("Name:");
+                        label.setMaximumSize(new Dimension(150, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                        gridBagConstraints.gridx = 1;
+                        gridBagConstraints.weightx = 1.0;
+                        label = new JLabel("<html>" + messstelle.getName() + "</html>");
+                        label.setMaximumSize(new Dimension(200, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                    }
 
-                    gridBagConstraints.gridy++;
-                    gridBagConstraints.gridx = 0;
-                    gridBagConstraints.weightx = 0.0;
-                    label = new JLabel("Status:");
-                    label.setMaximumSize(new Dimension(150, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
-                    gridBagConstraints.gridx = 1;
-                    gridBagConstraints.weightx = 1.0;
-                    label = new JLabel("<html>" + messstelle.getStatus() + "</html>");
-                    label.setMaximumSize(new Dimension(200, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
+                    if ((messstelle.getTyp() != null)
+                                && !messstelle.getTyp().isEmpty()) {
+                        gridBagConstraints.gridy++;
+                        gridBagConstraints.gridx = 0;
+                        gridBagConstraints.weightx = 0.0;
+                        label = new JLabel("Type:");
+                        label.setMaximumSize(new Dimension(150, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                        gridBagConstraints.gridx = 1;
+                        gridBagConstraints.weightx = 1.0;
+                        label = new JLabel("<html>" + messstelle.getTyp() + "</html>");
+                        label.setMaximumSize(new Dimension(200, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                    }
 
-                    gridBagConstraints.gridy++;
-                    gridBagConstraints.gridx = 0;
-                    gridBagConstraints.weightx = 0.0;
-                    label = new JLabel("Zuständige Stelle:");
-                    label.setMaximumSize(new Dimension(150, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
-                    gridBagConstraints.gridx = 1;
-                    gridBagConstraints.weightx = 1.0;
-                    label = new JLabel("<html>" + messstelle.getZustaendigeStelle() + "</html>");
-                    label.setMaximumSize(new Dimension(200, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
+                    if ((messstelle.getStatus() != null)
+                                && !messstelle.getStatus().isEmpty()) {
+                        gridBagConstraints.gridy++;
+                        gridBagConstraints.gridx = 0;
+                        gridBagConstraints.weightx = 0.0;
+                        label = new JLabel("Status:");
+                        label.setMaximumSize(new Dimension(150, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                        gridBagConstraints.gridx = 1;
+                        gridBagConstraints.weightx = 1.0;
+                        label = new JLabel("<html>" + messstelle.getStatus() + "</html>");
+                        label.setMaximumSize(new Dimension(200, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                    }
 
-                    gridBagConstraints.gridy++;
-                    gridBagConstraints.gridx = 0;
-                    gridBagConstraints.weightx = 0.0;
-                    label = new JLabel("Bundesland:");
-                    label.setMaximumSize(new Dimension(150, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
-                    gridBagConstraints.gridx = 1;
-                    gridBagConstraints.weightx = 1.0;
-                    // gridBagConstraints.weighty = 1.0;
-                    label = new JLabel("<html>" + messstelle.getBundesland() + "</html>");
-                    label.setMaximumSize(new Dimension(200, 50));
-                    standortdatenPanel.add(label, gridBagConstraints);
+                    if ((messstelle.getZustaendigeStelle() != null)
+                                && !messstelle.getZustaendigeStelle().isEmpty()) {
+                        gridBagConstraints.gridy++;
+                        gridBagConstraints.gridx = 0;
+                        gridBagConstraints.weightx = 0.0;
+                        label = new JLabel("Zuständige Stelle:");
+                        label.setMaximumSize(new Dimension(150, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                        gridBagConstraints.gridx = 1;
+                        gridBagConstraints.weightx = 1.0;
+                        label = new JLabel("<html>" + messstelle.getZustaendigeStelle() + "</html>");
+                        label.setMaximumSize(new Dimension(200, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                    }
+
+                    if ((messstelle.getBundesland() != null)
+                                && !messstelle.getBundesland().isEmpty()) {
+                        gridBagConstraints.gridy++;
+                        gridBagConstraints.gridx = 0;
+                        gridBagConstraints.weightx = 0.0;
+                        label = new JLabel("Bundesland:");
+                        label.setMaximumSize(new Dimension(150, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                        gridBagConstraints.gridx = 1;
+                        gridBagConstraints.weightx = 1.0;
+                        // gridBagConstraints.weighty = 1.0;
+                        label = new JLabel("<html>" + messstelle.getBundesland() + "</html>");
+                        label.setMaximumSize(new Dimension(200, 50));
+                        standortdatenPanel.add(label, gridBagConstraints);
+                    }
 
                     addCustomStationLabels(gridBagConstraints, messstelle);
 
@@ -317,23 +297,18 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
                     }
 
                     // AggregationTable ----------------------------------------
-                    final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
-                    for (final AggregationValue aggregationValue : messstelle.getAggregationValues()) {
-                        final Object[] rowData = new Object[] {
-                                aggregationValue.getName(),
-                                aggregationValue.getMaxDate(),
-                                aggregationValue.getMaxValue(),
-                                aggregationValue.getMinValue()
-                            };
-                        tableModel.addRow(rowData);
-                    }
+                    messwerteTable.setAggregationValues(
+                        messstelle.getAggregationValues().toArray(
+                            new AggregationValue[0]));
 
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(new ArrayList<Parameter>(messstelle.getProbenparameter()));
-                    final BorisExportAction borisExportAction = new BorisExportAction(Arrays.asList(
+                    final WaExportAction waExportAction = new WaExportAction(
+                            stationType,
+                            Arrays.asList(
                                 new String[] { messstelle.getPk() }),
                             parameterSelectionPanel.getSelectedParameters());
-                    parameterSelectionPanel.setExportAction(borisExportAction);
+                    parameterSelectionPanel.setExportAction(waExportAction);
 
                     jTabbedPane.setSelectedIndex(SELECTED_TAB);
                 }
@@ -371,29 +346,65 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
         final GwMessstelle gwMessstelle = (GwMessstelle)messstelle;
         JLabel label;
 
-        gridBagConstraints.gridy++;
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.weightx = 0.0;
-        label = new JLabel("GWK Name:");
-        label.setMaximumSize(new Dimension(150, 50));
-        standortdatenPanel.add(label, gridBagConstraints);
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.weightx = 1.0;
-        label = new JLabel("<html>" + gwMessstelle.getGwkName() + "</html>");
-        label.setMaximumSize(new Dimension(200, 50));
-        standortdatenPanel.add(label, gridBagConstraints);
+        if ((gwMessstelle.getGwkName() != null)
+                    && !gwMessstelle.getGwkName().isEmpty()) {
+            gridBagConstraints.gridy++;
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.weightx = 0.0;
+            label = new JLabel("GWK Name:");
+            label.setMaximumSize(new Dimension(150, 50));
+            standortdatenPanel.add(label, gridBagConstraints);
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.weightx = 1.0;
+            label = new JLabel("<html>" + gwMessstelle.getGwkName() + "</html>");
+            label.setMaximumSize(new Dimension(200, 50));
+            standortdatenPanel.add(label, gridBagConstraints);
+        }
 
-        gridBagConstraints.gridy++;
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.weightx = 0.0;
-        label = new JLabel("Messstellenart:");
-        label.setMaximumSize(new Dimension(150, 50));
-        standortdatenPanel.add(label, gridBagConstraints);
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        label = new JLabel("<html>" + gwMessstelle.getMesstellenart() + "</html>");
-        label.setMaximumSize(new Dimension(200, 50));
-        standortdatenPanel.add(label, gridBagConstraints);
+        if ((gwMessstelle.getMesstellenart() != null)
+                    && !gwMessstelle.getMesstellenart().isEmpty()) {
+            gridBagConstraints.gridy++;
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.weightx = 0.0;
+            label = new JLabel("Messstellenart:");
+            label.setMaximumSize(new Dimension(150, 50));
+            standortdatenPanel.add(label, gridBagConstraints);
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.weighty = 1.0;
+            label = new JLabel("<html>" + gwMessstelle.getMesstellenart() + "</html>");
+            label.setMaximumSize(new Dimension(200, 50));
+            standortdatenPanel.add(label, gridBagConstraints);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        try {
+            BasicConfigurator.configure();
+            final GwMessstelle messstelle = OracleImport.JSON_MAPPER.readValue(
+                    MaxParameterValueSelectionPanel.class.getResourceAsStream(
+                        "/de/cismet/cids/custom/udm2020di/testing/WagwStation.json"),
+                    GwMessstelle.class);
+
+            final WagwStationRenderer wagwStationRenderer = new WagwStationRenderer();
+            wagwStationRenderer.setMessstelle(messstelle);
+            wagwStationRenderer.init();
+
+            final JFrame frame = new JFrame("WagwStationRenderer");
+
+            frame.getContentPane().add(wagwStationRenderer);
+            frame.getContentPane().setPreferredSize(new Dimension(600, 400));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(WagwStationRenderer.class).fatal(ex.getMessage(), ex);
+            System.exit(1);
+        }
     }
 }

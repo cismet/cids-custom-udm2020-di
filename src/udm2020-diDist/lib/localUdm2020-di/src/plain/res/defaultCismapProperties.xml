@@ -53,6 +53,14 @@
         </capabilities>
         <capabilitiesList titlestring="Demis NL WMS"  type="OGC-WMS"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
         </capabilitiesList>
+        <capabilities titlestring="Orthophoto WMS" type="OGC-WMS" active="true"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]>
+        </capabilities>
+        <capabilities titlestring="Openstreetmap WMS" type="OGC-WMS" active="true"><![CDATA[http://irs.gis-lab.info/?service=wms&version=1.1.1&request=GetCapabilities]]>
+        </capabilities>
+        <capabilitiesList titlestring="Orthophoto WMS" type="OGC-WMS" active="true"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]>
+        </capabilitiesList>
+        <capabilitiesList titlestring="Openstreetmap WMS" type="OGC-WMS" active="true"><![CDATA[http://irs.gis-lab.info/?service=wms&version=1.1.1&request=GetCapabilities]]>
+        </capabilitiesList>
     </cismapCapabilitiesPreferences>
 
     <cismapWFSFormsPreferences/>
