@@ -26,7 +26,7 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public final class NameRenderer extends DefaultListCellRenderer {
+public final class MossNameRenderer extends DefaultListCellRenderer {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -52,7 +52,9 @@ public final class NameRenderer extends DefaultListCellRenderer {
         if ((comp instanceof JLabel) && (value instanceof CidsBean)) {
             final JLabel label = (JLabel)comp;
             final CidsBean obj = (CidsBean)value;
-            final String name = (String)obj.getProperty("name"); // NOI18N
+            final String name = obj.getProperty("sample_id").toString()
+                        + " (" + obj.getProperty("moss_type.type").toString() + ')'; // NOI18N
+
             label.setText(name);
         }
 

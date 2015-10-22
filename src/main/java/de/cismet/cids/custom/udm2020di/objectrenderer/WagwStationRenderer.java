@@ -184,6 +184,9 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
         SELECTED_TAB = jTabbedPane.getSelectedIndex();
     }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     protected void init() {
         final Runnable r = new Runnable() {

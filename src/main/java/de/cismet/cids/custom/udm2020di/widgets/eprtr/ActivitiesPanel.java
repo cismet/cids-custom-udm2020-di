@@ -95,6 +95,11 @@ public class ActivitiesPanel extends javax.swing.JPanel {
         this.add(Box.createVerticalGlue());
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Dimension getMaximumSize() {
         return new Dimension(super.getMaximumSize().width, getPreferredSize().height);

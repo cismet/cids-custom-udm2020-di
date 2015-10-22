@@ -156,16 +156,34 @@ public class MesswerteTable extends javax.swing.JPanel {
 
         //~ Methods ------------------------------------------------------------
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public int getRowCount() {
             return (aggregationValues != null) ? aggregationValues.length : 0;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public int getColumnCount() {
             return 6;
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   rowIndex     DOCUMENT ME!
+         * @param   columnIndex  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
             if ((aggregationValues != null)
@@ -199,6 +217,13 @@ public class MesswerteTable extends javax.swing.JPanel {
             }
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   column  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public String getColumnName(final int column) {
             switch (column) {
@@ -232,6 +257,13 @@ public class MesswerteTable extends javax.swing.JPanel {
             }
         }
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   columnIndex  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public Class<?> getColumnClass(final int columnIndex) {
             switch (columnIndex) {

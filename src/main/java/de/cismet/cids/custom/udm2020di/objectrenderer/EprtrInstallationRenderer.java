@@ -189,6 +189,9 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     protected void init() {
         try {

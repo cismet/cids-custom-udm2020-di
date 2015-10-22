@@ -330,11 +330,19 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     public void dispose() {
         // mappingComponent.dispose();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         String desc = "";
@@ -345,6 +353,11 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
         return desc;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  title  DOCUMENT ME!
+     */
     @Override
     public void setTitle(final String title) {
     }

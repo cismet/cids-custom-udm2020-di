@@ -36,6 +36,11 @@ public class WaowStationAggregationRenderer extends WagwStationAggregationRender
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         String desc = "";
