@@ -31,17 +31,19 @@ import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
 import de.cismet.cids.custom.udm2020di.types.boris.Standortparameter;
 
+import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRenderer.SELECTED_TAB;
+
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger logger = Logger.getLogger(BorisSiteRenderer.class);
+    protected static final Logger LOGGER = Logger.getLogger(BorisSiteRenderer.class);
     protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------
@@ -111,6 +113,13 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    jTabbedPaneStateChanged(evt);
+                }
+            });
 
         infoPanel.setLayout(new java.awt.BorderLayout());
 
@@ -159,6 +168,18 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
+        SELECTED_TAB = jTabbedPane.getSelectedIndex();
+    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
+
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     protected void init() {
         final Runnable r = new Runnable() {
@@ -170,7 +191,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                                         .getCidsBean().getProperty("src_content").toString(),
                                 Standort.class);
                     } catch (Exception ex) {
-                        logger.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
+                        LOGGER.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
                         return;
                     }
 

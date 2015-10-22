@@ -47,6 +47,11 @@ public class PollutantGroupTagsPostFilterGui extends CommonTagsPostFilterGui {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         return org.openide.util.NbBundle.getMessage(
@@ -54,11 +59,21 @@ public class PollutantGroupTagsPostFilterGui extends CommonTagsPostFilterGui {
                 "PollutantGroupTagsPostFilterGui.title");
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Integer getDisplayOrderKeyPrio() {
         return super.getDisplayOrderKeyPrio() - 20;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     protected String getFilterTagGroup() {
         return TAG_GROUP;

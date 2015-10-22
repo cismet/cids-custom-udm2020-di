@@ -103,6 +103,11 @@ public class ActivityPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Dimension getMaximumSize() {
         return new Dimension(super.getMaximumSize().width, getPreferredSize().height);

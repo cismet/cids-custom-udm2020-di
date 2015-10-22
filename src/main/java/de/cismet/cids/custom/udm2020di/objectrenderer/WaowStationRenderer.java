@@ -46,6 +46,13 @@ public class WaowStationRenderer extends WagwStationRenderer {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     *
+     * @throws  IOException  DOCUMENT ME!
+     */
     @Override
     protected Messstelle deserializeStation() throws IOException {
         return OracleImport.JSON_MAPPER.readValue(WaowStationRenderer.this.getCidsBean().getProperty("src_content")
@@ -53,6 +60,12 @@ public class WaowStationRenderer extends WagwStationRenderer {
                 OwMessstelle.class);
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  gridBagConstraints  DOCUMENT ME!
+     * @param  messstelle          DOCUMENT ME!
+     */
     @Override
     protected void addCustomStationLabels(
             final GridBagConstraints gridBagConstraints,

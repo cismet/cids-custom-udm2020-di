@@ -20,22 +20,17 @@ import java.util.TreeSet;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
 
-import de.cismet.cids.custom.udm2020di.actions.remote.EprtrExportAction;
-import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
-import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
-import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
+import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
+import de.cismet.cids.custom.udm2020di.tools.MossNameRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
-import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
+import de.cismet.cids.custom.udm2020di.types.moss.Moss;
 
 import de.cismet.cids.dynamics.CidsBean;
 
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanAggregationRendererPanel;
-
-import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRenderer.DATE_FORMAT;
 
 /**
  * DOCUMENT ME!
@@ -43,13 +38,13 @@ import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRe
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRendererPanel {
+public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
     protected static int SELECTED_TAB = 0;
 
-    protected static final Logger logger = Logger.getLogger(EprtrInstallationAggregationRenderer.class);
+    protected static final Logger LOGGER = Logger.getLogger(MossAggregationRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -64,8 +59,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane;
     private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel;
-    private javax.swing.JScrollPane messwerteScrollPane;
-    private javax.swing.JTable messwerteTable;
+    private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
     // End of variables declaration//GEN-END:variables
@@ -73,9 +67,9 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates new form EprtrSiteRenderer.
+     * Creates new form MossSiteRenderer.
      */
-    public EprtrInstallationAggregationRenderer() {
+    public MossAggregationRenderer() {
         initComponents();
     }
 
@@ -118,8 +112,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
         featureSelectionPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         featuresList = new javax.swing.JList();
-        messwerteScrollPane = new javax.swing.JScrollPane();
-        messwerteTable = new javax.swing.JTable();
+        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
         parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
@@ -139,8 +132,8 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                 javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createTitledBorder(
                         org.openide.util.NbBundle.getMessage(
-                            EprtrInstallationAggregationRenderer.class,
-                            "EprtrInstallationAggregationRenderer.mapPanel.border.insideBorder.outsideBorder.title")),
+                            MossAggregationRenderer.class,
+                            "MossAggregationRenderer.mapPanel.border.insideBorder.outsideBorder.title")),
                     javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
         mapPanel.setMinimumSize(new java.awt.Dimension(300, 500));
         mapPanel.setPreferredSize(new java.awt.Dimension(300, 500));
@@ -157,8 +150,8 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                 javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createTitledBorder(
                         org.openide.util.NbBundle.getMessage(
-                            EprtrInstallationAggregationRenderer.class,
-                            "EprtrInstallationAggregationRenderer.featureSelectionPanel.border.insideBorder.outsideBorder.title")),
+                            MossAggregationRenderer.class,
+                            "MossAggregationRenderer.featureSelectionPanel.border.insideBorder.outsideBorder.title")),
                     javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
         featureSelectionPanel.setMinimumSize(new java.awt.Dimension(300, 300));
         featureSelectionPanel.setLayout(new java.awt.GridLayout(1, 0));
@@ -177,7 +170,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                 }
             });
         featuresList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        featuresList.setCellRenderer(new NameRenderer());
+        featuresList.setCellRenderer(new MossNameRenderer());
         featuresList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
                 @Override
@@ -196,49 +189,10 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
         infoPanel.add(featureSelectionPanel, gridBagConstraints);
 
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
-                EprtrInstallationAggregationRenderer.class,
-                "EprtrInstallationAggregationRenderer.infoPanel.TabConstraints.tabTitle_1"),
+                MossAggregationRenderer.class,
+                "MossAggregationRenderer.infoPanel.TabConstraints.tabTitle_1"),
             infoPanel); // NOI18N
-
-        messwerteTable.setBorder(javax.swing.BorderFactory.createLineBorder(
-                javax.swing.UIManager.getDefaults().getColor("Table.dropLineColor")));
-        messwerteTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] {
-                    "Art der Freisetzung",
-                    "Schadstoff",
-                    "Minimalwert [kg/J]",
-                    "in Periode",
-                    "Maximalwert [kg/J]",
-                    "in Periode"
-                }) {
-
-                Class[] types = new Class[] {
-                        java.lang.String.class,
-                        java.lang.String.class,
-                        java.lang.Float.class,
-                        java.lang.String.class,
-                        java.lang.Float.class,
-                        java.lang.String.class
-                    };
-                boolean[] canEdit = new boolean[] { false, false, false, false, false, false };
-
-                @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-
-                @Override
-                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-                    return canEdit[columnIndex];
-                }
-            });
-        messwerteTable.setFillsViewportHeight(true);
-        messwerteTable.setPreferredSize(new java.awt.Dimension(300, 500));
-        messwerteTable.setRequestFocusEnabled(false);
-        messwerteScrollPane.setViewportView(messwerteTable);
-
-        jTabbedPane.addTab("Aggregierte Messwerte", messwerteScrollPane);
+        jTabbedPane.addTab("Aggregierte Messwerte", messwerteTable);
 
         exportPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -255,8 +209,8 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
         exportPanel.add(filler2, gridBagConstraints);
 
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
-                EprtrInstallationAggregationRenderer.class,
-                "EprtrInstallationAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
+                MossAggregationRenderer.class,
+                "MossAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
@@ -278,7 +232,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
-            logger.info("processing " + cidsBeans.size() + "cids beans");
+            LOGGER.info("processing " + cidsBeans.size() + "cids beans");
             final Runnable r = new Runnable() {
 
                     @Override
@@ -287,7 +241,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
 
                         // final TreeSet<String> parameterNamesSet = new TreeSet<String>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
-                        final TreeSet<Long> installationnPks = new TreeSet<Long>();
+                        final TreeSet<Long> mossPks = new TreeSet<Long>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
@@ -295,23 +249,20 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                             listModel.addElement(cidsBean);
 
                             try {
-                                final Installation installation = OracleImport.JSON_MAPPER.readValue(
-                                        cidsBean.getProperty("src_content").toString(),
-                                        Installation.class);
-
+                                final Moss moss = new Moss(cidsBean);
                                 final ArrayList<String> parameterNames = new ArrayList<String>(
-                                        installation.getReleaseParameters().size());
-                                for (final Parameter probenparameter : installation.getReleaseParameters()) {
+                                        moss.getProbenparameter().size());
+                                for (final Parameter probenparameter : moss.getProbenparameter()) {
                                     parameterNames.add(probenparameter.getParameterName());
                                 }
 
-                                installationnPks.add(installation.getErasId());
+                                mossPks.add(moss.getId());
 
-                                parametersSet.addAll(installation.getReleaseParameters());
+                                parametersSet.addAll(moss.getProbenparameter());
 
-                                aggregationValues.addAll(installation.getAggregationValues());
+                                aggregationValues.addAll(moss.getAggregationValues());
                             } catch (Exception ex) {
-                                logger.error("could not deserialize eprtr Installation JSON: " + ex.getMessage(), ex);
+                                LOGGER.error("could not deserialize moss Moss JSON: " + ex.getMessage(), ex);
                             }
                         }
 
@@ -320,24 +271,14 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
 
                         // Export Tab
                         parameterSelectionPanel.setParameters(parametersSet);
-                        final EprtrExportAction exportAction = new EprtrExportAction(
-                                installationnPks,
+                        final MossExportAction exportAction = new MossExportAction(
+                                mossPks,
                                 parameterSelectionPanel.getSelectedParameters());
                         parameterSelectionPanel.setExportAction(exportAction);
 
                         // Messwerte Tab -------------------------------
-                        final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
-                        for (final AggregationValue aggregationValue : aggregationValues) {
-                            final Object[] rowData = new Object[] {
-                                    aggregationValue.getReleaseType(),
-                                    aggregationValue.getName(),
-                                    aggregationValue.getMinValue(),
-                                    DATE_FORMAT.format(aggregationValue.getMinDate()),
-                                    aggregationValue.getMaxValue(),
-                                    DATE_FORMAT.format(aggregationValue.getMaxDate()),
-                                };
-                            tableModel.addRow(rowData);
-                        }
+                        messwerteTable.setAggregationValues(
+                            aggregationValues.toArray(new AggregationValue[aggregationValues.size()]));
 
                         jTabbedPane.setSelectedIndex(SELECTED_TAB);
 
@@ -380,7 +321,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
         String desc = "";
         final Collection<CidsBean> beans = cidsBeans;
         if ((beans != null) && (beans.size() > 0)) {
-            desc += beans.size() + " EPRTR Emittenten ausgewählt";
+            desc += beans.size() + " Moosproben ausgewählt";
         }
         return desc;
     }

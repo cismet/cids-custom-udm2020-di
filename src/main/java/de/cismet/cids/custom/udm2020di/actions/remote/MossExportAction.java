@@ -19,8 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import de.cismet.cids.custom.udm2020di.serveractions.wa.WagwExportAction;
-import de.cismet.cids.custom.udm2020di.serveractions.wa.WaowExportAction;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
@@ -28,11 +26,12 @@ import de.cismet.cids.server.actions.ServerActionParameter;
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
-import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT;
-import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT_CSV;
-import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_MESSSTELLEN;
-import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_NAME;
-import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_PARAMETER;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT_CSV;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_NAME;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_PARAMETER;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_SAMPLES;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.TASK_NAME;
 
 /**
  * DOCUMENT ME!
@@ -40,54 +39,54 @@ import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PA
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class WaExportAction extends AbstractExportAction {
+public class MossExportAction extends AbstractExportAction {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String WAGW = de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.WAGW;
-    public static final String WAOW = de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.WAOW;
-
-    protected static final Logger LOG = Logger.getLogger(WaExportAction.class);
+    protected static final Logger LOGGER = Logger.getLogger(MossExportAction.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Collection<String> messstellen;
-    protected final String waSource;
-    protected final String taskName;
+    protected Collection<Long> sites;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new WaExportAction object.
+     * Creates a new MossExportAction object.
      *
-     * @param  waSource     DOCUMENT ME!
-     * @param  messstellen  DOCUMENT ME!
-     * @param  parameters   DOCUMENT ME!
+     * @param  sites       standorte DOCUMENT ME!
+     * @param  parameters  DOCUMENT ME!
      */
-    public WaExportAction(final String waSource,
-            final Collection<String> messstellen,
+    public MossExportAction(final Collection<Long> sites,
             final Collection<Parameter> parameters) {
         super("Exportieren");
 
-        if (waSource.equalsIgnoreCase(WAGW)) {
-            this.waSource = waSource;
-            taskName = WagwExportAction.TASK_NAME;
-        } else if (waSource.equalsIgnoreCase(WAOW)) {
-            this.waSource = waSource;
-            taskName = WaowExportAction.TASK_NAME;
-        } else {
-            this.waSource = WAGW;
-            taskName = WagwExportAction.TASK_NAME;
-            LOG.error("unsupported WA Station Type: " + this.waSource);
-        }
-
         this.parameters = parameters;
-        this.messstellen = messstellen;
+        this.sites = sites;
         this.exportFormat = PARAM_EXPORTFORMAT_CSV;
+
         this.setEnabled(!this.parameters.isEmpty());
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<Long> getInstallations() {
+        return sites;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  sites  DOCUMENT ME!
+     */
+    public void setInstallations(final Collection<Long> sites) {
+        this.sites = sites;
+    }
 
     /**
      * DOCUMENT ME!
@@ -98,26 +97,27 @@ public class WaExportAction extends AbstractExportAction {
     public void actionPerformed(final ActionEvent e) {
         final Frame frame;
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
+            // FIXME: support for jdialog
             frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
         } else {
-            LOG.warn("could not determine source frame of action");
+            LOGGER.warn("could not determine source frame of action");
             frame = JFrame.getFrames()[0];
         }
 
-        if ((messstellen != null) && !messstellen.isEmpty()
+        if ((sites != null) && (sites.size() > 0)
                     && (parameters != null) && !parameters.isEmpty()) {
-            LOG.info("perfoming " + waSource + " Export for " + messstellen.size() + " Messstellen and "
+            LOGGER.info("perfoming EPRTR Export for " + sites.size() + " sites and "
                         + parameters.size() + " parameters");
 
             final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
-                    new ServerActionParameter<Collection<String>>(PARAM_MESSSTELLEN, this.messstellen),
+                    new ServerActionParameter<Collection<Long>>(PARAM_SAMPLES, this.sites),
                     new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                     new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
-                    new ServerActionParameter<String>(PARAM_NAME, waSource + "-export")
+                    new ServerActionParameter<String>(PARAM_NAME, "moss-export")
                 };
 
             if (DownloadManagerDialog.showAskingForUserTitle(frame)) {
-                final String filename = waSource + "-export";
+                final String filename = "moss-export";
                 final String extension = this.getExtention(exportFormat);
 
                 DownloadManager.instance()
@@ -127,36 +127,18 @@ public class WaExportAction extends AbstractExportAction {
                                 "",
                                 filename,
                                 extension,
-                                taskName,
+                                TASK_NAME,
                                 serverActionParameters));
             } else {
-                LOG.warn(waSource + " Export Action aborted!");
+                LOGGER.warn("Export Action aborted!");
             }
         } else {
-            LOG.error("no PARAM_STANDORTE and PARAM_MESSWERTE server action parameters provided");
+            LOGGER.error("no PARAM_SITES and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
                 frame,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",
                 "Datenexport",
                 JOptionPane.WARNING_MESSAGE);
         }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<String> getMessstellen() {
-        return messstellen;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  messstellen  DOCUMENT ME!
-     */
-    public void setMessstellen(final Collection<String> messstellen) {
-        this.messstellen = messstellen;
     }
 }

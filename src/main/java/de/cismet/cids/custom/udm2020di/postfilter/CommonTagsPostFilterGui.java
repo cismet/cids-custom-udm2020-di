@@ -349,6 +349,11 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         setEventsEnabled(true);
     }                                                                                //GEN-LAST:event_switchButtonActionPerformed
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  nodes  DOCUMENT ME!
+     */
     @Override
     public void initializeFilter(final Collection<Node> nodes) {
         if (logger.isDebugEnabled()) {
@@ -569,6 +574,11 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         return nodes;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  nodes  DOCUMENT ME!
+     */
     @Override
     public void adjustFilter(final Collection<Node> nodes) {
         if (logger.isDebugEnabled()) {
@@ -617,16 +627,33 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
             });
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   nodes  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
         return true;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         return org.openide.util.NbBundle.getMessage(
@@ -634,16 +661,31 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 "CommonTagsPostFilterGui.title");
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public PostFilter getFilter() {
         return this.postFilter;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Integer getDisplayOrderKeyPrio() {
         return 1000;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getIcon() {
         return icon;
@@ -672,6 +714,11 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         return i;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (isEventsEnabled()) {

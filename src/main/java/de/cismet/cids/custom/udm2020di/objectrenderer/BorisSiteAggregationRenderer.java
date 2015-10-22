@@ -331,11 +331,19 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     public void dispose() {
         // mappingComponent.dispose();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         String desc = "";
@@ -346,6 +354,11 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         return desc;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  title  DOCUMENT ME!
+     */
     @Override
     public void setTitle(final String title) {
     }

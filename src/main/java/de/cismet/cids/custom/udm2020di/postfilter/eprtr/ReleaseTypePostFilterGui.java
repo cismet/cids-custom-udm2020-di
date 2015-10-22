@@ -34,17 +34,32 @@ public class ReleaseTypePostFilterGui extends NotificationPeriodPostFilterGui {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         return org.openide.util.NbBundle.getMessage(ReleaseTypePostFilterGui.class,
                 "ReleaseTypePostFilterGui.title");
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Integer getDisplayOrderKeyPrio() {
         return super.getDisplayOrderKeyPrio() + 100;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     protected String getFilterTagGroup() {
         return "EPRTR.RELEASE_TYPE";

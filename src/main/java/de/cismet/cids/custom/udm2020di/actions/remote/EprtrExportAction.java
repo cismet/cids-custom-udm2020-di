@@ -88,6 +88,11 @@ public class EprtrExportAction extends AbstractExportAction {
         this.installations = installations;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         final Frame frame;

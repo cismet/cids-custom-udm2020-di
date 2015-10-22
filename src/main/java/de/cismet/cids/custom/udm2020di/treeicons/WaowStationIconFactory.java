@@ -45,36 +45,85 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ptn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getClosedPureNodeIcon(final PureTreeNode ptn) {
         return waowStationIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ptn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getOpenPureNodeIcon(final PureTreeNode ptn) {
         return waowStationIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ptn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getLeafPureNodeIcon(final PureTreeNode ptn) {
         return waowStationIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   otn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getOpenObjectNodeIcon(final ObjectTreeNode otn) {
         return waowStationIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   otn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getClosedObjectNodeIcon(final ObjectTreeNode otn) {
         return waowStationIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   otn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
         return waowStationIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   dmtn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getClassNodeIcon(final ClassTreeNode dmtn) {
         return waowStationIcon;

@@ -58,6 +58,11 @@ public class NotificationPeriodPostFilterGui extends CommonTagsPostFilterGui {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         return org.openide.util.NbBundle.getMessage(
@@ -65,16 +70,33 @@ public class NotificationPeriodPostFilterGui extends CommonTagsPostFilterGui {
                 "NotificationPeriodPostFilterGui.title");
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Integer getDisplayOrderKeyPrio() {
         return super.getDisplayOrderKeyPrio() + 100;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     protected String getFilterTagGroup() {
         return "EPRTR.NOTIFICATION_PERIOD";
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   nodes  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
         final boolean canHandle = !this.preFilterNodes(nodes).isEmpty();
@@ -84,6 +106,13 @@ public class NotificationPeriodPostFilterGui extends CommonTagsPostFilterGui {
         return canHandle;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   input  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     protected List<Node> preFilterNodes(final Collection<Node> input) {
         final List<Node> nodes = new ArrayList<Node>();
@@ -98,6 +127,11 @@ public class NotificationPeriodPostFilterGui extends CommonTagsPostFilterGui {
         return nodes;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public boolean isActive() {
         return this.active && (eprtrClass != null);

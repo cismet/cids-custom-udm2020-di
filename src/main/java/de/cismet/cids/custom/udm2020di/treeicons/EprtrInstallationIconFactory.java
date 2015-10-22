@@ -45,36 +45,85 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ptn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getClosedPureNodeIcon(final PureTreeNode ptn) {
         return borisSiteIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ptn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getOpenPureNodeIcon(final PureTreeNode ptn) {
         return borisSiteIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   ptn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getLeafPureNodeIcon(final PureTreeNode ptn) {
         return borisSiteIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   otn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getOpenObjectNodeIcon(final ObjectTreeNode otn) {
         return borisSiteIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   otn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getClosedObjectNodeIcon(final ObjectTreeNode otn) {
         return borisSiteIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   otn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
         return borisSiteIcon;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   dmtn  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public Icon getClassNodeIcon(final ClassTreeNode dmtn) {
         return borisSiteIcon;
