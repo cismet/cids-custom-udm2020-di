@@ -33,8 +33,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
-import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisCustomSearch;
-import de.cismet.cids.custom.udm2020di.serversearch.boris.PostFilterAggregationValuesSearch;
+import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisAggregationValuesSearch;
+import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisSiteSearch;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
@@ -52,8 +52,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
     protected Logger logger = Logger.getLogger(SampleValuesPostFilterGui.class);
 
-    protected final PostFilterAggregationValuesSearch postFilterAggregationValuesSearch;
-    protected final BorisCustomSearch borisCustomSearch;
+    protected final BorisAggregationValuesSearch postFilterAggregationValuesSearch;
+    protected final BorisSiteSearch borisCustomSearch;
     protected final boolean active;
     protected final MetaClass metaClass;
     protected final ImageIcon icon;
@@ -95,6 +95,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                     borisCustomSearch.setObjectIds(objectIds);
                     borisCustomSearch.setClassId(metaClass.getID());
                     borisCustomSearch.setMaxValues(maxParameterValues);
+                    borisCustomSearch.setMinDate(maxParameterValueSelectionPanel.getMinDate());
+                    borisCustomSearch.setMaxDate(maxParameterValueSelectionPanel.getMaxDate());
 
                     if (logger.isDebugEnabled()) {
                         logger.debug("filtering " + input.size() + " nodes with "
@@ -140,14 +142,14 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
      * Creates new form SampleValuesPostFilterGui.
      */
     public SampleValuesPostFilterGui() {
-        PostFilterAggregationValuesSearch initPostFilterAggregationValuesSearch = null;
-        BorisCustomSearch initBorisCustomSearch = null;
+        BorisAggregationValuesSearch initPostFilterAggregationValuesSearch = null;
+        BorisSiteSearch initBorisCustomSearch = null;
         ImageIcon initIcon = null;
         boolean initActive = false;
 
         try {
-            initPostFilterAggregationValuesSearch = new PostFilterAggregationValuesSearch();
-            initBorisCustomSearch = new BorisCustomSearch();
+            initPostFilterAggregationValuesSearch = new BorisAggregationValuesSearch();
+            initBorisCustomSearch = new BorisSiteSearch();
             initIcon = new ImageIcon(getClass().getResource(
                         "/de/cismet/cids/custom/udm2020di/postfilter/boris/showel.png"));
             initActive = true;

@@ -16,7 +16,7 @@
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Container class="de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel" name="maxParameterValueSelectionPanel">
+    <Component class="de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel" name="maxParameterValueSelectionPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -32,9 +32,7 @@
           <BorderConstraints direction="Center"/>
         </Constraint>
       </Constraints>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout"/>
-    </Container>
+    </Component>
     <Container class="javax.swing.JPanel" name="actionPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
