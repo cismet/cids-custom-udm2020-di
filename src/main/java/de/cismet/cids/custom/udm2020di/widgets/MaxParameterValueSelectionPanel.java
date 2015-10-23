@@ -88,6 +88,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
      */
     public MaxParameterValueSelectionPanel() {
         initComponents();
+        datePanel.setVisible(false);
     }
 
     /**
@@ -236,106 +237,27 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        parametersPanel = new javax.swing.JPanel();
+        addMeButton = new javax.swing.JButton();
         datePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jdcStartDate = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         jdcEndDate = new com.toedter.calendar.JDateChooser();
-        parametersPanel = new javax.swing.JPanel();
-        addMeButton = new javax.swing.JButton();
 
-        setLayout(new java.awt.BorderLayout(5, 0));
-
-        datePanel.setLayout(new java.awt.GridBagLayout());
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(
-                MaxParameterValueSelectionPanel.class,
-                "MaxParameterValueSelectionPanel.jLabel1.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        datePanel.add(jLabel1, gridBagConstraints);
-
-        jdcStartDate.setDateFormatString(org.openide.util.NbBundle.getMessage(
-                MaxParameterValueSelectionPanel.class,
-                "MaxParameterValueSelectionPanel.jdcStartDate.dateFormatString")); // NOI18N
-        jdcStartDate.setMinimumSize(new java.awt.Dimension(100, 20));
-        jdcStartDate.setOpaque(false);
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${minDate}"),
-                jdcStartDate,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${maxDate}"),
-                jdcStartDate,
-                org.jdesktop.beansbinding.BeanProperty.create("maxSelectableDate"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        datePanel.add(jdcStartDate, gridBagConstraints);
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel2,
-            org.openide.util.NbBundle.getMessage(
-                MaxParameterValueSelectionPanel.class,
-                "MaxParameterValueSelectionPanel.jLabel2.text")); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        datePanel.add(jLabel2, gridBagConstraints);
-
-        jdcEndDate.setDateFormatString(org.openide.util.NbBundle.getMessage(
-                MaxParameterValueSelectionPanel.class,
-                "MaxParameterValueSelectionPanel.jdcEndDate.dateFormatString")); // NOI18N
-        jdcEndDate.setMinimumSize(new java.awt.Dimension(100, 20));
-        jdcEndDate.setOpaque(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${maxDate}"),
-                jdcEndDate,
-                org.jdesktop.beansbinding.BeanProperty.create("date"));
-        bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
-                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
-                this,
-                org.jdesktop.beansbinding.ELProperty.create("${minDate}"),
-                jdcEndDate,
-                org.jdesktop.beansbinding.BeanProperty.create("minSelectableDate"));
-        bindingGroup.addBinding(binding);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        datePanel.add(jdcEndDate, gridBagConstraints);
-
-        add(datePanel, java.awt.BorderLayout.SOUTH);
+        setLayout(new java.awt.BorderLayout());
 
         parametersPanel.setLayout(new java.awt.GridBagLayout());
 
-        addMeButton.setFont(new java.awt.Font("Tahoma", 1, 14));      // NOI18N
+        addMeButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(addMeButton, "+"); // NOI18N
         addMeButton.setEnabled(false);
         addMeButton.setMargin(new java.awt.Insets(2, 6, 2, 6));
         addMeButton.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    addMeButtonActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMeButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -346,17 +268,62 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
         add(parametersPanel, java.awt.BorderLayout.CENTER);
 
+        datePanel.setLayout(new java.awt.GridBagLayout());
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jLabel1.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        datePanel.add(jLabel1, gridBagConstraints);
+
+        jdcStartDate.setDateFormatString(org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jdcStartDate.dateFormatString")); // NOI18N
+        jdcStartDate.setMinimumSize(new java.awt.Dimension(100, 20));
+        jdcStartDate.setOpaque(false);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${minDate}"), jdcStartDate, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${maxDate}"), jdcStartDate, org.jdesktop.beansbinding.BeanProperty.create("maxSelectableDate"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        datePanel.add(jdcStartDate, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jLabel2.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        datePanel.add(jLabel2, gridBagConstraints);
+
+        jdcEndDate.setDateFormatString(org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jdcEndDate.dateFormatString")); // NOI18N
+        jdcEndDate.setMinimumSize(new java.awt.Dimension(100, 20));
+        jdcEndDate.setOpaque(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${maxDate}"), jdcEndDate, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${minDate}"), jdcEndDate, org.jdesktop.beansbinding.BeanProperty.create("minSelectableDate"));
+        bindingGroup.addBinding(binding);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
+        datePanel.add(jdcEndDate, gridBagConstraints);
+
+        add(datePanel, java.awt.BorderLayout.SOUTH);
+
         bindingGroup.bind();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_addMeButtonActionPerformed
+    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMeButtonActionPerformed
         this.addParameterValuePanel();
-    }                                                                               //GEN-LAST:event_addMeButtonActionPerformed
+    }//GEN-LAST:event_addMeButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -364,11 +331,17 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     public void reset() {
         this.parameterValuePanels.clear();
         this.parametersPanel.removeAll();
-        this.initComponents();
+        final GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        parametersPanel.add(addMeButton, gridBagConstraints);
         this.addMeButton.setEnabled(!this.aggregationValues.isEmpty());
         this.initDate();
         setSelectedValues(0);
-        this.validate();
+        this.validateTree();
     }
 
     /**
@@ -401,8 +374,8 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
                         parametersPanel.remove(removeMeButton);
                         removeMeButton.removeActionListener(this);
                         setSelectedValues(parameterValuePanels.size());
-                        parametersPanel.validate();
-                        parametersPanel.repaint();
+                        validateTree();
+                        repaint();
                     }
                 });
         } else {
@@ -423,8 +396,8 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         this.parametersPanel.add(addMeButton, gridBagConstraints);
         setSelectedValues(parameterValuePanels.size());
 
-        parametersPanel.validate();
-        parametersPanel.repaint();
+        validateTree();
+        repaint();
     }
 
     /**
