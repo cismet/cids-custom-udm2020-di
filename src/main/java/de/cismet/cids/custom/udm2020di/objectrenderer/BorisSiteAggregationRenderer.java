@@ -9,6 +9,7 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
 import java.awt.EventQueue;
@@ -23,12 +24,14 @@ import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel;
 import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
+import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -303,13 +306,14 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 parameterSelectionPanel.getSelectedParameters());
                         parameterSelectionPanel.setExportAction(borisExportAction);
 
-                        // Messwerte Tab -------------------------------
-                        messwerteTable.setAggregationValues(
-                            aggregationValues.toArray(
-                                new AggregationValue[0]));
+                        // Messwerte Tab ---------------------------------------
+                        final MesswerteTableModel messwerteTableModel = new BorisMesswerteTableModel(
+                                aggregationValues.toArray(
+                                    new AggregationValue[0]));
+                        messwerteTable.setModel(messwerteTableModel);
 
+                        // Selected Tab ----------------------------------------
                         jTabbedPane.setSelectedIndex(SELECTED_TAB);
-
                         jTabbedPane.addChangeListener(WeakListeners.create(
                                 ChangeListener.class,
                                 new ChangeListener() {
@@ -361,5 +365,67 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
      */
     @Override
     public void setTitle(final String title) {
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class BorisMesswerteTableModel extends MesswerteTableModel {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new BorisMesswerteTableModel object.
+         *
+         * @param  aggregationValues  DOCUMENT ME!
+         */
+        public BorisMesswerteTableModel(final AggregationValue[] aggregationValues) {
+            super(aggregationValues);
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public String getColumnName(final int column) {
+            switch (column) {
+                case 0: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_0");
+                }
+                case 1: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_1");
+                }
+                case 2: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_2");
+                }
+                case 3: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_3");
+                }
+                case 4: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_4");
+                }
+                case 5: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_5");
+                }
+                default: {
+                    return "unbekannt";
+                }
+            }
+        }
     }
 }

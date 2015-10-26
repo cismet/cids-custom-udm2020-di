@@ -5,12 +5,11 @@
 *              ... and it just works.
 *
 ****************************************************/
-package de.cismet.cids.custom.udm2020di.postfilter.boris;
+package de.cismet.cids.custom.udm2020di.postfilter;
 
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.tree.postfilter.AbstractPostFilterGUI;
 import Sirius.navigator.ui.tree.postfilter.PostFilter;
-import Sirius.navigator.ui.tree.postfilter.PostFilterGUI;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObjectNode;
@@ -18,13 +17,9 @@ import Sirius.server.middleware.types.Node;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.lookup.ServiceProvider;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,8 +30,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
-import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisAggregationValuesSearch;
-import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisSiteSearch;
+import de.cismet.cids.custom.udm2020di.serversearch.CustomMaxValuesSearch;
+import de.cismet.cids.custom.udm2020di.serversearch.PostFilterAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
@@ -48,15 +43,17 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  * @author   pd
  * @version  $Revision$, $Date$
  */
-public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
+public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilterGUI {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static Logger LOGGER = Logger.getLogger(CommonSampleValuesPostFilterGui.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Logger logger = Logger.getLogger(SampleValuesPostFilterGui.class);
-
-    protected final BorisAggregationValuesSearch postFilterAggregationValuesSearch;
-    protected final BorisSiteSearch borisCustomSearch;
-    protected final boolean active;
+    protected final PostFilterAggregationValuesSearch postFilterAggregationValuesSearch;
+    protected final CustomMaxValuesSearch customMaxValuesSearch;
+    protected boolean active = false;
     protected final MetaClass metaClass;
     protected final ImageIcon icon;
 
@@ -84,8 +81,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                     final Collection<Node> postFilteredNodes = new ArrayList<Node>(input);
                     postFilteredNodes.removeAll(preFilteredNodes);
 
-                    if (logger.isDebugEnabled()) {
-                        logger.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
                                     + input.size() + " available nodes");
                     }
 
@@ -94,24 +91,24 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                         objectIds.add(node.getObjectId());
                     }
 
-                    borisCustomSearch.setObjectIds(objectIds);
-                    borisCustomSearch.setClassId(metaClass.getID());
-                    borisCustomSearch.setMaxValues(maxParameterValues);
-                    borisCustomSearch.setMinDate(maxParameterValueSelectionPanel.getMinDate());
-                    borisCustomSearch.setMaxDate(maxParameterValueSelectionPanel.getMaxDate());
+                    customMaxValuesSearch.setObjectIds(objectIds);
+                    customMaxValuesSearch.setClassId(metaClass.getID());
+                    customMaxValuesSearch.setMaxValues(maxParameterValues);
+                    customMaxValuesSearch.setMinDate(maxParameterValueSelectionPanel.getMinDate());
+                    customMaxValuesSearch.setMaxDate(maxParameterValueSelectionPanel.getMaxDate());
 
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("filtering " + input.size() + " nodes with "
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("filtering " + input.size() + " nodes with "
                                     + maxParameterValues.size() + " max param value filters");
                     }
 
                     try {
                         final Collection<Node> filteredNodes = SessionManager.getProxy()
-                                    .customServerSearch(borisCustomSearch);
+                                    .customServerSearch(customMaxValuesSearch);
 
                         postFilteredNodes.addAll(filteredNodes);
-                        if (logger.isDebugEnabled()) {
-                            logger.debug(postFilteredNodes.size() + " of " + input.size()
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug(postFilteredNodes.size() + " of " + input.size()
                                         + " nodes remaining after applying "
                                         + maxParameterValues.size() + " max param value filters to "
                                         + preFilteredNodes.size()
@@ -120,7 +117,7 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
                         return postFilteredNodes;
                     } catch (Exception e) {
-                        logger.error("could not apply max param value filters for '" + input.size() + " nodes!", e);
+                        LOGGER.error("could not apply max param value filters for '" + input.size() + " nodes!", e);
                         return input;
                     }
                 } else {
@@ -144,31 +141,26 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
     /**
      * Creates new form SampleValuesPostFilterGui.
+     *
+     * @param  postFilterAggregationValuesSearch  DOCUMENT ME!
+     * @param  customMaxValuesSearch              DOCUMENT ME!
+     * @param  icon                               DOCUMENT ME!
+     * @param  className                          DOCUMENT ME!
      */
-    public SampleValuesPostFilterGui() {
-        BorisAggregationValuesSearch initPostFilterAggregationValuesSearch = null;
-        BorisSiteSearch initBorisCustomSearch = null;
-        ImageIcon initIcon = null;
-        boolean initActive = false;
+    public CommonSampleValuesPostFilterGui(
+            final PostFilterAggregationValuesSearch postFilterAggregationValuesSearch,
+            final CustomMaxValuesSearch customMaxValuesSearch,
+            final ImageIcon icon,
+            final String className) {
+        this.postFilterAggregationValuesSearch = postFilterAggregationValuesSearch;
+        this.customMaxValuesSearch = customMaxValuesSearch;
+        this.icon = icon;
 
-        try {
-            initPostFilterAggregationValuesSearch = new BorisAggregationValuesSearch();
-            initBorisCustomSearch = new BorisSiteSearch();
-            initIcon = new ImageIcon(getClass().getResource(
-                        "/de/cismet/cids/custom/udm2020di/postfilter/boris/showel.png"));
-            initActive = true;
-        } catch (IOException ex) {
-            logger.error("could not initialize SampleValuesPostFilterGui, disabling filter", ex);
-        }
-        this.postFilterAggregationValuesSearch = initPostFilterAggregationValuesSearch;
-        this.borisCustomSearch = initBorisCustomSearch;
-        this.icon = initIcon;
-        this.active = initActive;
-
-        metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "BORIS_SITE");
+        metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", className);
         if (metaClass == null) {
-            logger.warn("could not retrieve BORIS_SITE class from UDM2020-DI, "
+            LOGGER.warn("could not retrieve " + className + " class from UDM2020-DI, "
                         + "filter is disabled!");
+            this.active = false;
         }
 
         initComponents();
@@ -184,8 +176,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
         final boolean canHandle = !this.preFilterNodes(nodes).isEmpty();
-        if (logger.isDebugEnabled()) {
-            logger.debug("filter can handle " + nodes.size() + " nodes:" + canHandle);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("filter can handle " + nodes.size() + " nodes:" + canHandle);
         }
         return canHandle;
     }
@@ -214,16 +206,16 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
     @Override
     public String getTitle() {
         return org.openide.util.NbBundle.getMessage(
-                SampleValuesPostFilterGui.class,
-                "SampleValuesPostFilterGui.title");
+                CommonSampleValuesPostFilterGui.class,
+                "CommonSampleValuesPostFilterGui.title");
     }
 
     /**
      * DOCUMENT ME!
      */
     protected void disableButtons() {
-        if (logger.isDebugEnabled()) {
-            logger.debug("disable buttons");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("disable buttons");
         }
         applyButton.setEnabled(false);
         resetButton.setEnabled(false);
@@ -236,8 +228,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
     @Override
     public void initializeFilter(final Collection<Node> nodes) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("initialize Filter with " + nodes.size() + " nodes");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("initialize Filter with " + nodes.size() + " nodes");
         }
 
         EventQueue.invokeLater(new Runnable() {
@@ -272,14 +264,14 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                             final Collection<AggregationValue> aggregationValues = SessionManager.getProxy()
                                         .customServerSearch(postFilterAggregationValuesSearch);
 
-                            if (logger.isDebugEnabled()) {
-                                logger.debug(aggregationValues.size() + " aggregation values for "
+                            if (LOGGER.isDebugEnabled()) {
+                                LOGGER.debug(aggregationValues.size() + " aggregation values for "
                                             + objectIds.size() + " nodes retrieved.");
                             }
 
                             return aggregationValues;
                         } catch (Exception e) {
-                            logger.error("could not retrieve aggregation values  for " + objectIds.size() + " nodes!",
+                            LOGGER.error("could not retrieve aggregation values  for " + objectIds.size() + " nodes!",
                                 e);
                         }
 
@@ -295,37 +287,37 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                             parameterPanel.setLayout(new BorderLayout());
                             parameterPanel.add(maxParameterValueSelectionPanel, BorderLayout.CENTER);
                             if (!aggregationValues.isEmpty()) {
-                                if (logger.isDebugEnabled()) {
-                                    logger.debug("setting " + aggregationValues.size() + " aggregation values");
+                                if (LOGGER.isDebugEnabled()) {
+                                    LOGGER.debug("setting " + aggregationValues.size() + " aggregation values");
                                 }
                                 if (AggregationValues.class.isAssignableFrom(aggregationValues.getClass())) {
                                     maxParameterValueSelectionPanel.setAggregationValues((AggregationValues)
                                         aggregationValues);
                                 } else {
-                                    logger.warn("search did not return AggregationValues.class object!");
+                                    LOGGER.warn("search did not return AggregationValues.class object!");
                                     maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
                                 }
                                 enableButtons();
                             } else {
-                                logger.warn("no aggregation values found!");
+                                LOGGER.warn("no aggregation values found!");
                             }
                             parameterPanel.validate();
                             parameterPanel.repaint();
                         } catch (Exception ex) {
-                            logger.error(ex.getMessage(), ex);
+                            LOGGER.error(ex.getMessage(), ex);
                         }
                     }
                 };
             worker.execute();
         } else {
-            logger.warn("no (valid) nodes provided, filter disabled!");
+            LOGGER.warn("no (valid) nodes provided, filter disabled!");
         }
     }
 
     @Override
     public void adjustFilter(final Collection<Node> nodes) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("adjust Filter with " + nodes.size() + " nodes");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("adjust Filter with " + nodes.size() + " nodes");
         }
 
         EventQueue.invokeLater(new Runnable() {
@@ -346,8 +338,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
      * DOCUMENT ME!
      */
     protected void enableButtons() {
-        if (logger.isDebugEnabled()) {
-            logger.debug("enable buttons: " + maxParameterValueSelectionPanel.getSelectedValues());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("enable buttons: " + maxParameterValueSelectionPanel.getSelectedValues());
         }
         applyButton.setEnabled(maxParameterValueSelectionPanel.getSelectedValues() > 0);
         resetButton.setEnabled(maxParameterValueSelectionPanel.getSelectedValues() > 0);
@@ -403,14 +395,14 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
         org.openide.awt.Mnemonics.setLocalizedText(
             applyButton,
             org.openide.util.NbBundle.getMessage(
-                SampleValuesPostFilterGui.class,
-                "SampleValuesPostFilterGui.applyButton.text_1"));                                              // NOI18N
+                CommonSampleValuesPostFilterGui.class,
+                "CommonSampleValuesPostFilterGui.applyButton.text"));                                          // NOI18N
         applyButton.setToolTipText(org.openide.util.NbBundle.getMessage(
-                SampleValuesPostFilterGui.class,
-                "SampleValuesPostFilterGui.applyButton.toolTipText"));                                         // NOI18N
+                CommonSampleValuesPostFilterGui.class,
+                "CommonSampleValuesPostFilterGui.applyButton.toolTipText"));                                   // NOI18N
         applyButton.setActionCommand(org.openide.util.NbBundle.getMessage(
-                SampleValuesPostFilterGui.class,
-                "SampleValuesPostFilterGui.applyButton.actionCommand"));                                       // NOI18N
+                CommonSampleValuesPostFilterGui.class,
+                "CommonSampleValuesPostFilterGui.applyButton.actionCommand"));                                 // NOI18N
         applyButton.setEnabled(false);
         applyButton.setMargin(new java.awt.Insets(4, 4, 4, 4));
         applyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -429,14 +421,14 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
         org.openide.awt.Mnemonics.setLocalizedText(
             resetButton,
             org.openide.util.NbBundle.getMessage(
-                SampleValuesPostFilterGui.class,
-                "SampleValuesPostFilterGui.resetButton.text"));                                                // NOI18N
+                CommonSampleValuesPostFilterGui.class,
+                "CommonSampleValuesPostFilterGui.resetButton.text"));                                          // NOI18N
         resetButton.setToolTipText(org.openide.util.NbBundle.getMessage(
-                SampleValuesPostFilterGui.class,
-                "SampleValuesPostFilterGui.resetButton.toolTipText"));                                         // NOI18N
+                CommonSampleValuesPostFilterGui.class,
+                "CommonSampleValuesPostFilterGui.resetButton.toolTipText"));                                   // NOI18N
         resetButton.setActionCommand(org.openide.util.NbBundle.getMessage(
-                SampleValuesPostFilterGui.class,
-                "SampleValuesPostFilterGui.resetButton.actionCommand"));                                       // NOI18N
+                CommonSampleValuesPostFilterGui.class,
+                "CommonSampleValuesPostFilterGui.resetButton.actionCommand"));                                 // NOI18N
         resetButton.setEnabled(false);
         resetButton.setMargin(new java.awt.Insets(4, 4, 4, 4));
         resetButton.addActionListener(new java.awt.event.ActionListener() {

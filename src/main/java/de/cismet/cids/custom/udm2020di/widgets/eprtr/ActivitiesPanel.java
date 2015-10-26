@@ -30,9 +30,7 @@ public class ActivitiesPanel extends javax.swing.JPanel {
     private Collection<Activity> activities;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel customMaxValuesSearchPanel1;
     private javax.swing.Box.Filler filler1;
-    private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel1;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -112,8 +110,6 @@ public class ActivitiesPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        customMaxValuesSearchPanel1 = new de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel();
-        mapPanel1 = new de.cismet.cids.custom.udm2020di.widgets.MapPanel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
