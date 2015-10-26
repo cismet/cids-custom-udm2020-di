@@ -248,9 +248,10 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                                 new String[] { borisStandort.getPk() }),
                             parameterSelectionPanel.getSelectedParameters());
                     parameterSelectionPanel.setExportAction(borisExportAction);
-
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
+                    }
                     jTabbedPane.setSelectedIndex(SELECTED_TAB);
-
                     jTabbedPane.addChangeListener(WeakListeners.create(
                             ChangeListener.class,
                             new ChangeListener() {

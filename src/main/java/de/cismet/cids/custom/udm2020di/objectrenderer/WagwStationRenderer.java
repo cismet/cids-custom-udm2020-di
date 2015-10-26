@@ -10,6 +10,8 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
+import org.openide.util.WeakListeners;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -21,6 +23,8 @@ import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
@@ -182,6 +186,9 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
      */
     private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
         SELECTED_TAB = jTabbedPane.getSelectedIndex();
+        if (logger.isDebugEnabled()) {
+            logger.debug("saving selected tab index: " + SELECTED_TAB);
+        }
     }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
 
     /**
@@ -312,8 +319,20 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
                                 new String[] { messstelle.getPk() }),
                             parameterSelectionPanel.getSelectedParameters());
                     parameterSelectionPanel.setExportAction(waExportAction);
-
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("restoring selected tab index: " + SELECTED_TAB);
+                    }
                     jTabbedPane.setSelectedIndex(SELECTED_TAB);
+                    jTabbedPane.addChangeListener(WeakListeners.create(
+                            ChangeListener.class,
+                            new ChangeListener() {
+
+                                @Override
+                                public void stateChanged(final ChangeEvent evt) {
+                                    SELECTED_TAB = jTabbedPane.getSelectedIndex();
+                                }
+                            },
+                            jTabbedPane));
                 }
             };
 
