@@ -1,127 +1,31 @@
 {
-    "pk": "6000724",
-    "standortbezeichnung": "BMB7",
-    "standortnummer": "60218001",
-    "hochwert": 434055.90625,
-    "institut": "Landw. chem. Landes Versuchs- und Untersuchungsanstalt, Graz",
-    "literatur": "Steiermärkische Bodenschutzberichte (1988 - 1996).",
-    "rechtswert": 547063.4375,
+    "pk": "9000099",
+    "standortbezeichnung": "16,Willhelminenstraße / Sandleitengasse  ( Wohnpark )",
+    "standortnummer": "1605",
+    "hochwert": 484027.53125,
+    "institut": "MA 22, Umweltschutz Wien",
+    "literatur": "Flächendeckende Schwermetalluntersuchung des Wiener Bodens an 257 Stellen, 1994.",
+    "rechtswert": 620898.8125,
     "standortparameter": [{
-            "pk": "S518",
-            "name": "Anteil Verkehrsfläche (Quelle: UBA, 2001) - Klasse",
-            "wert": "4"
-        }, {
-            "pk": "S517",
-            "name": "Anteil Verkehrsfläche (Quelle: UBA, 2001) - Zahl",
-            "wert": null
-        }, {
             "pk": "S129",
             "name": "Auflösung des digitalen GM bei d. Berechnung der Seehöhe",
             "wert": null
         }, {
-            "pk": "S162",
-            "name": "Ausgangsmaterial laut Geländebefund",
-            "wert": "53000"
-        }, {
-            "pk": "S507",
-            "name": "Ausgangsmaterial nach FAO - Unesco Version 2.0, 1998 (MAT 11)",
-            "wert": "50"
-        }, {
-            "pk": "S502",
-            "name": "Ausgangsmaterial nach Heilig & Koch 1997, adaptiert UBA",
-            "wert": "214"
-        }, {
-            "pk": "S163",
-            "name": "Ausgangsmaterial-Text",
-            "wert": "f.+gr. eiszeitl. Sed., Kalk"
-        }, {
-            "pk": "S516",
-            "name": "Bevölkerungsdichte (Quelle: ÖSTAT, 1991) - Klasse",
-            "wert": "2"
-        }, {
-            "pk": "S515",
-            "name": "Bevölkerungsdichte (Quelle: ÖSTAT, 1991) - Zahl",
-            "wert": null
-        }, {
             "pk": "S100",
             "name": "Bezeichnung des Standortes",
-            "wert": "BMB7"
-        }, {
-            "pk": "S110",
-            "name": "Blattnummer der ÖK 1: 50 000",
-            "wert": "72"
-        }, {
-            "pk": "S505",
-            "name": "Bodeneinheiten nach Fink, 1979 (143 Einheiten)",
-            "wert": "40"
-        }, {
-            "pk": "S506",
-            "name": "Bodengruppen (SMUs) nach FAO - Unesco Version 2.0, 1998",
-            "wert": "14"
-        }, {
-            "pk": "S504",
-            "name": "Bodenregionen und -subregionen nach Fink, 1997",
-            "wert": "11"
-        }, {
-            "pk": "S172",
-            "name": "Bodentyp",
-            "wert": "1902"
+            "wert": "16,Willhelminenstraße / Sandleitengasse  ( Wohnpark )"
         }, {
             "pk": "S101",
             "name": "Datum der Standortbeschreibung",
-            "wert": "000095"
-        }, {
-            "pk": "S503",
-            "name": "Ergänzungen zu S502 Ausgangsmaterial nach Heilig & Koch, 1997",
-            "wert": "Sedimente, glaziale"
-        }, {
-            "pk": "S134",
-            "name": "Exposition (Neigungsrichtung)",
-            "wert": "EBEN"
-        }, {
-            "pk": "S511",
-            "name": "Forstliche Wuchsgebiete (GIS) ",
-            "wert": "42"
+            "wert": "000892"
         }, {
             "pk": "S112",
             "name": "Gemeinde- und Bezirkkennziffer",
-            "wert": "60218"
-        }, {
-            "pk": "S123",
-            "name": "Genauigkeit der Lagekoordinaten [+/-m]",
-            "wert": null
-        }, {
-            "pk": "S500",
-            "name": "Geologische (Gross)Einheiten nach GBA (8/12 Units)",
-            "wert": "61"
-        }, {
-            "pk": "S171",
-            "name": "Geologische Großräume",
-            "wert": "100"
-        }, {
-            "pk": "S501",
-            "name": "Geologische Untereinheiten nach GBA (61 Units)",
-            "wert": "32"
-        }, {
-            "pk": "S135",
-            "name": "Hangneigungsklasse",
-            "wert": "21"
-        }, {
-            "pk": "S137",
-            "name": "Horizontale Ausdehnung der Geländeform (m)",
-            "wert": null
+            "wert": "90001"
         }, {
             "pk": "S118",
             "name": "Kartenprojektion oder Koordinatensystem",
-            "wert": "3"
-        }, {
-            "pk": "S513",
-            "name": "Kulturlandschaften nach Wrbka - Typengruppe",
-            "wert": "3"
-        }, {
-            "pk": "S514",
-            "name": "Kulturlandschaften nach Wrbka - Typenreihe",
-            "wert": "201"
+            "wert": "2"
         }, {
             "pk": "S117",
             "name": "Lagekoordinate in Nord- Süd-Richtung",
@@ -133,43 +37,23 @@
         }, {
             "pk": "S178",
             "name": "Landnutzung",
-            "wert": "200"
-        }, {
-            "pk": "S510",
-            "name": "Landwirtschaftliche Haupt- und Kleinproduktionsgebiete (GIS)",
-            "wert": "124"
-        }, {
-            "pk": "S320",
-            "name": "Lithologie nach Danneberg et al.",
-            "wert": "298"
-        }, {
-            "pk": "S136",
-            "name": "Makrorelief (Geländeform)",
-            "wert": "3"
+            "wert": "860"
         }, {
             "pk": "S119",
             "name": "Meridianstreifen für Gauß-Krüger, BMN und Militärkoordinaten",
             "wert": "34"
         }, {
-            "pk": "S143",
-            "name": "Mikrorelief (Kleinrelief)",
-            "wert": "2"
-        }, {
-            "pk": "S512",
-            "name": "Naturraumgruppen und -einheiten n. Sauberer et al., 1995",
-            "wert": "11"
-        }, {
             "pk": "S115",
             "name": "Nummer der Katastralgemeinde",
-            "wert": "60404"
+            "wert": "1405"
         }, {
             "pk": "S105",
             "name": "Originalstandortnummer",
-            "wert": "60218001"
+            "wert": "1605"
         }, {
             "pk": "S109",
             "name": "Probepunktverteilung",
-            "wert": "10"
+            "wert": "20"
         }, {
             "pk": "S113",
             "name": "Quelle der Gemeindekennziffer",
@@ -181,7 +65,7 @@
         }, {
             "pk": "S122",
             "name": "Quelle der Lagekoordinaten",
-            "wert": "12"
+            "wert": "33"
         }, {
             "pk": "S128",
             "name": "Quelle der Seehöhe",
@@ -191,74 +75,24 @@
             "name": "Quelle von Rechtswert und Hochwert (Lambert)",
             "wert": "2"
         }, {
-            "pk": "S321",
-            "name": "Rastersysteme",
-            "wert": "2"
-        }, {
             "pk": "S106",
             "name": "Untersuchungstyp - Zeitlicher Rahmen",
-            "wert": "20"
+            "wert": "22"
         }, {
             "pk": "S108",
             "name": "Untersuchungstyp-Ausdehnung",
             "wert": "20"
         }, {
-            "pk": "S138",
-            "name": "Vertikale Ausdehnung der Geländeform (m)",
-            "wert": null
-        }, {
-            "pk": "S327",
-            "name": "primärer Bodentyp-Zusatz",
-            "wert": "0"
+            "pk": "S107",
+            "name": "Untersuchungstyp-Belastungsintensität",
+            "wert": "10"
         }],
     "probenparameter": [{
-            "parameterpk": "B402",
-            "parametergruppepk": "B40100",
-            "parametername": "Anthracen [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
-        }, {
             "parameterpk": "BAS1",
             "parametergruppepk": "B30000",
             "parametername": "As [mg/kg]",
             "parametergruppename": "Metalle, Schwermetalle",
             "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "B0B1",
-            "parametergruppepk": "B70000",
-            "parametername": "B [mg/kg]",
-            "parametergruppename": "Weitere Elemente der Bodenanalyse",
-            "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "B407",
-            "parametergruppepk": "B40100",
-            "parametername": "Benzo(a)pyren [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
-        }, {
-            "parameterpk": "B418",
-            "parametergruppepk": "B40100",
-            "parametername": "Benzo(e)pyren [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
-        }, {
-            "parameterpk": "B406",
-            "parametergruppepk": "B40100",
-            "parametername": "Benzo(g,h,i)perylen [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
-        }, {
-            "parameterpk": "BCA2",
-            "parametergruppepk": "B10000",
-            "parametername": "Ca [mmol IÄ/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": "mmol IÄ/kg"
-        }, {
-            "parameterpk": "B100",
-            "parametergruppepk": "B10000",
-            "parametername": "CaCO3 %",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": null
         }, {
             "parameterpk": "BCD1",
             "parametergruppepk": "B30000",
@@ -284,81 +118,9 @@
             "parametergruppename": "Metalle, Schwermetalle",
             "parametereinheit": "mg/kg"
         }, {
-            "parameterpk": "B486",
-            "parametergruppepk": "B40400",
-            "parametername": "DDT [µg/kg]",
-            "parametergruppename": "Organochlorpestizide und verwandte Verbindungen",
-            "parametereinheit": "µg/kg"
-        }, {
-            "parameterpk": "B0F1",
-            "parametergruppepk": "B10000",
-            "parametername": "F [mg/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "BFE1",
-            "parametergruppepk": "B30000",
-            "parametername": "Fe [mg/kg]",
-            "parametergruppename": "Metalle, Schwermetalle",
-            "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "B410",
-            "parametergruppepk": "B40100",
-            "parametername": "Fluoranthen [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
-        }, {
-            "parameterpk": "B4A5",
-            "parametergruppepk": "B40400",
-            "parametername": "Gamma-HCH (Lindan) [µg/kg]",
-            "parametergruppename": "Organochlorpestizide und verwandte Verbindungen",
-            "parametereinheit": "µg/kg"
-        }, {
-            "parameterpk": "B499",
-            "parametergruppepk": "B40400",
-            "parametername": "Hexachlorbenzol [µg/kg]",
-            "parametergruppename": "Organochlorpestizide und verwandte Verbindungen",
-            "parametereinheit": "µg/kg"
-        }, {
             "parameterpk": "BHG1",
             "parametergruppepk": "B30000",
             "parametername": "Hg [mg/kg]",
-            "parametergruppename": "Metalle, Schwermetalle",
-            "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "B104",
-            "parametergruppepk": "B10000",
-            "parametername": "Humus %",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": null
-        }, {
-            "parameterpk": "B0K1",
-            "parametergruppepk": "B10000",
-            "parametername": "K [mg/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "B0K2",
-            "parametergruppepk": "B10000",
-            "parametername": "K [mmol IÄ/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": "mmol IÄ/kg"
-        }, {
-            "parameterpk": "BMG1",
-            "parametergruppepk": "B10000",
-            "parametername": "Mg [mg/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "BMG2",
-            "parametergruppepk": "B10000",
-            "parametername": "Mg [mmol IÄ/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": "mmol IÄ/kg"
-        }, {
-            "parameterpk": "BMN1",
-            "parametergruppepk": "B30000",
-            "parametername": "Mn [mg/kg]",
             "parametergruppename": "Metalle, Schwermetalle",
             "parametereinheit": "mg/kg"
         }, {
@@ -368,22 +130,10 @@
             "parametergruppename": "Metalle, Schwermetalle",
             "parametereinheit": "mg/kg"
         }, {
-            "parameterpk": "BNA2",
-            "parametergruppepk": "B10000",
-            "parametername": "Na [mmol IÄ/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": "mmol IÄ/kg"
-        }, {
             "parameterpk": "BNI1",
             "parametergruppepk": "B30000",
             "parametername": "Ni [mg/kg]",
             "parametergruppename": "Metalle, Schwermetalle",
-            "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "B0P1",
-            "parametergruppepk": "B10000",
-            "parametername": "P [mg/kg]",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
             "parametereinheit": "mg/kg"
         }, {
             "parameterpk": "BPB1",
@@ -392,75 +142,35 @@
             "parametergruppename": "Metalle, Schwermetalle",
             "parametereinheit": "mg/kg"
         }, {
-            "parameterpk": "B421",
-            "parametergruppepk": "B40100",
-            "parametername": "Perylen [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
+            "parameterpk": "BPT1",
+            "parametergruppepk": "B30000",
+            "parametername": "Pt  (mg/kg)",
+            "parametergruppename": "Metalle, Schwermetalle",
+            "parametereinheit": null
         }, {
-            "parameterpk": "B414",
-            "parametergruppepk": "B40100",
-            "parametername": "Phenanthren [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
+            "parameterpk": "BSE1",
+            "parametergruppepk": "B30000",
+            "parametername": "Se [mg/kg]",
+            "parametergruppename": "Metalle, Schwermetalle",
+            "parametereinheit": "mg/kg"
         }, {
-            "parameterpk": "B415",
-            "parametergruppepk": "B40100",
-            "parametername": "Pyren [µg/kg]",
-            "parametergruppename": "Polyzyklische Aromatische Kohlenwasserstoffe (PAH)",
-            "parametereinheit": "µg/kg"
+            "parameterpk": "B0V1",
+            "parametergruppepk": "B30000",
+            "parametername": "V [mg/kg]",
+            "parametergruppename": "Metalle, Schwermetalle",
+            "parametereinheit": "mg/kg"
         }, {
             "parameterpk": "BZN1",
             "parametergruppepk": "B30000",
             "parametername": "Zn [mg/kg]",
             "parametergruppename": "Metalle, Schwermetalle",
             "parametereinheit": "mg/kg"
-        }, {
-            "parameterpk": "B105",
-            "parametergruppepk": "B10000",
-            "parametername": "pH-Wert",
-            "parametergruppename": "Allgemeine Bodenkennwerte und Nährstoffzustand",
-            "parametereinheit": null
-        }, {
-            "parameterpk": "B488",
-            "parametergruppepk": "B40400",
-            "parametername": "pp' DDT [µg/kg]",
-            "parametergruppename": "Organochlorpestizide und verwandte Verbindungen",
-            "parametereinheit": "µg/kg"
         }],
     "tags": [{
-            "id": 125,
-            "key": "Anthracen",
-            "name": "Anthracen",
-            "description": "Anthracen",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
             "id": 126,
             "key": "As",
             "name": "Arsen",
             "description": "Arsen und Verbindungen (As)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 130,
-            "key": "Benzoperylen",
-            "name": "Benzolperylen",
-            "description": "Benzo(g,h,i)perylen",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 135,
-            "key": "Ca",
-            "name": "Calcium",
-            "description": "Calcium (Ca)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 136,
-            "key": "CaCO3",
-            "name": "Calciumcarbonat",
-            "description": "Calciumcarbonat (CaCO3)",
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
@@ -492,34 +202,6 @@
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
-            "id": 149,
-            "key": "DDT",
-            "name": "DDT",
-            "description": "DDT",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 162,
-            "key": "Fe",
-            "name": "Eisen",
-            "description": "Eisen (Fe)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 164,
-            "key": "Fluoranthen",
-            "name": "Fluoranthen",
-            "description": "Fluoranthen",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 165,
-            "key": "HCB",
-            "name": "HCB",
-            "description": "Hexachlorbenzol (HCB)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
             "id": 175,
             "key": "Hg",
             "name": "Quecksilber",
@@ -527,38 +209,10 @@
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
-            "id": 178,
-            "key": "K",
-            "name": "Kalium",
-            "description": "Kalium (K)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 180,
-            "key": "KWSplus",
-            "name": "Sonst. KWS",
-            "description": "Sonstige nicht näher spezifizierte Kohlenwasserstoffe",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 181,
-            "key": "Lindan",
-            "name": "Lindan",
-            "description": "Lindan",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 184,
-            "key": "Mg",
-            "name": "Magnesium",
-            "description": "Magnesium (Mg)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 186,
-            "key": "Mn",
-            "name": "Mangan",
-            "description": "Mangan (Mn)",
+            "id": 183,
+            "key": "METplus",
+            "name": "Sonst. MET",
+            "description": "Sonstige nicht näher spezifizierte Metalle und Schwermetalle",
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
@@ -569,31 +223,10 @@
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
-            "id": 194,
-            "key": "Na",
-            "name": "Natrium",
-            "description": "Natrium (Na)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 195,
-            "key": "Naphthalin",
-            "name": "Naphthalin",
-            "description": "Naphthalin",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
             "id": 196,
             "key": "Ni",
             "name": "Nickel",
             "description": "Nickel und Verbindungen (Ni)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 199,
-            "key": "P",
-            "name": "Phosphor",
-            "description": "Gesamtphosphor (P)",
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
@@ -604,6 +237,13 @@
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
+            "id": 237,
+            "key": "V",
+            "name": "Vanadium",
+            "description": "Vanadium (V)",
+            "taggroupid": 2,
+            "taggroupkey": "POLLUTANT"
+        }, {
             "id": 240,
             "key": "Zn",
             "name": "Zink",
@@ -611,109 +251,33 @@
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
-            "id": 151,
-            "key": "DNM",
-            "name": "Düngemittel",
-            "description": "Düngemittel",
-            "taggroupid": 1,
-            "taggroupkey": "POLLUTANTGROUP"
-        }, {
-            "id": 179,
-            "key": "KWS",
-            "name": "Kohlenwasserstoffe",
-            "description": "Kohlenwasserstoffe",
-            "taggroupid": 1,
-            "taggroupkey": "POLLUTANTGROUP"
-        }, {
             "id": 182,
             "key": "MET",
             "name": "Metalle und Schwermetalle",
             "description": "Metalle und Schwermetalle",
             "taggroupid": 1,
             "taggroupkey": "POLLUTANTGROUP"
-        }, {
-            "id": 207,
-            "key": "PEST",
-            "name": "Pestizide",
-            "description": "Pestizide",
-            "taggroupid": 1,
-            "taggroupkey": "POLLUTANTGROUP"
         }],
-    "proben": ["6955001491", "6955001492", "6955001493", "6955001515", "6955001516", "6955001517", "6955001518", "6965001491"],
+    "proben": ["9006000162", "9036000097", "9926000099", "9946000099", "9986000099"],
     "aggregationvalues": [{
-            "name": "Anthracen [µg/kg]",
-            "pollutantkey": "Anthracen",
-            "pollutantgroupkey": "KWS",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.0,
-            "maxvalue": 8.0,
-            "unit": "µg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
             "name": "As [mg/kg]",
             "pollutantkey": "As",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 4.699999809265137,
-            "maxvalue": 9.899999618530273,
+            "mindate": "2006-08-10",
+            "maxdate": "2006-08-07",
+            "minvalue": 5.900000095367432,
+            "maxvalue": 9.399999618530273,
             "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Benzo(g,h,i)perylen [µg/kg]",
-            "pollutantkey": "Benzoperylen",
-            "pollutantgroupkey": "KWS",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 8.0,
-            "maxvalue": 9.0,
-            "unit": "µg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Benzopyren [µg/kg]",
-            "pollutantkey": "KWSplus",
-            "pollutantgroupkey": "KWS",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 2.0,
-            "maxvalue": 15.0,
-            "unit": "µg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Ca [mmol IÄ/kg]",
-            "pollutantkey": "Ca",
-            "pollutantgroupkey": "DNM",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 68.86000061035156,
-            "maxvalue": 302.3900146484375,
-            "unit": "mmol IÄ/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "CaCO3 [%]",
-            "pollutantkey": "CaCO3",
-            "pollutantgroupkey": "DNM",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 29.399999618530273,
-            "maxvalue": 77.0,
-            "unit": "%",
             "probepk": null,
             "releasetype": null
         }, {
             "name": "Cd [mg/kg]",
             "pollutantkey": "Cd",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.5,
-            "maxvalue": 1.25,
+            "mindate": "1998-01-22",
+            "maxdate": "1998-01-22",
+            "minvalue": 0.0,
+            "maxvalue": 8.100000381469727,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -721,10 +285,10 @@
             "name": "Co [mg/kg]",
             "pollutantkey": "Co",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 4.300000190734863,
-            "maxvalue": 9.800000190734863,
+            "mindate": "2006-08-10",
+            "maxdate": "2001-01-05",
+            "minvalue": 6.599999904632568,
+            "maxvalue": 9.199999809265137,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -732,10 +296,10 @@
             "name": "Cr [mg/kg]",
             "pollutantkey": "Cr",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 18.5,
-            "maxvalue": 38.79999923706055,
+            "mindate": "2001-01-05",
+            "maxdate": "2006-08-10",
+            "minvalue": 29.0,
+            "maxvalue": 40.0,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -743,98 +307,21 @@
             "name": "Cu [mg/kg]",
             "pollutantkey": "Cu",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 1.2999999523162842,
-            "maxvalue": 15.199999809265137,
+            "mindate": "1998-01-22",
+            "maxdate": "2006-08-10",
+            "minvalue": 21.200000762939453,
+            "maxvalue": 49.0,
             "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Fe [mg/kg]",
-            "pollutantkey": "Fe",
-            "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 64.0,
-            "maxvalue": 499.0,
-            "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Fluoranthen [µg/kg]",
-            "pollutantkey": "Fluoranthen",
-            "pollutantgroupkey": "KWS",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-02-25",
-            "minvalue": 14.0,
-            "maxvalue": 24.0,
-            "unit": "µg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Gamma-HCH (Lindan) [µg/kg]",
-            "pollutantkey": "Lindan",
-            "pollutantgroupkey": "PEST",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.0,
-            "maxvalue": 0.0,
-            "unit": "µg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Hexachlorbenzol [µg/kg]",
-            "pollutantkey": "HCB",
-            "pollutantgroupkey": "PEST",
-            "mindate": "2001-01-01",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.0,
-            "maxvalue": 0.0,
-            "unit": "µg/kg",
             "probepk": null,
             "releasetype": null
         }, {
             "name": "Hg [mg/kg]",
             "pollutantkey": "Hg",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.05999999865889549,
-            "maxvalue": 0.3199999928474426,
-            "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "K [mmol IÄ/kg]",
-            "pollutantkey": "K",
-            "pollutantgroupkey": "DNM",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.46000000834465027,
-            "maxvalue": 83.0199966430664,
-            "unit": "mmol IÄ/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Mg [mg/kg]",
-            "pollutantkey": "Mg",
-            "pollutantgroupkey": "DNM",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 27.979999542236328,
-            "maxvalue": 770.0,
-            "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Mn [mg/kg]",
-            "pollutantkey": "Mn",
-            "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 126.0,
-            "maxvalue": 763.0,
+            "mindate": "1998-01-22",
+            "maxdate": "2006-08-10",
+            "minvalue": 0.0,
+            "maxvalue": 0.30000001192092896,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -842,43 +329,21 @@
             "name": "Mo [mg/kg]",
             "pollutantkey": "Mo",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.5299999713897705,
-            "maxvalue": 0.7400000095367432,
+            "mindate": "1998-01-22",
+            "maxdate": "2006-08-10",
+            "minvalue": 0.5,
+            "maxvalue": 1.399999976158142,
             "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "Na [mmol IÄ/kg]",
-            "pollutantkey": "Na",
-            "pollutantgroupkey": "DNM",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.38999998569488525,
-            "maxvalue": 0.6499999761581421,
-            "unit": "mmol IÄ/kg",
             "probepk": null,
             "releasetype": null
         }, {
             "name": "Ni [mg/kg]",
             "pollutantkey": "Ni",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 8.899999618530273,
-            "maxvalue": 18.200000762939453,
-            "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "P [mg/kg]",
-            "pollutantkey": "P",
-            "pollutantgroupkey": "DNM",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 4.360000133514404,
-            "maxvalue": 13.09000015258789,
+            "mindate": "2006-08-10",
+            "maxdate": "1998-01-22",
+            "minvalue": 24.0,
+            "maxvalue": 31.5,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -886,44 +351,44 @@
             "name": "Pb [mg/kg]",
             "pollutantkey": "Pb",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 13.699999809265137,
-            "maxvalue": 55.599998474121094,
+            "mindate": "1998-01-22",
+            "maxdate": "2006-08-10",
+            "minvalue": 0.013000000268220901,
+            "maxvalue": 59.0,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
         }, {
-            "name": "Phenanthren [µg/kg]",
-            "pollutantkey": "Naphthalin",
-            "pollutantgroupkey": "KWS",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 11.0,
-            "maxvalue": 91.0,
-            "unit": "µg/kg",
+            "name": "Pt  (mg/kg)",
+            "pollutantkey": "METplus",
+            "pollutantgroupkey": "MET",
+            "mindate": "2006-08-10",
+            "maxdate": "2006-08-10",
+            "minvalue": 0.0,
+            "maxvalue": 0.0,
+            "unit": null,
+            "probepk": null,
+            "releasetype": null
+        }, {
+            "name": "V [mg/kg]",
+            "pollutantkey": "V",
+            "pollutantgroupkey": "MET",
+            "mindate": "2001-01-05",
+            "maxdate": "1998-01-22",
+            "minvalue": 31.100000381469727,
+            "maxvalue": 34.70000076293945,
+            "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
         }, {
             "name": "Zn [mg/kg]",
             "pollutantkey": "Zn",
             "pollutantgroupkey": "MET",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 3.4000000953674316,
-            "maxvalue": 125.0999984741211,
+            "mindate": "2001-01-05",
+            "maxdate": "2006-08-10",
+            "minvalue": 65.0,
+            "maxvalue": 186.0,
             "unit": "mg/kg",
-            "probepk": null,
-            "releasetype": null
-        }, {
-            "name": "pp' DDT [µg/kg]",
-            "pollutantkey": "DDT",
-            "pollutantgroupkey": "PEST",
-            "mindate": "2001-01-25",
-            "maxdate": "2001-01-25",
-            "minvalue": 0.0,
-            "maxvalue": 0.0,
-            "unit": "µg/kg",
             "probepk": null,
             "releasetype": null
         }]

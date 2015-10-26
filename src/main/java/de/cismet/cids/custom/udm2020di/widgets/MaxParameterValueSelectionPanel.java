@@ -58,7 +58,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     protected final transient Collection<MaxParameterValuePanel> parameterValuePanels =
         new ArrayList<MaxParameterValuePanel>();
 
-    protected final transient AggregationValues aggregationValues = new AggregationValues();
+    protected transient AggregationValues aggregationValues = new AggregationValues();
 
     private int selectedValues = 0;
 
@@ -89,16 +89,6 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     public MaxParameterValueSelectionPanel() {
         initComponents();
         datePanel.setVisible(false);
-    }
-
-    /**
-     * Creates a new MaxParameterValueSelectionPanel object.
-     *
-     * @param  aggregationValues  DOCUMENT ME!
-     */
-    public MaxParameterValueSelectionPanel(final Collection<AggregationValue> aggregationValues) {
-        this();
-        this.setAggregationValues(aggregationValues);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -145,32 +135,42 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  minDate  DOCUMENT ME!
+     * @param  maxDate  DOCUMENT ME!
      */
-    protected void initDate() {
-        final boolean dateEnabled = (((this.aggregationValues.getMinDate()
+    protected void initDate(final Date minDate, final Date maxDate) {
+        final boolean dateEnabled = (((minDate
                                 != null)
-                            && (this.aggregationValues.getMaxDate()
+                            && (maxDate
                                 != null))
-                        && (this.aggregationValues.getMinDate().compareTo(
-                                this.aggregationValues.getMaxDate())
+                        && (minDate.compareTo(
+                                maxDate)
                             != 0));
         // this.addParameterValuePanel();
         this.setMinDate(
-            this.aggregationValues.getMinDate());
+            minDate);
         this.setMaxDate(
-            this.aggregationValues.getMaxDate());
+            maxDate);
         if (!dateEnabled) {
             final String message = "no valid / distinct aggregation values start and end dates provided: "
                         + " startDate = "
-                        + this.aggregationValues.getMinDate()
+                        + minDate
                         + " endDate = "
-                        + this.aggregationValues.getMaxDate();
+                        + maxDate;
             LOGGER.warn(message);
             this.jdcStartDate.setEnabled(false);
             this.jdcEndDate.setEnabled(false);
             this.datePanel.setVisible(false);
             this.validate();
         } else {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("showing date chooser with "
+                            + " startDate = "
+                            + minDate
+                            + " endDate = "
+                            + maxDate);
+            }
             this.jdcStartDate.setMinSelectableDate(minDate);
             this.jdcStartDate.setMaxSelectableDate(maxDate);
             this.jdcEndDate.setMinSelectableDate(minDate);
@@ -185,27 +185,28 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     /**
      * DOCUMENT ME!
      *
+     * @param  aggregationValueCollection  DOCUMENT ME!
+     */
+    public final void setAggregationValues(final Collection<AggregationValue> aggregationValueCollection) {
+        final AggregationValues tmpAggregationValues = new AggregationValues();
+        tmpAggregationValues.addAll(aggregationValueCollection);
+        this.setAggregationValues(tmpAggregationValues);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  aggregationValues  DOCUMENT ME!
      */
-    public final void setAggregationValues(final Collection<AggregationValue> aggregationValues) {
+    public final void setAggregationValues(final AggregationValues aggregationValues) {
         if (!SwingUtilities.isEventDispatchThread()) {
             LOGGER.warn("setAggregationValues not called from EDT!");
         }
 
-        this.aggregationValues.clear();
-        // ignore all aggregation values that do not map to a concrete pollutant
-        for (final AggregationValue aggregationValue : aggregationValues) {
-            if (!aggregationValue.getPollutantKey().equalsIgnoreCase("METPlus")
-                        && !aggregationValue.getPollutantKey().equalsIgnoreCase("KWSplus")
-                        && !aggregationValue.getPollutantKey().equalsIgnoreCase("PESTplus")
-                        && !aggregationValue.getPollutantKey().equalsIgnoreCase("THGundLSSplus")
-                        && !aggregationValue.getPollutantKey().equalsIgnoreCase("DNMplus")
-                        && !aggregationValue.getPollutantKey().equalsIgnoreCase("SYSSplus")) {
-                this.aggregationValues.add(aggregationValue);
-            }
-        }
+        this.aggregationValues = aggregationValues;
+
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("generating parameter selection panles for " + this.aggregationValues.size() + " parameters");
+            LOGGER.debug("generating parameter selection panels for " + this.aggregationValues.size() + " parameters");
         }
 //        //EventQueue.invokeLater(new Runnable() {
 //
@@ -214,7 +215,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         if ((MaxParameterValueSelectionPanel.this.aggregationValues != null)
                     && !MaxParameterValueSelectionPanel.this.aggregationValues.isEmpty()) {
             this.addMeButton.setEnabled(true);
-            this.initDate();
+            this.initDate(aggregationValues.getMinDate(), aggregationValues.getMaxDate());
         } else {
             MaxParameterValueSelectionPanel.this.addMeButton.setEnabled(false);
             MaxParameterValueSelectionPanel.this.jdcStartDate.setEnabled(false);
@@ -249,15 +250,17 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
         parametersPanel.setLayout(new java.awt.GridBagLayout());
 
-        addMeButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        addMeButton.setFont(new java.awt.Font("Tahoma", 1, 14));      // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(addMeButton, "+"); // NOI18N
         addMeButton.setEnabled(false);
         addMeButton.setMargin(new java.awt.Insets(2, 6, 2, 6));
         addMeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addMeButtonActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    addMeButtonActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -270,19 +273,35 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
         datePanel.setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jLabel1.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel1,
+            org.openide.util.NbBundle.getMessage(
+                MaxParameterValueSelectionPanel.class,
+                "MaxParameterValueSelectionPanel.jLabel1.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         datePanel.add(jLabel1, gridBagConstraints);
 
-        jdcStartDate.setDateFormatString(org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jdcStartDate.dateFormatString")); // NOI18N
+        jdcStartDate.setDateFormatString(org.openide.util.NbBundle.getMessage(
+                MaxParameterValueSelectionPanel.class,
+                "MaxParameterValueSelectionPanel.jdcStartDate.dateFormatString")); // NOI18N
         jdcStartDate.setMinimumSize(new java.awt.Dimension(100, 20));
         jdcStartDate.setOpaque(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${minDate}"), jdcStartDate, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${minDate}"),
+                jdcStartDate,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${maxDate}"), jdcStartDate, org.jdesktop.beansbinding.BeanProperty.create("maxSelectableDate"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${maxDate}"),
+                jdcStartDate,
+                org.jdesktop.beansbinding.BeanProperty.create("maxSelectableDate"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -290,19 +309,35 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         datePanel.add(jdcStartDate, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jLabel2.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            jLabel2,
+            org.openide.util.NbBundle.getMessage(
+                MaxParameterValueSelectionPanel.class,
+                "MaxParameterValueSelectionPanel.jLabel2.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         datePanel.add(jLabel2, gridBagConstraints);
 
-        jdcEndDate.setDateFormatString(org.openide.util.NbBundle.getMessage(MaxParameterValueSelectionPanel.class, "MaxParameterValueSelectionPanel.jdcEndDate.dateFormatString")); // NOI18N
+        jdcEndDate.setDateFormatString(org.openide.util.NbBundle.getMessage(
+                MaxParameterValueSelectionPanel.class,
+                "MaxParameterValueSelectionPanel.jdcEndDate.dateFormatString")); // NOI18N
         jdcEndDate.setMinimumSize(new java.awt.Dimension(100, 20));
         jdcEndDate.setOpaque(false);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${maxDate}"), jdcEndDate, org.jdesktop.beansbinding.BeanProperty.create("date"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${maxDate}"),
+                jdcEndDate,
+                org.jdesktop.beansbinding.BeanProperty.create("date"));
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, this, org.jdesktop.beansbinding.ELProperty.create("${minDate}"), jdcEndDate, org.jdesktop.beansbinding.BeanProperty.create("minSelectableDate"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(
+                org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ,
+                this,
+                org.jdesktop.beansbinding.ELProperty.create("${minDate}"),
+                jdcEndDate,
+                org.jdesktop.beansbinding.BeanProperty.create("minSelectableDate"));
         bindingGroup.addBinding(binding);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -314,16 +349,16 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         add(datePanel, java.awt.BorderLayout.SOUTH);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMeButtonActionPerformed
+    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_addMeButtonActionPerformed
         this.addParameterValuePanel();
-    }//GEN-LAST:event_addMeButtonActionPerformed
+    }                                                                               //GEN-LAST:event_addMeButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -339,9 +374,9 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         parametersPanel.add(addMeButton, gridBagConstraints);
         this.addMeButton.setEnabled(!this.aggregationValues.isEmpty());
-        this.initDate();
+        this.initDate(this.aggregationValues.getMinDate(), this.aggregationValues.getMinDate());
         setSelectedValues(0);
-        this.validateTree();
+        this.validate();
     }
 
     /**
@@ -396,7 +431,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         this.parametersPanel.add(addMeButton, gridBagConstraints);
         setSelectedValues(parameterValuePanels.size());
 
-        validateTree();
+        validate();
         repaint();
     }
 
@@ -429,13 +464,10 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
                     Standort.class);
 
             final AggregationValues aggregationValues = new AggregationValues(borisStandort.getAggregationValues());
+            final MaxParameterValueSelectionPanel panel = new MaxParameterValueSelectionPanel();
 
             aggregationValues.addAll(borisStandort.getAggregationValues());
-
-            final MaxParameterValueSelectionPanel panel = new MaxParameterValueSelectionPanel(
-                    borisStandort.getAggregationValues());
-
-            panel.setAggregationValues(borisStandort.getAggregationValues());
+            panel.setAggregationValues(aggregationValues);
 
             panel.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -444,7 +476,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
                         System.out.println(evt.getNewValue() + " = " + panel.getSelectedValues());
                     }
                 });
-            panel.setAggregationValues(borisStandort.getAggregationValues());
+
             final JFrame frame = new JFrame("MaxParameterValueSelectionPanel");
             frame.getContentPane().add(panel);
             frame.getContentPane().setPreferredSize(new Dimension(600, 400));

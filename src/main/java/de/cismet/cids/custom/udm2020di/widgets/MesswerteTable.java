@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.table.AbstractTableModel;
 
+import de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 
 /**
@@ -29,7 +30,6 @@ public class MesswerteTable extends javax.swing.JPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.YYYY");
     protected static final Logger LOGGER = Logger.getLogger(MesswerteTable.class);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -60,7 +60,15 @@ public class MesswerteTable extends javax.swing.JPanel {
         }
 
         final MesswerteTableModel messwerteTableModel = new MesswerteTableModel(aggregationValues);
+        this.setModel(messwerteTableModel);
+    }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  messwerteTableModel  DOCUMENT ME!
+     */
+    public void setModel(final MesswerteTableModel messwerteTableModel) {
         final Runnable r = new Runnable() {
 
                 @Override
@@ -129,166 +137,4 @@ public class MesswerteTable extends javax.swing.JPanel {
 
         add(jScrollPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
-
-    //~ Inner Classes ----------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @version  $Revision$, $Date$
-     */
-    class MesswerteTableModel extends AbstractTableModel {
-
-        //~ Instance fields ----------------------------------------------------
-
-        private final AggregationValue[] aggregationValues;
-
-        //~ Constructors -------------------------------------------------------
-
-        /**
-         * Creates a new MesswerteTableModel object.
-         *
-         * @param  aggregationValues  DOCUMENT ME!
-         */
-        MesswerteTableModel(final AggregationValue[] aggregationValues) {
-            this.aggregationValues = aggregationValues;
-        }
-
-        //~ Methods ------------------------------------------------------------
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        @Override
-        public int getRowCount() {
-            return (aggregationValues != null) ? aggregationValues.length : 0;
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        @Override
-        public int getColumnCount() {
-            return 6;
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   rowIndex     DOCUMENT ME!
-         * @param   columnIndex  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        @Override
-        public Object getValueAt(final int rowIndex, final int columnIndex) {
-            if ((aggregationValues != null)
-                        && (rowIndex < aggregationValues.length)) {
-                switch (columnIndex) {
-                    case 0: {
-                        return aggregationValues[rowIndex].getPlainName();
-                    }
-                    case 1: {
-                        return aggregationValues[rowIndex].getMaxValue();
-                    }
-                    case 2: {
-                        return DATE_FORMAT.format(aggregationValues[rowIndex].getMaxDate());
-                    }
-                    case 3: {
-                        return aggregationValues[rowIndex].getMinValue();
-                    }
-                    case 4: {
-                        return DATE_FORMAT.format(aggregationValues[rowIndex].getMinDate());
-                    }
-                    case 5: {
-                        return aggregationValues[rowIndex].getUnit();
-                    }
-                    default: {
-                        return null;
-                    }
-                }
-            } else {
-                LOGGER.warn("invalid row index: " + rowIndex);
-                return null;
-            }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   column  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        @Override
-        public String getColumnName(final int column) {
-            switch (column) {
-                case 0: {
-                    return NbBundle.getMessage(MesswerteTable.class,
-                            "MesswerteTable.MesswerteTableModel.column_0");
-                }
-                case 1: {
-                    return NbBundle.getMessage(MesswerteTable.class,
-                            "MesswerteTable.MesswerteTableModel.column_1");
-                }
-                case 2: {
-                    return NbBundle.getMessage(MesswerteTable.class,
-                            "MesswerteTable.MesswerteTableModel.column_2");
-                }
-                case 3: {
-                    return NbBundle.getMessage(MesswerteTable.class,
-                            "MesswerteTable.MesswerteTableModel.column_3");
-                }
-                case 4: {
-                    return NbBundle.getMessage(MesswerteTable.class,
-                            "MesswerteTable.MesswerteTableModel.column_4");
-                }
-                case 5: {
-                    return NbBundle.getMessage(MesswerteTable.class,
-                            "MesswerteTable.MesswerteTableModel.column_5");
-                }
-                default: {
-                    return "unbekannt";
-                }
-            }
-        }
-
-        /**
-         * DOCUMENT ME!
-         *
-         * @param   columnIndex  DOCUMENT ME!
-         *
-         * @return  DOCUMENT ME!
-         */
-        @Override
-        public Class<?> getColumnClass(final int columnIndex) {
-            switch (columnIndex) {
-                case 0: {
-                    return String.class;
-                }
-                case 1: {
-                    return Float.class;
-                }
-                case 2: {
-                    return String.class;
-                }
-                case 3: {
-                    return Float.class;
-                }
-                case 4: {
-                    return String.class;
-                }
-                case 5: {
-                    return String.class;
-                }
-                default: {
-                    return String.class;
-                }
-            }
-        }
-    }
 }

@@ -20,7 +20,9 @@ import org.apache.log4j.Logger;
 
 import org.openide.util.lookup.ServiceProvider;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import java.io.IOException;
 
@@ -36,6 +38,7 @@ import javax.swing.SwingWorker;
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisSiteSearch;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
+import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -113,7 +116,7 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                                         + " nodes remaining after applying "
                                         + maxParameterValues.size() + " max param value filters to "
                                         + preFilteredNodes.size()
-                                        + "pre-filtered nodes (" + filteredNodes + " actually filtered nodes)");
+                                        + " pre-filtered nodes (" + filteredNodes + " actually filtered nodes)");
                         }
 
                         return postFilteredNodes;
@@ -133,6 +136,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel maxParameterValueSelectionPanel;
+    private javax.swing.JPanel parameterPanel;
+    private javax.swing.JProgressBar progressBar;
     private javax.swing.JButton resetButton;
     // End of variables declaration//GEN-END:variables
 
@@ -240,8 +245,13 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
                 @Override
                 public void run() {
+                    parameterPanel.removeAll();
+                    parameterPanel.setLayout(new FlowLayout());
+                    parameterPanel.add(progressBar);
                     maxParameterValueSelectionPanel.reset();
                     disableButtons();
+                    parameterPanel.validate();
+                    parameterPanel.repaint();
                 }
             });
 
@@ -282,12 +292,26 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                         try {
                             final Collection<AggregationValue> aggregationValues = this.get();
 
+                            parameterPanel.removeAll();
+                            parameterPanel.setLayout(new BorderLayout());
+                            parameterPanel.add(maxParameterValueSelectionPanel, BorderLayout.CENTER);
                             if (!aggregationValues.isEmpty()) {
-                                maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug("setting " + aggregationValues.size() + " aggregation values");
+                                }
+                                if (AggregationValues.class.isAssignableFrom(aggregationValues.getClass())) {
+                                    maxParameterValueSelectionPanel.setAggregationValues((AggregationValues)
+                                        aggregationValues);
+                                } else {
+                                    logger.warn("search did not return AggregationValues.class object!");
+                                    maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
+                                }
                                 enableButtons();
                             } else {
                                 logger.warn("no aggregation values found!");
                             }
+                            parameterPanel.validate();
+                            parameterPanel.repaint();
                         } catch (Exception ex) {
                             logger.error(ex.getMessage(), ex);
                         }
@@ -337,6 +361,8 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        progressBar = new javax.swing.JProgressBar();
+        parameterPanel = new javax.swing.JPanel();
         maxParameterValueSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel();
         actionPanel = new javax.swing.JPanel();
         applyButton = new javax.swing.JButton();
@@ -348,7 +374,15 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                 new java.awt.Dimension(32767, 5));
         resetButton = new javax.swing.JButton();
 
+        progressBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        progressBar.setIndeterminate(true);
+        progressBar.setMinimumSize(new java.awt.Dimension(150, 14));
+        progressBar.setOpaque(true);
+        progressBar.setPreferredSize(new java.awt.Dimension(250, 14));
+
         setLayout(new java.awt.BorderLayout());
+
+        parameterPanel.setLayout(new java.awt.BorderLayout());
 
         maxParameterValueSelectionPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         maxParameterValueSelectionPanel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -358,7 +392,9 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
                     maxParameterValueSelectionPanelPropertyChange(evt);
                 }
             });
-        add(maxParameterValueSelectionPanel, java.awt.BorderLayout.CENTER);
+        parameterPanel.add(maxParameterValueSelectionPanel, java.awt.BorderLayout.CENTER);
+
+        add(parameterPanel, java.awt.BorderLayout.CENTER);
 
         actionPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         actionPanel.setLayout(new javax.swing.BoxLayout(actionPanel, javax.swing.BoxLayout.PAGE_AXIS));
