@@ -12,28 +12,19 @@ import Sirius.navigator.types.treenode.ObjectTreeNode;
 import Sirius.navigator.types.treenode.PureTreeNode;
 import Sirius.navigator.ui.tree.CidsTreeObjectIconFactory;
 
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.Geometry;
-
 import org.apache.log4j.Logger;
 
-import org.geotools.geometry.jts.LiteShape;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
+import org.openide.util.ImageUtilities;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.cids.custom.udm2020di.ImageUtil;
 
 /**
  * DOCUMENT ME!
  *
- * @author   martin.scholl@cismet.de
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public final class NamedAreaIconFactory implements CidsTreeObjectIconFactory {
@@ -74,41 +65,18 @@ public final class NamedAreaIconFactory implements CidsTreeObjectIconFactory {
 
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
+        final StringBuilder iconNameBuilder = new StringBuilder();
+        iconNameBuilder.append("bl-");
+        iconNameBuilder.append(otn.getMetaObjectNode().getName().toLowerCase());
+        iconNameBuilder.append(".gif");
+
         try {
-            final CidsBean bean = otn.getMetaObject().getBean();
-            final Geometry geom = (Geometry)bean.getProperty("area.geo_field");
-
-            final Envelope env = geom.getEnvelopeInternal();
-            final double scale = Math.min(16 / env.getWidth(), 16 / env.getHeight());
-            final double xoff = 0 - (scale * env.getMinX());
-            final double yoff = env.getMaxY() * scale;
-            final AffineTransform at = new AffineTransform(scale, 0, 0, -scale, xoff, yoff);
-
-            final LiteShape shape = new LiteShape(geom, at, false);
-
-            final int dw = (int)Math.ceil(geom.getEnvelopeInternal().getWidth() * scale);
-            final int dh = (int)Math.ceil(geom.getEnvelopeInternal().getHeight() * scale);
-
-            final BufferedImage biShape = new BufferedImage(dw, dh, BufferedImage.TYPE_INT_ARGB);
-            final Graphics2D g2dShape = (Graphics2D)biShape.getGraphics();
-
-            final Paint paint = new Color(153, 153, 255);
-            g2dShape.setPaint(paint);
-            g2dShape.fill(shape);
-
-            g2dShape.setPaint(Color.BLACK);
-            g2dShape.draw(shape);
-
-            final BufferedImage bi = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-
-            final Graphics2D g2d = (Graphics2D)bi.getGraphics();
-            final int x = (bi.getWidth() - biShape.getWidth()) / 2;
-            final int y = (bi.getHeight() - biShape.getHeight()) / 2;
-            g2d.drawImage(biShape, x, y, null);
-
-            return new ImageIcon(bi);
+            final ImageIcon icon = ImageUtilities.loadImageIcon(
+                    ImageUtil.getResourcePath(NamedAreaIconFactory.class, iconNameBuilder.toString()),
+                    false);
+            return icon;
         } catch (final Exception e) {
-            LOG.error("cannot create catchment area icon", e);
+            LOG.error("cannot create name area icon " + iconNameBuilder, e);
 
             return null;
         }

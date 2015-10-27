@@ -409,8 +409,8 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
                         parametersPanel.remove(removeMeButton);
                         removeMeButton.removeActionListener(this);
                         setSelectedValues(parameterValuePanels.size());
-                        validateTree();
-                        repaint();
+                        parametersPanel.validate();
+                        parametersPanel.repaint();
                     }
                 });
         } else {
