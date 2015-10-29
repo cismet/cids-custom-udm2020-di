@@ -721,7 +721,14 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (isEventsEnabled()) {
-            this.enableButtons();
+            if (e.getModifiers() == ActionEvent.CTRL_MASK) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("SHIFT KEY pressed, performing switch action");
+                }
+                this.switchButtonActionPerformed(e);
+            } else {
+                this.enableButtons();
+            }
         }
     }
 

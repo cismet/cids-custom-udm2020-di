@@ -176,12 +176,6 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         setLayout(new BorderLayout());
 
         jTabbedPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        jTabbedPane.addChangeListener(new ChangeListener() {
-
-                public void stateChanged(final ChangeEvent evt) {
-                    jTabbedPaneStateChanged(evt);
-                }
-            });
 
         infoPanel.setLayout(new BorderLayout());
 
@@ -285,10 +279,12 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                 Class[] types = new Class[] { String.class, String.class, Float.class, String.class };
                 boolean[] canEdit = new boolean[] { false, false, false, false };
 
+                @Override
                 public Class getColumnClass(final int columnIndex) {
                     return types[columnIndex];
                 }
 
+                @Override
                 public boolean isCellEditable(final int rowIndex, final int columnIndex) {
                     return canEdit[columnIndex];
                 }
@@ -324,15 +320,6 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
         bindingGroup.bind();
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void jTabbedPaneStateChanged(final ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
-        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-    }                                                             //GEN-LAST:event_jTabbedPaneStateChanged
 
     /**
      * DOCUMENT ME!
@@ -414,9 +401,10 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                                 new Long[] { moss.getId() }),
                             parameterSelectionPanel.getSelectedParameters());
                     parameterSelectionPanel.setExportAction(exportAction);
-
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
+                    }
                     jTabbedPane.setSelectedIndex(SELECTED_TAB);
-
                     jTabbedPane.addChangeListener(WeakListeners.create(
                             ChangeListener.class,
                             new ChangeListener() {
