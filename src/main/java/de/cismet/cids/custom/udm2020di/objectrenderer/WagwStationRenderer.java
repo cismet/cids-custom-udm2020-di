@@ -62,7 +62,7 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
     private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private javax.swing.JScrollPane parameterScrollPane;
-    private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
     protected javax.swing.JPanel standortdatenPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -110,7 +110,7 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
         parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
         messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
-        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
+        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));

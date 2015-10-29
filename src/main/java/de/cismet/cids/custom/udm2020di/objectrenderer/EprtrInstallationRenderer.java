@@ -75,7 +75,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
     private javax.swing.JPanel notifPanel;
     private de.cismet.cids.custom.udm2020di.widgets.eprtr.NotificationsPanel notificationsPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
-    private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -255,7 +255,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
         messwerteScrollPane = new javax.swing.JScrollPane();
         messwerteTable = new javax.swing.JTable();
         exportPanel = new javax.swing.JPanel();
-        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
+        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));

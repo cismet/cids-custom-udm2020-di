@@ -51,8 +51,8 @@ import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.moss.Moss;
+import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.ParameterPanel;
-import de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel;
 
 /**
  * DOCUMENT ME!
@@ -93,7 +93,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
     private JPanel mossPanel;
     private JPanel mossTypePanel;
     private ParameterPanel parameterPanel;
-    private ParameterSelectionPanel parameterSelectionPanel;
+    private ExportParameterSelectionPanel parameterSelectionPanel;
     private BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -170,7 +170,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         messwerteScrollPane = new JScrollPane();
         messwerteTable = new JTable();
         exportPanel = new JPanel();
-        parameterSelectionPanel = new ParameterSelectionPanel();
+        parameterSelectionPanel = new ExportParameterSelectionPanel();
         filler = new Box.Filler(new Dimension(0, 0), new Dimension(0, 0), new Dimension(32767, 32767));
 
         setLayout(new BorderLayout());
