@@ -71,6 +71,9 @@ public class ExportActionDownload extends AbstractDownload {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     public void run() {
         if (status != State.WAITING) {

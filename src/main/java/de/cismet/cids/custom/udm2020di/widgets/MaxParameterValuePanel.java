@@ -28,7 +28,7 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class MaxParameterValuePanel extends javax.swing.JPanel {
@@ -79,7 +79,7 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        final java.awt.GridBagConstraints gridBagConstraints;
+        java.awt.GridBagConstraints gridBagConstraints;
 
         cbParameters = new javax.swing.JComboBox();
         maxValuePanel = new de.cismet.cids.custom.udm2020di.widgets.MaxValuePanel();
@@ -102,7 +102,13 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(cbParameters, gridBagConstraints);
-        add(maxValuePanel, new java.awt.GridBagConstraints());
+
+        maxValuePanel.setBorder(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        add(maxValuePanel, gridBagConstraints);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -158,6 +164,17 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
 
         //~ Methods ------------------------------------------------------------
 
+        /**
+         * DOCUMENT ME!
+         *
+         * @param   list          DOCUMENT ME!
+         * @param   value         DOCUMENT ME!
+         * @param   index         DOCUMENT ME!
+         * @param   isSelected    DOCUMENT ME!
+         * @param   cellHasFocus  DOCUMENT ME!
+         *
+         * @return  DOCUMENT ME!
+         */
         @Override
         public Component getListCellRendererComponent(final JList list,
                 final Object value,

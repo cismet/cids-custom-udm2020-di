@@ -34,7 +34,7 @@ import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAct
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class BorisExportAction extends AbstractExportAction {
@@ -55,7 +55,8 @@ public class BorisExportAction extends AbstractExportAction {
      * @param  standorte   DOCUMENT ME!
      * @param  parameters  DOCUMENT ME!
      */
-    public BorisExportAction(final Collection<String> standorte, final Collection<Parameter> parameters) {
+    public BorisExportAction(final Collection<String> standorte,
+            final Collection<Parameter> parameters) {
         super("Exportieren");
 
         this.parameters = parameters;
@@ -67,6 +68,11 @@ public class BorisExportAction extends AbstractExportAction {
 
     //~ Methods ----------------------------------------------------------------
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  e  DOCUMENT ME!
+     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         final Frame frame;

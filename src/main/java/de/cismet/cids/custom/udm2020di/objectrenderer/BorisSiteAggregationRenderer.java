@@ -9,26 +9,29 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
 
-import java.awt.Component;
+import org.openide.util.NbBundle;
+import org.openide.util.WeakListeners;
+
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel;
+import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
+import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -37,14 +40,15 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanAggregationRendererPanel;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger logger = Logger.getLogger(BorisSiteAggregationRenderer.class);
+    protected static final Logger LOGGER = Logger.getLogger(BorisSiteAggregationRenderer.class);
+    protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -54,18 +58,14 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
     private javax.swing.JPanel exportPanel;
     private javax.swing.JPanel featureSelectionPanel;
     private javax.swing.JList featuresList;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane;
     private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel;
-    private javax.swing.JPanel messwertePanel;
-    private javax.swing.JTable messwerteTable;
+    private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
-    private de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel searchPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -110,30 +110,31 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         java.awt.GridBagConstraints gridBagConstraints;
 
         parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane = new javax.swing.JTabbedPane();
         infoPanel = new javax.swing.JPanel();
         mapPanel = new de.cismet.cids.custom.udm2020di.widgets.MapPanel();
         featureSelectionPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         featuresList = new javax.swing.JList();
-        messwertePanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        messwerteTable = new javax.swing.JTable();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 32767));
+        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
         parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
-        searchPanel = new de.cismet.cids.custom.udm2020di.search.CustomMaxValuesSearchPanel();
 
         parameterPanel.setMinimumSize(new java.awt.Dimension(200, 300));
 
         setLayout(new java.awt.BorderLayout());
 
-        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+
+                @Override
+                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+                    jTabbedPaneStateChanged(evt);
+                }
+            });
 
         infoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -198,73 +199,14 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         gridBagConstraints.weighty = 1.0;
         infoPanel.add(featureSelectionPanel, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteAggregationRenderer.class,
                 "BorisSiteAggregationRenderer.infoPanel.TabConstraints.tabTitle_1"),
-            infoPanel); // NOI18N
-
-        messwertePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        messwertePanel.setLayout(new java.awt.GridBagLayout());
-
-        messwerteTable.setBorder(javax.swing.BorderFactory.createLineBorder(
-                javax.swing.UIManager.getDefaults().getColor("Table.dropLineColor")));
-        messwerteTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {},
-                new String[] { "Parametername", "Maximalwert", "Minimalwert" }) {
-
-                Class[] types = new Class[] { java.lang.String.class, java.lang.Float.class, java.lang.Float.class };
-                boolean[] canEdit = new boolean[] { false, false, false };
-
-                @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-
-                @Override
-                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-                    return canEdit[columnIndex];
-                }
-            });
-        messwerteTable.setFillsViewportHeight(true);
-        messwerteTable.setPreferredSize(new java.awt.Dimension(300, 500));
-        messwerteTable.setRequestFocusEnabled(false);
-        messwerteTable.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(messwerteTable);
-        if (messwerteTable.getColumnModel().getColumnCount() > 0) {
-            messwerteTable.getColumnModel()
-                    .getColumn(0)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.messwerteTable.columnModel.title0")); // NOI18N
-            messwerteTable.getColumnModel()
-                    .getColumn(1)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.messwerteTable.columnModel.title2")); // NOI18N
-            messwerteTable.getColumnModel()
-                    .getColumn(2)
-                    .setHeaderValue(org.openide.util.NbBundle.getMessage(
-                            BorisSiteAggregationRenderer.class,
-                            "BorisSiteAggregationRenderer.messwerteTable.columnModel.title3")); // NOI18N
-        }
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        messwertePanel.add(jScrollPane1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        messwertePanel.add(filler1, gridBagConstraints);
-
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+            infoPanel);      // NOI18N
+        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteAggregationRenderer.class,
-                "BorisSiteAggregationRenderer.messwertePanel.TabConstraints.tabTitle_2"),
-            messwertePanel); // NOI18N
+                "BorisSiteAggregationRenderer.messwerteTable.TabConstraints.tabTitle"),
+            messwerteTable); // NOI18N
 
         exportPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -280,16 +222,12 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         gridBagConstraints.weighty = 1.0;
         exportPanel.add(filler2, gridBagConstraints);
 
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
+        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteAggregationRenderer.class,
                 "BorisSiteAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
-        jTabbedPane1.addTab(org.openide.util.NbBundle.getMessage(
-                BorisSiteAggregationRenderer.class,
-                "BorisSiteAggregationRenderer.searchPanel.TabConstraints.tabTitle"),
-            searchPanel); // NOI18N
 
-        add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+        add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 
     /**
@@ -305,10 +243,19 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
     /**
      * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
+        SELECTED_TAB = jTabbedPane.getSelectedIndex();
+    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
+
+    /**
+     * DOCUMENT ME!
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
-            logger.info("processing " + cidsBeans.size() + "cids beans");
+            LOGGER.info("processing " + cidsBeans.size() + "cids beans");
             final Runnable r = new Runnable() {
 
                     @Override
@@ -339,9 +286,12 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 // parameterNamesSet.addAll(parameterNames);
                                 parametersSet.addAll(borisStandort.getProbenparameter());
 
-                                aggregationValues.addAll(borisStandort.getAggregationValues());
+                                // boris samples values are already aggregated.
+                                // Set the maximum values of the aggregated maximum values and
+                                // the minimum values of the aggregated maximum values
+                                aggregationValues.addAllMax(borisStandort.getAggregationValues());
                             } catch (Exception ex) {
-                                logger.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
+                                LOGGER.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
                             }
                         }
 
@@ -356,19 +306,24 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 parameterSelectionPanel.getSelectedParameters());
                         parameterSelectionPanel.setExportAction(borisExportAction);
 
-                        // Messwerte Tab
-                        final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
-                        for (final AggregationValue aggregationValue : aggregationValues) {
-                            final Object[] rowData = new Object[] {
-                                    aggregationValue.getName(),
-                                    aggregationValue.getMaxValue(),
-                                    aggregationValue.getMinValue()
-                                };
-                            tableModel.addRow(rowData);
-                        }
+                        // Messwerte Tab ---------------------------------------
+                        final MesswerteTableModel messwerteTableModel = new BorisMesswerteTableModel(
+                                aggregationValues.toArray(
+                                    new AggregationValue[0]));
+                        messwerteTable.setModel(messwerteTableModel);
 
-                        // temp search
-                        searchPanel.setCollections(cidsBeans, aggregationValues);
+                        // Selected Tab ----------------------------------------
+                        jTabbedPane.setSelectedIndex(SELECTED_TAB);
+                        jTabbedPane.addChangeListener(WeakListeners.create(
+                                ChangeListener.class,
+                                new ChangeListener() {
+
+                                    @Override
+                                    public void stateChanged(final ChangeEvent evt) {
+                                        SELECTED_TAB = jTabbedPane.getSelectedIndex();
+                                    }
+                                },
+                                jTabbedPane));
                     }
                 };
 
@@ -380,11 +335,19 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     */
     @Override
     public void dispose() {
         // mappingComponent.dispose();
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public String getTitle() {
         String desc = "";
@@ -395,6 +358,11 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         return desc;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  title  DOCUMENT ME!
+     */
     @Override
     public void setTitle(final String title) {
     }
@@ -406,26 +374,58 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
      *
      * @version  $Revision$, $Date$
      */
-    public static final class NameRenderer extends DefaultListCellRenderer {
+    class BorisMesswerteTableModel extends MesswerteTableModel {
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new BorisMesswerteTableModel object.
+         *
+         * @param  aggregationValues  DOCUMENT ME!
+         */
+        public BorisMesswerteTableModel(final AggregationValue[] aggregationValues) {
+            super(aggregationValues);
+        }
 
         //~ Methods ------------------------------------------------------------
 
         @Override
-        public Component getListCellRendererComponent(final JList list,
-                final Object value,
-                final int index,
-                final boolean isSelected,
-                final boolean cellHasFocus) {
-            final Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-            if ((comp instanceof JLabel) && (value instanceof CidsBean)) {
-                final JLabel label = (JLabel)comp;
-                final CidsBean obj = (CidsBean)value;
-                final String name = (String)obj.getProperty("name"); // NOI18N
-                label.setText(name);
+        public String getColumnName(final int column) {
+            switch (column) {
+                case 0: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_0");
+                }
+                case 1: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_1");
+                }
+                case 2: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_2");
+                }
+                case 3: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_3");
+                }
+                case 4: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_4");
+                }
+                case 5: {
+                    return NbBundle.getMessage(
+                            BorisSiteAggregationRenderer.class,
+                            "BorisSiteAggregationRenderer.MesswerteTableModel.column_5");
+                }
+                default: {
+                    return "unbekannt";
+                }
             }
-
-            return comp;
         }
     }
 }

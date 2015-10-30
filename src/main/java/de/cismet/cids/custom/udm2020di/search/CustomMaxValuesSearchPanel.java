@@ -5,11 +5,6 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.udm2020di.search;
 
 import Sirius.navigator.search.dynamic.SearchControlListener;
@@ -27,9 +22,10 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import de.cismet.cids.custom.udm2020di.ImageUtil;
-import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisCustomSearch;
+import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisSiteSearch;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 
 import de.cismet.cids.dynamics.CidsBean;
@@ -44,7 +40,7 @@ import de.cismet.cids.tools.search.clientstuff.CidsWindowSearch;
  * @author   pd
  * @version  $Revision$, $Date$
  */
-public class CustomMaxValuesSearchPanel extends javax.swing.JPanel implements CidsWindowSearch, SearchControlListener {
+public class CustomMaxValuesSearchPanel extends JPanel implements CidsWindowSearch, SearchControlListener {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -216,7 +212,7 @@ public class CustomMaxValuesSearchPanel extends javax.swing.JPanel implements Ci
     @Override
     public MetaObjectNodeServerSearch getServerSearch() {
         try {
-            final BorisCustomSearch customSearch = new BorisCustomSearch();
+            final BorisSiteSearch customSearch = new BorisSiteSearch();
 
             final List<Integer> objectIds = new ArrayList<Integer>(cidsBeans.size());
             int classId = -1;
@@ -228,6 +224,7 @@ public class CustomMaxValuesSearchPanel extends javax.swing.JPanel implements Ci
             customSearch.setClassId(classId);
             customSearch.setObjectIds(objectIds);
             customSearch.setMaxValues(this.maxParameterValueSelectionPanel.getValues());
+            // customSearch.setMinDate();
 
             return customSearch;
         } catch (IOException ex) {

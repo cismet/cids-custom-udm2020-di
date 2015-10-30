@@ -37,7 +37,7 @@ public final class MossIconFactory implements CidsTreeObjectIconFactory {
      * Creates a new MossIconFactory object.
      */
     public MossIconFactory() {
-        this.mossIcon = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(MossIconFactory.class, "moss_16.png"),
+        this.mossIcon = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(MossIconFactory.class, "grass_16.png"),
                 false);
     }
 

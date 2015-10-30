@@ -7,12 +7,12 @@
         Purpose of XML Schema document follows.
 -->
 <plugin xmlns="http://www.enviromatics.net/sirius/navigator/plugins" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://www.enviromatics.net/sirius/navigator/plugins
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:schemaLocation="http://www.enviromatics.net/sirius/navigator/plugins
     file:///D:%5Cwork%5Cweb%5CSirius%5CNavigator%5Cplugins%5Cplugin.xsd" 
-    id="cismap"
+        id="cismap"
     
-    usergroup="Administratoren@WRRL_DB_MV">
+        usergroup="Administratoren@WRRL_DB_MV">
 
     <metainfo 
         name="CISMAP" 
@@ -40,34 +40,34 @@
         <pluginclass>de.cismet.cismap.navigatorplugin.CismapPlugin</pluginclass>
         <libraries>
             
-          </libraries>
+        </libraries>
         <rights>
             <users>
             </users>
             <usergroups>
-  <!--              <name>Administratoren@WRRL_DB_MV</name>
-				<name>Demo@WRRL_DB_MV</name>
-                <name>Schulung@WRRL_DB_MV</name>
-				<name>Administratoren@VERDIS</name>
-				<name>VORN@VERDIS</name>
-				<name>VORN_GAST@VERDIS</name>
-				<name>Administratoren@KIGA</name>
-             <name>Altlasten@WRRL_DB_MV</name>
-             <name>Feuerwehr@WRRL_DB_MV</name>
-             <name>Akuk@WRRL_DB_MV</name>
-             <name>TIM@WRRL_DB_MV</name>
-             <name>TIM_LIEGENSCHAFTSKARTE@WRRL_DB_MV</name>
-            <name>VORN@WRRL_DB_MV</name>
-            <name>VORN_GAST@WRRL_DB_MV</name>
-            <name>Luftbild_SA@WRRL_DB_MV</name>
-            <name>Lagerbuch bearbeiten R105@WUNDA_LAGER</name>
-            <name>Lagerbuch R105@WUNDA_LAGER</name>
-			<name>Administratoren@SCHULUNG</name>-->
+                <!--              <name>Administratoren@WRRL_DB_MV</name>
+                        <name>Demo@WRRL_DB_MV</name>
+        <name>Schulung@WRRL_DB_MV</name>
+                        <name>Administratoren@VERDIS</name>
+                        <name>VORN@VERDIS</name>
+                        <name>VORN_GAST@VERDIS</name>
+                        <name>Administratoren@KIGA</name>
+     <name>Altlasten@WRRL_DB_MV</name>
+     <name>Feuerwehr@WRRL_DB_MV</name>
+     <name>Akuk@WRRL_DB_MV</name>
+     <name>TIM@WRRL_DB_MV</name>
+     <name>TIM_LIEGENSCHAFTSKARTE@WRRL_DB_MV</name>
+    <name>VORN@WRRL_DB_MV</name>
+    <name>VORN_GAST@WRRL_DB_MV</name>
+    <name>Luftbild_SA@WRRL_DB_MV</name>
+    <name>Lagerbuch bearbeiten R105@WUNDA_LAGER</name>
+    <name>Lagerbuch R105@WUNDA_LAGER</name>
+                <name>Administratoren@SCHULUNG</name>-->
             </usergroups>
         </rights>
 
 
-		<params>
+        <params>
             <param>
                 <name>cismapconfig:default</name>
                 <value>defaultCismapProperties.xml</value>
@@ -117,7 +117,7 @@
                 <name>cismapconfig:*@Lagerbuch R105@WUNDA_LAGER</name>
                 <value>AdminsWundaBlauCismapProperties.xml</value>
             </param>
-		<param>
+            <param>
                 <name>geosuche</name>
                 <value>GEOSEARCH@WRRL_DB_MV</value>
             </param> 
@@ -128,15 +128,15 @@
     
     <methods>
 		
-		<method>
-		<id>de.cismet.cismap.navigatorplugin.CismapPlugin$ShowObjectsMethod</id>
-		<name>ShowObject</name>
-		<description>
-			Zeigt die selektierten Objekte im Navigator Katalog in der Karte an.
-		</description>
-		<multithreaded>false</multithreaded>
-		<availability>100</availability>
-		</method>	
+        <method>
+            <id>de.cismet.cismap.navigatorplugin.CismapPlugin$ShowObjectsMethod</id>
+            <name>ShowObject</name>
+            <description>
+                Zeigt die selektierten Objekte im Navigator Katalog in der Karte an.
+            </description>
+            <multithreaded>false</multithreaded>
+            <availability>100</availability>
+        </method>	
 		
     </methods>
      
@@ -167,30 +167,30 @@
         </widgets>
         
         <actions>
-<!--		
-			 <menu>
-                <properties>
-                    <name>SIS OGC Client</name>
-                    <mnemonic>S</mnemonic>
-                    <icon>images/cross.gif</icon>
-                </properties>
-			</menu>-->
-			<popupmenu>
+            <!--		
+             <menu>
+    <properties>
+        <name>SIS OGC Client</name>
+        <mnemonic>S</mnemonic>
+        <icon>images/cross.gif</icon>
+    </properties>
+            </menu>-->
+            <popupmenu>
                 <properties>
                     <name>CismapClient</name>
                     <mnemonic>S</mnemonic>
                     <icon>images/cismap.png</icon>
                 </properties>
                 <items>
-					<item>
+                    <item>
                         <name>Show Objects</name>
                         <mnemonic>O</mnemonic>
                         <icon>images/cismap.png</icon>
                         <method>de.cismet.cismap.navigatorplugin.CismapPlugin$ShowObjectsMethod</method>
                         <accelerator>alt O</accelerator>
-                </item>
-				</items>
-				</popupmenu>
+                    </item>
+                </items>
+            </popupmenu>
 				
         </actions>
     </ui>

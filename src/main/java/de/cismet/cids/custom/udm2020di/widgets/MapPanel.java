@@ -27,6 +27,7 @@ import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
 
 import de.cismet.cismap.commons.Crs;
+import de.cismet.cismap.commons.CrsTransformer;
 import de.cismet.cismap.commons.XBoundingBox;
 import de.cismet.cismap.commons.gui.MappingComponent;
 import de.cismet.cismap.commons.gui.layerwidget.ActiveLayerModel;
@@ -176,8 +177,8 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
         for (final CidsBean deltaSurface : deltaSurfaces) {
             try {
-                final Geometry geomUba = (Geometry)deltaSurface.getProperty("geometry.geo_field");
-                // final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaUtils.EPSG_UBA);
+                final Geometry geom = (Geometry)deltaSurface.getProperty("geometry.geo_field");
+                final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaUtils.EPSG_UBA);
                 geometries.add(geomUba);
             } catch (Exception ex) {
                 LOG.warn(ex, ex);

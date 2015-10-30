@@ -79,8 +79,11 @@ public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer {
     @Override
     public void assign() {
     }
-
-    // TODO: not necessarily only rain symbol, symbol selection must be cidsbean dependent
+    /**
+     * TODO: not necessarily only rain symbol, symbol selection must be cidsbean dependent
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public FeatureAnnotationSymbol getPointSymbol() {
         if (borisSitePointSymbolUnselected == null) {
@@ -94,6 +97,11 @@ public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer {
         }
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     @Override
     public float getTransparency() {
         return 0.9f;
