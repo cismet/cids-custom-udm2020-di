@@ -25,6 +25,9 @@ import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAct
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_PARAMETER;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_STANDORTE;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.TASK_NAME;
+import de.cismet.cids.custom.udm2020di.widgets.ChartVisualisationComponent;
+import java.util.HashMap;
+import org.jfree.data.time.TimeSeries;
 /**
  * DOCUMENT ME!
  *
@@ -50,8 +53,9 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
      * @param  parameters  DOCUMENT ME!
      */
     public BorisVisualisationAction(final Collection<String> standorte,
-            final Collection<Parameter> parameters) {
-        super("Exportieren", parameters);
+            final Collection<Parameter> parameters, 
+            final ChartVisualisationComponent chartVisualisationComponent) {
+        super("Exportieren", parameters, chartVisualisationComponent);
 
         this.standorte = standorte;
         this.setEnabled(!this.parameters.isEmpty());
@@ -94,7 +98,26 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
 
     @Override
     protected Map<String, Dataset> createDataset(final MappingIterator<String[]> mappingIterator) {
-        throw new UnsupportedOperationException("Not supported yet.");    // To change body of generated methods, choose
-                                                                          // Tools | Templates.
+        LOGGER.debug("generating chart datasets for " + this.standorte.size() + " standorte");
+        final Map<String, Dataset> datasets = new HashMap(this.standorte.size());
+        final TimeSeries[] timeSeries = this.createTimeSeries();
+        
+        
+      //  final TimeSeries[] timeSeries; = new TimeSeries("L&G European Index Trust", Month.class);
+        while(mappingIterator.hasNext()) {
+            final String[] row = mappingIterator.next();
+            
+        }
+        
+        
+        return datasets;
+        
     }
+
+    @Override
+    protected String getStationCaption(String stationPk) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

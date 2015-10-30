@@ -27,12 +27,13 @@ import java.util.TreeSet;
 import javax.swing.JCheckBox;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class VisualisationParameterSelectionPanel extends javax.swing.JPanel implements ItemListener {
@@ -47,9 +48,9 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionPanel;
-    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSelectAll;
+    private javax.swing.JButton btnVisualise;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
@@ -86,30 +87,18 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         buttonGroup1 = new javax.swing.ButtonGroup();
         selectionPanel = new javax.swing.JPanel();
         actionPanel = new javax.swing.JPanel();
-        btnExport = new javax.swing.JButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5));
+        btnVisualise = new javax.swing.JButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5), new java.awt.Dimension(5, 5), new java.awt.Dimension(5, 5));
         btnReset = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5));
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5), new java.awt.Dimension(5, 5), new java.awt.Dimension(5, 5));
         btnSelectAll = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 0));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
 
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(
-                javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5),
-                javax.swing.BorderFactory.createCompoundBorder(
-                    javax.swing.BorderFactory.createTitledBorder(
-                        org.openide.util.NbBundle.getMessage(
-                            VisualisationParameterSelectionPanel.class,
-                            "VisualisationParameterSelectionPanel.border.insideBorder.outsideBorder.title")),
-                    javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5), javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(org.openide.util.NbBundle.getMessage(VisualisationParameterSelectionPanel.class, "VisualisationParameterSelectionPanel.border.insideBorder.outsideBorder.title")), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
         setMinimumSize(new java.awt.Dimension(500, 100));
         setLayout(new java.awt.BorderLayout(5, 5));
 
@@ -119,72 +108,58 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
 
         actionPanel.setLayout(new javax.swing.BoxLayout(actionPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        btnExport.setText(org.openide.util.NbBundle.getMessage(
-                VisualisationParameterSelectionPanel.class,
-                "VisualisationParameterSelectionPanel.btnExport.text"));          // NOI18N
-        btnExport.setActionCommand(org.openide.util.NbBundle.getMessage(
-                VisualisationParameterSelectionPanel.class,
-                "VisualisationParameterSelectionPanel.btnExport.actionCommand")); // NOI18N
-        btnExport.setAutoscrolls(true);
-        actionPanel.add(btnExport);
+        btnVisualise.setText(org.openide.util.NbBundle.getMessage(VisualisationParameterSelectionPanel.class, "VisualisationParameterSelectionPanel.btnVisualise.text")); // NOI18N
+        btnVisualise.setActionCommand(org.openide.util.NbBundle.getMessage(VisualisationParameterSelectionPanel.class, "VisualisationParameterSelectionPanel.btnVisualise.actionCommand")); // NOI18N
+        btnVisualise.setAutoscrolls(true);
+        actionPanel.add(btnVisualise);
         actionPanel.add(filler2);
 
-        btnReset.setText(org.openide.util.NbBundle.getMessage(
-                VisualisationParameterSelectionPanel.class,
-                "VisualisationParameterSelectionPanel.btnReset.text"));          // NOI18N
-        btnReset.setActionCommand(org.openide.util.NbBundle.getMessage(
-                VisualisationParameterSelectionPanel.class,
-                "VisualisationParameterSelectionPanel.btnReset.actionCommand")); // NOI18N
+        btnReset.setText(org.openide.util.NbBundle.getMessage(VisualisationParameterSelectionPanel.class, "VisualisationParameterSelectionPanel.btnReset.text")); // NOI18N
+        btnReset.setActionCommand(org.openide.util.NbBundle.getMessage(VisualisationParameterSelectionPanel.class, "VisualisationParameterSelectionPanel.btnReset.actionCommand")); // NOI18N
         btnReset.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnResetActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
         actionPanel.add(btnReset);
         actionPanel.add(filler5);
 
-        btnSelectAll.setText(org.openide.util.NbBundle.getMessage(
-                VisualisationParameterSelectionPanel.class,
-                "VisualisationParameterSelectionPanel.btnSelectAll.text")); // NOI18N
+        btnSelectAll.setText(org.openide.util.NbBundle.getMessage(VisualisationParameterSelectionPanel.class, "VisualisationParameterSelectionPanel.btnSelectAll.text")); // NOI18N
         btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
-
-                @Override
-                public void actionPerformed(final java.awt.event.ActionEvent evt) {
-                    btnSelectAllActionPerformed(evt);
-                }
-            });
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectAllActionPerformed(evt);
+            }
+        });
         actionPanel.add(btnSelectAll);
         actionPanel.add(filler1);
 
         add(actionPanel, java.awt.BorderLayout.SOUTH);
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnResetActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnResetActionPerformed
+    private void btnResetActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
 
         if ((this.parameters != null) && !this.parameters.isEmpty()) {
             for (final Parameter parameter : this.parameters) {
                 parameter.setSelected(false);
             }
         }
-    } //GEN-LAST:event_btnResetActionPerformed
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
+    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAllActionPerformed
         for (final Parameter parameter : this.parameters) {
             parameter.setSelected(true);
         }
-    }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
+    }//GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
      * Get the value of parameters.
@@ -261,8 +236,8 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
      *
      * @param  exportAction  DOCUMENT ME!
      */
-    public void setExportAction(final ExportAction exportAction) {
-        btnExport.setAction(exportAction);
+    public void setVisualisationActionAction(final VisualisationAction visualisationAction) {
+        btnVisualise.setAction(visualisationAction);
     }
 
     /**
@@ -271,9 +246,9 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
      * @return  the value of exportAction
      */
     public ExportAction getExportAction() {
-        return ((btnExport.getAction() != null)
-                        && ExportAction.class.isAssignableFrom(btnExport.getAction().getClass()))
-            ? (ExportAction)btnExport.getAction() : null;
+        return ((btnVisualise.getAction() != null)
+                        && ExportAction.class.isAssignableFrom(btnVisualise.getAction().getClass()))
+            ? (ExportAction)btnVisualise.getAction() : null;
     }
 
     @Override
@@ -281,10 +256,10 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
         final Collection<Parameter> selParameters = this.getSelectedParameters();
 
         if (selParameters.isEmpty()) {
-            this.btnExport.getAction().setEnabled(false);
+            this.btnVisualise.getAction().setEnabled(false);
             this.btnReset.setEnabled(false);
         } else {
-            this.btnExport.getAction().setEnabled(true);
+            this.btnVisualise.getAction().setEnabled(true);
             this.btnReset.setEnabled(true);
         }
 
