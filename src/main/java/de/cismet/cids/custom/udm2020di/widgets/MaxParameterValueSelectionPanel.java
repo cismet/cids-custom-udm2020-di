@@ -453,45 +453,6 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     /**
      * DOCUMENT ME!
      *
-     * @param  args  DOCUMENT ME!
-     */
-    public static void main(final String[] args) {
-        try {
-            BasicConfigurator.configure();
-            final Standort borisStandort = OracleImport.JSON_MAPPER.readValue(
-                    MaxParameterValueSelectionPanel.class.getResourceAsStream(
-                        "/de/cismet/cids/custom/udm2020di/testing/BorisStandort.json"),
-                    Standort.class);
-
-            final AggregationValues aggregationValues = new AggregationValues(borisStandort.getAggregationValues());
-            final MaxParameterValueSelectionPanel panel = new MaxParameterValueSelectionPanel();
-
-            aggregationValues.addAll(borisStandort.getAggregationValues());
-            panel.setAggregationValues(aggregationValues);
-
-            panel.addPropertyChangeListener(new PropertyChangeListener() {
-
-                    @Override
-                    public void propertyChange(final PropertyChangeEvent evt) {
-                        System.out.println(evt.getNewValue() + " = " + panel.getSelectedValues());
-                    }
-                });
-
-            final JFrame frame = new JFrame("MaxParameterValueSelectionPanel");
-            frame.getContentPane().add(panel);
-            frame.getContentPane().setPreferredSize(new Dimension(600, 400));
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(MaxParameterValueSelectionPanel.class).fatal(ex.getMessage(), ex);
-            System.exit(1);
-        }
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
      * @return  DOCUMENT ME!
      */
     public Collection<AggregationValue> getAggregationValues() {
@@ -536,6 +497,44 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         final Date oldMaxDate = this.maxDate;
         this.maxDate = maxDate;
         propertyChangeSupport.firePropertyChange(PROP_MAXDATE, oldMaxDate, maxDate);
+    }
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        try {
+            BasicConfigurator.configure();
+            final Standort borisStandort = OracleImport.JSON_MAPPER.readValue(
+                    MaxParameterValueSelectionPanel.class.getResourceAsStream(
+                        "/de/cismet/cids/custom/udm2020di/testing/BorisStandort.json"),
+                    Standort.class);
+
+            final AggregationValues aggregationValues = new AggregationValues(borisStandort.getAggregationValues());
+            final MaxParameterValueSelectionPanel panel = new MaxParameterValueSelectionPanel();
+
+            aggregationValues.addAll(borisStandort.getAggregationValues());
+            panel.setAggregationValues(aggregationValues);
+
+            panel.addPropertyChangeListener(new PropertyChangeListener() {
+
+                    @Override
+                    public void propertyChange(final PropertyChangeEvent evt) {
+                        System.out.println(evt.getNewValue() + " = " + panel.getSelectedValues());
+                    }
+                });
+
+            final JFrame frame = new JFrame("MaxParameterValueSelectionPanel");
+            frame.getContentPane().add(panel);
+            frame.getContentPane().setPreferredSize(new Dimension(600, 400));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MaxParameterValueSelectionPanel.class).fatal(ex.getMessage(), ex);
+            System.exit(1);
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------

@@ -57,7 +57,7 @@ public class BorisExportAction extends AbstractExportAction {
      */
     public BorisExportAction(final Collection<String> standorte,
             final Collection<Parameter> parameters) {
-        super("Exportieren");
+        super();
 
         this.parameters = parameters;
         this.standorte = standorte;

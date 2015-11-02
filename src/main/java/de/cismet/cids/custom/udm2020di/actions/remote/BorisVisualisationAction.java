@@ -11,23 +11,32 @@ import com.fasterxml.jackson.databind.MappingIterator;
 
 import org.apache.log4j.Logger;
 
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
+import de.cismet.cids.custom.udm2020di.types.boris.Standort;
+import de.cismet.cids.custom.udm2020di.widgets.ChartVisualisationComponent;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
+import static de.cismet.cids.custom.udm2020di.actions.remote.AbstractVisualisationAction.LOGGER;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_NAME;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_PARAMETER;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_STANDORTE;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.TASK_NAME;
-import de.cismet.cids.custom.udm2020di.widgets.ChartVisualisationComponent;
-import java.util.HashMap;
-import org.jfree.data.time.TimeSeries;
 /**
  * DOCUMENT ME!
  *
@@ -39,25 +48,27 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOGGER = Logger.getLogger(BorisVisualisationAction.class);
+    protected static final SimpleDateFormat CHART_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     //~ Instance fields --------------------------------------------------------
 
-    protected final Collection<String> standorte;
+    protected final Map<String, Standort> stationMap = new HashMap<String, Standort>();
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new BorisExportAction object.
      *
-     * @param  standorte   DOCUMENT ME!
-     * @param  parameters  DOCUMENT ME!
+     * @param  standorte                    DOCUMENT ME!
+     * @param  parameters                   DOCUMENT ME!
+     * @param  chartVisualisationComponent  DOCUMENT ME!
      */
-    public BorisVisualisationAction(final Collection<String> standorte,
-            final Collection<Parameter> parameters, 
+    public BorisVisualisationAction(final Collection<Standort> standorte,
+            final Collection<Parameter> parameters,
             final ChartVisualisationComponent chartVisualisationComponent) {
-        super("Exportieren", parameters, chartVisualisationComponent);
+        super(parameters, chartVisualisationComponent);
 
-        this.standorte = standorte;
+        this.setStations(standorte);
         this.setEnabled(!this.parameters.isEmpty());
     }
 
@@ -66,7 +77,9 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
     @Override
     protected ServerActionParameter[] getServerActionParameters() {
         final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
-                new ServerActionParameter<Collection<String>>(PARAM_STANDORTE, this.standorte),
+                new ServerActionParameter<Collection<String>>(
+                    PARAM_STANDORTE,
+                    new ArrayList<String>(this.stationMap.keySet())),
                 new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                 new ServerActionParameter<String>(
                     PARAM_EXPORTFORMAT,
@@ -84,7 +97,7 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
 
     @Override
     protected int getObjectsSize() {
-        return (this.standorte != null) ? this.standorte.size() : 0;
+        return (this.stationMap != null) ? this.stationMap.size() : 0;
     }
 
     /**
@@ -92,32 +105,106 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<String> getStandorte() {
-        return standorte;
+    public Collection<Standort> getStations() {
+        return stationMap.values();
     }
 
-    @Override
-    protected Map<String, Dataset> createDataset(final MappingIterator<String[]> mappingIterator) {
-        LOGGER.debug("generating chart datasets for " + this.standorte.size() + " standorte");
-        final Map<String, Dataset> datasets = new HashMap(this.standorte.size());
-        final TimeSeries[] timeSeries = this.createTimeSeries();
-        
-        
-      //  final TimeSeries[] timeSeries; = new TimeSeries("L&G European Index Trust", Month.class);
-        while(mappingIterator.hasNext()) {
-            final String[] row = mappingIterator.next();
-            
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  stations  DOCUMENT ME!
+     */
+    protected final void setStations(final Collection<Standort> stations) {
+        if (!this.stationMap.isEmpty()) {
+            this.stationMap.clear();
         }
-        
-        
-        return datasets;
-        
+
+        for (final Standort station : stations) {
+            stationMap.put(station.getPk(), station);
+        }
     }
 
     @Override
-    protected String getStationCaption(String stationPk) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected String getStationName(final String stationPk) {
+        if (this.stationMap.containsKey(stationPk)) {
+            final Standort station = this.stationMap.get(stationPk);
+            final String stationName =
+                ((station.getStandortbezeichnung() != null)
+                            && !station.getStandortbezeichnung().isEmpty()) ? station.getStandortbezeichnung()
+                                                                            : station.getStandortnummer();
+            return stationName;
+        } else {
+            LOGGER.warn("unknown station: " + stationPk);
+            return stationPk;
+        }
     }
-    
-    
+
+    @Override
+    protected int getDateIndex() {
+        return 4;
+    }
+
+    @Override
+    protected int getParameterOffset() {
+        return 7;
+    }
+
+    @Override
+    protected Map<String, Dataset> createDataset(final MappingIterator<String[]> mappingIterator,
+            final int pkIndex,
+            final int dateIndex,
+            final SimpleDateFormat dateFormat,
+            final int parameterOffset) {
+        final Map<String, Dataset> datasetsMap = new HashMap<String, Dataset>();
+        if (!mappingIterator.hasNext()) {
+            LOGGER.warn("no data found in CSV file");
+        }
+
+        final Parameter[] parameterArray = this.parameters.toArray(new Parameter[this.parameters.size()]);
+        int numRows = 0;
+        while (mappingIterator.hasNext()) {
+            try {
+                final String[] row = mappingIterator.next();
+                final String stationPk = row[pkIndex];
+
+                final DefaultCategoryDataset dataset;
+                if (!datasetsMap.containsKey(stationPk)) {
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("creating new dataset for station " + stationPk);
+                    }
+                    dataset = new DefaultCategoryDataset();
+                    datasetsMap.put(stationPk, dataset);
+                } else {
+                    dataset = (DefaultCategoryDataset)datasetsMap.get(stationPk);
+                }
+
+                final Date date = getDateFormat().parse(row[dateIndex]);
+                final String dateString = CHART_DATE_FORMAT.format(date);
+
+                for (int i = parameterOffset; i < row.length; i++) {
+                    if ((row[i] != null) && !row[i].isEmpty()) {
+                        dataset.addValue(Float.parseFloat(row[i]),
+                            parameterArray[i - parameterOffset].getParameterName(),
+                            dateString);
+                    }
+                }
+            } catch (Exception ex) {
+                LOGGER.error("could not process row " + numRows + " of CSV file: " + ex.getMessage(), ex);
+            } finally {
+                numRows++;
+            }
+        }
+
+        return datasetsMap;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    class OrderedCategoryDataset extends DefaultCategoryDataset {
+    }
 }

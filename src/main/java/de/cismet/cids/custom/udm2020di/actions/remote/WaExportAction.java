@@ -67,7 +67,7 @@ public class WaExportAction extends AbstractExportAction {
     public WaExportAction(final String waSource,
             final Collection<String> messstellen,
             final Collection<Parameter> parameters) {
-        super("Exportieren");
+        super();
 
         if (waSource.equalsIgnoreCase(WAGW)) {
             this.waSource = waSource;

@@ -59,7 +59,7 @@ public class EprtrExportAction extends AbstractExportAction {
      */
     public EprtrExportAction(final Collection<Long> installations,
             final Collection<Parameter> parameters) {
-        super("Exportieren");
+        super();
 
         this.parameters = parameters;
         this.installations = installations;

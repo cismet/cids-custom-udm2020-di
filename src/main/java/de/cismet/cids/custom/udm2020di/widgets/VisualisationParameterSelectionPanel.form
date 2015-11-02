@@ -87,7 +87,6 @@
             <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="de/cismet/cids/custom/udm2020di/widgets/Bundle.properties" key="VisualisationParameterSelectionPanel.btnVisualise.actionCommand" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
-            <Property name="autoscrolls" type="boolean" value="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.Box$Filler" name="filler2">
@@ -139,6 +138,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="de/cismet/cids/custom/udm2020di/widgets/Bundle.properties" key="VisualisationParameterSelectionPanel.btnSelectAll.text" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
+            </Property>
+            <Property name="actionCommand" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+              <ResourceString bundle="de/cismet/cids/custom/udm2020di/widgets/Bundle.properties" key="VisualisationParameterSelectionPanel.btnSelectAll.actionCommand" replaceFormat="org.openide.util.NbBundle.getMessage({sourceFileName}.class, &quot;{key}&quot;)"/>
             </Property>
           </Properties>
           <Events>

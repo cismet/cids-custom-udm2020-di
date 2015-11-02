@@ -59,7 +59,7 @@ public class MossExportAction extends AbstractExportAction {
      */
     public MossExportAction(final Collection<Long> sites,
             final Collection<Parameter> parameters) {
-        super("Exportieren");
+        super();
 
         this.parameters = parameters;
         this.sites = sites;

@@ -12,6 +12,7 @@ import java.util.Collection;
 import javax.swing.AbstractAction;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
+import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 
 /**
  * DOCUMENT ME!
@@ -33,11 +34,11 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
 
     /**
      * Creates a new AbstractExportAction object.
-     *
-     * @param  name  DOCUMENT ME!
      */
-    public AbstractExportAction(final String name) {
-        super(name);
+    public AbstractExportAction() {
+        super(org.openide.util.NbBundle.getMessage(
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.btnExport.text")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------

@@ -1,16 +1,17 @@
+/***************************************************
+*
+* cismet GmbH, Saarbruecken, Germany
+*
+*              ... and it just works.
+*
+****************************************************/
 /* --------------------
  * TimeSeriesDemo1.java
  * --------------------
  * (C) Copyright 2002-2005, by Object Refinery Limited.
  *
  */
-
 package de.cismet.cids.custom.udm2020di.widgets;
-
-import java.awt.Color;
-import java.text.SimpleDateFormat;
-
-import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -27,83 +28,90 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
 
+import java.awt.Color;
+
+import java.text.SimpleDateFormat;
+
+import javax.swing.JPanel;
+
 /**
- * An example of a time series chart.  For the most part, default settings are 
- * used, except that the renderer is modified to show filled shapes (as well as 
- * lines) at each data point.
- * <p>
- * IMPORTANT NOTE:  THIS DEMO IS DOCUMENTED IN THE JFREECHART DEVELOPER GUIDE.
- * DO NOT MAKE CHANGES WITHOUT UPDATING THE GUIDE ALSO!!
+ * An example of a time series chart. For the most part, default settings are used, except that the renderer is modified
+ * to show filled shapes (as well as lines) at each data point.
+ *
+ * <p>IMPORTANT NOTE: THIS DEMO IS DOCUMENTED IN THE JFREECHART DEVELOPER GUIDE. DO NOT MAKE CHANGES WITHOUT UPDATING
+ * THE GUIDE ALSO!!</p>
+ *
+ * @version  $Revision$, $Date$
  */
 public class TimeSeriesDemo extends ApplicationFrame {
 
+    //~ Constructors -----------------------------------------------------------
+
     /**
-     * A demonstration application showing how to create a simple time series 
-     * chart.  This example uses monthly data.
+     * A demonstration application showing how to create a simple time series chart. This example uses monthly data.
      *
-     * @param title  the frame title.
+     * @param  title  the frame title.
      */
-    public TimeSeriesDemo(String title) {
+    public TimeSeriesDemo(final String title) {
         super(title);
-        XYDataset dataset = createDataset();
-        JFreeChart chart = createChart(dataset);
-        ChartPanel chartPanel = new ChartPanel(chart, false);
+        final XYDataset dataset = createDataset();
+        final JFreeChart chart = createChart(dataset);
+        final ChartPanel chartPanel = new ChartPanel(chart, false);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
         chartPanel.setMouseZoomable(true, false);
         setContentPane(chartPanel);
     }
 
+    //~ Methods ----------------------------------------------------------------
+
     /**
      * Creates a chart.
-     * 
-     * @param dataset  a dataset.
-     * 
-     * @return A chart.
+     *
+     * @param   dataset  a dataset.
+     *
+     * @return  A chart.
      */
-    private static JFreeChart createChart(XYDataset dataset) {
-
-        JFreeChart chart = ChartFactory.createTimeSeriesChart(
-            "Legal & General Unit Trust Prices",  // title
-            "Date",             // x-axis label
-            "Price Per Unit",   // y-axis label
-            dataset,            // data
-            true,               // create legend?
-            true,               // generate tooltips?
-            false               // generate URLs?
-        );
+    private static JFreeChart createChart(final XYDataset dataset) {
+        final JFreeChart chart = ChartFactory.createTimeSeriesChart(
+                "Legal & General Unit Trust Prices", // title
+                "Date",           // x-axis label
+                "Price Per Unit", // y-axis label
+                dataset,          // data
+                true,             // create legend?
+                true,             // generate tooltips?
+                false             // generate URLs?
+                );
 
         chart.setBackgroundPaint(Color.white);
 
-        XYPlot plot = (XYPlot) chart.getPlot();
+        final XYPlot plot = (XYPlot)chart.getPlot();
         plot.setBackgroundPaint(Color.lightGray);
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
         plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
         plot.setDomainCrosshairVisible(true);
         plot.setRangeCrosshairVisible(true);
-        
-        XYItemRenderer r = plot.getRenderer();
+
+        final XYItemRenderer r = plot.getRenderer();
         if (r instanceof XYLineAndShapeRenderer) {
-            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
+            final XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer)r;
             renderer.setBaseShapesVisible(true);
             renderer.setBaseShapesFilled(true);
         }
-        
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
-        
-        return chart;
 
+        final DateAxis axis = (DateAxis)plot.getDomainAxis();
+        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+
+        return chart;
     }
-    
+
     /**
      * Creates a dataset, consisting of two series of monthly data.
      *
-     * @return the dataset.
+     * @return  the dataset.
      */
     private static XYDataset createDataset() {
-
-        TimeSeries s1 = new TimeSeries("name", "domain", "range");
+        final TimeSeries s1 = new TimeSeries("name", "domain", "range");
         s1.add(new Month(2, 2001), 181.8);
         s1.add(new Month(3, 2001), 167.3);
         s1.add(new Month(4, 2001), 153.8);
@@ -124,8 +132,8 @@ public class TimeSeriesDemo extends ApplicationFrame {
         s1.add(new Month(7, 2002), 132.8);
 
         s1.setRangeDescription("setRangeDescription");
-        
-        TimeSeries s2 = new TimeSeries("L&G UK Index Trust", Month.class);
+
+        final TimeSeries s2 = new TimeSeries("L&G UK Index Trust", Month.class);
         s2.add(new Month(2, 2001), 129.6);
         s2.add(new Month(3, 2001), 123.2);
         s2.add(new Month(4, 2001), 117.2);
@@ -145,39 +153,34 @@ public class TimeSeriesDemo extends ApplicationFrame {
         s2.add(new Month(6, 2002), 108.8);
         s2.add(new Month(7, 2002), 101.6);
 
-        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        final TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(s1);
         dataset.addSeries(s2);
-        
 
         dataset.setDomainIsPointsInTime(true);
 
         return dataset;
-
     }
 
     /**
      * Creates a panel for the demo (used by SuperDemo.java).
-     * 
-     * @return A panel.
+     *
+     * @return  A panel.
      */
     public static JPanel createDemoPanel() {
-        JFreeChart chart = createChart(createDataset());
+        final JFreeChart chart = createChart(createDataset());
         return new ChartPanel(chart);
     }
-    
+
     /**
      * Starting point for the demonstration application.
      *
-     * @param args  ignored.
+     * @param  args  ignored.
      */
-    public static void main(String[] args) {
-
-        TimeSeriesDemo demo = new TimeSeriesDemo("Time Series Demo 1");
+    public static void main(final String[] args) {
+        final TimeSeriesDemo demo = new TimeSeriesDemo("Time Series Demo 1");
         demo.pack();
         RefineryUtilities.centerFrameOnScreen(demo);
         demo.setVisible(true);
-
     }
-
 }
