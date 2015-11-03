@@ -23,13 +23,16 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.EprtrExportAction;
-import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.EprtrVisualisationAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
+import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
+import de.cismet.cids.custom.udm2020di.widgets.VisualisationParameterSelectionPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -68,6 +71,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
     private javax.swing.JTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
     private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.eprtr.EprtrVisualisationPanel visualisationPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -121,10 +125,11 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
         messwerteScrollPane = new javax.swing.JScrollPane();
         messwerteTable = new javax.swing.JTable();
         exportPanel = new javax.swing.JPanel();
-        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel();
+        parameterSelectionPanel = new ExportParameterSelectionPanel(true);
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
+        visualisationPanel = new de.cismet.cids.custom.udm2020di.widgets.eprtr.EprtrVisualisationPanel();
 
         parameterPanel.setMinimumSize(new java.awt.Dimension(200, 300));
 
@@ -258,6 +263,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                 EprtrInstallationAggregationRenderer.class,
                 "EprtrInstallationAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
+        jTabbedPane.addTab("Datenvisualisierung", visualisationPanel);
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
@@ -285,7 +291,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                     public void run() {
                         mapPanel.setCidsBeans(cidsBeans);
 
-                        // final TreeSet<String> parameterNamesSet = new TreeSet<String>();
+                        final Collection<Installation> installations = new ArrayList<Installation>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
                         final TreeSet<Long> installationnPks = new TreeSet<Long>();
                         final DefaultListModel listModel = new DefaultListModel();
@@ -298,6 +304,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                                 final Installation installation = OracleImport.JSON_MAPPER.readValue(
                                         cidsBean.getProperty("src_content").toString(),
                                         Installation.class);
+                                installations.add(installation);
 
                                 final ArrayList<String> parameterNames = new ArrayList<String>(
                                         installation.getReleaseParameters().size());
@@ -339,8 +346,16 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                             tableModel.addRow(rowData);
                         }
 
-                        jTabbedPane.setSelectedIndex(SELECTED_TAB);
+                        // Visualisation -------------------------------------------
+                        visualisationPanel.setParameters(parametersSet);
+                        final VisualisationAction visualisationAction = new EprtrVisualisationAction(
+                                installations,
+                                visualisationPanel.getSelectedParameters(),
+                                visualisationPanel);
+                        visualisationPanel.setVisualisationAction(visualisationAction);
 
+                        // Selected TAB ----------------------------------------
+                        jTabbedPane.setSelectedIndex(SELECTED_TAB);
                         jTabbedPane.addChangeListener(WeakListeners.create(
                                 ChangeListener.class,
                                 new ChangeListener() {

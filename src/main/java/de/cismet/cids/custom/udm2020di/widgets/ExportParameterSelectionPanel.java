@@ -47,6 +47,8 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
 
     protected final transient List selectedParameters = Collections.synchronizedList(new ArrayList());
 
+    protected boolean disableEvents = false;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionPanel;
     private javax.swing.JButton btnExport;
@@ -74,6 +76,19 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
     public ExportParameterSelectionPanel() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         initComponents();
+    }
+
+    /**
+     * Creates a new ExportParameterSelectionPanel object.
+     *
+     * @param  narrowLayout  DOCUMENT ME!
+     */
+    public ExportParameterSelectionPanel(final boolean narrowLayout) {
+        this();
+
+        if (narrowLayout) {
+            this.selectionPanel.setLayout(new java.awt.GridLayout(0, 2, 5, 5));
+        }
     }
 
     /**
@@ -183,6 +198,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         jLabel1.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.jLabel1.text")); // NOI18N
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
         actionPanel.add(jLabel1);
         actionPanel.add(filler3);
 
@@ -246,13 +262,15 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      * @param  evt  DOCUMENT ME!
      */
     private void btnResetActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnResetActionPerformed
-
+        this.disableEvents = true;
         if ((this.parameters != null) && !this.parameters.isEmpty()) {
             for (final Parameter parameter : this.parameters) {
                 parameter.setSelected(false);
             }
         }
-    } //GEN-LAST:event_btnResetActionPerformed
+        this.disableEvents = false;
+        this.enableButtons();
+    }                                                                            //GEN-LAST:event_btnResetActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -285,9 +303,12 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      * @param  evt  DOCUMENT ME!
      */
     private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
+        this.disableEvents = true;
         for (final Parameter parameter : this.parameters) {
             parameter.setSelected(true);
         }
+        this.disableEvents = false;
+        this.enableButtons();
     }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
@@ -383,6 +404,15 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
 
     @Override
     public void itemStateChanged(final ItemEvent e) {
+        if (!this.disableEvents) {
+            enableButtons();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void enableButtons() {
         final Collection<Parameter> selParameters = this.getSelectedParameters();
 
         if (selParameters.isEmpty()) {

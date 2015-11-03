@@ -18,53 +18,51 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
-import de.cismet.cids.custom.udm2020di.types.boris.Standort;
+import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
 import de.cismet.cids.custom.udm2020di.widgets.ChartVisualisationComponent;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
-import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_EXPORTFORMAT;
-import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_NAME;
-import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_PARAMETER;
-import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_STANDORTE;
-import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.TASK_NAME;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_EXPORTFORMAT;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_INSTALLATIONS;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_NAME;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.PARAM_PARAMETER;
+import static de.cismet.cids.custom.udm2020di.serveractions.eprtr.EprtrExportAction.TASK_NAME;
 /**
  * DOCUMENT ME!
  *
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class BorisVisualisationAction extends AbstractVisualisationAction {
+public class EprtrVisualisationAction extends AbstractVisualisationAction {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger LOGGER = Logger.getLogger(BorisVisualisationAction.class);
-    protected static final SimpleDateFormat CHART_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    protected static final Logger LOGGER = Logger.getLogger(EprtrVisualisationAction.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    protected final Map<String, Standort> stationMap = new HashMap<String, Standort>();
+    protected final Map<Long, Installation> installationMap = new HashMap<Long, Installation>();
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new BorisExportAction object.
+     * Creates a new EprtrExportAction object.
      *
-     * @param  standorte                    DOCUMENT ME!
+     * @param  installations                standorte DOCUMENT ME!
      * @param  parameters                   DOCUMENT ME!
      * @param  chartVisualisationComponent  DOCUMENT ME!
      */
-    public BorisVisualisationAction(final Collection<Standort> standorte,
+    public EprtrVisualisationAction(final Collection<Installation> installations,
             final Collection<Parameter> parameters,
             final ChartVisualisationComponent chartVisualisationComponent) {
         super(parameters, chartVisualisationComponent);
 
-        this.setStations(standorte);
+        this.setInstallations(installations);
         this.setEnabled(!this.parameters.isEmpty());
     }
 
@@ -73,16 +71,15 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
     @Override
     protected ServerActionParameter[] getServerActionParameters() {
         final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
-                new ServerActionParameter<Collection<String>>(
-                    PARAM_STANDORTE,
-                    new ArrayList<String>(this.stationMap.keySet())),
+                new ServerActionParameter<Collection<Long>>(
+                    PARAM_INSTALLATIONS,
+                    new ArrayList<Long>(this.installationMap.keySet())),
                 new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                 new ServerActionParameter<String>(
                     PARAM_EXPORTFORMAT,
                     de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_CSV),
-                new ServerActionParameter<String>(PARAM_NAME, "boris-visualisation-export")
+                new ServerActionParameter<String>(PARAM_NAME, "eprtr-visualisation-export")
             };
-
         return serverActionParameters;
     }
 
@@ -93,45 +90,46 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
 
     @Override
     protected int getObjectsSize() {
-        return (this.stationMap != null) ? this.stationMap.size() : 0;
+        return (this.installationMap != null) ? this.installationMap.size() : 0;
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @return  DOCUMENT ME!
+     * @param  installations  DOCUMENT ME!
      */
-    public Collection<Standort> getStations() {
-        return stationMap.values();
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  stations  DOCUMENT ME!
-     */
-    protected final void setStations(final Collection<Standort> stations) {
-        if (!this.stationMap.isEmpty()) {
-            this.stationMap.clear();
+    protected final void setInstallations(final Collection<Installation> installations) {
+        if (!this.installationMap.isEmpty()) {
+            this.installationMap.clear();
         }
 
-        for (final Standort station : stations) {
-            stationMap.put(station.getPk(), station);
+        for (final Installation installation : installations) {
+            installationMap.put(installation.getErasId(), installation);
         }
     }
 
     @Override
-    protected String getStationName(final String stationPk) {
-        if (this.stationMap.containsKey(stationPk)) {
-            final Standort station = this.stationMap.get(stationPk);
-            final String stationName =
-                ((station.getStandortbezeichnung() != null)
-                            && !station.getStandortbezeichnung().isEmpty()) ? station.getStandortbezeichnung()
-                                                                            : station.getStandortnummer();
-            return stationName;
+    protected String getStationName(final String installationPk) {
+        return this.getStationName(Long.parseLong(installationPk));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   installationPk  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected String getStationName(final Long installationPk) {
+        if (this.installationMap.containsKey(installationPk)) {
+            final Installation installation = this.installationMap.get(installationPk);
+            final String installationName = ((installation.getName() != null)
+                            && !installation.getName().isEmpty()) ? installation.getName()
+                                                                  : String.valueOf(installationPk);
+            return installationName;
         } else {
-            LOGGER.warn("unknown station: " + stationPk);
-            return stationPk;
+            LOGGER.warn("unknown installation: " + installationPk);
+            return String.valueOf(installationPk);
         }
     }
 
@@ -142,7 +140,7 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
 
     @Override
     protected int getParameterOffset() {
-        return 7;
+        return 8;
     }
 
     @Override
@@ -161,27 +159,27 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
         while (mappingIterator.hasNext()) {
             try {
                 final String[] row = mappingIterator.next();
-                final String stationPk = row[pkIndex];
+                final String installationPk = row[pkIndex];
 
                 final DefaultCategoryDataset dataset;
-                final String stationName = this.getStationName(stationPk);
-                if (!datasetsMap.containsKey(stationName)) {
+                final String installationName = this.getStationName(installationPk);
+                if (!datasetsMap.containsKey(installationName)) {
                     if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("creating new dataset for station " + stationPk);
+                        LOGGER.debug("creating new dataset for installation " + installationPk);
                     }
                     dataset = new DefaultCategoryDataset();
-                    datasetsMap.put(stationName, dataset);
+                    datasetsMap.put(installationName, dataset);
                 } else {
-                    dataset = (DefaultCategoryDataset)datasetsMap.get(stationName);
+                    dataset = (DefaultCategoryDataset)datasetsMap.get(installationName);
                 }
 
-                final Date date = getDateFormat().parse(row[dateIndex]);
-                final String dateString = CHART_DATE_FORMAT.format(date);
-
+                final String dateString = row[dateIndex];
                 for (int i = parameterOffset; i < row.length; i++) {
                     if ((row[i] != null) && !row[i].isEmpty()) {
+                        final String parameterName = parameterArray[i - parameterOffset].getParameterName()
+                                    + " [kg/Jahr " + row[7] + ']';
                         dataset.addValue(Float.parseFloat(row[i]),
-                            parameterArray[i - parameterOffset].getParameterName(),
+                            parameterName,
                             dateString);
                     }
                 }

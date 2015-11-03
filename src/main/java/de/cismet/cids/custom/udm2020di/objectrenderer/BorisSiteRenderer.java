@@ -266,6 +266,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                             visualisationPanel);
                     visualisationPanel.setVisualisationAction(visualisationAction);
 
+                    // Saved TAB -----------------------------------------------
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
                     }

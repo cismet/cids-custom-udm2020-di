@@ -44,6 +44,10 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
 
     protected static Logger LOGGER = Logger.getLogger(VisualisationPanel.class);
 
+    //~ Instance fields --------------------------------------------------------
+
+    protected final boolean narrowLayout;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton backButton;
     protected javax.swing.JPanel chartsPanel;
@@ -63,6 +67,16 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
      * Creates new form VisualisationPanel.
      */
     public VisualisationPanel() {
+        this(false);
+    }
+
+    /**
+     * Creates a new VisualisationPanel object.
+     *
+     * @param  narrowLayout  DOCUMENT ME!
+     */
+    public VisualisationPanel(final boolean narrowLayout) {
+        this.narrowLayout = narrowLayout;
         initComponents();
     }
 
@@ -78,8 +92,7 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
         java.awt.GridBagConstraints gridBagConstraints;
 
         parameterPanel = new javax.swing.JPanel();
-        visualisationParameterSelectionPanel =
-            new de.cismet.cids.custom.udm2020di.widgets.VisualisationParameterSelectionPanel();
+        visualisationParameterSelectionPanel = new VisualisationParameterSelectionPanel(this.narrowLayout);
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
