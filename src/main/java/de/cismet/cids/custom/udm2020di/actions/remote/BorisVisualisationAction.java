@@ -13,9 +13,6 @@ import org.apache.log4j.Logger;
 
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
-import org.jfree.data.time.Day;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
 
 import java.text.SimpleDateFormat;
 
@@ -31,7 +28,6 @@ import de.cismet.cids.custom.udm2020di.widgets.ChartVisualisationComponent;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
-import static de.cismet.cids.custom.udm2020di.actions.remote.AbstractVisualisationAction.LOGGER;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_NAME;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_PARAMETER;
@@ -168,14 +164,15 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
                 final String stationPk = row[pkIndex];
 
                 final DefaultCategoryDataset dataset;
-                if (!datasetsMap.containsKey(stationPk)) {
+                final String stationName = this.getStationName(stationPk);
+                if (!datasetsMap.containsKey(stationName)) {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("creating new dataset for station " + stationPk);
                     }
                     dataset = new DefaultCategoryDataset();
-                    datasetsMap.put(stationPk, dataset);
+                    datasetsMap.put(stationName, dataset);
                 } else {
-                    dataset = (DefaultCategoryDataset)datasetsMap.get(stationPk);
+                    dataset = (DefaultCategoryDataset)datasetsMap.get(stationName);
                 }
 
                 final Date date = getDateFormat().parse(row[dateIndex]);

@@ -77,10 +77,6 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        filler = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5),
-                new java.awt.Dimension(0, 5),
-                new java.awt.Dimension(32767, 5));
-        backButton = new javax.swing.JButton();
         parameterPanel = new javax.swing.JPanel();
         visualisationParameterSelectionPanel =
             new de.cismet.cids.custom.udm2020di.widgets.VisualisationParameterSelectionPanel();
@@ -91,13 +87,10 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
         waitingLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         chartsPanel = new javax.swing.JPanel();
-
-        org.openide.awt.Mnemonics.setLocalizedText(
-            backButton,
-            org.openide.util.NbBundle.getMessage(VisualisationPanel.class, "VisualisationPanel.backButton.text")); // NOI18N
-        backButton.setActionCommand(org.openide.util.NbBundle.getMessage(
-                VisualisationPanel.class,
-                "VisualisationPanel.backButton.actionCommand"));                                                   // NOI18N
+        filler = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5),
+                new java.awt.Dimension(0, 5),
+                new java.awt.Dimension(32767, 5));
+        backButton = new javax.swing.JButton();
 
         setLayout(new java.awt.CardLayout());
 
@@ -148,8 +141,35 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
         add(progressPanel, "progress");
 
         chartsPanel.setLayout(new javax.swing.BoxLayout(chartsPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        chartsPanel.add(filler);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            backButton,
+            org.openide.util.NbBundle.getMessage(VisualisationPanel.class, "VisualisationPanel.backButton.text")); // NOI18N
+        backButton.setActionCommand(org.openide.util.NbBundle.getMessage(
+                VisualisationPanel.class,
+                "VisualisationPanel.backButton.actionCommand"));                                                   // NOI18N
+        backButton.setAlignmentX(0.5F);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    backButtonActionPerformed(evt);
+                }
+            });
+        chartsPanel.add(backButton);
+
         add(chartsPanel, "charts");
     } // </editor-fold>//GEN-END:initComponents
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
+    private void backButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_backButtonActionPerformed
+        this.showParameterPanel();
+    }                                                                              //GEN-LAST:event_backButtonActionPerformed
 
     @Override
     public void renderCharts(final Map<String, Dataset> chartData) {

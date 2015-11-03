@@ -45,7 +45,7 @@ import de.cismet.cids.server.actions.ServerActionParameter;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public abstract class AbstractVisualisationAction extends AbstractAction implements VisualisationAction {

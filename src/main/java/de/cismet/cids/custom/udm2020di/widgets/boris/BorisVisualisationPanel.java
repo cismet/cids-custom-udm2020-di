@@ -101,13 +101,12 @@ public class BorisVisualisationPanel extends VisualisationPanel {
         final NumberAxis rangeAxis = (NumberAxis)plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-        // disable bar outlines...
         final BarRenderer renderer = (BarRenderer)plot.getRenderer();
         renderer.setDrawBarOutline(true);
 
-        final CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setCategoryLabelPositions(
-            CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+//        final CategoryAxis domainAxis = plot.getDomainAxis();
+//        domainAxis.setCategoryLabelPositions(
+//            CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
         // OPTIONAL CUSTOMISATION COMPLETED.
 
         return chart;
