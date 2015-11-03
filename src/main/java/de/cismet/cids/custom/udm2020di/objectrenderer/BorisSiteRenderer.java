@@ -58,6 +58,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
     private javax.swing.JTabbedPane jTabbedPane;
     private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
+    private javax.swing.JScrollPane parameterScrollPane;
     private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
     private javax.swing.JPanel standortdatenPanel;
     private de.cismet.cids.custom.udm2020di.widgets.boris.BorisVisualisationPanel visualisationPanel;
@@ -104,6 +105,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         jTabbedPane = new javax.swing.JTabbedPane();
         infoPanel = new javax.swing.JPanel();
         standortdatenPanel = new javax.swing.JPanel();
+        parameterScrollPane = new javax.swing.JScrollPane();
         parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
         messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
@@ -116,13 +118,6 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
-
-                @Override
-                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
-                    jTabbedPaneStateChanged(evt);
-                }
-            });
 
         infoPanel.setLayout(new java.awt.BorderLayout());
 
@@ -137,8 +132,14 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         standortdatenPanel.setLayout(new java.awt.GridBagLayout());
         infoPanel.add(standortdatenPanel, java.awt.BorderLayout.CENTER);
 
-        parameterPanel.setMinimumSize(new java.awt.Dimension(200, 200));
-        infoPanel.add(parameterPanel, java.awt.BorderLayout.EAST);
+        parameterScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        parameterScrollPane.setHorizontalScrollBar(null);
+        parameterScrollPane.setMaximumSize(new java.awt.Dimension(200, 32767));
+        parameterScrollPane.setMinimumSize(new java.awt.Dimension(200, 300));
+        parameterScrollPane.setPreferredSize(new java.awt.Dimension(200, 500));
+        parameterScrollPane.setViewportView(parameterPanel);
+
+        infoPanel.add(parameterScrollPane, java.awt.BorderLayout.EAST);
 
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteRenderer.class,
@@ -174,15 +175,6 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
-        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
 
     /**
      * DOCUMENT ME!

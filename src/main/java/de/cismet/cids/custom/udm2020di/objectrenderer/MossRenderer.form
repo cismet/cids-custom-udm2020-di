@@ -201,7 +201,7 @@
                   <Table columnCount="4" rowCount="0">
                     <Column editable="false" title="Parameter" type="java.lang.String"/>
                     <Column editable="false" title="Datum" type="java.lang.String"/>
-                    <Column editable="false" title="Messwert" type="java.lang.Float"/>
+                    <Column editable="false" title="Messwert" type="java.lang.String"/>
                     <Column editable="false" title="Einheit" type="java.lang.String"/>
                   </Table>
                 </Property>

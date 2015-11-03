@@ -32,7 +32,6 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
-import de.cismet.cids.custom.udm2020di.widgets.VisualisationParameterSelectionPanel;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -52,7 +51,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
 
     protected static int SELECTED_TAB = 0;
 
-    protected static final Logger logger = Logger.getLogger(EprtrInstallationAggregationRenderer.class);
+    protected static final Logger LOGGER = Logger.getLogger(EprtrInstallationAggregationRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -284,7 +283,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
-            logger.info("processing " + cidsBeans.size() + "cids beans");
+            LOGGER.info("processing " + cidsBeans.size() + "cids beans");
             final Runnable r = new Runnable() {
 
                     @Override
@@ -318,7 +317,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
 
                                 aggregationValues.addAll(installation.getAggregationValues());
                             } catch (Exception ex) {
-                                logger.error("could not deserialize eprtr Installation JSON: " + ex.getMessage(), ex);
+                                LOGGER.error("could not deserialize eprtr Installation JSON: " + ex.getMessage(), ex);
                             }
                         }
 

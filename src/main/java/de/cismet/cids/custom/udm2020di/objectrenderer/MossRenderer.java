@@ -54,6 +54,8 @@ import de.cismet.cids.custom.udm2020di.types.moss.Moss;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.ParameterPanel;
 
+import static de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel.NUMBER_FORMAT;
+
 /**
  * DOCUMENT ME!
  *
@@ -276,7 +278,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                 new Object[][] {},
                 new String[] { "Parameter", "Datum", "Messwert", "Einheit" }) {
 
-                Class[] types = new Class[] { String.class, String.class, Float.class, String.class };
+                Class[] types = new Class[] { String.class, String.class, String.class, String.class };
                 boolean[] canEdit = new boolean[] { false, false, false, false };
 
                 @Override
@@ -388,7 +390,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                         final Object[] rowData = new Object[] {
                                 aggregationValue.getName(),
                                 DATE_FORMAT.format(aggregationValue.getMinDate()),
-                                aggregationValue.getMinValue(),
+                                NUMBER_FORMAT.format(aggregationValue.getMinValue()),
                                 aggregationValue.getUnit()
                             };
                         tableModel.addRow(rowData);

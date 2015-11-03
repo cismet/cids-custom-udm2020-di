@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -64,6 +66,7 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
     private javax.swing.JScrollPane parameterScrollPane;
     private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
     protected javax.swing.JPanel standortdatenPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.VisualisationPanel visualisationPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -114,17 +117,11 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
+        visualisationPanel = new de.cismet.cids.custom.udm2020di.widgets.VisualisationPanel();
 
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
-
-                @Override
-                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
-                    jTabbedPaneStateChanged(evt);
-                }
-            });
 
         infoPanel.setLayout(new java.awt.BorderLayout());
 
@@ -174,22 +171,14 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 WagwStationRenderer.class,
                 "WagwStationRenderer.exportPanel.TabConstraints.tabTitle"),
-            exportPanel); // NOI18N
+            exportPanel);        // NOI18N
+        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
+                WagwStationRenderer.class,
+                "WagwStationRenderer.visualisationPanel.TabConstraints.tabTitle"),
+            visualisationPanel); // NOI18N
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
-        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-        if (logger.isDebugEnabled()) {
-            logger.debug("saving selected tab index: " + SELECTED_TAB);
-        }
-    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
 
     /**
      * DOCUMENT ME!
@@ -208,6 +197,9 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
                             return;
                         }
                     }
+
+                    final Collection<Parameter> parameters = new ArrayList<Parameter>(
+                            messstelle.getProbenparameter());
 
                     final GridBagConstraints gridBagConstraints = new GridBagConstraints();
                     gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -312,7 +304,7 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
                             new AggregationValue[0]));
 
                     // ParameterSelection (EXPORT) -----------------------------
-                    parameterSelectionPanel.setParameters(new ArrayList<Parameter>(messstelle.getProbenparameter()));
+                    parameterSelectionPanel.setParameters(parameters);
                     final WaExportAction waExportAction = new WaExportAction(
                             stationType,
                             Arrays.asList(
@@ -322,6 +314,17 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
                     if (logger.isDebugEnabled()) {
                         logger.debug("restoring selected tab index: " + SELECTED_TAB);
                     }
+
+                    // Visualisation -------------------------------------------
+                    visualisationPanel.setParameters(parameters);
+                    final WaVisualisationAction visualisationAction = new WaVisualisationAction(
+                            stationType,
+                            Arrays.asList(new Messstelle[] { messstelle }),
+                            visualisationPanel.getSelectedParameters(),
+                            visualisationPanel);
+                    visualisationPanel.setVisualisationAction(visualisationAction);
+
+                    // selected TAB --------------------------------------------
                     jTabbedPane.setSelectedIndex(SELECTED_TAB);
                     jTabbedPane.addChangeListener(WeakListeners.create(
                             ChangeListener.class,

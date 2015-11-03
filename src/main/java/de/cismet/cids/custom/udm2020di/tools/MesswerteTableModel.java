@@ -11,7 +11,10 @@ import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+
+import java.util.Locale;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -30,6 +33,13 @@ public class MesswerteTableModel extends AbstractTableModel {
 
     protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.YYYY");
     protected static final Logger LOGGER = Logger.getLogger(MesswerteTableModel.class);
+    public static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.getDefault());
+
+    static {
+        NUMBER_FORMAT.setMaximumFractionDigits(6);
+        NUMBER_FORMAT.setMinimumFractionDigits(0);
+        NUMBER_FORMAT.setMinimumIntegerDigits(1);
+    }
 
     //~ Instance fields --------------------------------------------------------
 
@@ -85,13 +95,13 @@ public class MesswerteTableModel extends AbstractTableModel {
                     return aggregationValues[rowIndex].getPlainName();
                 }
                 case 1: {
-                    return aggregationValues[rowIndex].getMaxValue();
+                    return NUMBER_FORMAT.format(aggregationValues[rowIndex].getMaxValue());
                 }
                 case 2: {
                     return DATE_FORMAT.format(aggregationValues[rowIndex].getMaxDate());
                 }
                 case 3: {
-                    return aggregationValues[rowIndex].getMinValue();
+                    return NUMBER_FORMAT.format(aggregationValues[rowIndex].getMinValue());
                 }
                 case 4: {
                     return DATE_FORMAT.format(aggregationValues[rowIndex].getMinDate());
@@ -163,13 +173,13 @@ public class MesswerteTableModel extends AbstractTableModel {
                 return String.class;
             }
             case 1: {
-                return Float.class;
+                return String.class;
             }
             case 2: {
                 return String.class;
             }
             case 3: {
-                return Float.class;
+                return String.class;
             }
             case 4: {
                 return String.class;

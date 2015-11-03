@@ -15,7 +15,6 @@ import org.openide.util.WeakListeners;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -34,7 +33,6 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
-import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -133,13 +131,6 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
-
-                @Override
-                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
-                    jTabbedPaneStateChanged(evt);
-                }
-            });
 
         infoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -246,15 +237,6 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
             this.mapPanel.gotoCidsBean((CidsBean)this.featuresList.getSelectedValue());
         }
     }                                                                                       //GEN-LAST:event_featuresListValueChanged
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
-        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
 
     /**
      * DOCUMENT ME!
