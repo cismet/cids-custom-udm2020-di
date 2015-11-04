@@ -51,8 +51,10 @@ import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.moss.Moss;
+import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.ParameterPanel;
-import de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel;
+
+import static de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel.NUMBER_FORMAT;
 
 /**
  * DOCUMENT ME!
@@ -93,7 +95,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
     private JPanel mossPanel;
     private JPanel mossTypePanel;
     private ParameterPanel parameterPanel;
-    private ParameterSelectionPanel parameterSelectionPanel;
+    private ExportParameterSelectionPanel parameterSelectionPanel;
     private BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -170,7 +172,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         messwerteScrollPane = new JScrollPane();
         messwerteTable = new JTable();
         exportPanel = new JPanel();
-        parameterSelectionPanel = new ParameterSelectionPanel();
+        parameterSelectionPanel = new ExportParameterSelectionPanel();
         filler = new Box.Filler(new Dimension(0, 0), new Dimension(0, 0), new Dimension(32767, 32767));
 
         setLayout(new BorderLayout());
@@ -276,7 +278,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                 new Object[][] {},
                 new String[] { "Parameter", "Datum", "Messwert", "Einheit" }) {
 
-                Class[] types = new Class[] { String.class, String.class, Float.class, String.class };
+                Class[] types = new Class[] { String.class, String.class, String.class, String.class };
                 boolean[] canEdit = new boolean[] { false, false, false, false };
 
                 @Override
@@ -388,7 +390,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                         final Object[] rowData = new Object[] {
                                 aggregationValue.getName(),
                                 DATE_FORMAT.format(aggregationValue.getMinDate()),
-                                aggregationValue.getMinValue(),
+                                NUMBER_FORMAT.format(aggregationValue.getMinValue()),
                                 aggregationValue.getUnit()
                             };
                         tableModel.addRow(rowData);

@@ -23,6 +23,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.BorisVisualisationAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel;
 import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
@@ -31,7 +33,6 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
-import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -65,7 +66,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
     private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel;
     private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
-    private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.boris.BorisVisualisationPanel visualisationPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -118,23 +120,17 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         featuresList = new javax.swing.JList();
         messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
-        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
+        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
+        visualisationPanel = new de.cismet.cids.custom.udm2020di.widgets.boris.BorisVisualisationPanel();
 
         parameterPanel.setMinimumSize(new java.awt.Dimension(200, 300));
 
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
-
-                @Override
-                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
-                    jTabbedPaneStateChanged(evt);
-                }
-            });
 
         infoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -226,6 +222,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                 BorisSiteAggregationRenderer.class,
                 "BorisSiteAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
+        jTabbedPane.addTab("Datenvisualisierung", visualisationPanel);
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
@@ -243,15 +240,6 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
-        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
-
-    /**
-     * DOCUMENT ME!
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
@@ -262,7 +250,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                     public void run() {
                         mapPanel.setCidsBeans(cidsBeans);
 
-                        // final TreeSet<String> parameterNamesSet = new TreeSet<String>();
+                        final Collection<Standort> standorte = new ArrayList<Standort>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
                         final TreeSet<String> standortPks = new TreeSet<String>();
                         final DefaultListModel listModel = new DefaultListModel();
@@ -276,6 +264,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                         cidsBean.getProperty("src_content").toString(),
                                         Standort.class);
 
+                                standorte.add(borisStandort);
                                 final ArrayList<String> parameterNames = new ArrayList<String>(
                                         borisStandort.getProbenparameter().size());
                                 for (final Probenparameter probenparameter : borisStandort.getProbenparameter()) {
@@ -311,6 +300,14 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 aggregationValues.toArray(
                                     new AggregationValue[0]));
                         messwerteTable.setModel(messwerteTableModel);
+
+                        // Visualisation -------------------------------------------
+                        visualisationPanel.setParameters(parametersSet);
+                        final VisualisationAction visualisationAction = new BorisVisualisationAction(
+                                standorte,
+                                visualisationPanel.getSelectedParameters(),
+                                visualisationPanel);
+                        visualisationPanel.setVisualisationAction(visualisationAction);
 
                         // Selected Tab ----------------------------------------
                         jTabbedPane.setSelectedIndex(SELECTED_TAB);

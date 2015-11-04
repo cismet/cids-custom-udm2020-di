@@ -14,6 +14,7 @@ import org.openide.util.WeakListeners;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -22,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
@@ -64,7 +66,8 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
     private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel;
     private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
-    private de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.VisualisationPanel visualisationPanel;
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -117,23 +120,17 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
         featuresList = new javax.swing.JList();
         messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
-        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterSelectionPanel();
+        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
+        visualisationPanel = new de.cismet.cids.custom.udm2020di.widgets.VisualisationPanel();
 
         parameterPanel.setMinimumSize(new java.awt.Dimension(200, 300));
 
         setLayout(new java.awt.BorderLayout());
 
         jTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
-
-                @Override
-                public void stateChanged(final javax.swing.event.ChangeEvent evt) {
-                    jTabbedPaneStateChanged(evt);
-                }
-            });
 
         infoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -225,6 +222,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                 WagwStationAggregationRenderer.class,
                 "WagwStationAggregationRenderer.exportPanel.TabConstraints.tabTitle_1_1"),
             exportPanel); // NOI18N
+        jTabbedPane.addTab("Datenvisualisierung", visualisationPanel);
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
@@ -242,15 +240,6 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
 
     /**
      * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void jTabbedPaneStateChanged(final javax.swing.event.ChangeEvent evt) { //GEN-FIRST:event_jTabbedPaneStateChanged
-        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-    }                                                                               //GEN-LAST:event_jTabbedPaneStateChanged
-
-    /**
-     * DOCUMENT ME!
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
@@ -261,7 +250,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                     public void run() {
                         mapPanel.setCidsBeans(cidsBeans);
 
-                        // final TreeSet<String> parameterNamesSet = new TreeSet<String>();
+                        final Collection<Messstelle> stations = new ArrayList<Messstelle>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
                         final TreeSet<String> messstellenPks = new TreeSet<String>();
                         final DefaultListModel listModel = new DefaultListModel();
@@ -274,6 +263,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                                 final Messstelle messstelle = OracleImport.JSON_MAPPER.readValue(
                                         cidsBean.getProperty("src_content").toString(),
                                         Messstelle.class);
+                                stations.add(messstelle);
 
                                 final ArrayList<String> parameterNames = new ArrayList<String>(
                                         messstelle.getProbenparameter().size());
@@ -294,7 +284,12 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                         featuresList.setModel(listModel);
                         // parameterPanel.setParameterNames(parameterNamesSet);
 
-                        // Export Tab
+                        // Messwerte Tab -------------------------------
+                        messwerteTable.setAggregationValues(
+                            aggregationValues.toArray(
+                                new AggregationValue[0]));
+
+                        // Export Tab ------------------------------------------
                         parameterSelectionPanel.setParameters(parametersSet);
                         final WaExportAction waExportAction = new WaExportAction(
                                 stationType,
@@ -302,13 +297,17 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                                 parameterSelectionPanel.getSelectedParameters());
                         parameterSelectionPanel.setExportAction(waExportAction);
 
-                        // Messwerte Tab -------------------------------
-                        messwerteTable.setAggregationValues(
-                            aggregationValues.toArray(
-                                new AggregationValue[0]));
+                        // Visualisation -------------------------------------------
+                        visualisationPanel.setParameters(parametersSet);
+                        final WaVisualisationAction visualisationAction = new WaVisualisationAction(
+                                stationType,
+                                stations,
+                                visualisationPanel.getSelectedParameters(),
+                                visualisationPanel);
+                        visualisationPanel.setVisualisationAction(visualisationAction);
 
+                        // selected TAB ----------------------------------------
                         jTabbedPane.setSelectedIndex(SELECTED_TAB);
-
                         jTabbedPane.addChangeListener(WeakListeners.create(
                                 ChangeListener.class,
                                 new ChangeListener() {

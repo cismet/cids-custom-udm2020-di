@@ -1,200 +1,178 @@
 {
-    "name": "Oslip-Nordwest",
-    "pk": "PG10000122",
+    "name": "Antau Gärtnerei",
+    "pk": "PG10003922",
     "typ": "GWMST",
     "status": "Messstelle in Beobachtung",
     "bundesland": "Burgenland",
     "messtellenart": "Sonde",
-    "tiefe": 5.369999885559082,
+    "tiefe": 7.0,
     "zustaendigestelle": "Burgenland",
-    "xkoordinate": 644415.625,
-    "ykoordinate": 442759.3125,
+    "xkoordinate": 636097.0,
+    "ykoordinate": 437806.0,
     "aggregationvalues": [{
             "name": "ALUMINIUM mg/l",
             "pollutantkey": "Al",
             "pollutantgroupkey": "MET",
-            "mindate": "2007-05-16",
-            "maxdate": "2008-05-18",
-            "minvalue": 0.013000000268220901,
-            "maxvalue": 0.061000000685453415,
+            "mindate": "2008-05-18",
+            "maxdate": "2011-07-05",
+            "minvalue": 0.008999999612569809,
+            "maxvalue": 0.09279999881982803,
             "unit": "mg/l",
-            "probepk": "1PG0700114",
+            "probepk": "1PG0800214",
             "releasetype": null
         }, {
             "name": "ARSEN mg/l",
             "pollutantkey": "As",
             "pollutantgroupkey": "MET",
-            "mindate": "1992-10-08",
-            "maxdate": "1997-10-20",
-            "minvalue": 0.0010000000474974513,
-            "maxvalue": 0.017999999225139618,
+            "mindate": "2009-05-21",
+            "maxdate": "2008-05-18",
+            "minvalue": 0.00139999995008111,
+            "maxvalue": 0.004900000058114529,
             "unit": "mg/l",
-            "probepk": "1PG0200261",
-            "releasetype": null
-        }, {
-            "name": "ATRAZIN µg/l",
-            "pollutantkey": "Atrazin",
-            "pollutantgroupkey": "PEST",
-            "mindate": "1994-04-11",
-            "maxdate": "1993-10-05",
-            "minvalue": 0.05999999865889549,
-            "maxvalue": 0.07000000029802322,
-            "unit": "µg/l",
-            "probepk": "1PG9300349",
+            "probepk": "1PG0800214",
             "releasetype": null
         }, {
             "name": "BLEI mg/l",
             "pollutantkey": "Pb",
             "pollutantgroupkey": "MET",
-            "mindate": "2011-07-05",
-            "maxdate": "1992-10-08",
+            "mindate": "2003-04-28",
+            "maxdate": "2011-07-05",
             "minvalue": 0.0010000000474974513,
-            "maxvalue": 0.004000000189989805,
+            "maxvalue": 0.0026000000070780516,
             "unit": "mg/l",
-            "probepk": "1PG1100052",
+            "probepk": "1PG0300149",
             "releasetype": null
         }, {
             "name": "CADMIUM mg/l",
             "pollutantkey": "Cd",
             "pollutantgroupkey": "MET",
-            "mindate": "1992-11-19",
-            "maxdate": "1997-10-20",
-            "minvalue": 1.9999999494757503E-4,
-            "maxvalue": 3.9999998989515007E-4,
+            "mindate": "2011-07-05",
+            "maxdate": "2011-07-05",
+            "minvalue": 4.400000034365803E-4,
+            "maxvalue": 4.400000034365803E-4,
             "unit": "mg/l",
-            "probepk": "1PG0300141",
+            "probepk": "1PG1100152",
             "releasetype": null
         }, {
             "name": "CALCIUM mg/l",
             "pollutantkey": "Ca",
             "pollutantgroupkey": "DNM",
-            "mindate": "1998-04-06",
-            "maxdate": "1999-02-01",
-            "minvalue": 67.5,
-            "maxvalue": 156.0,
+            "mindate": "2007-02-06",
+            "maxdate": "2003-11-04",
+            "minvalue": 144.0,
+            "maxvalue": 353.0,
             "unit": "mg/l",
-            "probepk": "1PG0000016",
+            "probepk": "1PG0300024",
             "releasetype": null
         }, {
             "name": "CHLORID mg/l",
             "pollutantkey": "Clr",
             "pollutantgroupkey": "SOSS",
-            "mindate": "2010-10-13",
-            "maxdate": "1991-12-05",
-            "minvalue": 8.800000190734863,
-            "maxvalue": 51.0,
+            "mindate": "2003-11-04",
+            "maxdate": "2009-11-02",
+            "minvalue": 3.9000000953674316,
+            "maxvalue": 53.900001525878906,
             "unit": "mg/l",
-            "probepk": "1PG0000016",
+            "probepk": "1PG0300024",
             "releasetype": null
         }, {
             "name": "CHROM-GESAMT mg/l",
             "pollutantkey": "Cr",
             "pollutantgroupkey": "MET",
-            "mindate": "2007-05-16",
-            "maxdate": "1993-10-05",
-            "minvalue": 0.0010000000474974513,
-            "maxvalue": 0.004000000189989805,
+            "mindate": "2007-05-17",
+            "maxdate": "2011-07-05",
+            "minvalue": 0.0020000000949949026,
+            "maxvalue": 0.003599999938160181,
             "unit": "mg/l",
-            "probepk": "1PG0700114",
+            "probepk": "1PG0700216",
             "releasetype": null
         }, {
             "name": "EISEN mg/l",
             "pollutantkey": "Fe",
             "pollutantgroupkey": "MET",
-            "mindate": "2007-10-27",
-            "maxdate": "1992-10-08",
+            "mindate": "2013-11-12",
+            "maxdate": "2003-11-04",
             "minvalue": 0.010999999940395355,
-            "maxvalue": 1.2200000286102295,
+            "maxvalue": 1.0,
             "unit": "mg/l",
-            "probepk": "1PG0200385",
-            "releasetype": null
-        }, {
-            "name": "HEXACHLORBENZOL µg/l",
-            "pollutantkey": "HCB",
-            "pollutantgroupkey": "PEST",
-            "mindate": "1996-05-29",
-            "maxdate": "1996-05-29",
-            "minvalue": 0.014000000432133675,
-            "maxvalue": 0.014000000432133675,
-            "unit": "µg/l",
-            "probepk": "1PG9600138",
+            "probepk": "1PG0300024",
             "releasetype": null
         }, {
             "name": "KALIUM mg/l",
             "pollutantkey": "K",
             "pollutantgroupkey": "DNM",
-            "mindate": "2009-02-05",
-            "maxdate": "2000-11-06",
-            "minvalue": 1.2999999523162842,
-            "maxvalue": 3.880000114440918,
+            "mindate": "2008-05-18",
+            "maxdate": "2005-10-19",
+            "minvalue": 2.9000000953674316,
+            "maxvalue": 16.0,
             "unit": "mg/l",
-            "probepk": "1PG0000016",
+            "probepk": "1PG0300024",
             "releasetype": null
         }, {
             "name": "KUPFER mg/l",
             "pollutantkey": "Cu",
             "pollutantgroupkey": "MET",
-            "mindate": "2003-04-28",
-            "maxdate": "1997-10-20",
+            "mindate": "2004-04-29",
+            "maxdate": "2011-07-05",
             "minvalue": 0.0010000000474974513,
-            "maxvalue": 0.0038999998942017555,
+            "maxvalue": 0.03350000083446503,
             "unit": "mg/l",
-            "probepk": "1PG0300141",
+            "probepk": "1PG0300149",
             "releasetype": null
         }, {
             "name": "MAGNESIUM mg/l",
             "pollutantkey": "Mg",
             "pollutantgroupkey": "DNM",
             "mindate": "2013-03-24",
-            "maxdate": "1993-03-11",
-            "minvalue": 24.700000762939453,
-            "maxvalue": 46.0,
+            "maxdate": "2003-11-04",
+            "minvalue": 66.30000305175781,
+            "maxvalue": 108.0,
             "unit": "mg/l",
-            "probepk": "1PG0000016",
+            "probepk": "1PG0300024",
             "releasetype": null
         }, {
             "name": "MANGAN mg/l",
             "pollutantkey": "Mn",
             "pollutantgroupkey": "MET",
-            "mindate": "2006-11-02",
-            "maxdate": "2005-10-19",
-            "minvalue": 0.006000000052154064,
-            "maxvalue": 0.21299999952316284,
+            "mindate": "2007-05-17",
+            "maxdate": "2003-11-04",
+            "minvalue": 0.005200000014156103,
+            "maxvalue": 1.190000057220459,
             "unit": "mg/l",
-            "probepk": "1PG0100383",
+            "probepk": "1PG0300024",
             "releasetype": null
         }, {
             "name": "NATRIUM mg/l",
             "pollutantkey": "Na",
             "pollutantgroupkey": "DNM",
-            "mindate": "2009-02-05",
-            "maxdate": "2002-06-03",
-            "minvalue": 4.599999904632568,
-            "maxvalue": 13.199999809265137,
+            "mindate": "2009-07-28",
+            "maxdate": "2006-02-08",
+            "minvalue": 20.5,
+            "maxvalue": 99.0999984741211,
             "unit": "mg/l",
-            "probepk": "1PG0000016",
+            "probepk": "1PG0300024",
             "releasetype": null
         }, {
             "name": "NICKEL mg/l",
             "pollutantkey": "Ni",
             "pollutantgroupkey": "MET",
-            "mindate": "2004-04-29",
-            "maxdate": "2004-07-27",
+            "mindate": "2015-08-02",
+            "maxdate": "2011-07-05",
             "minvalue": 0.0010000000474974513,
-            "maxvalue": 0.004000000189989805,
+            "maxvalue": 0.00430000014603138,
             "unit": "mg/l",
-            "probepk": "1PG0400135",
+            "probepk": "1PG0300149",
             "releasetype": null
         }, {
             "name": "ZINK mg/l",
             "pollutantkey": "Zn",
             "pollutantgroupkey": "MET",
-            "mindate": "2010-07-13",
-            "maxdate": "1997-10-20",
-            "minvalue": 0.0024999999441206455,
-            "maxvalue": 0.02500000037252903,
+            "mindate": "2004-07-27",
+            "maxdate": "2011-07-05",
+            "minvalue": 0.004999999888241291,
+            "maxvalue": 0.17499999701976776,
             "unit": "mg/l",
-            "probepk": "1PG0700114",
+            "probepk": "1PG0400024",
             "releasetype": null
         }],
     "probenparameter": [{
@@ -204,15 +182,15 @@
             "parametergruppename": null,
             "parametereinheit": "KEINE"
         }, {
-            "parameterpk": "G511",
+            "parameterpk": "G545",
             "parametergruppepk": null,
-            "parametername": "METOLACHLOR-SÄURE µg/l",
+            "parametername": "MOLYBDÄN µg/l",
             "parametergruppename": null,
             "parametereinheit": "µg/l"
         }, {
-            "parameterpk": "G510",
+            "parameterpk": "G540",
             "parametergruppepk": null,
-            "parametername": "METOLACHLOR-SULFONSÄURE µg/l",
+            "parametername": "CHLOROTHALONIL-SULFONSÄURE µg/l",
             "parametergruppename": null,
             "parametereinheit": "µg/l"
         }, {
@@ -270,24 +248,6 @@
             "parametergruppename": null,
             "parametereinheit": "µg/l"
         }, {
-            "parameterpk": "G401",
-            "parametergruppepk": null,
-            "parametername": "Desphenyl-Chloridazon µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G386",
-            "parametergruppepk": null,
-            "parametername": "Desethyl-Desisopropylatrazin µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G379",
-            "parametergruppepk": null,
-            "parametername": "DESETHYLTERBUTHYLAZIN µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
             "parameterpk": "G366",
             "parametergruppepk": null,
             "parametername": "ELEKTR. LEITF. (bei 20°C) µS/cm",
@@ -306,71 +266,17 @@
             "parametergruppename": null,
             "parametereinheit": "KEINE"
         }, {
-            "parameterpk": "G324",
-            "parametergruppepk": null,
-            "parametername": "RADIUM-226 Bq/l",
-            "parametergruppename": null,
-            "parametereinheit": "Bq/l"
-        }, {
             "parameterpk": "G285",
             "parametergruppepk": null,
             "parametername": "RADON-222 Bq/l",
             "parametergruppename": null,
             "parametereinheit": "Bq/l"
         }, {
-            "parameterpk": "G269",
-            "parametergruppepk": null,
-            "parametername": "HEXACHLORBENZOL µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G253",
-            "parametergruppepk": null,
-            "parametername": "METAZACHLOR µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G221",
-            "parametergruppepk": null,
-            "parametername": "TERBUTHYLAZIN µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
             "parameterpk": "G215",
             "parametergruppepk": null,
             "parametername": "FÖRDERSTROM BEI PN l/s",
             "parametergruppename": null,
             "parametereinheit": "l/s"
-        }, {
-            "parameterpk": "G194",
-            "parametergruppepk": null,
-            "parametername": "DESISOPROPYLATRAZIN µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G193",
-            "parametergruppepk": null,
-            "parametername": "DESETHYLATRAZIN µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G192",
-            "parametergruppepk": null,
-            "parametername": "ATRAZIN µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G186",
-            "parametergruppepk": null,
-            "parametername": "1,1-DICHLORETHEN µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
-        }, {
-            "parameterpk": "G180",
-            "parametergruppepk": null,
-            "parametername": "CHLOROFORM (Trichlormethan) µg/l",
-            "parametergruppename": null,
-            "parametereinheit": "µg/l"
         }, {
             "parameterpk": "G176",
             "parametergruppepk": null,
@@ -580,13 +486,6 @@
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
-            "id": 128,
-            "key": "Atrazin",
-            "name": "Atrazin",
-            "description": "Atrazin",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
             "id": 135,
             "key": "Ca",
             "name": "Calcium",
@@ -626,13 +525,6 @@
             "key": "Fe",
             "name": "Eisen",
             "description": "Eisen (Fe)",
-            "taggroupid": 2,
-            "taggroupkey": "POLLUTANT"
-        }, {
-            "id": 165,
-            "key": "HCB",
-            "name": "HCB",
-            "description": "Hexachlorbenzol (HCB)",
             "taggroupid": 2,
             "taggroupkey": "POLLUTANT"
         }, {
@@ -696,13 +588,6 @@
             "key": "MET",
             "name": "Metalle und Schwermetalle",
             "description": "Metalle und Schwermetalle",
-            "taggroupid": 1,
-            "taggroupkey": "POLLUTANTGROUP"
-        }, {
-            "id": 207,
-            "key": "PEST",
-            "name": "Pestizide",
-            "description": "Pestizide",
             "taggroupid": 1,
             "taggroupkey": "POLLUTANTGROUP"
         }, {

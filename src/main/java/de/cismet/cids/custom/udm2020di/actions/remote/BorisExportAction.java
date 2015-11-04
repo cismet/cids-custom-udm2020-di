@@ -41,7 +41,7 @@ public class BorisExportAction extends AbstractExportAction {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger log = Logger.getLogger(BorisExportAction.class);
+    protected static final Logger LOGGER = Logger.getLogger(BorisExportAction.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -57,7 +57,7 @@ public class BorisExportAction extends AbstractExportAction {
      */
     public BorisExportAction(final Collection<String> standorte,
             final Collection<Parameter> parameters) {
-        super("Exportieren");
+        super();
 
         this.parameters = parameters;
         this.standorte = standorte;
@@ -79,13 +79,13 @@ public class BorisExportAction extends AbstractExportAction {
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
             frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
         } else {
-            log.warn("could not dtermine source frame of action");
+            LOGGER.warn("could not dtermine source frame of action");
             frame = JFrame.getFrames()[0];
         }
 
         if ((standorte != null) && !standorte.isEmpty()
                     && (parameters != null) && !parameters.isEmpty()) {
-            log.info("perfoming BORIS Export for " + standorte.size() + " standorte and "
+            LOGGER.info("perfoming BORIS Export for " + standorte.size() + " standorte and "
                         + parameters.size() + " parameters");
 
             final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
@@ -109,10 +109,10 @@ public class BorisExportAction extends AbstractExportAction {
                                 TASK_NAME,
                                 serverActionParameters));
             } else {
-                log.warn("Export Action aborted!");
+                LOGGER.warn("Export Action aborted!");
             }
         } else {
-            log.error("no PARAM_STANDORTE and PARAM_PARAMETER server action parameters provided");
+            LOGGER.error("no PARAM_STANDORTE and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
                 frame,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",

@@ -67,7 +67,7 @@ public class WaExportAction extends AbstractExportAction {
     public WaExportAction(final String waSource,
             final Collection<String> messstellen,
             final Collection<Parameter> parameters) {
-        super("Exportieren");
+        super();
 
         if (waSource.equalsIgnoreCase(WAGW)) {
             this.waSource = waSource;
@@ -133,7 +133,7 @@ public class WaExportAction extends AbstractExportAction {
                 LOG.warn(waSource + " Export Action aborted!");
             }
         } else {
-            LOG.error("no PARAM_STANDORTE and PARAM_MESSWERTE server action parameters provided");
+            LOG.error("no PARAM_MESSSTELLEN and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
                 frame,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",

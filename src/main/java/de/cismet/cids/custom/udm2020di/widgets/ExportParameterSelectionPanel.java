@@ -5,11 +5,6 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.udm2020di.widgets;
 
 import org.jdesktop.beansbinding.AutoBinding;
@@ -26,6 +21,8 @@ import java.awt.event.ItemListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -40,7 +37,7 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
  * @author   pd
  * @version  $Revision$, $Date$
  */
-public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemListener {
+public class ExportParameterSelectionPanel extends javax.swing.JPanel implements ItemListener {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -48,7 +45,9 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
 
     protected final transient SortedSet<Parameter> parameters = new TreeSet<Parameter>();
 
-    protected final transient ArrayList selectedParameters = new ArrayList();
+    protected final transient List selectedParameters = Collections.synchronizedList(new ArrayList());
+
+    protected boolean disableEvents = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionPanel;
@@ -74,9 +73,22 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
     /**
      * Creates new form ParameterSelectionPanel.
      */
-    public ParameterSelectionPanel() {
+    public ExportParameterSelectionPanel() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
         initComponents();
+    }
+
+    /**
+     * Creates a new ExportParameterSelectionPanel object.
+     *
+     * @param  narrowLayout  DOCUMENT ME!
+     */
+    public ExportParameterSelectionPanel(final boolean narrowLayout) {
+        this();
+
+        if (narrowLayout) {
+            this.selectionPanel.setLayout(new java.awt.GridLayout(0, 2, 5, 5));
+        }
     }
 
     /**
@@ -84,7 +96,7 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
      *
      * @param  parameters  DOCUMENT ME!
      */
-    public ParameterSelectionPanel(final Collection<Parameter> parameters) {
+    public ExportParameterSelectionPanel(final Collection<Parameter> parameters) {
         this();
         this.setParameters(parameters);
     }
@@ -132,8 +144,8 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
                 javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createTitledBorder(
                         org.openide.util.NbBundle.getMessage(
-                            ParameterSelectionPanel.class,
-                            "ParameterSelectionPanel.border.insideBorder.outsideBorder.title")),
+                            ExportParameterSelectionPanel.class,
+                            "ExportParameterSelectionPanel.border.insideBorder.outsideBorder.title")),
                     javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5)))); // NOI18N
         setMinimumSize(new java.awt.Dimension(500, 100));
         setLayout(new java.awt.BorderLayout(5, 5));
@@ -145,21 +157,21 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
         actionPanel.setLayout(new javax.swing.BoxLayout(actionPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         btnExport.setText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.btnExport.text"));          // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.btnExport.text"));          // NOI18N
         btnExport.setActionCommand(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.btnExport.actionCommand")); // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.btnExport.actionCommand")); // NOI18N
         btnExport.setAutoscrolls(true);
         actionPanel.add(btnExport);
         actionPanel.add(filler2);
 
         btnReset.setText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.btnReset.text"));          // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.btnReset.text"));          // NOI18N
         btnReset.setActionCommand(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.btnReset.actionCommand")); // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.btnReset.actionCommand")); // NOI18N
         btnReset.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -171,8 +183,8 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
         actionPanel.add(filler5);
 
         btnSelectAll.setText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.btnSelectAll.text")); // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.btnSelectAll.text")); // NOI18N
         btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -184,19 +196,20 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
         actionPanel.add(filler1);
 
         jLabel1.setText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.jLabel1.text")); // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.jLabel1.text")); // NOI18N
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
         actionPanel.add(jLabel1);
         actionPanel.add(filler3);
 
         buttonGroup1.add(rbtnCsv);
         rbtnCsv.setSelected(true);
         rbtnCsv.setText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.rbtnCsv.text"));        // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.rbtnCsv.text"));        // NOI18N
         rbtnCsv.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.rbtnCsv.toolTipText")); // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.rbtnCsv.toolTipText")); // NOI18N
         rbtnCsv.addItemListener(new java.awt.event.ItemListener() {
 
                 @Override
@@ -209,11 +222,11 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
 
         buttonGroup1.add(rbtnXlsx);
         rbtnXlsx.setText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.rbtnXlsx.text"));        // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.rbtnXlsx.text"));        // NOI18N
         rbtnXlsx.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.rbtnXlsx.toolTipText")); // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.rbtnXlsx.toolTipText")); // NOI18N
         rbtnXlsx.addItemListener(new java.awt.event.ItemListener() {
 
                 @Override
@@ -226,11 +239,11 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
 
         buttonGroup1.add(rbtnShp);
         rbtnShp.setText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.rbtnShp.text"));        // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.rbtnShp.text"));        // NOI18N
         rbtnShp.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ParameterSelectionPanel.class,
-                "ParameterSelectionPanel.rbtnShp.toolTipText")); // NOI18N
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.rbtnShp.toolTipText")); // NOI18N
         rbtnShp.addItemListener(new java.awt.event.ItemListener() {
 
                 @Override
@@ -249,13 +262,15 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
      * @param  evt  DOCUMENT ME!
      */
     private void btnResetActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnResetActionPerformed
-
+        this.disableEvents = true;
         if ((this.parameters != null) && !this.parameters.isEmpty()) {
             for (final Parameter parameter : this.parameters) {
                 parameter.setSelected(false);
             }
         }
-    } //GEN-LAST:event_btnResetActionPerformed
+        this.disableEvents = false;
+        this.enableButtons();
+    }                                                                            //GEN-LAST:event_btnResetActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -288,9 +303,12 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
      * @param  evt  DOCUMENT ME!
      */
     private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
+        this.disableEvents = true;
         for (final Parameter parameter : this.parameters) {
             parameter.setSelected(true);
         }
+        this.disableEvents = false;
+        this.enableButtons();
     }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
@@ -314,16 +332,16 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
 
                 @Override
                 public void run() {
-                    ParameterSelectionPanel.this.selectionPanel.removeAll();
+                    ExportParameterSelectionPanel.this.selectionPanel.removeAll();
                     bindingGroup.unbind();
-                    if ((parameters != null) && !ParameterSelectionPanel.this.parameters.isEmpty()) {
-                        for (final Parameter parameter : ParameterSelectionPanel.this.parameters) {
+                    if ((parameters != null) && !ExportParameterSelectionPanel.this.parameters.isEmpty()) {
+                        for (final Parameter parameter : ExportParameterSelectionPanel.this.parameters) {
                             final JCheckBox checkBox = new JCheckBox(parameter.getParameterName());
                             checkBox.addItemListener(WeakListeners.create(
                                     ItemListener.class,
-                                    ParameterSelectionPanel.this,
+                                    ExportParameterSelectionPanel.this,
                                     checkBox));
-                            ParameterSelectionPanel.this.selectionPanel.add(checkBox);
+                            ExportParameterSelectionPanel.this.selectionPanel.add(checkBox);
                             final Binding binding = Bindings.createAutoBinding(
                                     AutoBinding.UpdateStrategy.READ_WRITE,
                                     parameter,
@@ -351,15 +369,16 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
      * @return  DOCUMENT ME!
      */
     public final Collection<Parameter> getSelectedParameters() {
-        selectedParameters.clear();
-        if ((this.parameters != null) && !this.parameters.isEmpty()) {
-            for (final Parameter parameter : this.parameters) {
-                if (parameter.isSelected()) {
-                    selectedParameters.add(parameter);
+        synchronized (selectedParameters) {
+            selectedParameters.clear();
+            if ((this.parameters != null) && !this.parameters.isEmpty()) {
+                for (final Parameter parameter : this.parameters) {
+                    if (parameter.isSelected()) {
+                        selectedParameters.add(parameter);
+                    }
                 }
             }
         }
-
         return selectedParameters;
     }
 
@@ -385,6 +404,15 @@ public class ParameterSelectionPanel extends javax.swing.JPanel implements ItemL
 
     @Override
     public void itemStateChanged(final ItemEvent e) {
+        if (!this.disableEvents) {
+            enableButtons();
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     */
+    protected void enableButtons() {
         final Collection<Parameter> selParameters = this.getSelectedParameters();
 
         if (selParameters.isEmpty()) {
