@@ -287,6 +287,12 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                         featuresList.setModel(listModel);
                         // parameterPanel.setParameterNames(parameterNamesSet);
 
+                        // Messwerte Tab ---------------------------------------
+                        final MesswerteTableModel messwerteTableModel = new BorisMesswerteTableModel(
+                                aggregationValues.toArray(
+                                    new AggregationValue[0]));
+                        messwerteTable.setModel(messwerteTableModel);
+
                         // Export Tab
                         parameterSelectionPanel.setParameters(parametersSet);
 
@@ -294,12 +300,6 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 standortPks,
                                 parameterSelectionPanel.getSelectedParameters());
                         parameterSelectionPanel.setExportAction(borisExportAction);
-
-                        // Messwerte Tab ---------------------------------------
-                        final MesswerteTableModel messwerteTableModel = new BorisMesswerteTableModel(
-                                aggregationValues.toArray(
-                                    new AggregationValue[0]));
-                        messwerteTable.setModel(messwerteTableModel);
 
                         // Visualisation -------------------------------------------
                         visualisationPanel.setParameters(parametersSet);

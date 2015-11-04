@@ -31,7 +31,7 @@ public class MesswerteTableModel extends AbstractTableModel {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.YYYY");
+    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     protected static final Logger LOGGER = Logger.getLogger(MesswerteTableModel.class);
     public static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.getDefault());
 
