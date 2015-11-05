@@ -189,7 +189,7 @@ public class NotificationPanel extends javax.swing.JPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void jXHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlinkActionPerformed
+    private void jXHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {                      //GEN-FIRST:event_jXHyperlinkActionPerformed
         final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
         if ((desktop != null) && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -201,5 +201,5 @@ public class NotificationPanel extends javax.swing.JPanel {
         } else {
             LOGGER.info("Opening a website is not supported.");                                          // NOI18N
         }
-    }//GEN-LAST:event_jXHyperlinkActionPerformed
+    }                                                                                                    //GEN-LAST:event_jXHyperlinkActionPerformed
 }

@@ -156,13 +156,13 @@
             <Container class="de.cismet.cids.custom.udm2020di.widgets.ParameterPanel" name="parameterPanel">
               <Properties>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[130, 2147483647]"/>
+                  <Dimension value="[250, 2147483647]"/>
                 </Property>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[130, 300]"/>
+                  <Dimension value="[250, 300]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[130, 300]"/>
+                  <Dimension value="[250, 300]"/>
                 </Property>
               </Properties>
               <Constraints>

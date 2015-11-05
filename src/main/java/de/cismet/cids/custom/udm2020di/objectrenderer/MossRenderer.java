@@ -28,7 +28,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -51,7 +50,6 @@ import de.cismet.cids.custom.udm2020di.types.moss.Moss;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 import de.cismet.cids.custom.udm2020di.widgets.ParameterPanel;
-
 
 /**
  * DOCUMENT ME!
@@ -178,11 +176,16 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         mossPanel.setOpaque(false);
         mossPanel.setLayout(new GridBagLayout());
 
-        mossTypePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(NbBundle.getMessage(MossRenderer.class, "MossRenderer.mossTypePanel.border.outsideBorder.title")), BorderFactory.createEmptyBorder(5, 5, 5, 5))); // NOI18N
+        mossTypePanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createTitledBorder(
+                    NbBundle.getMessage(MossRenderer.class, "MossRenderer.mossTypePanel.border.outsideBorder.title")),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5))); // NOI18N
         mossTypePanel.setOpaque(false);
         mossTypePanel.setLayout(new BorderLayout());
 
-        lblMossIcon.setIcon(new ImageIcon(getClass().getResource("/de/cismet/cids/custom/udm2020di/objectrenderer/hylocomium_splendens_128.png"))); // NOI18N
+        lblMossIcon.setIcon(new ImageIcon(
+                getClass().getResource(
+                    "/de/cismet/cids/custom/udm2020di/objectrenderer/hylocomium_splendens_128.png"))); // NOI18N
         lblMossIcon.setText(NbBundle.getMessage(MossRenderer.class, "MossRenderer.lblMossIcon.text")); // NOI18N
         lblMossIcon.setRequestFocusEnabled(false);
         mossTypePanel.add(lblMossIcon, BorderLayout.CENTER);
@@ -203,7 +206,13 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         gridBagConstraints.insets = new Insets(0, 15, 5, 5);
         mossPanel.add(lblSampleId, gridBagConstraints);
 
-        Binding binding = Bindings.createAutoBinding(UpdateStrategy.READ_ONCE, this, ELProperty.create("${moss.sampleId}"), lblSampleIdValue, BeanProperty.create("text"), "sample_id");
+        Binding binding = Bindings.createAutoBinding(
+                UpdateStrategy.READ_ONCE,
+                this,
+                ELProperty.create("${moss.sampleId}"),
+                lblSampleIdValue,
+                BeanProperty.create("text"),
+                "sample_id");
         binding.setSourceNullValue(" ");
         binding.setSourceUnreadableValue(" ");
         bindingGroup.addBinding(binding);
@@ -225,7 +234,13 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         gridBagConstraints.insets = new Insets(5, 15, 5, 5);
         mossPanel.add(lblLabNo, gridBagConstraints);
 
-        binding = Bindings.createAutoBinding(UpdateStrategy.READ_ONCE, this, ELProperty.create("${moss.labNo}"), lblLabNoValue, BeanProperty.create("text"), "lab_no");
+        binding = Bindings.createAutoBinding(
+                UpdateStrategy.READ_ONCE,
+                this,
+                ELProperty.create("${moss.labNo}"),
+                lblLabNoValue,
+                BeanProperty.create("text"),
+                "lab_no");
         binding.setSourceNullValue(" ");
         binding.setSourceUnreadableValue(" ");
         bindingGroup.addBinding(binding);
@@ -241,12 +256,13 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
         infoPanel.add(mossPanel, BorderLayout.CENTER);
 
-        parameterPanel.setMaximumSize(new Dimension(130, 2147483647));
-        parameterPanel.setMinimumSize(new Dimension(130, 300));
-        parameterPanel.setPreferredSize(new Dimension(130, 300));
+        parameterPanel.setMaximumSize(new Dimension(250, 2147483647));
+        parameterPanel.setMinimumSize(new Dimension(250, 300));
+        parameterPanel.setPreferredSize(new Dimension(250, 300));
         infoPanel.add(parameterPanel, BorderLayout.EAST);
 
-        jTabbedPane.addTab(NbBundle.getMessage(MossRenderer.class, "MossRenderer.infoPanel.TabConstraints.tabTitle"), infoPanel); // NOI18N
+        jTabbedPane.addTab(NbBundle.getMessage(MossRenderer.class, "MossRenderer.infoPanel.TabConstraints.tabTitle"),
+            infoPanel); // NOI18N
         jTabbedPane.addTab("Aggregierte Messwerte", messwerteTable);
 
         exportPanel.setLayout(new GridBagLayout());
@@ -263,12 +279,13 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         gridBagConstraints.weighty = 1.0;
         exportPanel.add(filler, gridBagConstraints);
 
-        jTabbedPane.addTab(NbBundle.getMessage(MossRenderer.class, "MossRenderer.exportPanel.TabConstraints.tabTitle"), exportPanel); // NOI18N
+        jTabbedPane.addTab(NbBundle.getMessage(MossRenderer.class, "MossRenderer.exportPanel.TabConstraints.tabTitle"),
+            exportPanel); // NOI18N
 
         add(jTabbedPane, BorderLayout.CENTER);
 
         bindingGroup.bind();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
@@ -276,7 +293,6 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
     @Override
     protected void init() {
         bindingGroup.unbind();
-        bindingGroup.bind();
 
         final Runnable r = new Runnable() {
 
@@ -358,6 +374,8 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                                 }
                             },
                             jTabbedPane));
+
+                    bindingGroup.bind();
                 }
             };
 
