@@ -29,8 +29,9 @@ import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT_CSV;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_NAME;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_OBJECT_IDS;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_PARAMETER;
-import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_SAMPLES;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_SAMPLE_IDS;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.TASK_NAME;
 
 /**
@@ -47,22 +48,26 @@ public class MossExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Collection<Long> sites;
+    protected Collection<Long> objectIds;
+    protected Collection<String> sampleIds;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new MossExportAction object.
      *
-     * @param  sites       standorte DOCUMENT ME!
+     * @param  objectIds   sites standorte DOCUMENT ME!
+     * @param  sampleIds   DOCUMENT ME!
      * @param  parameters  DOCUMENT ME!
      */
-    public MossExportAction(final Collection<Long> sites,
+    public MossExportAction(final Collection<Long> objectIds,
+            final Collection<String> sampleIds,
             final Collection<Parameter> parameters) {
         super();
 
+        this.sampleIds = sampleIds;
+        this.objectIds = objectIds;
         this.parameters = parameters;
-        this.sites = sites;
         this.exportFormat = PARAM_EXPORTFORMAT_CSV;
 
         this.setEnabled(!this.parameters.isEmpty());
@@ -76,7 +81,7 @@ public class MossExportAction extends AbstractExportAction {
      * @return  DOCUMENT ME!
      */
     public Collection<Long> getInstallations() {
-        return sites;
+        return objectIds;
     }
 
     /**
@@ -85,7 +90,7 @@ public class MossExportAction extends AbstractExportAction {
      * @param  sites  DOCUMENT ME!
      */
     public void setInstallations(final Collection<Long> sites) {
-        this.sites = sites;
+        this.objectIds = sites;
     }
 
     /**
@@ -104,13 +109,14 @@ public class MossExportAction extends AbstractExportAction {
             frame = JFrame.getFrames()[0];
         }
 
-        if ((sites != null) && (sites.size() > 0)
+        if ((objectIds != null) && (objectIds.size() > 0)
                     && (parameters != null) && !parameters.isEmpty()) {
-            LOGGER.info("perfoming EPRTR Export for " + sites.size() + " sites and "
+            LOGGER.info("perfoming EPRTR Export for " + objectIds.size() + " sites and "
                         + parameters.size() + " parameters");
 
             final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
-                    new ServerActionParameter<Collection<Long>>(PARAM_SAMPLES, this.sites),
+                    new ServerActionParameter<Collection<Long>>(PARAM_OBJECT_IDS, this.objectIds),
+                    new ServerActionParameter<Collection<String>>(PARAM_SAMPLE_IDS, this.sampleIds),
                     new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                     new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
                     new ServerActionParameter<String>(PARAM_NAME, "moss-export")

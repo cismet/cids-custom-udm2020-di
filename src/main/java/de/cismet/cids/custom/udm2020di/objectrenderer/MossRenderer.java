@@ -43,6 +43,8 @@ import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.MossVisualisationAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -50,6 +52,7 @@ import de.cismet.cids.custom.udm2020di.types.moss.Moss;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 import de.cismet.cids.custom.udm2020di.widgets.ParameterPanel;
+import de.cismet.cids.custom.udm2020di.widgets.VisualisationPanel;
 
 /**
  * DOCUMENT ME!
@@ -89,6 +92,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
     private JPanel mossTypePanel;
     private ParameterPanel parameterPanel;
     private ExportParameterSelectionPanel parameterSelectionPanel;
+    private VisualisationPanel visualisationPanel;
     private BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -166,6 +170,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         exportPanel = new JPanel();
         parameterSelectionPanel = new ExportParameterSelectionPanel();
         filler = new Box.Filler(new Dimension(0, 0), new Dimension(0, 0), new Dimension(32767, 32767));
+        visualisationPanel = new VisualisationPanel();
 
         setLayout(new BorderLayout());
 
@@ -281,6 +286,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
         jTabbedPane.addTab(NbBundle.getMessage(MossRenderer.class, "MossRenderer.exportPanel.TabConstraints.tabTitle"),
             exportPanel); // NOI18N
+        jTabbedPane.addTab("Datenvisualisierung", visualisationPanel);
 
         add(jTabbedPane, BorderLayout.CENTER);
 
@@ -356,13 +362,24 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
-                    final MossExportAction exportAction = new MossExportAction(Arrays.asList(
-                                new Long[] { moss.getId() }),
+                    final MossExportAction exportAction = new MossExportAction(
+                            Arrays.asList(new Long[] { moss.getId() }),
+                            Arrays.asList(new String[] { moss.getSampleId() }),
                             parameterSelectionPanel.getSelectedParameters());
                     parameterSelectionPanel.setExportAction(exportAction);
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
                     }
+
+                    // Visualisation -------------------------------------------
+                    visualisationPanel.setParameters(parameters);
+                    final MossVisualisationAction visualisationAction = new MossVisualisationAction(
+                            Arrays.asList(new Moss[] { moss }),
+                            visualisationPanel.getSelectedParameters(),
+                            visualisationPanel);
+                    visualisationPanel.setVisualisationAction(visualisationAction);
+
+                    // Selected TAB ---------------------------------------------
                     jTabbedPane.setSelectedIndex(SELECTED_TAB);
                     jTabbedPane.addChangeListener(WeakListeners.create(
                             ChangeListener.class,

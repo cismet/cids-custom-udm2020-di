@@ -55,6 +55,9 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLSX)) {
             return ".xlsx";
         } else if (exportFormat.equalsIgnoreCase(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLS)) {
+            return ".csv";
+        } else if (exportFormat.equalsIgnoreCase(
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_CSV)) {
             return ".csv";
         } else if (exportFormat.equalsIgnoreCase(
@@ -124,5 +127,10 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
     @Override
     public void setExportName(final String exportName) {
         this.exportName = exportName;
+    }
+
+    @Override
+    public final void setEnabled(final boolean newValue) {
+        super.setEnabled(newValue);
     }
 }
