@@ -43,7 +43,6 @@ import de.cismet.cids.custom.udm2020di.types.eprtr.Address;
 import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel;
-import de.cismet.cids.custom.udm2020di.widgets.VisualisationParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.eprtr.ActivitiesPanel;
 import de.cismet.cids.custom.udm2020di.widgets.eprtr.AddressPanel;
 
@@ -58,7 +57,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOGGER = Logger.getLogger(EprtrInstallationRenderer.class);
-    protected static final DateFormat DATE_FORMAT = new SimpleDateFormat("YYYY");
+    protected static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy");
     protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------

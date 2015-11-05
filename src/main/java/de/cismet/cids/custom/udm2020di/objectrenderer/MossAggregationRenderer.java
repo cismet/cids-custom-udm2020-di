@@ -22,6 +22,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
+import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.tools.MossNameRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
@@ -239,7 +240,7 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
                     public void run() {
                         mapPanel.setCidsBeans(cidsBeans);
 
-                        // final TreeSet<String> parameterNamesSet = new TreeSet<String>();
+                        final Collection<Moss> stations = new ArrayList<Moss>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
                         final TreeSet<Long> mossPks = new TreeSet<Long>();
                         final DefaultListModel listModel = new DefaultListModel();
@@ -249,7 +250,10 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
                             listModel.addElement(cidsBean);
 
                             try {
-                                final Moss moss = new Moss(cidsBean);
+                                final Moss moss = OracleImport.JSON_MAPPER.readValue(
+                                        cidsBean.getProperty("src_content").toString(),
+                                        Moss.class);
+                                stations.add(moss);
                                 final ArrayList<String> parameterNames = new ArrayList<String>(
                                         moss.getProbenparameter().size());
                                 for (final Parameter probenparameter : moss.getProbenparameter()) {
@@ -269,19 +273,27 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
                         featuresList.setModel(listModel);
                         // parameterPanel.setParameterNames(parameterNamesSet);
 
-                        // Export Tab
+                        // Messwerte Tab ---------------------------------------
+                        messwerteTable.setAggregationValues(
+                            aggregationValues.toArray(new AggregationValue[aggregationValues.size()]));
+
+                        // Export Tab ------------------------------------------
                         parameterSelectionPanel.setParameters(parametersSet);
                         final MossExportAction exportAction = new MossExportAction(
                                 mossPks,
                                 parameterSelectionPanel.getSelectedParameters());
                         parameterSelectionPanel.setExportAction(exportAction);
 
-                        // Messwerte Tab -------------------------------
-                        messwerteTable.setAggregationValues(
-                            aggregationValues.toArray(new AggregationValue[aggregationValues.size()]));
+                        // Visualisation -------------------------------------------
+// visualisationPanel.setParameters(parametersSet);
+// final VisualisationAction visualisationAction = new MossVisualisationAction(
+// stations,
+// visualisationPanel.getSelectedParameters(),
+// visualisationPanel);
+// visualisationPanel.setVisualisationAction(visualisationAction);
 
+                        // SELECTED TAB ----------------------------------------
                         jTabbedPane.setSelectedIndex(SELECTED_TAB);
-
                         jTabbedPane.addChangeListener(WeakListeners.create(
                                 ChangeListener.class,
                                 new ChangeListener() {

@@ -28,33 +28,28 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
+import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.moss.Moss;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
+import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 import de.cismet.cids.custom.udm2020di.widgets.ParameterPanel;
-
-import static de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel.NUMBER_FORMAT;
 
 /**
  * DOCUMENT ME!
@@ -68,7 +63,6 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
     protected static final Logger LOGGER = Logger.getLogger(BorisSiteRenderer.class);
     protected static int SELECTED_TAB = 0;
-    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY");
 
     //~ Instance fields --------------------------------------------------------
 
@@ -90,8 +84,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
     private JLabel lblMossIcon;
     private JLabel lblSampleId;
     private JLabel lblSampleIdValue;
-    private JScrollPane messwerteScrollPane;
-    private JTable messwerteTable;
+    private MesswerteTable messwerteTable;
     private JPanel mossPanel;
     private JPanel mossTypePanel;
     private ParameterPanel parameterPanel;
@@ -169,8 +162,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         lblLabNo = new JLabel();
         lblLabNoValue = new JLabel();
         parameterPanel = new ParameterPanel();
-        messwerteScrollPane = new JScrollPane();
-        messwerteTable = new JTable();
+        messwerteTable = new MesswerteTable();
         exportPanel = new JPanel();
         parameterSelectionPanel = new ExportParameterSelectionPanel();
         filler = new Box.Filler(new Dimension(0, 0), new Dimension(0, 0), new Dimension(32767, 32767));
@@ -217,7 +209,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         Binding binding = Bindings.createAutoBinding(
                 UpdateStrategy.READ_ONCE,
                 this,
-                ELProperty.create("${cidsBean.sample_id}"),
+                ELProperty.create("${moss.sampleId}"),
                 lblSampleIdValue,
                 BeanProperty.create("text"),
                 "sample_id");
@@ -245,7 +237,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         binding = Bindings.createAutoBinding(
                 UpdateStrategy.READ_ONCE,
                 this,
-                ELProperty.create("${cidsBean.lab_no}"),
+                ELProperty.create("${moss.labNo}"),
                 lblLabNoValue,
                 BeanProperty.create("text"),
                 "lab_no");
@@ -264,42 +256,14 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
         infoPanel.add(mossPanel, BorderLayout.CENTER);
 
-        parameterPanel.setMaximumSize(new Dimension(130, 2147483647));
-        parameterPanel.setMinimumSize(new Dimension(130, 300));
-        parameterPanel.setPreferredSize(new Dimension(130, 300));
+        parameterPanel.setMaximumSize(new Dimension(250, 2147483647));
+        parameterPanel.setMinimumSize(new Dimension(250, 300));
+        parameterPanel.setPreferredSize(new Dimension(250, 300));
         infoPanel.add(parameterPanel, BorderLayout.EAST);
 
         jTabbedPane.addTab(NbBundle.getMessage(MossRenderer.class, "MossRenderer.infoPanel.TabConstraints.tabTitle"),
             infoPanel); // NOI18N
-
-        messwerteTable.setBorder(BorderFactory.createLineBorder(
-                UIManager.getDefaults().getColor("Table.dropLineColor")));
-        messwerteTable.setModel(new DefaultTableModel(
-                new Object[][] {},
-                new String[] { "Parameter", "Datum", "Messwert", "Einheit" }) {
-
-                Class[] types = new Class[] { String.class, String.class, String.class, String.class };
-                boolean[] canEdit = new boolean[] { false, false, false, false };
-
-                @Override
-                public Class getColumnClass(final int columnIndex) {
-                    return types[columnIndex];
-                }
-
-                @Override
-                public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-                    return canEdit[columnIndex];
-                }
-            });
-        messwerteTable.setFillsViewportHeight(true);
-        messwerteTable.setPreferredSize(new Dimension(300, 500));
-        messwerteTable.setRequestFocusEnabled(false);
-        messwerteScrollPane.setViewportView(messwerteTable);
-
-        jTabbedPane.addTab(NbBundle.getMessage(
-                MossRenderer.class,
-                "MossRenderer.messwerteScrollPane.TabConstraints.tabTitle"),
-            messwerteScrollPane); // NOI18N
+        jTabbedPane.addTab("Aggregierte Messwerte", messwerteTable);
 
         exportPanel.setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
@@ -329,18 +293,22 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
     @Override
     protected void init() {
         bindingGroup.unbind();
-        bindingGroup.bind();
 
         final Runnable r = new Runnable() {
 
                 @Override
                 public void run() {
                     try {
-                        moss = new Moss(cidsBean);
+                        moss = OracleImport.JSON_MAPPER.readValue(
+                                getCidsBean().getProperty("src_content").toString(),
+                                Moss.class);
                     } catch (Exception ex) {
-                        LOGGER.error("could not deserialize Moss: " + ex.getMessage(), ex);
+                        LOGGER.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
                         return;
                     }
+
+                    final Collection<Parameter> parameters = new ArrayList<Parameter>(
+                            moss.getProbenparameter());
 
                     final String mossType = moss.getType();
                     mossTypePanel.setBorder(
@@ -374,31 +342,20 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                     }
 
                     // ParameterPanel ------------------------------------------
-                    if ((moss.getProbenparameter() != null)
-                                && !moss.getProbenparameter().isEmpty()) {
-                        final ArrayList<String> parameterNames = new ArrayList<String>(
-                                moss.getProbenparameter().size());
-                        for (final Parameter probenparameter : moss.getProbenparameter()) {
-                            parameterNames.add(probenparameter.getParameterName());
-                        }
-                        parameterPanel.setParameterNames(parameterNames);
+                    final ArrayList<String> parameterNames = new ArrayList<String>(
+                            parameters.size());
+                    for (final Parameter probenparameter : parameters) {
+                        parameterNames.add(probenparameter.getParameterName());
                     }
+                    parameterPanel.setParameterNames(parameterNames);
 
                     // AggregationTable ----------------------------------------
-                    final DefaultTableModel tableModel = (DefaultTableModel)messwerteTable.getModel();
-                    for (final AggregationValue aggregationValue : moss.getAggregationValues()) {
-                        final Object[] rowData = new Object[] {
-                                aggregationValue.getName(),
-                                DATE_FORMAT.format(aggregationValue.getMinDate()),
-                                NUMBER_FORMAT.format(aggregationValue.getMinValue()),
-                                aggregationValue.getUnit()
-                            };
-                        tableModel.addRow(rowData);
-                    }
+                    messwerteTable.setAggregationValues(
+                        moss.getAggregationValues().toArray(
+                            new AggregationValue[0]));
 
                     // ParameterSelection (EXPORT) -----------------------------
-                    parameterSelectionPanel.setParameters(
-                        new ArrayList<Parameter>(moss.getProbenparameter()));
+                    parameterSelectionPanel.setParameters(parameters);
                     final MossExportAction exportAction = new MossExportAction(Arrays.asList(
                                 new Long[] { moss.getId() }),
                             parameterSelectionPanel.getSelectedParameters());
@@ -417,6 +374,8 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                                 }
                             },
                             jTabbedPane));
+
+                    bindingGroup.bind();
                 }
             };
 
