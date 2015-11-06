@@ -64,7 +64,7 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
     private de.cismet.cids.custom.udm2020di.widgets.MapPanel mapPanel;
     private de.cismet.cids.custom.udm2020di.widgets.MesswerteTable messwerteTable;
     private de.cismet.cids.custom.udm2020di.widgets.ParameterPanel parameterPanel;
-    private de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel parameterSelectionPanel;
+    private de.cismet.cids.custom.udm2020di.widgets.moss.MossParameterSelectionPanel parameterSelectionPanel;
     private de.cismet.cids.custom.udm2020di.widgets.VisualisationPanel visualisationPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -118,7 +118,7 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
         featuresList = new javax.swing.JList();
         messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
-        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel();
+        parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.moss.MossParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));

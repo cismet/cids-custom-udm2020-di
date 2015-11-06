@@ -19,8 +19,6 @@ import org.apache.log4j.Logger;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -77,16 +75,17 @@ public class BorisVisualisationPanel extends VisualisationPanel {
     protected JFreeChart createChart(final String title, final Dataset dataset) {
         // create the chart...
         final JFreeChart chart = ChartFactory.createBarChart(
-                title,                    // title
-                null,                     // x-axis label
-                "Messwert",               // y-axis label
-                (CategoryDataset)dataset, // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
+                title,                                             // title
+                null,                                              // x-axis label
+                org.openide.util.NbBundle.getMessage(
+                    BorisVisualisationPanel.class,
+                    "BorisVisualisationPanel.chart.y-axis-label"), // y-axis label
+                (CategoryDataset)dataset,                          // data
+                PlotOrientation.VERTICAL,                          // orientation
+                true,                                              // include legend
+                true,                                              // tooltips?
+                false                                              // URLs?
                 );
-
         // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
 
         // set the background color for the chart...

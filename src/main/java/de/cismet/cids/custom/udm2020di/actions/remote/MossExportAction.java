@@ -10,14 +10,12 @@ package de.cismet.cids.custom.udm2020di.actions.remote;
 import org.apache.log4j.Logger;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
 import java.util.Collection;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
@@ -26,8 +24,10 @@ import de.cismet.cids.server.actions.ServerActionParameter;
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
+import static de.cismet.cids.custom.udm2020di.indeximport.moss.MossImport.DEFAULT_IMPORTFILE;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT_CSV;
+import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT_XLS;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_NAME;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_OBJECT_IDS;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_PARAMETER;
@@ -100,13 +100,12 @@ public class MossExportAction extends AbstractExportAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final Frame frame;
+        final Component component;
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
-            // FIXME: support for jdialog
-            frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
+            component = (Component)e.getSource();
         } else {
-            LOGGER.warn("could not determine source frame of action");
-            frame = JFrame.getFrames()[0];
+            LOGGER.warn("could not determine source frame of action '" + TASK_NAME + "'");
+            component = JFrame.getFrames()[0];
         }
 
         if ((objectIds != null) && (objectIds.size() > 0)
@@ -122,8 +121,9 @@ public class MossExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, "moss-export")
                 };
 
-            if (DownloadManagerDialog.showAskingForUserTitle(frame)) {
-                final String filename = "moss-export";
+            if (DownloadManagerDialog.showAskingForUserTitle(component)) {
+                final String filename = (this.exportFormat == PARAM_EXPORTFORMAT_XLS) ? DEFAULT_IMPORTFILE
+                                                                                      : "moss-export";
                 final String extension = this.getExtention(exportFormat);
 
                 DownloadManager.instance()
@@ -141,7 +141,7 @@ public class MossExportAction extends AbstractExportAction {
         } else {
             LOGGER.error("no PARAM_SITES and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
-                frame,
+                component,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",
                 "Datenexport",
                 JOptionPane.WARNING_MESSAGE);
