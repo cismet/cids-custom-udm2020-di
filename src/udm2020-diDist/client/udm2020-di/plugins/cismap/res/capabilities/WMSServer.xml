@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<WMS_Capabilities version="1.3.0" xmlns="http://www.opengis.net/wms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:esri_wms="http://www.esri.com/wms" xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd http://www.esri.com/wms https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?version=1.3.0%26service=WMS%26request=GetSchemaExtension">
+<WMT_MS_Capabilities version="1.1.0">
   <Service>
     <Name><![CDATA[WMS]]></Name>
     <Title><![CDATA[basemap_at]]></Title>
-    <Abstract>WMS</Abstract>
+    <Abstract>OGC:WMS</Abstract>
     <KeywordList><Keyword><![CDATA[]]></Keyword></KeywordList>
     <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;"/>
     <ContactInformation>
@@ -26,14 +26,11 @@
     </ContactInformation>
     <Fees><![CDATA[]]></Fees>
     <AccessConstraints><![CDATA[]]></AccessConstraints>
-    <MaxWidth>4096</MaxWidth>
-    <MaxHeight>4096</MaxHeight>
   </Service>
   <Capability>
     <Request>
       <GetCapabilities>
         <Format>application/vnd.ogc.wms_xml</Format>
-        <Format>text/xml</Format>
         <DCPType>
           <HTTP><Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;"/></Get></HTTP>
         </DCPType>
@@ -64,386 +61,294 @@
           <HTTP><Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;"/></Get></HTTP>
         </DCPType>
       </GetFeatureInfo>
-      <esri_wms:GetStyles>
+      <GetStyles>
         <Format>application/vnd.ogc.sld+xml</Format>
         <DCPType>
           <HTTP><Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;"/></Get></HTTP>
         </DCPType>
-      </esri_wms:GetStyles>
+      </GetStyles>
     </Request>
     <Exception>
       <Format>application/vnd.ogc.se_xml</Format>
       <Format>application/vnd.ogc.se_inimage</Format>
       <Format>application/vnd.ogc.se_blank</Format>
-      <Format>text/xml</Format>
-      <Format>XML</Format>
     </Exception>
     <Layer>
       <Title><![CDATA[Layers]]></Title>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>8.725153</westBoundLongitude><eastBoundLongitude>17.633002</eastBoundLongitude><southBoundLatitude>45.796986</southBoundLatitude><northBoundLatitude>49.478977</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="8.725153" miny="45.796986" maxx="17.633002" maxy="49.478977"/>
-<BoundingBox CRS="EPSG:4326" minx="45.796986" miny="8.725153" maxx="49.478977" maxy="17.633002"/>
-<BoundingBox CRS="EPSG:31287" minx="220005.500000" miny="65619.288900" maxx="620005.500000" maxy="711947.003700"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="8.725153" miny="45.796986" maxx="17.633002" maxy="49.478977"/>
+<BoundingBox SRS="EPSG:4326" minx="8.725153" miny="45.796986" maxx="17.633002" maxy="49.478977"/>
+<BoundingBox SRS="EPSG:31287" minx="65619.288900" miny="220005.500000" maxx="711947.003700" maxy="620005.500000"/>
       <Layer queryable="1">
         <Name>WhiteBackground</Name>
         <Title><![CDATA[WhiteBackground]]></Title>
         <Abstract><![CDATA[REQUIRED: A brief narrative summary of the data set.]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.404789</westBoundLongitude><eastBoundLongitude>17.234083</eastBoundLongitude><southBoundLatitude>46.317219</southBoundLatitude><northBoundLatitude>49.033231</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
-<BoundingBox CRS="EPSG:4326" minx="46.317219" miny="9.404789" maxx="49.033231" maxy="17.234083"/>
-<BoundingBox CRS="EPSG:31287" minx="275472.021000" miny="112518.168000" maxx="570431.069000" maxy="685444.463000"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:4326" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:31287" minx="112518.168000" miny="275472.021000" maxx="685444.463000" maxy="570431.069000"/>
         <Style>
           <Name>default</Name>
           <Title>WhiteBackground</Title>
           <LegendURL width="16" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=WhiteBackground" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=WhiteBackground" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MaxScaleDenominator>2834821.428571</MaxScaleDenominator>
+        <ScaleHint min="0.0" max="1187.939392"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Hoehenmodell</Name>
         <Title><![CDATA[Hoehenmodell]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.306799</westBoundLongitude><eastBoundLongitude>17.378994</eastBoundLongitude><southBoundLatitude>46.243809</southBoundLatitude><northBoundLatitude>49.113885</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.306799" miny="46.243809" maxx="17.378994" maxy="49.113885"/>
-<BoundingBox CRS="EPSG:4326" minx="46.243809" miny="9.306799" maxx="49.113885" maxy="17.378994"/>
-<BoundingBox CRS="EPSG:31287" minx="267700.000000" miny="105800.000000" maxx="579400.000000" maxy="695600.000000"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.306799" miny="46.243809" maxx="17.378994" maxy="49.113885"/>
+<BoundingBox SRS="EPSG:4326" minx="9.306799" miny="46.243809" maxx="17.378994" maxy="49.113885"/>
+<BoundingBox SRS="EPSG:31287" minx="105800.000000" miny="267700.000000" maxx="695600.000000" maxy="579400.000000"/>
         <Style>
           <Name>default</Name>
           <Title>Hoehenmodell</Title>
           <LegendURL width="76" height="48">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Hoehenmodell" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Hoehenmodell" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>37798.563988</MinScaleDenominator>
-        <MaxScaleDenominator>2834821.428571</MaxScaleDenominator>
+        <ScaleHint min="15.839588" max="1187.939392"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>OEK50</Name>
         <Title><![CDATA[OEK50]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.363754</westBoundLongitude><eastBoundLongitude>17.302898</eastBoundLongitude><southBoundLatitude>46.266929</southBoundLatitude><northBoundLatitude>49.119289</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.363754" miny="46.266929" maxx="17.302898" maxy="49.119289"/>
-<BoundingBox CRS="EPSG:4326" minx="46.266929" miny="9.363754" maxx="49.119289" maxy="17.302898"/>
-<BoundingBox CRS="EPSG:31287" minx="269998.415830" miny="109999.459939" maxx="580000.915830" maxy="689999.459939"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.363754" miny="46.266929" maxx="17.302898" maxy="49.119289"/>
+<BoundingBox SRS="EPSG:4326" minx="9.363754" miny="46.266929" maxx="17.302898" maxy="49.119289"/>
+<BoundingBox SRS="EPSG:31287" minx="109999.459939" miny="269998.415830" maxx="689999.459939" maxy="580000.915830"/>
         <Style>
           <Name>default</Name>
           <Title>OEK50</Title>
           <LegendURL width="28" height="208">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=OEK50" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=OEK50" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>944.940476</MinScaleDenominator>
-        <MaxScaleDenominator>37797.619048</MaxScaleDenominator>
+        <ScaleHint min="0.395980" max="15.839192"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>OEK200</Name>
         <Title><![CDATA[OEK200]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.197985</westBoundLongitude><eastBoundLongitude>17.468612</eastBoundLongitude><southBoundLatitude>46.262523</southBoundLatitude><northBoundLatitude>49.478940</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.197985" miny="46.262523" maxx="17.468612" maxy="49.478940"/>
-<BoundingBox CRS="EPSG:4326" minx="46.262523" miny="9.197985" maxx="49.478940" maxy="17.468612"/>
-<BoundingBox CRS="EPSG:31287" minx="270001.402283" miny="99997.489075" maxx="620001.402283" maxy="699997.489075"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.197985" miny="46.262523" maxx="17.468612" maxy="49.478940"/>
+<BoundingBox SRS="EPSG:4326" minx="9.197985" miny="46.262523" maxx="17.468612" maxy="49.478940"/>
+<BoundingBox SRS="EPSG:31287" minx="99997.489075" miny="270001.402283" maxx="699997.489075" maxy="620001.402283"/>
         <Style>
           <Name>default</Name>
           <Title>OEK200</Title>
           <LegendURL width="28" height="208">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=OEK200" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=OEK200" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>37798.563988</MinScaleDenominator>
-        <MaxScaleDenominator>118117.559524</MaxScaleDenominator>
+        <ScaleHint min="15.839588" max="49.497475"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>OEK500</Name>
         <Title><![CDATA[OEK500]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.198038</westBoundLongitude><eastBoundLongitude>17.468670</eastBoundLongitude><southBoundLatitude>45.813230</southBoundLatitude><northBoundLatitude>49.478977</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.198038" miny="45.813230" maxx="17.468670" maxy="49.478977"/>
-<BoundingBox CRS="EPSG:4326" minx="45.813230" miny="9.198038" maxx="49.478977" maxy="17.468670"/>
-<BoundingBox CRS="EPSG:31287" minx="220005.500000" miny="100001.500000" maxx="620005.500000" maxy="700001.500000"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.198038" miny="45.813230" maxx="17.468670" maxy="49.478977"/>
+<BoundingBox SRS="EPSG:4326" minx="9.198038" miny="45.813230" maxx="17.468670" maxy="49.478977"/>
+<BoundingBox SRS="EPSG:31287" minx="100001.500000" miny="220005.500000" maxx="700001.500000" maxy="620005.500000"/>
         <Style>
           <Name>default</Name>
           <Title>OEK500</Title>
           <LegendURL width="28" height="176">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=OEK500" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=OEK500" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>118118.504464</MinScaleDenominator>
-        <MaxScaleDenominator>283482.142857</MaxScaleDenominator>
+        <ScaleHint min="49.497871" max="118.793939"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Katastralgemeindegrenze</Name>
         <Title><![CDATA[Katastralgemeindegrenze]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.404789</westBoundLongitude><eastBoundLongitude>17.234083</eastBoundLongitude><southBoundLatitude>46.317219</southBoundLatitude><northBoundLatitude>49.033231</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
-<BoundingBox CRS="EPSG:4326" minx="46.317219" miny="9.404789" maxx="49.033231" maxy="17.234083"/>
-<BoundingBox CRS="EPSG:31287" minx="275472.020900" miny="112518.167500" maxx="570431.068600" maxy="685444.463200"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:4326" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:31287" minx="112518.167500" miny="275472.020900" maxx="685444.463200" maxy="570431.068600"/>
         <Style>
           <Name>default</Name>
           <Title>Katastralgemeindegrenze</Title>
           <LegendURL width="154" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Katastralgemeindegrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Katastralgemeindegrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MaxScaleDenominator>472470.238095</MaxScaleDenominator>
+        <ScaleHint min="0.0" max="197.989899"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Gemeindegrenze</Name>
         <Title><![CDATA[Gemeindegrenze]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.404789</westBoundLongitude><eastBoundLongitude>17.234083</eastBoundLongitude><southBoundLatitude>46.317219</southBoundLatitude><northBoundLatitude>49.033231</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
-<BoundingBox CRS="EPSG:4326" minx="46.317219" miny="9.404789" maxx="49.033231" maxy="17.234083"/>
-<BoundingBox CRS="EPSG:31287" minx="275472.020900" miny="112518.167500" maxx="570431.068600" maxy="685444.463200"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:4326" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:31287" minx="112518.167500" miny="275472.020900" maxx="685444.463200" maxy="570431.068600"/>
         <Style>
           <Name>default</Name>
           <Title>Gemeindegrenze</Title>
           <LegendURL width="100" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Gemeindegrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Gemeindegrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MaxScaleDenominator>944940.476190</MaxScaleDenominator>
+        <ScaleHint min="0.0" max="395.979797"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Bezirksgrenze</Name>
         <Title><![CDATA[Bezirksgrenze]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.404789</westBoundLongitude><eastBoundLongitude>17.234083</eastBoundLongitude><southBoundLatitude>46.317219</southBoundLatitude><northBoundLatitude>49.033231</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
-<BoundingBox CRS="EPSG:4326" minx="46.317219" miny="9.404789" maxx="49.033231" maxy="17.234083"/>
-<BoundingBox CRS="EPSG:31287" minx="275472.020900" miny="112518.167500" maxx="570431.068600" maxy="685444.463200"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:4326" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:31287" minx="112518.167500" miny="275472.020900" maxx="685444.463200" maxy="570431.068600"/>
         <Style>
           <Name>default</Name>
           <Title>Bezirksgrenze</Title>
           <LegendURL width="94" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Bezirksgrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Bezirksgrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MaxScaleDenominator>1511904.761905</MaxScaleDenominator>
+        <ScaleHint min="0.0" max="633.567676"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Landesgrenze</Name>
         <Title><![CDATA[Landesgrenze]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.404789</westBoundLongitude><eastBoundLongitude>17.234083</eastBoundLongitude><southBoundLatitude>46.317219</southBoundLatitude><northBoundLatitude>49.033231</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
-<BoundingBox CRS="EPSG:4326" minx="46.317219" miny="9.404789" maxx="49.033231" maxy="17.234083"/>
-<BoundingBox CRS="EPSG:31287" minx="275472.020900" miny="112518.167500" maxx="570431.068600" maxy="685444.463200"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:4326" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:31287" minx="112518.167500" miny="275472.020900" maxx="685444.463200" maxy="570431.068600"/>
         <Style>
           <Name>default</Name>
           <Title>Landesgrenze</Title>
           <LegendURL width="88" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Landesgrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Landesgrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MaxScaleDenominator>2834821.428571</MaxScaleDenominator>
+        <ScaleHint min="0.0" max="1187.939392"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Staatsgrenze</Name>
         <Title><![CDATA[Staatsgrenze]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.404789</westBoundLongitude><eastBoundLongitude>17.234083</eastBoundLongitude><southBoundLatitude>46.317219</southBoundLatitude><northBoundLatitude>49.033231</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
-<BoundingBox CRS="EPSG:4326" minx="46.317219" miny="9.404789" maxx="49.033231" maxy="17.234083"/>
-<BoundingBox CRS="EPSG:31287" minx="275472.020900" miny="112518.167500" maxx="570431.068600" maxy="685444.463200"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:4326" minx="9.404789" miny="46.317219" maxx="17.234083" maxy="49.033231"/>
+<BoundingBox SRS="EPSG:31287" minx="112518.167500" miny="275472.020900" maxx="685444.463200" maxy="570431.068600"/>
         <Style>
           <Name>default</Name>
           <Title>Staatsgrenze</Title>
           <LegendURL width="88" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Staatsgrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Staatsgrenze" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>944.940476</MinScaleDenominator>
-        <MaxScaleDenominator>9449404.761905</MaxScaleDenominator>
+        <ScaleHint min="0.395980" max="3959.797975"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Nachbarstaaten</Name>
         <Title><![CDATA[Nachbarstaaten]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.333628</westBoundLongitude><eastBoundLongitude>17.590365</eastBoundLongitude><southBoundLatitude>46.113815</southBoundLatitude><northBoundLatitude>48.970757</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.333628" miny="46.113815" maxx="17.590365" maxy="48.970757"/>
-<BoundingBox CRS="EPSG:4326" minx="46.113815" miny="9.333628" maxx="48.970757" maxy="17.590365"/>
-<BoundingBox CRS="EPSG:31287" minx="254063.570000" miny="106943.742200" maxx="563484.187500" maxy="711947.003700"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.333628" miny="46.113815" maxx="17.590365" maxy="48.970757"/>
+<BoundingBox SRS="EPSG:4326" minx="9.333628" miny="46.113815" maxx="17.590365" maxy="48.970757"/>
+<BoundingBox SRS="EPSG:31287" minx="106943.742200" miny="254063.570000" maxx="711947.003700" maxy="563484.187500"/>
         <Style>
           <Name>default</Name>
           <Title>Nachbarstaaten</Title>
           <LegendURL width="88" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Nachbarstaaten" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Nachbarstaaten" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>944.940476</MinScaleDenominator>
-        <MaxScaleDenominator>9449404.761905</MaxScaleDenominator>
+        <ScaleHint min="0.395980" max="3959.797975"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>See</Name>
         <Title><![CDATA[See]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>8.765717</westBoundLongitude><eastBoundLongitude>16.996195</eastBoundLongitude><southBoundLatitude>46.448011</southBoundLatitude><northBoundLatitude>49.028228</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="8.765717" miny="46.448011" maxx="16.996195" maxy="49.028228"/>
-<BoundingBox CRS="EPSG:4326" minx="46.448011" miny="8.765717" maxx="49.028228" maxy="16.996195"/>
-<BoundingBox CRS="EPSG:31287" minx="292470.219300" miny="65619.288900" maxx="569874.812000" maxy="668036.125100"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="8.765717" miny="46.448011" maxx="16.996195" maxy="49.028228"/>
+<BoundingBox SRS="EPSG:4326" minx="8.765717" miny="46.448011" maxx="16.996195" maxy="49.028228"/>
+<BoundingBox SRS="EPSG:31287" minx="65619.288900" miny="292470.219300" maxx="668036.125100" maxy="569874.812000"/>
         <Style>
           <Name>default</Name>
           <Title>See</Title>
           <LegendURL width="16" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=See" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=See" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>283483.087798</MinScaleDenominator>
-        <MaxScaleDenominator>2834821.428571</MaxScaleDenominator>
+        <ScaleHint min="118.794335" max="1187.939392"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Fluss</Name>
         <Title><![CDATA[Fluss]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.408472</westBoundLongitude><eastBoundLongitude>17.197401</eastBoundLongitude><southBoundLatitude>46.475390</southBoundLatitude><northBoundLatitude>48.974679</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.408472" miny="46.475390" maxx="17.197401" maxy="48.974679"/>
-<BoundingBox CRS="EPSG:4326" minx="46.475390" miny="9.408472" maxx="48.974679" maxy="17.197401"/>
-<BoundingBox CRS="EPSG:31287" minx="293072.781000" miny="112459.023000" maxx="563920.216000" maxy="683079.738000"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.408472" miny="46.475390" maxx="17.197401" maxy="48.974679"/>
+<BoundingBox SRS="EPSG:4326" minx="9.408472" miny="46.475390" maxx="17.197401" maxy="48.974679"/>
+<BoundingBox SRS="EPSG:31287" minx="112459.023000" miny="293072.781000" maxx="683079.738000" maxy="563920.216000"/>
         <Style>
           <Name>default</Name>
           <Title>Fluss</Title>
           <LegendURL width="16" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Fluss" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Fluss" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>283483.087798</MinScaleDenominator>
-        <MaxScaleDenominator>2834821.428571</MaxScaleDenominator>
+        <ScaleHint min="118.794335" max="1187.939392"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Bezirkshauptstadt</Name>
         <Title><![CDATA[Bezirkshauptstadt]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.466377</westBoundLongitude><eastBoundLongitude>17.176760</eastBoundLongitude><southBoundLatitude>46.416290</southBoundLatitude><northBoundLatitude>49.008269</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.466377" miny="46.416290" maxx="17.176760" maxy="49.008269"/>
-<BoundingBox CRS="EPSG:4326" minx="46.416290" miny="9.466377" maxx="49.008269" maxy="17.176760"/>
-<BoundingBox CRS="EPSG:31287" minx="286285.250000" miny="116894.296900" maxx="567655.375000" maxy="681380.250000"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.466377" miny="46.416290" maxx="17.176760" maxy="49.008269"/>
+<BoundingBox SRS="EPSG:4326" minx="9.466377" miny="46.416290" maxx="17.176760" maxy="49.008269"/>
+<BoundingBox SRS="EPSG:31287" minx="116894.296900" miny="286285.250000" maxx="681380.250000" maxy="567655.375000"/>
         <Style>
           <Name>default</Name>
           <Title>Bezirkshauptstadt</Title>
           <LegendURL width="118" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Bezirkshauptstadt" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Bezirkshauptstadt" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>236235.119048</MinScaleDenominator>
-        <MaxScaleDenominator>1511904.761905</MaxScaleDenominator>
+        <ScaleHint min="98.994949" max="633.567676"></ScaleHint>
       </Layer>
       <Layer queryable="1">
         <Name>Landeshauptstadt</Name>
         <Title><![CDATA[Landeshauptstadt]]></Title>
         <Abstract><![CDATA[]]></Abstract>
-<CRS>CRS:84</CRS>
-<CRS>EPSG:4326</CRS>
-<CRS>EPSG:31287</CRS>
- <!-- alias 31287 -->
-<CRS>EPSG:31297</CRS>
-<EX_GeographicBoundingBox><westBoundLongitude>9.466377</westBoundLongitude><eastBoundLongitude>17.176760</eastBoundLongitude><southBoundLatitude>46.416290</southBoundLatitude><northBoundLatitude>49.008269</northBoundLatitude></EX_GeographicBoundingBox>
-<BoundingBox CRS="CRS:84" minx="9.466377" miny="46.416290" maxx="17.176760" maxy="49.008269"/>
-<BoundingBox CRS="EPSG:4326" minx="46.416290" miny="9.466377" maxx="49.008269" maxy="17.176760"/>
-<BoundingBox CRS="EPSG:31287" minx="286285.250000" miny="116894.296900" maxx="567655.375000" maxy="681380.250000"/>
+<SRS>EPSG:4326 EPSG:31287 EPSG:31297</SRS>
+<LatLonBoundingBox minx="9.466377" miny="46.416290" maxx="17.176760" maxy="49.008269"/>
+<BoundingBox SRS="EPSG:4326" minx="9.466377" miny="46.416290" maxx="17.176760" maxy="49.008269"/>
+<BoundingBox SRS="EPSG:31287" minx="116894.296900" miny="286285.250000" maxx="681380.250000" maxy="567655.375000"/>
         <Style>
           <Name>default</Name>
           <Title>Landeshauptstadt</Title>
           <LegendURL width="106" height="16">
             <Format>image/png</Format>
-            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.3.0%26format=image/png%26layer=Landeshauptstadt" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <OnlineResource xlink:href="https://secure.umweltbundesamt.at/spatial-r/services/basemap/at/MapServer/WmsServer?token=UKUmnxbFAzaqlCaIZQ-KaHrxilnTcc82qEy2c_IATi5TloY5ubKKvegnzdCI7Ye-&amp;request=GetLegendGraphic%26version=1.1.0%26format=image/png%26layer=Landeshauptstadt" xlink:type="simple" xmlns:xlink="http://www.w3.org/1999/xlink" />
           </LegendURL>
         </Style>
-        <MinScaleDenominator>236235.119048</MinScaleDenominator>
-        <MaxScaleDenominator>2834821.428571</MaxScaleDenominator>
+        <ScaleHint min="98.994949" max="1187.939392"></ScaleHint>
       </Layer>
     </Layer>
   </Capability>
-</WMS_Capabilities>
+</WMT_MS_Capabilities>
