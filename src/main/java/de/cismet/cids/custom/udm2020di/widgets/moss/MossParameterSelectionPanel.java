@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.widgets.moss;
 
+import org.apache.log4j.Logger;
+
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
@@ -34,10 +36,14 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class MossParameterSelectionPanel extends javax.swing.JPanel implements ItemListener {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final Logger LOGGER = Logger.getLogger(MossParameterSelectionPanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -197,6 +203,7 @@ public class MossParameterSelectionPanel extends javax.swing.JPanel implements I
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(jLabel1, gridBagConstraints);
 
         exportButtonGroup.add(rbtnCsv);
@@ -218,6 +225,7 @@ public class MossParameterSelectionPanel extends javax.swing.JPanel implements I
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(rbtnCsv, gridBagConstraints);
 
         exportButtonGroup.add(rbtnXlsx);
@@ -238,6 +246,7 @@ public class MossParameterSelectionPanel extends javax.swing.JPanel implements I
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(rbtnXlsx, gridBagConstraints);
 
         exportButtonGroup.add(rbtnShp);
@@ -258,6 +267,7 @@ public class MossParameterSelectionPanel extends javax.swing.JPanel implements I
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(rbtnShp, gridBagConstraints);
 
         exportButtonGroup.add(rbtnXls);
@@ -283,6 +293,7 @@ public class MossParameterSelectionPanel extends javax.swing.JPanel implements I
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(rbtnXls, gridBagConstraints);
 
         add(actionPanel, java.awt.BorderLayout.SOUTH);
@@ -327,6 +338,9 @@ public class MossParameterSelectionPanel extends javax.swing.JPanel implements I
                 } else if (evt.getItemSelectable() == this.rbtnXls) {
                     exportAction.setExportFormat(
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLS);
+                }
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("export format '" + exportAction.getExportFormat() + "' selected");
                 }
             }
         }

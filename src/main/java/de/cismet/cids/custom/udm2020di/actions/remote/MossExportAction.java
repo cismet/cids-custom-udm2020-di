@@ -45,6 +45,8 @@ public class MossExportAction extends AbstractExportAction {
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOGGER = Logger.getLogger(MossExportAction.class);
+    protected static final String DEFAULT_EXPORTFILE = "moss-export";
+    protected static final String ORIGINAL_EXPORTFILE = "konvert_join_95_10_final";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -118,14 +120,23 @@ public class MossExportAction extends AbstractExportAction {
                     new ServerActionParameter<Collection<String>>(PARAM_SAMPLE_IDS, this.sampleIds),
                     new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                     new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
-                    new ServerActionParameter<String>(PARAM_NAME, "moss-export")
+                    new ServerActionParameter<String>(PARAM_NAME, DEFAULT_EXPORTFILE)
                 };
 
             if (DownloadManagerDialog.showAskingForUserTitle(component)) {
-                final String filename = (this.exportFormat == PARAM_EXPORTFORMAT_XLS) ? DEFAULT_IMPORTFILE
-                                                                                      : "moss-export";
+                final String filename;
                 final String extension = this.getExtention(exportFormat);
+                ;
 
+                if ((this.exportFormat == null) ? (PARAM_EXPORTFORMAT_XLS == null)
+                                                : this.exportFormat.equals(PARAM_EXPORTFORMAT_XLS)) {
+                    filename = ORIGINAL_EXPORTFILE;
+                } else {
+                    filename = DEFAULT_EXPORTFILE;
+                }
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Export filename is: " + filename + extension);
+                }
                 DownloadManager.instance()
                         .add(
                             new ExportActionDownload(
@@ -139,7 +150,7 @@ public class MossExportAction extends AbstractExportAction {
                 LOGGER.warn("Export Action aborted!");
             }
         } else {
-            LOGGER.error("no PARAM_SITES and PARAM_PARAMETER server action parameters provided");
+            LOGGER.error("no PARAM_OBJECT_IDS and PARAM_SAMPLE_IDS server action parameters provided");
             JOptionPane.showMessageDialog(
                 component,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",
