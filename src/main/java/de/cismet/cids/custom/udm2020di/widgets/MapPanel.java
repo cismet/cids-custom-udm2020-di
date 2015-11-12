@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.cismet.cids.custom.udm2020di.tools.UbaUtils;
+import de.cismet.cids.custom.udm2020di.tools.UbaConstants;
 
 import de.cismet.cids.dynamics.CidsBean;
 import de.cismet.cids.dynamics.CidsBeanCollectionStore;
@@ -36,6 +36,8 @@ import de.cismet.cismap.commons.raster.wms.simple.SimpleWmsGetMapUrl;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
+import static de.cismet.cids.custom.udm2020di.tools.UbaConstants.WMS_BASEMAP_AT_GETMAP_TEMPLATE;
+
 /**
  * DOCUMENT ME!
  *
@@ -47,8 +49,6 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOG = Logger.getLogger(MapPanel.class);
-    public static final String WMS_DEMIS_WORLDMAP_GETMAP_TEMPLATE =
-        "http://www2.demis.nl/WMS/wms.ashx?wms=WorldMap&&VERSION=1.1.0&REQUEST=GetMap&BBOX=<cismap:boundingBox>&WIDTH=<cismap:width>&HEIGHT=<cismap:height>&SRS=EPSG:4326&FORMAT=image/png&TRANSPARENT=TRUE&BGCOLOR=0xF0F0F0&EXCEPTIONS=application/vnd.ogc.se_xml&LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup%20areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot%20elevations,Airports,Ocean%20features&STYLES";
 
     private static final Double GEOMETRY_BUFFER = 0.1d;
 
@@ -178,7 +178,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
         for (final CidsBean deltaSurface : deltaSurfaces) {
             try {
                 final Geometry geom = (Geometry)deltaSurface.getProperty("geometry.geo_field");
-                final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaUtils.EPSG_UBA);
+                final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaConstants.EPSG_UBA);
                 geometries.add(geomUba);
             } catch (Exception ex) {
                 LOG.warn(ex, ex);
@@ -201,17 +201,22 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
             final XBoundingBox box = boundingBoxFromPointList(cidsBeans);
 
             final ActiveLayerModel mappingModel = new ActiveLayerModel();
-            mappingModel.setSrs(new Crs(UbaUtils.EPSG_UBA, UbaUtils.EPSG_UBA, UbaUtils.EPSG_UBA, true, true));
+            mappingModel.setSrs(new Crs(
+                    UbaConstants.EPSG_UBA,
+                    UbaConstants.EPSG_UBA,
+                    UbaConstants.EPSG_UBA,
+                    true,
+                    true));
 
             mappingModel.addHome(new XBoundingBox(
                     box.getX1(),
                     box.getY1(),
                     box.getX2(),
                     box.getY2(),
-                    UbaUtils.EPSG_UBA,
+                    UbaConstants.EPSG_UBA,
                     true));
 
-            final SimpleWMS ortho = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_DEMIS_WORLDMAP_GETMAP_TEMPLATE));
+            final SimpleWMS ortho = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_BASEMAP_AT_GETMAP_TEMPLATE));
 
             ortho.setName("Worldmap"); // NOI18N
 

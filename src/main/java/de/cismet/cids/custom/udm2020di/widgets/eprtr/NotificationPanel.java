@@ -31,7 +31,7 @@ public class NotificationPanel extends javax.swing.JPanel {
 
     protected static final String URI_TEMPLATE =
         "http://www5.umweltbundesamt.at/PRTR-web/auswahlNachSchadstoffen.do?event=showDetail&selectedId=";
-    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.YYYY");
+    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     protected static final Logger LOGGER = Logger.getLogger(NotificationPanel.class);
 
     //~ Instance fields --------------------------------------------------------

@@ -10,14 +10,12 @@ package de.cismet.cids.custom.udm2020di.actions.remote;
 import org.apache.log4j.Logger;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
 import java.util.Collection;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
@@ -59,7 +57,7 @@ public class EprtrExportAction extends AbstractExportAction {
      */
     public EprtrExportAction(final Collection<Long> installations,
             final Collection<Parameter> parameters) {
-        super("Exportieren");
+        super();
 
         this.parameters = parameters;
         this.installations = installations;
@@ -95,13 +93,12 @@ public class EprtrExportAction extends AbstractExportAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final Frame frame;
+        final Component component;
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
-            // FIXME: support for jdialog
-            frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
+            component = (Component)e.getSource();
         } else {
-            LOGGER.warn("could not determine source frame of action");
-            frame = JFrame.getFrames()[0];
+            LOGGER.warn("could not dtermine source frame of action");
+            component = JFrame.getFrames()[0];
         }
 
         if ((installations != null) && (installations.size() > 0)
@@ -116,7 +113,7 @@ public class EprtrExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, "eprtr-export")
                 };
 
-            if (DownloadManagerDialog.showAskingForUserTitle(frame)) {
+            if (DownloadManagerDialog.showAskingForUserTitle(component)) {
                 final String filename = "eprtr-export";
                 final String extension = this.getExtention(exportFormat);
 
@@ -135,7 +132,7 @@ public class EprtrExportAction extends AbstractExportAction {
         } else {
             LOGGER.error("no PARAM_INSTALLATIONS and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
-                frame,
+                component,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",
                 "Datenexport",
                 JOptionPane.WARNING_MESSAGE);

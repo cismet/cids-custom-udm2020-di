@@ -12,7 +12,7 @@
     file:///D:%5Cwork%5Cweb%5CSirius%5CNavigator%5Cplugins%5Cplugin.xsd" 
         id="cismap"
     
-        usergroup="Administratoren@WRRL_DB_MV">
+        usergroup="Administratoren@UDM2020-DI">
 
     <metainfo 
         name="CISMAP" 
@@ -72,62 +72,22 @@
                 <name>cismapconfig:default</name>
                 <value>defaultCismapProperties.xml</value>
             </param> 
-            <!-- für Administratoren@WRRL_DB_MV -->
+            <!-- 
             <param>
                 <name>cismapconfig:*@Administratoren@WRRL_DB_MV</name>
                 <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@Altlasten@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@Feuerwehr@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@Akuk@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@TIM@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@TIM_LIEGENSCHAFTSKARTE@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@VORN@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@VORN_GAST@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@Luftbild_SA@WRRL_DB_MV</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@Lagerbuch bearbeiten R105@WUNDA_LAGER</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
-            <param>
-                <name>cismapconfig:*@Lagerbuch R105@WUNDA_LAGER</name>
-                <value>AdminsWundaBlauCismapProperties.xml</value>
-            </param>
+            </param>-->
+            <!--
             <param>
                 <name>geosuche</name>
                 <value>GEOSEARCH@WRRL_DB_MV</value>
-            </param> 
+            </param>-->
         </params>
         
         <mappings/>
     </deployment>
     
-    <methods>
-		
+    <!--<methods>	
         <method>
             <id>de.cismet.cismap.navigatorplugin.CismapPlugin$ShowObjectsMethod</id>
             <name>ShowObject</name>
@@ -136,9 +96,8 @@
             </description>
             <multithreaded>false</multithreaded>
             <availability>100</availability>
-        </method>	
-		
-    </methods>
+        </method>		
+    </methods>-->
      
     <ui>
         <widgets>
@@ -175,7 +134,7 @@
         <icon>images/cross.gif</icon>
     </properties>
             </menu>-->
-            <popupmenu>
+            <!--<popupmenu>
                 <properties>
                     <name>CismapClient</name>
                     <mnemonic>S</mnemonic>
@@ -190,7 +149,7 @@
                         <accelerator>alt O</accelerator>
                     </item>
                 </items>
-            </popupmenu>
+            </popupmenu>-->
 				
         </actions>
     </ui>

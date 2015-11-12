@@ -5,26 +5,28 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.udm2020di.actions.remote;
+
+import org.apache.log4j.Logger;
 
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
+import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public abstract class AbstractExportAction extends AbstractAction implements ExportAction {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static Logger LOGGER = Logger.getLogger(MossExportAction.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -38,11 +40,11 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
 
     /**
      * Creates a new AbstractExportAction object.
-     *
-     * @param  name  DOCUMENT ME!
      */
-    public AbstractExportAction(final String name) {
-        super(name);
+    public AbstractExportAction() {
+        super(org.openide.util.NbBundle.getMessage(
+                ExportParameterSelectionPanel.class,
+                "ExportParameterSelectionPanel.btnExport.text")); // NOI18N
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -59,6 +61,9 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLSX)) {
             return ".xlsx";
         } else if (exportFormat.equalsIgnoreCase(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLS)) {
+            return ".xls";
+        } else if (exportFormat.equalsIgnoreCase(
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_CSV)) {
             return ".csv";
         } else if (exportFormat.equalsIgnoreCase(
@@ -66,6 +71,7 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
             // return ".shp";
             return ".zip";
         } else {
+            LOGGER.warn("unsupported export format '" + exportFormat + "', setting extension to '.bin'");
             return ".bin";
         }
     }
@@ -128,5 +134,10 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
     @Override
     public void setExportName(final String exportName) {
         this.exportName = exportName;
+    }
+
+    @Override
+    public final void setEnabled(final boolean newValue) {
+        super.setEnabled(newValue);
     }
 }
