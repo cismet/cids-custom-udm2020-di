@@ -49,14 +49,16 @@ public class EprtrVisualisationPanel extends VisualisationPanel {
     protected JFreeChart createChart(final String title, final Dataset dataset) {
         // create the chart...
         final JFreeChart chart = ChartFactory.createBarChart(
-                title,                    // title
-                null,                     // x-axis label
-                "Messwert",               // y-axis label
-                (CategoryDataset)dataset, // data
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
+                title,                                             // title
+                null,                                              // x-axis label
+                org.openide.util.NbBundle.getMessage(
+                    EprtrVisualisationPanel.class,
+                    "EprtrVisualisationPanel.chart.y-axis-label"), // y-axis label
+                (CategoryDataset)dataset,                          // data
+                PlotOrientation.VERTICAL,                          // orientation
+                true,                                              // include legend
+                true,                                              // tooltips?
+                false                                              // URLs?
                 );
 
         // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...

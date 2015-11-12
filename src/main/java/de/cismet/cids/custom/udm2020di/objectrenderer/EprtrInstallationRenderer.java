@@ -42,7 +42,6 @@ import de.cismet.cids.custom.udm2020di.types.eprtr.Activity;
 import de.cismet.cids.custom.udm2020di.types.eprtr.Address;
 import de.cismet.cids.custom.udm2020di.types.eprtr.Installation;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
-import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.eprtr.ActivitiesPanel;
 import de.cismet.cids.custom.udm2020di.widgets.eprtr.AddressPanel;
 
@@ -409,7 +408,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
         try {
             BasicConfigurator.configure();
             final Installation eprtrInstallation = OracleImport.JSON_MAPPER.readValue(
-                    MaxParameterValueSelectionPanel.class.getResourceAsStream(
+                    EprtrInstallationRenderer.class.getResourceAsStream(
                         "/de/cismet/cids/custom/udm2020di/testing/EprtrInstallation.json"),
                     Installation.class);
 

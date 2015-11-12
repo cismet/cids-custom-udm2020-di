@@ -10,14 +10,12 @@ package de.cismet.cids.custom.udm2020di.actions.remote;
 import org.apache.log4j.Logger;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
 import java.util.Collection;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import de.cismet.cids.custom.udm2020di.serveractions.wa.WagwExportAction;
 import de.cismet.cids.custom.udm2020di.serveractions.wa.WaowExportAction;
@@ -47,7 +45,7 @@ public class WaExportAction extends AbstractExportAction {
     public static final String WAGW = de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.WAGW;
     public static final String WAOW = de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.WAOW;
 
-    protected static final Logger LOG = Logger.getLogger(WaExportAction.class);
+    protected static final Logger LOGGER = Logger.getLogger(WaExportAction.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -78,7 +76,7 @@ public class WaExportAction extends AbstractExportAction {
         } else {
             this.waSource = WAGW;
             taskName = WagwExportAction.TASK_NAME;
-            LOG.error("unsupported WA Station Type: " + this.waSource);
+            LOGGER.error("unsupported WA Station Type: " + this.waSource);
         }
 
         this.parameters = parameters;
@@ -96,17 +94,17 @@ public class WaExportAction extends AbstractExportAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final Frame frame;
+        final Component component;
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
-            frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
+            component = (Component)e.getSource();
         } else {
-            LOG.warn("could not determine source frame of action");
-            frame = JFrame.getFrames()[0];
+            LOGGER.warn("could not dtermine source frame of action");
+            component = JFrame.getFrames()[0];
         }
 
         if ((messstellen != null) && !messstellen.isEmpty()
                     && (parameters != null) && !parameters.isEmpty()) {
-            LOG.info("perfoming " + waSource + " Export for " + messstellen.size() + " Messstellen and "
+            LOGGER.info("perfoming " + waSource + " Export for " + messstellen.size() + " Messstellen and "
                         + parameters.size() + " parameters");
 
             final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
@@ -116,7 +114,7 @@ public class WaExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, waSource + "-export")
                 };
 
-            if (DownloadManagerDialog.showAskingForUserTitle(frame)) {
+            if (DownloadManagerDialog.showAskingForUserTitle(component)) {
                 final String filename = waSource + "-export";
                 final String extension = this.getExtention(exportFormat);
 
@@ -130,12 +128,12 @@ public class WaExportAction extends AbstractExportAction {
                                 taskName,
                                 serverActionParameters));
             } else {
-                LOG.warn(waSource + " Export Action aborted!");
+                LOGGER.warn(waSource + " Export Action aborted!");
             }
         } else {
-            LOG.error("no PARAM_MESSSTELLEN and PARAM_PARAMETER server action parameters provided");
+            LOGGER.error("no PARAM_MESSSTELLEN and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
-                frame,
+                component,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",
                 "Datenexport",
                 JOptionPane.WARNING_MESSAGE);

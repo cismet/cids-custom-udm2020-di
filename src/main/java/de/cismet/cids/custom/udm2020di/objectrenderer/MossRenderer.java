@@ -35,6 +35,7 @@ import java.util.Collection;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -43,13 +44,17 @@ import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
+import de.cismet.cids.custom.udm2020di.actions.remote.MossVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.moss.Moss;
-import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.custom.udm2020di.widgets.MesswerteTable;
 import de.cismet.cids.custom.udm2020di.widgets.ParameterPanel;
+import de.cismet.cids.custom.udm2020di.widgets.VisualisationPanel;
+import de.cismet.cids.custom.udm2020di.widgets.moss.MossParameterSelectionPanel;
+
+import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
 /**
  * DOCUMENT ME!
@@ -88,7 +93,8 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
     private JPanel mossPanel;
     private JPanel mossTypePanel;
     private ParameterPanel parameterPanel;
-    private ExportParameterSelectionPanel parameterSelectionPanel;
+    private MossParameterSelectionPanel parameterSelectionPanel;
+    private VisualisationPanel visualisationPanel;
     private BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
@@ -164,8 +170,9 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
         parameterPanel = new ParameterPanel();
         messwerteTable = new MesswerteTable();
         exportPanel = new JPanel();
-        parameterSelectionPanel = new ExportParameterSelectionPanel();
+        parameterSelectionPanel = new MossParameterSelectionPanel();
         filler = new Box.Filler(new Dimension(0, 0), new Dimension(0, 0), new Dimension(32767, 32767));
+        visualisationPanel = new VisualisationPanel();
 
         setLayout(new BorderLayout());
 
@@ -281,6 +288,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
         jTabbedPane.addTab(NbBundle.getMessage(MossRenderer.class, "MossRenderer.exportPanel.TabConstraints.tabTitle"),
             exportPanel); // NOI18N
+        jTabbedPane.addTab("Datenvisualisierung", visualisationPanel);
 
         add(jTabbedPane, BorderLayout.CENTER);
 
@@ -298,13 +306,15 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
                 @Override
                 public void run() {
-                    try {
-                        moss = OracleImport.JSON_MAPPER.readValue(
-                                getCidsBean().getProperty("src_content").toString(),
-                                Moss.class);
-                    } catch (Exception ex) {
-                        LOGGER.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
-                        return;
+                    if (moss == null) {
+                        try {
+                            moss = OracleImport.JSON_MAPPER.readValue(
+                                    getCidsBean().getProperty("src_content").toString(),
+                                    Moss.class);
+                        } catch (Exception ex) {
+                            LOGGER.error("could not deserialize boris Standort JSON: " + ex.getMessage(), ex);
+                            return;
+                        }
                     }
 
                     final Collection<Parameter> parameters = new ArrayList<Parameter>(
@@ -356,13 +366,24 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
 
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
-                    final MossExportAction exportAction = new MossExportAction(Arrays.asList(
-                                new Long[] { moss.getId() }),
+                    final MossExportAction exportAction = new MossExportAction(
+                            Arrays.asList(new Long[] { moss.getId() }),
+                            Arrays.asList(new String[] { moss.getSampleId() }),
                             parameterSelectionPanel.getSelectedParameters());
                     parameterSelectionPanel.setExportAction(exportAction);
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
                     }
+
+                    // Visualisation -------------------------------------------
+                    visualisationPanel.setParameters(parameters);
+                    final MossVisualisationAction visualisationAction = new MossVisualisationAction(
+                            Arrays.asList(new Moss[] { moss }),
+                            visualisationPanel.getSelectedParameters(),
+                            visualisationPanel);
+                    visualisationPanel.setVisualisationAction(visualisationAction);
+
+                    // Selected TAB ---------------------------------------------
                     jTabbedPane.setSelectedIndex(SELECTED_TAB);
                     jTabbedPane.addChangeListener(WeakListeners.create(
                             ChangeListener.class,
@@ -383,6 +404,36 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
             r.run();
         } else {
             EventQueue.invokeLater(r);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  args  DOCUMENT ME!
+     */
+    public static void main(final String[] args) {
+        try {
+            Log4JQuickConfig.configure4LumbermillOnLocalhost();
+            final Moss moss = OracleImport.JSON_MAPPER.readValue(
+                    MossRenderer.class.getResourceAsStream(
+                        "/de/cismet/cids/custom/udm2020di/testing/Moss.json"),
+                    Moss.class);
+
+            final MossRenderer mossRenderer = new MossRenderer();
+            mossRenderer.setMoss(moss);
+            mossRenderer.init();
+
+            final JFrame frame = new JFrame("MossRenderer");
+
+            frame.getContentPane().add(mossRenderer);
+            frame.getContentPane().setPreferredSize(new Dimension(600, 400));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (Exception ex) {
+            Logger.getLogger(MossRenderer.class).fatal(ex.getMessage(), ex);
+            System.exit(1);
         }
     }
 }

@@ -10,14 +10,12 @@ package de.cismet.cids.custom.udm2020di.actions.remote;
 import org.apache.log4j.Logger;
 
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
 import java.util.Collection;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
@@ -75,12 +73,12 @@ public class BorisExportAction extends AbstractExportAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        final Frame frame;
+        final Component component;
         if (Component.class.isAssignableFrom(e.getSource().getClass())) {
-            frame = (Frame)SwingUtilities.getRoot((Component)e.getSource());
+            component = (Component)e.getSource();
         } else {
             LOGGER.warn("could not dtermine source frame of action");
-            frame = JFrame.getFrames()[0];
+            component = JFrame.getFrames()[0];
         }
 
         if ((standorte != null) && !standorte.isEmpty()
@@ -95,7 +93,7 @@ public class BorisExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, "boris-export")
                 };
 
-            if (DownloadManagerDialog.showAskingForUserTitle(frame)) {
+            if (DownloadManagerDialog.showAskingForUserTitle(component)) {
                 final String filename = "boris-export";
                 final String extension = this.getExtention(exportFormat);
 
@@ -114,7 +112,7 @@ public class BorisExportAction extends AbstractExportAction {
         } else {
             LOGGER.error("no PARAM_STANDORTE and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
-                frame,
+                component,
                 "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",
                 "Datenexport",
                 JOptionPane.WARNING_MESSAGE);

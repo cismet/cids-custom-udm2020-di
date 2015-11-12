@@ -256,13 +256,13 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
      */
     protected JFreeChart createChart(final String title, final Dataset dataset) {
         final JFreeChart chart = ChartFactory.createTimeSeriesChart(
-                title,              // title
-                "Datum",            // x-axis label
-                "Messwert",         // y-axis label
-                (XYDataset)dataset, // data
-                true,               // create legend?
-                true,               // generate tooltips?
-                false               // generate URLs?
+                title,                                                                                                   // title
+                org.openide.util.NbBundle.getMessage(VisualisationPanel.class, "VisualisationPanel.chart.x-axis-label"), // x-axis label
+                org.openide.util.NbBundle.getMessage(VisualisationPanel.class, "VisualisationPanel.chart.y-axis-label"), // y-axis label
+                (XYDataset)dataset,                                                                                      // data
+                true,                                                                                                    // create legend?
+                true,                                                                                                    // generate tooltips?
+                false                                                                                                    // generate URLs?
                 );
 
         chart.setBackgroundPaint(Color.white);
