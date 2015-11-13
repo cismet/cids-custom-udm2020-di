@@ -336,7 +336,8 @@ public abstract class AbstractVisualisationAction extends AbstractAction impleme
                 }
                 final Date date = dateFormat.parse(row[dateIndex]);
                 for (int i = parameterOffset; i < row.length; i++) {
-                    if ((row[i] != null) && !row[i].isEmpty()) {
+                    if ((row[i] != null) && !row[i].isEmpty()
+                                && ((i - parameterOffset) < timeSeriesArray.length)) {
                         // add or update: skip duplicate timestamps!
                         timeSeriesArray[i - parameterOffset].addOrUpdate(
                             new Day(date),
