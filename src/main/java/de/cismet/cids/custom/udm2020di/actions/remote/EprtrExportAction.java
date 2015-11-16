@@ -113,22 +113,23 @@ public class EprtrExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, "eprtr-export")
                 };
 
+            final String filename;
+            final String extension = this.getExtention(exportFormat);
             if (DownloadManagerDialog.showAskingForUserTitle(component)) {
-                final String filename = "eprtr-export";
-                final String extension = this.getExtention(exportFormat);
-
-                DownloadManager.instance()
-                        .add(
-                            new ExportActionDownload(
-                                DownloadManagerDialog.getJobname(),
-                                "",
-                                filename,
-                                extension,
-                                TASK_NAME,
-                                serverActionParameters));
+                filename = DownloadManagerDialog.getJobname();
             } else {
-                LOGGER.warn("Export Action aborted!");
+                filename = "eprtr-export";
             }
+
+            DownloadManager.instance()
+                    .add(
+                        new ExportActionDownload(
+                            DownloadManagerDialog.getJobname(),
+                            "",
+                            filename,
+                            extension,
+                            TASK_NAME,
+                            serverActionParameters));
         } else {
             LOGGER.error("no PARAM_INSTALLATIONS and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(

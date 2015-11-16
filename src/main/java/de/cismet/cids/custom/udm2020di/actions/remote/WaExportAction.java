@@ -114,22 +114,23 @@ public class WaExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, waSource + "-export")
                 };
 
+            final String filename;
+            final String extension = this.getExtention(exportFormat);
             if (DownloadManagerDialog.showAskingForUserTitle(component)) {
-                final String filename = waSource + "-export";
-                final String extension = this.getExtention(exportFormat);
-
-                DownloadManager.instance()
-                        .add(
-                            new ExportActionDownload(
-                                DownloadManagerDialog.getJobname(),
-                                "",
-                                filename,
-                                extension,
-                                taskName,
-                                serverActionParameters));
+                filename = DownloadManagerDialog.getJobname();
             } else {
-                LOGGER.warn(waSource + " Export Action aborted!");
+                filename = waSource + "-export";
             }
+
+            DownloadManager.instance()
+                    .add(
+                        new ExportActionDownload(
+                            DownloadManagerDialog.getJobname(),
+                            "",
+                            filename,
+                            extension,
+                            taskName,
+                            serverActionParameters));
         } else {
             LOGGER.error("no PARAM_MESSSTELLEN and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(

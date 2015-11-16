@@ -24,7 +24,6 @@ import de.cismet.cids.server.actions.ServerActionParameter;
 import de.cismet.tools.gui.downloadmanager.DownloadManager;
 import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
 
-import static de.cismet.cids.custom.udm2020di.indeximport.moss.MossImport.DEFAULT_IMPORTFILE;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT_CSV;
 import static de.cismet.cids.custom.udm2020di.serveractions.moss.MossExportAction.PARAM_EXPORTFORMAT_XLS;
@@ -123,32 +122,28 @@ public class MossExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, DEFAULT_EXPORTFILE)
                 };
 
-            if (DownloadManagerDialog.showAskingForUserTitle(component)) {
-                final String filename;
-                final String extension = this.getExtention(exportFormat);
-                ;
+            final String filename;
+            final String extension = this.getExtention(exportFormat);
 
-                if ((this.exportFormat == null) ? (PARAM_EXPORTFORMAT_XLS == null)
-                                                : this.exportFormat.equals(PARAM_EXPORTFORMAT_XLS)) {
-                    filename = ORIGINAL_EXPORTFILE;
-                } else {
-                    filename = DEFAULT_EXPORTFILE;
-                }
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Export filename is: " + filename + extension);
-                }
-                DownloadManager.instance()
-                        .add(
-                            new ExportActionDownload(
-                                DownloadManagerDialog.getJobname(),
-                                "",
-                                filename,
-                                extension,
-                                TASK_NAME,
-                                serverActionParameters));
+            if (this.exportFormat.equals(PARAM_EXPORTFORMAT_XLS)) {
+                filename = ORIGINAL_EXPORTFILE;
+            } else if (DownloadManagerDialog.showAskingForUserTitle(component)) {
+                filename = DownloadManagerDialog.getJobname();
             } else {
-                LOGGER.warn("Export Action aborted!");
+                filename = DEFAULT_EXPORTFILE;
             }
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Export filename is: " + filename + extension);
+            }
+            DownloadManager.instance()
+                    .add(
+                        new ExportActionDownload(
+                            DownloadManagerDialog.getJobname(),
+                            "",
+                            filename,
+                            extension,
+                            TASK_NAME,
+                            serverActionParameters));
         } else {
             LOGGER.error("no PARAM_OBJECT_IDS and PARAM_SAMPLE_IDS server action parameters provided");
             JOptionPane.showMessageDialog(

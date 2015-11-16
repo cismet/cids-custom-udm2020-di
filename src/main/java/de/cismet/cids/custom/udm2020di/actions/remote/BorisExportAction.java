@@ -29,6 +29,7 @@ import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAct
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_PARAMETER;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.PARAM_STANDORTE;
 import static de.cismet.cids.custom.udm2020di.serveractions.boris.BorisExportAction.TASK_NAME;
+
 /**
  * DOCUMENT ME!
  *
@@ -93,22 +94,23 @@ public class BorisExportAction extends AbstractExportAction {
                     new ServerActionParameter<String>(PARAM_NAME, "boris-export")
                 };
 
+            final String filename;
+            final String extension = this.getExtention(exportFormat);
             if (DownloadManagerDialog.showAskingForUserTitle(component)) {
-                final String filename = "boris-export";
-                final String extension = this.getExtention(exportFormat);
-
-                DownloadManager.instance()
-                        .add(
-                            new ExportActionDownload(
-                                DownloadManagerDialog.getJobname(),
-                                "",
-                                filename,
-                                extension,
-                                TASK_NAME,
-                                serverActionParameters));
+                filename = DownloadManagerDialog.getJobname();
             } else {
-                LOGGER.warn("Export Action aborted!");
+                filename = "boris-export";
             }
+
+            DownloadManager.instance()
+                    .add(
+                        new ExportActionDownload(
+                            DownloadManagerDialog.getJobname(),
+                            "",
+                            filename,
+                            extension,
+                            TASK_NAME,
+                            serverActionParameters));
         } else {
             LOGGER.error("no PARAM_STANDORTE and PARAM_PARAMETER server action parameters provided");
             JOptionPane.showMessageDialog(
