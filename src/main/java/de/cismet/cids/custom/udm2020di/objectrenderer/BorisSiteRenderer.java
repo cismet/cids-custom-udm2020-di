@@ -107,13 +107,13 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         standortdatenPanel = new javax.swing.JPanel();
         parameterScrollPane = new javax.swing.JScrollPane();
         parameterPanel = new de.cismet.cids.custom.udm2020di.widgets.ParameterPanel();
+        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
         exportPanel = new javax.swing.JPanel();
         parameterSelectionPanel = new de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(0, 0),
                 new java.awt.Dimension(32767, 32767));
         visualisationPanel = new de.cismet.cids.custom.udm2020di.widgets.boris.BorisVisualisationPanel();
-        messwerteTable = new de.cismet.cids.custom.udm2020di.widgets.MesswerteTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -144,7 +144,11 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
                 BorisSiteRenderer.class,
                 "BorisSiteRenderer.infoPanel.TabConstraints.tabTitle"),
-            infoPanel); // NOI18N
+            infoPanel);      // NOI18N
+        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
+                BorisSiteRenderer.class,
+                "BorisSiteRenderer.messwerteTable.TabConstraints.tabTitle"),
+            messwerteTable); // NOI18N
 
         exportPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -168,10 +172,6 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
                 BorisSiteRenderer.class,
                 "BorisSiteRenderer.visualisationPanel.TabConstraints.tabTitle"),
             visualisationPanel); // NOI18N
-        jTabbedPane.addTab(org.openide.util.NbBundle.getMessage(
-                BorisSiteRenderer.class,
-                "BorisSiteRenderer.messwerteTable.TabConstraints.tabTitle"),
-            messwerteTable);     // NOI18N
 
         add(jTabbedPane, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
