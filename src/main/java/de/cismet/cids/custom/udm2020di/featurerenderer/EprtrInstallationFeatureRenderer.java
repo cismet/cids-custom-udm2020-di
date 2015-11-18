@@ -21,6 +21,8 @@ import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
+import static de.cismet.cids.custom.udm2020di.treeicons.EprtrInstallationIconFactory.EPRTR_INSTALLATION_ICON;
+
 /**
  * DOCUMENT ME!
  *
@@ -47,15 +49,7 @@ public class EprtrInstallationFeatureRenderer extends CustomCidsFeatureRenderer 
      */
     public EprtrInstallationFeatureRenderer() {
         initComponents();
-        BufferedImage image = null;
-        try {
-            final InputStream is = getClass().getResourceAsStream("factory_16.png"); // NOI18N
-            image = ImageIO.read(is);
-        } catch (final IOException ex) {
-            LOG.warn("cannot load eprtr installation feature icon", ex);             // NOI18N
-        }
-
-        borisSitePointSymbolUnselected = image;
+        borisSitePointSymbolUnselected = EPRTR_INSTALLATION_ICON.getImage();
     }
 
     //~ Methods ----------------------------------------------------------------

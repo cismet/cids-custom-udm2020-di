@@ -27,9 +27,12 @@ import de.cismet.cids.custom.udm2020di.ImageUtil;
  */
 public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFactory {
 
-    //~ Instance fields --------------------------------------------------------
+    //~ Static fields/initializers ---------------------------------------------
 
-    private final ImageIcon borisSiteIcon;
+    public static final ImageIcon EPRTR_INSTALLATION_ICON = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
+                EprtrInstallationIconFactory.class,
+                "factory_16.png"),
+            false);
 
     //~ Constructors -----------------------------------------------------------
 
@@ -37,10 +40,6 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      * Creates a new BorisSiteIconFactory object.
      */
     public EprtrInstallationIconFactory() {
-        this.borisSiteIcon = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
-                    EprtrInstallationIconFactory.class,
-                    "factory_16.png"),
-                false);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -54,7 +53,7 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      */
     @Override
     public Icon getClosedPureNodeIcon(final PureTreeNode ptn) {
-        return borisSiteIcon;
+        return EPRTR_INSTALLATION_ICON;
     }
 
     /**
@@ -66,7 +65,7 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      */
     @Override
     public Icon getOpenPureNodeIcon(final PureTreeNode ptn) {
-        return borisSiteIcon;
+        return EPRTR_INSTALLATION_ICON;
     }
 
     /**
@@ -78,7 +77,7 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      */
     @Override
     public Icon getLeafPureNodeIcon(final PureTreeNode ptn) {
-        return borisSiteIcon;
+        return EPRTR_INSTALLATION_ICON;
     }
 
     /**
@@ -90,7 +89,7 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      */
     @Override
     public Icon getOpenObjectNodeIcon(final ObjectTreeNode otn) {
-        return borisSiteIcon;
+        return EPRTR_INSTALLATION_ICON;
     }
 
     /**
@@ -102,7 +101,7 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      */
     @Override
     public Icon getClosedObjectNodeIcon(final ObjectTreeNode otn) {
-        return borisSiteIcon;
+        return EPRTR_INSTALLATION_ICON;
     }
 
     /**
@@ -114,7 +113,7 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      */
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
-        return borisSiteIcon;
+        return EPRTR_INSTALLATION_ICON;
     }
 
     /**
@@ -126,6 +125,6 @@ public final class EprtrInstallationIconFactory implements CidsTreeObjectIconFac
      */
     @Override
     public Icon getClassNodeIcon(final ClassTreeNode dmtn) {
-        return borisSiteIcon;
+        return EPRTR_INSTALLATION_ICON;
     }
 }

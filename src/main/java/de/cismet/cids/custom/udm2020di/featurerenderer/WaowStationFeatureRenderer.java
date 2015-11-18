@@ -10,16 +10,12 @@ package de.cismet.cids.custom.udm2020di.featurerenderer;
 import org.apache.log4j.Logger;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
+
+import static de.cismet.cids.custom.udm2020di.treeicons.WaowStationIconFactory.WAOW_STATION_ICON;
 
 /**
  * DOCUMENT ME!
@@ -47,15 +43,7 @@ public class WaowStationFeatureRenderer extends CustomCidsFeatureRenderer {
      */
     public WaowStationFeatureRenderer() {
         initComponents();
-        BufferedImage image = null;
-        try {
-            final InputStream is = getClass().getResourceAsStream("waves_16.png"); // NOI18N
-            image = ImageIO.read(is);
-        } catch (final IOException ex) {
-            LOG.warn("cannot load wagwStation feature icon", ex);                  // NOI18N
-        }
-
-        wagwStationPointSymbolUnselected = image;
+        wagwStationPointSymbolUnselected = WAOW_STATION_ICON.getImage();
     }
 
     //~ Methods ----------------------------------------------------------------

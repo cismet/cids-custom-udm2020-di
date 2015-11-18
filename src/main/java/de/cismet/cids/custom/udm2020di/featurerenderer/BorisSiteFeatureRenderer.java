@@ -21,6 +21,8 @@ import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
+import static de.cismet.cids.custom.udm2020di.treeicons.BorisSiteIconFactory.BORIS_SITE_ICON;
+
 /**
  * DOCUMENT ME!
  *
@@ -47,15 +49,7 @@ public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer {
      */
     public BorisSiteFeatureRenderer() {
         initComponents();
-        BufferedImage image = null;
-        try {
-            final InputStream is = getClass().getResourceAsStream("showel_16.png"); // NOI18N
-            image = ImageIO.read(is);
-        } catch (final IOException ex) {
-            LOG.warn("cannot load boris site feature icon", ex);                    // NOI18N
-        }
-
-        borisSitePointSymbolUnselected = image;
+        borisSitePointSymbolUnselected = BORIS_SITE_ICON.getImage();
     }
 
     //~ Methods ----------------------------------------------------------------

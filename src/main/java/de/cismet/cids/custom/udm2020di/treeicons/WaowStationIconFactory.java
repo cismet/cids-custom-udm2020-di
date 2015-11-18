@@ -27,9 +27,12 @@ import de.cismet.cids.custom.udm2020di.ImageUtil;
  */
 public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
 
-    //~ Instance fields --------------------------------------------------------
+    //~ Static fields/initializers ---------------------------------------------
 
-    private final ImageIcon waowStationIcon;
+    public static final ImageIcon WAOW_STATION_ICON = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
+                WaowStationIconFactory.class,
+                "waves_16.png"),
+            false);
 
     //~ Constructors -----------------------------------------------------------
 
@@ -37,10 +40,6 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      * Creates a new BorisSiteIconFactory object.
      */
     public WaowStationIconFactory() {
-        this.waowStationIcon = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
-                    WaowStationIconFactory.class,
-                    "waves_16.png"),
-                false);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -54,7 +53,7 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getClosedPureNodeIcon(final PureTreeNode ptn) {
-        return waowStationIcon;
+        return WAOW_STATION_ICON;
     }
 
     /**
@@ -66,7 +65,7 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getOpenPureNodeIcon(final PureTreeNode ptn) {
-        return waowStationIcon;
+        return WAOW_STATION_ICON;
     }
 
     /**
@@ -78,7 +77,7 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getLeafPureNodeIcon(final PureTreeNode ptn) {
-        return waowStationIcon;
+        return WAOW_STATION_ICON;
     }
 
     /**
@@ -90,7 +89,7 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getOpenObjectNodeIcon(final ObjectTreeNode otn) {
-        return waowStationIcon;
+        return WAOW_STATION_ICON;
     }
 
     /**
@@ -102,7 +101,7 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getClosedObjectNodeIcon(final ObjectTreeNode otn) {
-        return waowStationIcon;
+        return WAOW_STATION_ICON;
     }
 
     /**
@@ -114,7 +113,7 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
-        return waowStationIcon;
+        return WAOW_STATION_ICON;
     }
 
     /**
@@ -126,6 +125,6 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getClassNodeIcon(final ClassTreeNode dmtn) {
-        return waowStationIcon;
+        return WAOW_STATION_ICON;
     }
 }

@@ -64,4 +64,18 @@ public interface ExportAction extends Action {
      * @param  exportName  new value of exportName
      */
     void setExportName(final String exportName);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    boolean isProtocolEnabled();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  protocolEnabled  DOCUMENT ME!
+     */
+    void setProtocolEnabled(boolean protocolEnabled);
 }

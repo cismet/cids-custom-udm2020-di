@@ -27,9 +27,12 @@ import de.cismet.cids.custom.udm2020di.ImageUtil;
  */
 public final class MossIconFactory implements CidsTreeObjectIconFactory {
 
-    //~ Instance fields --------------------------------------------------------
+    //~ Static fields/initializers ---------------------------------------------
 
-    private final ImageIcon mossIcon;
+    public static final ImageIcon MOSS_ICON = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
+                MossIconFactory.class,
+                "grass_16.png"),
+            false);
 
     //~ Constructors -----------------------------------------------------------
 
@@ -37,44 +40,42 @@ public final class MossIconFactory implements CidsTreeObjectIconFactory {
      * Creates a new MossIconFactory object.
      */
     public MossIconFactory() {
-        this.mossIcon = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(MossIconFactory.class, "grass_16.png"),
-                false);
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
     public Icon getClosedPureNodeIcon(final PureTreeNode ptn) {
-        return mossIcon;
+        return MOSS_ICON;
     }
 
     @Override
     public Icon getOpenPureNodeIcon(final PureTreeNode ptn) {
-        return mossIcon;
+        return MOSS_ICON;
     }
 
     @Override
     public Icon getLeafPureNodeIcon(final PureTreeNode ptn) {
-        return mossIcon;
+        return MOSS_ICON;
     }
 
     @Override
     public Icon getOpenObjectNodeIcon(final ObjectTreeNode otn) {
-        return mossIcon;
+        return MOSS_ICON;
     }
 
     @Override
     public Icon getClosedObjectNodeIcon(final ObjectTreeNode otn) {
-        return mossIcon;
+        return MOSS_ICON;
     }
 
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
-        return mossIcon;
+        return MOSS_ICON;
     }
 
     @Override
     public Icon getClassNodeIcon(final ClassTreeNode dmtn) {
-        return mossIcon;
+        return MOSS_ICON;
     }
 }
