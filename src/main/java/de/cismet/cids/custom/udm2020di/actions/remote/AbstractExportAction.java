@@ -26,6 +26,7 @@ import java.util.Collection;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -278,5 +279,25 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
     @Override
     public void setProtocolEnabled(final boolean protocolEnabled) {
         this.protocolEnabled = protocolEnabled;
+    }
+
+    @Override
+    public ImageIcon getIcon() {
+        final Object icon = this.getValue(Action.SMALL_ICON);
+        if ((icon != null) && ImageIcon.class.isAssignableFrom(icon.getClass())) {
+            return (ImageIcon)icon;
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getTitle() {
+        final Object title = this.getValue(Action.SHORT_DESCRIPTION);
+        if (title != null) {
+            return title.toString();
+        }
+
+        return null;
     }
 }

@@ -10,6 +10,7 @@ package de.cismet.cids.custom.udm2020di.actions.remote;
 import java.util.Collection;
 
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
@@ -78,4 +79,18 @@ public interface ExportAction extends Action {
      * @param  protocolEnabled  DOCUMENT ME!
      */
     void setProtocolEnabled(boolean protocolEnabled);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    String getTitle();
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    ImageIcon getIcon();
 }
