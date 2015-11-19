@@ -252,12 +252,14 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
                         final Collection<Standort> standorte = new ArrayList<Standort>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
+                        final TreeSet<Long> objectIds = new TreeSet<Long>();
                         final TreeSet<String> standortPks = new TreeSet<String>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
+                            objectIds.add(cidsBean.getPrimaryKeyValue().longValue());
 
                             try {
                                 final Standort borisStandort = OracleImport.JSON_MAPPER.readValue(
@@ -297,8 +299,9 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                         parameterSelectionPanel.setParameters(parametersSet);
 
                         final BorisExportAction borisExportAction = new BorisExportAction(
-                                standortPks,
-                                parameterSelectionPanel.getSelectedParameters());
+                                parameterSelectionPanel.getSelectedParameters(),
+                                objectIds,
+                                standortPks);
                         parameterSelectionPanel.setExportAction(borisExportAction);
 
                         // Visualisation -------------------------------------------

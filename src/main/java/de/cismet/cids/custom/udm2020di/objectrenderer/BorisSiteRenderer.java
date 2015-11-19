@@ -245,9 +245,10 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
 
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
-                    final BorisExportAction borisExportAction = new BorisExportAction(Arrays.asList(
-                                new String[] { borisStandort.getPk() }),
-                            parameterSelectionPanel.getSelectedParameters());
+                    final BorisExportAction borisExportAction = new BorisExportAction(
+                            parameterSelectionPanel.getSelectedParameters(),
+                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            Arrays.asList(new String[] { borisStandort.getPk() }));
                     parameterSelectionPanel.setExportAction(borisExportAction);
 
                     // Visualisation -------------------------------------------

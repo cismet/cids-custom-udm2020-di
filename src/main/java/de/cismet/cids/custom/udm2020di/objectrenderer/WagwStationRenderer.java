@@ -306,10 +306,10 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
                     final WaExportAction waExportAction = new WaExportAction(
-                            stationType,
-                            Arrays.asList(
-                                new String[] { messstelle.getPk() }),
-                            parameterSelectionPanel.getSelectedParameters());
+                            parameterSelectionPanel.getSelectedParameters(),
+                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            Arrays.asList(new String[] { messstelle.getPk() }),
+                            stationType);
                     parameterSelectionPanel.setExportAction(waExportAction);
                     if (logger.isDebugEnabled()) {
                         logger.debug("restoring selected tab index: " + SELECTED_TAB);

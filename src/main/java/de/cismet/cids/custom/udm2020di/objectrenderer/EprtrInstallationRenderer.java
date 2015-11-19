@@ -181,8 +181,9 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
                     final EprtrExportAction eprtrExportAction = new EprtrExportAction(
-                            Arrays.asList(new Long[] { eprtrInstallation.getErasId() }),
-                            parameterSelectionPanel.getSelectedParameters());
+                            parameterSelectionPanel.getSelectedParameters(),
+                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            Arrays.asList(new Long[] { eprtrInstallation.getErasId() }));
                     parameterSelectionPanel.setExportAction(eprtrExportAction);
 
                     // Visualisation -------------------------------------------

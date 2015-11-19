@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.protocol;
 
+import Sirius.navigator.ui.ComponentRegistry;
+
 import java.awt.Component;
 
 import javax.swing.ImageIcon;
@@ -45,6 +47,8 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
     public ExportActionProtocolStepPanel(final ExportAction exportAction) {
         this.exportAction = exportAction;
         initComponents();
+
+        // ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObjects(to, TOOL_TIP_TEXT_KEY);
     }
 
     //~ Methods ----------------------------------------------------------------

@@ -14,7 +14,6 @@ import org.openide.util.WeakListeners;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -252,12 +251,14 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
 
                         final Collection<Messstelle> stations = new ArrayList<Messstelle>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
+                        final TreeSet<Long> objectIds = new TreeSet<Long>();
                         final TreeSet<String> messstellenPks = new TreeSet<String>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
+                            objectIds.add(cidsBean.getPrimaryKeyValue().longValue());
 
                             try {
                                 final Messstelle messstelle = OracleImport.JSON_MAPPER.readValue(
@@ -292,9 +293,10 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                         // Export Tab ------------------------------------------
                         parameterSelectionPanel.setParameters(parametersSet);
                         final WaExportAction waExportAction = new WaExportAction(
-                                stationType,
+                                parameterSelectionPanel.getSelectedParameters(),
+                                objectIds,
                                 messstellenPks,
-                                parameterSelectionPanel.getSelectedParameters());
+                                stationType);
                         parameterSelectionPanel.setExportAction(waExportAction);
 
                         // Visualisation -------------------------------------------

@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
+import Sirius.server.middleware.types.MetaClass;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +22,8 @@ import java.util.Collection;
 import javax.swing.Action;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
@@ -49,10 +53,7 @@ public class MossExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
-    @JsonProperty
-    protected Collection<Long> objectIds;
-
-    @JsonProperty
+    @JsonProperty(required = true)
     protected Collection<String> sampleIds;
 
     //~ Constructors -----------------------------------------------------------
@@ -65,20 +66,19 @@ public class MossExportAction extends AbstractExportAction {
     public MossExportAction(final MossExportAction exportAction) {
         super(exportAction);
         this.sampleIds = new ArrayList<String>(exportAction.getSampleIds());
-        this.objectIds = new ArrayList<Long>(exportAction.getObjectIds());
     }
 
     /**
      * Creates a new MossExportAction object.
      *
+     * @param  parameters  DOCUMENT ME!
      * @param  objectIds   sites standorte DOCUMENT ME!
      * @param  sampleIds   DOCUMENT ME!
-     * @param  parameters  DOCUMENT ME!
      */
-    public MossExportAction(final Collection<Long> objectIds,
-            final Collection<String> sampleIds,
-            final Collection<Parameter> parameters) {
-        super(parameters);
+    public MossExportAction(final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
+            final Collection<String> sampleIds) {
+        super(parameters, objectIds);
 
         this.sampleIds = sampleIds;
         this.objectIds = objectIds;
@@ -94,19 +94,20 @@ public class MossExportAction extends AbstractExportAction {
     /**
      * Creates a new MossExportAction object.
      *
+     * @param  parameters    DOCUMENT ME!
      * @param  objectIds     DOCUMENT ME!
      * @param  sampleIds     DOCUMENT ME!
-     * @param  parameters    DOCUMENT ME!
      * @param  exportFormat  DOCUMENT ME!
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
-    public MossExportAction(final Collection<Long> objectIds,
-            final Collection<String> sampleIds,
+    public MossExportAction(
             final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
+            final Collection<String> sampleIds,
             final String exportFormat,
             final String exportName) {
-        this(objectIds, sampleIds, parameters);
+        this(parameters, objectIds, sampleIds);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
@@ -157,6 +158,7 @@ public class MossExportAction extends AbstractExportAction {
      *
      * @return  DOCUMENT ME!
      */
+    @Override
     public Collection<Long> getObjectIds() {
         return objectIds;
     }
@@ -166,6 +168,7 @@ public class MossExportAction extends AbstractExportAction {
      *
      * @param  objectIds  DOCUMENT ME!
      */
+    @Override
     public void setObjectIds(final Collection<Long> objectIds) {
         this.objectIds = objectIds;
     }
@@ -186,5 +189,16 @@ public class MossExportAction extends AbstractExportAction {
      */
     public void setSampleIds(final Collection<String> sampleIds) {
         this.sampleIds = sampleIds;
+    }
+
+    @Override
+    public int getClassId() {
+        final MetaClass metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "MOSS");
+        if (metaClass != null) {
+            return metaClass.getID();
+        } else {
+            LOGGER.error("could not retrieve MOSS class from UDM2020-DI!");
+            return -1;
+        }
     }
 }

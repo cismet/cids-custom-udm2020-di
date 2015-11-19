@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
+import Sirius.server.middleware.types.MetaClass;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +22,8 @@ import java.util.Collection;
 import javax.swing.Action;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
@@ -46,7 +50,7 @@ public class EprtrExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
-    @JsonProperty
+    @JsonProperty(required = true)
     protected Collection<Long> installations;
 
     //~ Constructors -----------------------------------------------------------
@@ -64,12 +68,15 @@ public class EprtrExportAction extends AbstractExportAction {
     /**
      * Creates a new EprtrExportAction object.
      *
-     * @param  installations  standorte DOCUMENT ME!
      * @param  parameters     DOCUMENT ME!
+     * @param  objectIds      DOCUMENT ME!
+     * @param  installations  standorte DOCUMENT ME!
      */
-    public EprtrExportAction(final Collection<Long> installations,
-            final Collection<Parameter> parameters) {
-        super(parameters);
+    public EprtrExportAction(
+            final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
+            final Collection<Long> installations) {
+        super(parameters, objectIds);
 
         this.installations = installations;
         this.exportFormat = PARAM_EXPORTFORMAT_CSV;
@@ -84,17 +91,20 @@ public class EprtrExportAction extends AbstractExportAction {
     /**
      * Creates a new EprtrExportAction object.
      *
-     * @param  installations  DOCUMENT ME!
      * @param  parameters     DOCUMENT ME!
+     * @param  objectIds      DOCUMENT ME!
+     * @param  installations  DOCUMENT ME!
      * @param  exportFormat   DOCUMENT ME!
      * @param  exportName     DOCUMENT ME!
      */
     @JsonCreator
-    public EprtrExportAction(final Collection<Long> installations,
+    public EprtrExportAction(
             final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
+            final Collection<Long> installations,
             final String exportFormat,
             final String exportName) {
-        this(installations, parameters);
+        this(parameters, objectIds, installations);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
@@ -145,5 +155,16 @@ public class EprtrExportAction extends AbstractExportAction {
     @Override
     protected String getDefaultExportName() {
         return DEFAULT_EXPORTFILE;
+    }
+
+    @Override
+    public int getClassId() {
+        final MetaClass metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "EPRTR_INSTALLATION");
+        if (metaClass != null) {
+            return metaClass.getID();
+        } else {
+            LOGGER.error("could not retrieve EPRTR_INSTALLATION class from UDM2020-DI!");
+            return -1;
+        }
     }
 }

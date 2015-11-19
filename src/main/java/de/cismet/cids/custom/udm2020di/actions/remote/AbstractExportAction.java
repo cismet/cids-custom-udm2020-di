@@ -45,17 +45,6 @@ import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-@JsonTypeInfo(
-    use = Id.CLASS,
-    include = As.PROPERTY,
-    property = "class"
-)
-@JsonAutoDetect(
-    fieldVisibility = Visibility.NONE,
-    isGetterVisibility = Visibility.NONE,
-    getterVisibility = Visibility.NONE,
-    setterVisibility = Visibility.NONE
-)
 public abstract class AbstractExportAction extends AbstractAction implements ExportAction {
 
     //~ Static fields/initializers ---------------------------------------------
@@ -64,16 +53,14 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
 
     //~ Instance fields --------------------------------------------------------
 
-    @JsonProperty
     protected Collection<Parameter> parameters;
 
-    @JsonProperty
+    protected Collection<Long> objectIds;
+
     protected String exportFormat;
 
-    @JsonProperty
     protected String exportName;
 
-    @JsonProperty
     protected boolean protocolEnabled = true;
 
     //~ Constructors -----------------------------------------------------------
@@ -98,6 +85,7 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
         for (final Parameter parameter : exportAction.getParameters()) {
             this.parameters.add(new Parameter(parameter));
         }
+        this.objectIds = new ArrayList<Long>(exportAction.getObjectIds().size());
         this.exportFormat = exportAction.getExportFormat();
         this.exportName = exportAction.getExportName();
         this.protocolEnabled = exportAction.isProtocolEnabled();
@@ -110,10 +98,13 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
      * Creates a new AbstractExportAction object.
      *
      * @param  parameters  DOCUMENT ME!
+     * @param  objectIds   DOCUMENT ME!
      */
-    protected AbstractExportAction(final Collection<Parameter> parameters) {
+    protected AbstractExportAction(final Collection<Parameter> parameters,
+            final Collection<Long> objectIds) {
         this();
         this.parameters = parameters;
+        this.objectIds = objectIds;
         super.setEnabled((this.parameters != null) && !this.parameters.isEmpty());
     }
 
@@ -164,6 +155,16 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
     @Override
     public void setParameters(final Collection<Parameter> parameters) {
         this.parameters = parameters;
+    }
+
+    @Override
+    public Collection<Long> getObjectIds() {
+        return objectIds;
+    }
+
+    @Override
+    public void setObjectIds(final Collection<Long> objectIds) {
+        this.objectIds = objectIds;
     }
 
     /**

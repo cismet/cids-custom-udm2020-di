@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
+import Sirius.server.middleware.types.MetaClass;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,8 +25,11 @@ import de.cismet.cids.custom.udm2020di.serveractions.wa.WagwExportAction;
 import de.cismet.cids.custom.udm2020di.serveractions.wa.WaowExportAction;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import de.cismet.cids.server.actions.ServerActionParameter;
 
+import static de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction.LOGGER;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT_CSV;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_MESSSTELLEN;
@@ -50,9 +55,9 @@ public class WaExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
-    @JsonProperty
+    @JsonProperty(required = true)
     protected Collection<String> messstellen;
-    @JsonProperty
+    @JsonProperty(required = true)
     protected final String waSource;
     protected final String taskName;
 
@@ -73,21 +78,24 @@ public class WaExportAction extends AbstractExportAction {
     /**
      * Creates a new WaExportAction object.
      *
-     * @param  waSource     DOCUMENT ME!
-     * @param  messstellen  DOCUMENT ME!
      * @param  parameters   DOCUMENT ME!
+     * @param  objectIds    DOCUMENT ME!
+     * @param  messstellen  DOCUMENT ME!
+     * @param  waSource     DOCUMENT ME!
      */
 
-    public WaExportAction(final String waSource,
+    public WaExportAction(
+            final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
             final Collection<String> messstellen,
-            final Collection<Parameter> parameters) {
-        super(parameters);
+            final String waSource) {
+        super(parameters, objectIds);
 
         this.messstellen = messstellen;
         this.exportFormat = PARAM_EXPORTFORMAT_CSV;
         this.waSource = (waSource.equalsIgnoreCase(WAGW)) ? WAGW : WAOW;
 
-        if (waSource.equalsIgnoreCase(WAGW)) {
+        if (this.waSource.equalsIgnoreCase(WAGW)) {
             taskName = WagwExportAction.TASK_NAME;
             super.putValue(Action.SMALL_ICON, WAGW_STATION_ICON);
             super.putValue(
@@ -109,19 +117,22 @@ public class WaExportAction extends AbstractExportAction {
     /**
      * Creates a new WaExportAction object.
      *
-     * @param  waSource      DOCUMENT ME!
-     * @param  messstellen   DOCUMENT ME!
      * @param  parameters    DOCUMENT ME!
+     * @param  objectIds     DOCUMENT ME!
+     * @param  messstellen   DOCUMENT ME!
+     * @param  waSource      DOCUMENT ME!
      * @param  exportFormat  DOCUMENT ME!
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
-    public WaExportAction(final String waSource,
-            final Collection<String> messstellen,
+    public WaExportAction(
             final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
+            final Collection<String> messstellen,
+            final String waSource,
             final String exportFormat,
             final String exportName) {
-        this(waSource, messstellen, parameters);
+        this(parameters, objectIds, messstellen, waSource);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
@@ -172,5 +183,22 @@ public class WaExportAction extends AbstractExportAction {
     @Override
     protected String getDefaultExportName() {
         return waSource + "-export";
+    }
+
+    @Override
+    public int getClassId() {
+        final MetaClass metaClass;
+        if (this.waSource.equalsIgnoreCase(WAGW)) {
+            metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "WAGW_STATION");
+        } else {
+            metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "WAOW_STATION");
+        }
+
+        if (metaClass != null) {
+            return metaClass.getID();
+        } else {
+            LOGGER.error("could not retrieve WAxW_STATION class from UDM2020-DI!");
+            return -1;
+        }
     }
 }

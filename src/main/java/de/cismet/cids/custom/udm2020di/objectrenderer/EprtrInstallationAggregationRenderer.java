@@ -292,12 +292,14 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
 
                         final Collection<Installation> installations = new ArrayList<Installation>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
-                        final TreeSet<Long> installationnPks = new TreeSet<Long>();
+                        final TreeSet<Long> objectIds = new TreeSet<Long>();
+                        final TreeSet<Long> installationPks = new TreeSet<Long>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
+                            objectIds.add(cidsBean.getPrimaryKeyValue().longValue());
 
                             try {
                                 final Installation installation = OracleImport.JSON_MAPPER.readValue(
@@ -311,7 +313,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                                     parameterNames.add(probenparameter.getParameterName());
                                 }
 
-                                installationnPks.add(installation.getErasId());
+                                installationPks.add(installation.getErasId());
 
                                 parametersSet.addAll(installation.getReleaseParameters());
 
@@ -327,8 +329,9 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                         // Export Tab
                         parameterSelectionPanel.setParameters(parametersSet);
                         final EprtrExportAction exportAction = new EprtrExportAction(
-                                installationnPks,
-                                parameterSelectionPanel.getSelectedParameters());
+                                parameterSelectionPanel.getSelectedParameters(),
+                                objectIds,
+                                installationPks);
                         parameterSelectionPanel.setExportAction(exportAction);
 
                         // Messwerte Tab -------------------------------

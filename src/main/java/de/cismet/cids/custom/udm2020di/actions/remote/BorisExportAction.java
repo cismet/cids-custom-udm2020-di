@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
+import Sirius.server.middleware.types.MetaClass;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +22,8 @@ import java.util.Collection;
 import javax.swing.Action;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
+
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
@@ -45,7 +49,7 @@ public class BorisExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
-    @JsonProperty
+    @JsonProperty(required = true)
     protected Collection<String> standorte;
 
     //~ Constructors -----------------------------------------------------------
@@ -63,12 +67,14 @@ public class BorisExportAction extends AbstractExportAction {
     /**
      * Creates a new BorisExportAction object.
      *
-     * @param  standorte   DOCUMENT ME!
      * @param  parameters  DOCUMENT ME!
+     * @param  objectIds   DOCUMENT ME!
+     * @param  standorte   DOCUMENT ME!
      */
-    public BorisExportAction(final Collection<String> standorte,
-            final Collection<Parameter> parameters) {
-        super(parameters);
+    public BorisExportAction(final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
+            final Collection<String> standorte) {
+        super(parameters, objectIds);
 
         this.standorte = standorte;
         this.exportFormat =
@@ -84,17 +90,20 @@ public class BorisExportAction extends AbstractExportAction {
     /**
      * Creates a new BorisExportAction object.
      *
-     * @param  standorte     DOCUMENT ME!
+     * @param  objectIds     DOCUMENT ME!
      * @param  parameters    DOCUMENT ME!
+     * @param  standorte     DOCUMENT ME!
      * @param  exportFormat  DOCUMENT ME!
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
-    public BorisExportAction(final Collection<String> standorte,
+    public BorisExportAction(
+            final Collection<Long> objectIds,
             final Collection<Parameter> parameters,
+            final Collection<String> standorte,
             final String exportFormat,
             final String exportName) {
-        this(standorte, parameters);
+        this(parameters, objectIds, standorte);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
@@ -169,6 +178,17 @@ public class BorisExportAction extends AbstractExportAction {
             System.out.println(mapper.writeValueAsString(borisExportAction));
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getClassId() {
+        final MetaClass metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "BORIS_SITE");
+        if (metaClass != null) {
+            return metaClass.getID();
+        } else {
+            LOGGER.error("could not retrieve BORIS_SITE class from UDM2020-DI!");
+            return -1;
         }
     }
 }

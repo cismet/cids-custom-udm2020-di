@@ -367,9 +367,9 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
                     final MossExportAction exportAction = new MossExportAction(
-                            Arrays.asList(new Long[] { moss.getId() }),
-                            Arrays.asList(new String[] { moss.getSampleId() }),
-                            parameterSelectionPanel.getSelectedParameters());
+                            parameterSelectionPanel.getSelectedParameters(),
+                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            Arrays.asList(new String[] { moss.getSampleId() }));
                     parameterSelectionPanel.setExportAction(exportAction);
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
