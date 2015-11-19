@@ -415,6 +415,31 @@ public class MossParameterSelectionPanel extends javax.swing.JPanel implements I
     /**
      * DOCUMENT ME!
      *
+     * @param  selectedParameters  DOCUMENT ME!
+     */
+    public void setSelectedParameters(final Collection<Parameter> selectedParameters) {
+        synchronized (selectedParameters) {
+            selectedParameters.clear();
+            if ((this.parameters != null) && !this.parameters.isEmpty()) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("selecting " + selectedParameters.size() + " of " + this.parameters.size()
+                                + " parameters");
+                }
+                for (final Parameter parameter : this.parameters) {
+                    parameter.setSelected(selectedParameters.contains(parameter));
+                    if (parameter.isSelected()) {
+                        selectedParameters.add(parameter);
+                    }
+                }
+            } else {
+                LOGGER.warn("cannot select parameters, parameter list is empty!");
+            }
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @return  DOCUMENT ME!
      */
     public final Collection<Parameter> getSelectedParameters() {

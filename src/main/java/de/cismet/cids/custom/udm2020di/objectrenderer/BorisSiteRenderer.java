@@ -40,7 +40,7 @@ import de.cismet.cids.custom.udm2020di.types.boris.Standortparameter;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
+public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -282,5 +282,17 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer {
         } else {
             EventQueue.invokeLater(r);
         }
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

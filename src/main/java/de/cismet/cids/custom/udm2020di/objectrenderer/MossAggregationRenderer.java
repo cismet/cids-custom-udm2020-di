@@ -41,7 +41,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanAggregationRendererPanel;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
+public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -352,5 +352,17 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
      */
     @Override
     public void setTitle(final String title) {
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

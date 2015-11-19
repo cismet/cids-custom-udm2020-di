@@ -51,7 +51,7 @@ import de.cismet.cids.custom.udm2020di.widgets.eprtr.AddressPanel;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
+public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -428,5 +428,17 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
             Logger.getLogger(EprtrInstallationRenderer.class).fatal(ex.getMessage(), ex);
             System.exit(1);
         }
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

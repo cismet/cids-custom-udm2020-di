@@ -45,7 +45,8 @@ import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRe
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRendererPanel {
+public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRendererPanel
+        implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -409,5 +410,17 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
      */
     @Override
     public void setTitle(final String title) {
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

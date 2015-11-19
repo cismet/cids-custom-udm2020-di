@@ -62,7 +62,7 @@ import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
  * @author   mscholl
  * @version  $Revision$, $Date$
  */
-public class MossRenderer extends AbstractCidsBeanRenderer {
+public class MossRenderer extends AbstractCidsBeanRenderer implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -435,5 +435,17 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
             Logger.getLogger(MossRenderer.class).fatal(ex.getMessage(), ex);
             System.exit(1);
         }
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

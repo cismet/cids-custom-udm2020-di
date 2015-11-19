@@ -43,7 +43,7 @@ import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValueSelectionPanel;
  * @author   pd
  * @version  $Revision$, $Date$
  */
-public class WagwStationRenderer extends AbstractCidsBeanRenderer {
+public class WagwStationRenderer extends AbstractCidsBeanRenderer implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -431,5 +431,17 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer {
             Logger.getLogger(WagwStationRenderer.class).fatal(ex.getMessage(), ex);
             System.exit(1);
         }
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

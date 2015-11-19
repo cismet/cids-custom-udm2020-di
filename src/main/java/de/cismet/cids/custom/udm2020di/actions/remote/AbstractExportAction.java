@@ -7,13 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
@@ -30,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import de.cismet.cids.custom.udm2020di.protocol.ExportActionProtocolStep;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
@@ -262,6 +256,13 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
                             extension,
                             this.getTaskname(),
                             serverActionParameters));
+
+            if (this.isProtocolEnabled()) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("saving export settings to protocol");
+                }
+                ProtocolHandler.getInstance().recordStep(new ExportActionProtocolStep(AbstractExportAction.this));
+            }
         } else {
             LOGGER.error("no server action parameters provided");
             JOptionPane.showMessageDialog(
