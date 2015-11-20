@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.protocol;
 
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.server.middleware.types.MetaObject;
 import org.openide.awt.Mnemonics;
 import org.openide.util.NbBundle;
 
@@ -130,51 +132,33 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         exportActionHyperlink = new org.jdesktop.swingx.JXHyperlink();
         exportPanelHyperlink = new org.jdesktop.swingx.JXHyperlink();
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            iconLabel,
-            org.openide.util.NbBundle.getMessage(
-                ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.iconLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(iconLabel, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.iconLabel.text")); // NOI18N
         iconLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            titleLabel,
-            org.openide.util.NbBundle.getMessage(
-                ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.titleLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(titleLabel, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.titleLabel.text")); // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            objectInfoLabel,
-            org.openide.util.NbBundle.getMessage(
-                ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.objectInfoLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(objectInfoLabel, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.objectInfoLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(objectInfoLabel, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            exportActionHyperlink,
-            org.openide.util.NbBundle.getMessage(
-                ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.exportActionHyperlink.text_1"));      // NOI18N
-        exportActionHyperlink.setToolTipText(org.openide.util.NbBundle.getMessage(
-                ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.exportActionHyperlink.toolTipText")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(exportActionHyperlink, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.exportActionHyperlink.text_1")); // NOI18N
+        exportActionHyperlink.setToolTipText(org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.exportActionHyperlink.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(exportActionHyperlink, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(
-            exportPanelHyperlink,
-            org.openide.util.NbBundle.getMessage(
-                ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.exportPanelHyperlink.text")); // NOI18N
-        exportPanelHyperlink.setEnabled(false);
+        org.openide.awt.Mnemonics.setLocalizedText(exportPanelHyperlink, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.exportPanelHyperlink.text")); // NOI18N
+        exportPanelHyperlink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportPanelHyperlinkActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -182,7 +166,12 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         add(exportPanelHyperlink, gridBagConstraints);
-    }                                                                        // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void exportPanelHyperlinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPanelHyperlinkActionPerformed
+       ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObjects(new MetaObject[0], null);
+       ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
+    }//GEN-LAST:event_exportPanelHyperlinkActionPerformed
 
     @Override
     public Component getIconComponent() {
