@@ -41,7 +41,7 @@ import de.cismet.cids.tools.metaobjectrenderer.CidsBeanAggregationRendererPanel;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
+public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -254,6 +254,7 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
 
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
+                            objectIds.add(cidsBean.getPrimaryKeyValue().longValue());
 
                             try {
                                 final Moss moss = OracleImport.JSON_MAPPER.readValue(
@@ -266,9 +267,7 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
                                     parameterNames.add(probenparameter.getParameterName());
                                 }
 
-                                objectIds.add(moss.getId());
                                 sampleIds.add(moss.getSampleId());
-
                                 parametersSet.addAll(moss.getProbenparameter());
 
                                 aggregationValues.addAll(moss.getAggregationValues());
@@ -287,9 +286,9 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
                         // Export Tab ------------------------------------------
                         parameterSelectionPanel.setParameters(parametersSet);
                         final MossExportAction exportAction = new MossExportAction(
+                                parameterSelectionPanel.getSelectedParameters(),
                                 objectIds,
-                                sampleIds,
-                                parameterSelectionPanel.getSelectedParameters());
+                                sampleIds);
                         parameterSelectionPanel.setExportAction(exportAction);
 
                         // Visualisation -------------------------------------------
@@ -353,5 +352,17 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel {
      */
     @Override
     public void setTitle(final String title) {
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

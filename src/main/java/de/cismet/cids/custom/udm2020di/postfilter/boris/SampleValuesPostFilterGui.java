@@ -10,15 +10,12 @@ package de.cismet.cids.custom.udm2020di.postfilter.boris;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.ui.tree.postfilter.AbstractPostFilterGUI;
 import Sirius.navigator.ui.tree.postfilter.PostFilter;
-import Sirius.navigator.ui.tree.postfilter.PostFilterGUI;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObjectNode;
 import Sirius.server.middleware.types.Node;
 
 import org.apache.log4j.Logger;
-
-import org.openide.util.lookup.ServiceProvider;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -41,6 +38,8 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import static de.cismet.cids.custom.udm2020di.treeicons.BorisSiteIconFactory.BORIS_SITE_ICON;
 
 /**
  * DOCUMENT ME!
@@ -154,8 +153,7 @@ public class SampleValuesPostFilterGui extends AbstractPostFilterGUI {
         try {
             initPostFilterAggregationValuesSearch = new BorisAggregationValuesSearch();
             initBorisCustomSearch = new BorisSiteSearch();
-            initIcon = new ImageIcon(getClass().getResource(
-                        "/de/cismet/cids/custom/udm2020di/postfilter/boris/showel.png"));
+            initIcon = BORIS_SITE_ICON;
             initActive = true;
         } catch (IOException ex) {
             logger.error("could not initialize SampleValuesPostFilterGui, disabling filter", ex);

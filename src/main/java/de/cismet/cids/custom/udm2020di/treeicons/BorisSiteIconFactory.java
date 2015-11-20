@@ -27,9 +27,11 @@ import de.cismet.cids.custom.udm2020di.ImageUtil;
  */
 public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
 
-    //~ Instance fields --------------------------------------------------------
+    //~ Static fields/initializers ---------------------------------------------
 
-    private final ImageIcon borisSiteIcon;
+    public static final ImageIcon BORIS_SITE_ICON = ImageUtilities.loadImageIcon(
+            ImageUtil.getResourcePath(BorisSiteIconFactory.class, "showel_16.png"),
+            false);
 
     //~ Constructors -----------------------------------------------------------
 
@@ -37,9 +39,6 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      * Creates a new BorisSiteIconFactory object.
      */
     public BorisSiteIconFactory() {
-        this.borisSiteIcon = ImageUtilities.loadImageIcon(
-                ImageUtil.getResourcePath(BorisSiteIconFactory.class, "showel_16.png"),
-                false);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -53,7 +52,7 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getClosedPureNodeIcon(final PureTreeNode ptn) {
-        return borisSiteIcon;
+        return BORIS_SITE_ICON;
     }
 
     /**
@@ -65,7 +64,7 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getOpenPureNodeIcon(final PureTreeNode ptn) {
-        return borisSiteIcon;
+        return BORIS_SITE_ICON;
     }
 
     /**
@@ -77,7 +76,7 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getLeafPureNodeIcon(final PureTreeNode ptn) {
-        return borisSiteIcon;
+        return BORIS_SITE_ICON;
     }
 
     /**
@@ -89,7 +88,7 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getOpenObjectNodeIcon(final ObjectTreeNode otn) {
-        return borisSiteIcon;
+        return BORIS_SITE_ICON;
     }
 
     /**
@@ -101,7 +100,7 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getClosedObjectNodeIcon(final ObjectTreeNode otn) {
-        return borisSiteIcon;
+        return BORIS_SITE_ICON;
     }
 
     /**
@@ -113,7 +112,7 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getLeafObjectNodeIcon(final ObjectTreeNode otn) {
-        return borisSiteIcon;
+        return BORIS_SITE_ICON;
     }
 
     /**
@@ -125,6 +124,6 @@ public final class BorisSiteIconFactory implements CidsTreeObjectIconFactory {
      */
     @Override
     public Icon getClassNodeIcon(final ClassTreeNode dmtn) {
-        return borisSiteIcon;
+        return BORIS_SITE_ICON;
     }
 }

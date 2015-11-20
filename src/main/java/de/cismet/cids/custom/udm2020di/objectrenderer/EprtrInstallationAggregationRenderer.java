@@ -45,7 +45,8 @@ import static de.cismet.cids.custom.udm2020di.objectrenderer.EprtrInstallationRe
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRendererPanel {
+public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRendererPanel
+        implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -292,12 +293,14 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
 
                         final Collection<Installation> installations = new ArrayList<Installation>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
-                        final TreeSet<Long> installationnPks = new TreeSet<Long>();
+                        final TreeSet<Long> objectIds = new TreeSet<Long>();
+                        final TreeSet<Long> installationPks = new TreeSet<Long>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
+                            objectIds.add(cidsBean.getPrimaryKeyValue().longValue());
 
                             try {
                                 final Installation installation = OracleImport.JSON_MAPPER.readValue(
@@ -311,7 +314,7 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                                     parameterNames.add(probenparameter.getParameterName());
                                 }
 
-                                installationnPks.add(installation.getErasId());
+                                installationPks.add(installation.getErasId());
 
                                 parametersSet.addAll(installation.getReleaseParameters());
 
@@ -327,8 +330,9 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                         // Export Tab
                         parameterSelectionPanel.setParameters(parametersSet);
                         final EprtrExportAction exportAction = new EprtrExportAction(
-                                installationnPks,
-                                parameterSelectionPanel.getSelectedParameters());
+                                parameterSelectionPanel.getSelectedParameters(),
+                                objectIds,
+                                installationPks);
                         parameterSelectionPanel.setExportAction(exportAction);
 
                         // Messwerte Tab -------------------------------
@@ -406,5 +410,17 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
      */
     @Override
     public void setTitle(final String title) {
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

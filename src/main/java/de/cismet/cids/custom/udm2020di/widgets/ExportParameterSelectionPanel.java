@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.widgets;
 
+import org.apache.log4j.Logger;
+
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
@@ -34,10 +36,14 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class ExportParameterSelectionPanel extends javax.swing.JPanel implements ItemListener {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final Logger LOGGER = Logger.getLogger(ExportParameterSelectionPanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -380,6 +386,31 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
             }
         }
         return selectedParameters;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  selectedParameters  DOCUMENT ME!
+     */
+    public void setSelectedParameters(final Collection<Parameter> selectedParameters) {
+        synchronized (selectedParameters) {
+            selectedParameters.clear();
+            if ((this.parameters != null) && !this.parameters.isEmpty()) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("selecting " + selectedParameters.size() + " of " + this.parameters.size()
+                                + " parameters");
+                }
+                for (final Parameter parameter : this.parameters) {
+                    parameter.setSelected(selectedParameters.contains(parameter));
+                    if (parameter.isSelected()) {
+                        selectedParameters.add(parameter);
+                    }
+                }
+            } else {
+                LOGGER.warn("cannot select parameters, parameter list is empty!");
+            }
+        }
     }
 
     /**

@@ -26,6 +26,8 @@ import de.cismet.cids.custom.udm2020di.postfilter.*;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
+import static de.cismet.cids.custom.udm2020di.treeicons.EprtrInstallationIconFactory.EPRTR_INSTALLATION_ICON;
+
 /**
  * DOCUMENT ME!
  *
@@ -47,8 +49,7 @@ public class NotificationPeriodPostFilterGui extends CommonTagsPostFilterGui {
     public NotificationPeriodPostFilterGui() {
         super();
         logger = Logger.getLogger(NotificationPeriodPostFilterGui.class);
-        icon = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/udm2020di/postfilter/eprtr/factory.png"));
+        icon = EPRTR_INSTALLATION_ICON;
         eprtrClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "EPRTR_INSTALLATION");
         if (eprtrClass == null) {
             logger.warn("could not retrieve EPRTR_INSTALLATION class from UDM2020-DI, "

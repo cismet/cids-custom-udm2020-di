@@ -18,11 +18,10 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 
 import de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui;
-import de.cismet.cids.custom.udm2020di.postfilter.wa.*;
 import de.cismet.cids.custom.udm2020di.serversearch.moss.MossAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.moss.MossSearch;
-import de.cismet.cids.custom.udm2020di.serversearch.wa.WagwAggregationValuesSearch;
-import de.cismet.cids.custom.udm2020di.serversearch.wa.WagwStationSearch;
+
+import static de.cismet.cids.custom.udm2020di.treeicons.MossIconFactory.MOSS_ICON;
 
 /**
  * DOCUMENT ME!
@@ -47,9 +46,7 @@ public class MossSampleValuesPostFilterGui extends CommonSampleValuesPostFilterG
     public MossSampleValuesPostFilterGui() throws IOException {
         super(new MossAggregationValuesSearch(),
             new MossSearch(),
-            new ImageIcon(
-                MossSampleValuesPostFilterGui.class.getResource(
-                    "/de/cismet/cids/custom/udm2020di/treeicons/moss_16.png")),
+            MOSS_ICON,
             "MOSS");
         this.active = true;
     }

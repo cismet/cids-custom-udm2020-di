@@ -21,6 +21,8 @@ import de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGu
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisSiteSearch;
 
+import static de.cismet.cids.custom.udm2020di.treeicons.BorisSiteIconFactory.BORIS_SITE_ICON;
+
 /**
  * DOCUMENT ME!
  *
@@ -44,9 +46,7 @@ public class BorisSampleValuesPostFilterGui extends CommonSampleValuesPostFilter
     public BorisSampleValuesPostFilterGui() throws IOException {
         super(new BorisAggregationValuesSearch(),
             new BorisSiteSearch(),
-            new ImageIcon(
-                BorisSampleValuesPostFilterGui.class.getResource(
-                    "/de/cismet/cids/custom/udm2020di/treeicons/showel_16.png")),
+            BORIS_SITE_ICON,
             "BORIS_SITE");
         this.active = true;
     }

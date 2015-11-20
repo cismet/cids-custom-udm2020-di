@@ -15,11 +15,11 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-
 import de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui;
 import de.cismet.cids.custom.udm2020di.serversearch.wa.WagwAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.wa.WagwStationSearch;
+
+import static de.cismet.cids.custom.udm2020di.treeicons.WagwStationIconFactory.WAGW_STATION_ICON;
 
 /**
  * DOCUMENT ME!
@@ -45,9 +45,7 @@ public class GwSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui
         super(
             new WagwAggregationValuesSearch(),
             new WagwStationSearch(),
-            new ImageIcon(
-                GwSampleValuesPostFilterGui.class.getResource(
-                    "/de/cismet/cids/custom/udm2020di/treeicons/waves_mirror_16.png")),
+            WAGW_STATION_ICON,
             "WAGW_STATION");
         this.active = true;
     }

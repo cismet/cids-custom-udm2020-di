@@ -62,7 +62,7 @@ import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
  * @author   mscholl
  * @version  $Revision$, $Date$
  */
-public class MossRenderer extends AbstractCidsBeanRenderer {
+public class MossRenderer extends AbstractCidsBeanRenderer implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -367,9 +367,9 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
                     final MossExportAction exportAction = new MossExportAction(
-                            Arrays.asList(new Long[] { moss.getId() }),
-                            Arrays.asList(new String[] { moss.getSampleId() }),
-                            parameterSelectionPanel.getSelectedParameters());
+                            parameterSelectionPanel.getSelectedParameters(),
+                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            Arrays.asList(new String[] { moss.getSampleId() }));
                     parameterSelectionPanel.setExportAction(exportAction);
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
@@ -435,5 +435,17 @@ public class MossRenderer extends AbstractCidsBeanRenderer {
             Logger.getLogger(MossRenderer.class).fatal(ex.getMessage(), ex);
             System.exit(1);
         }
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

@@ -21,6 +21,8 @@ import de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGu
 import de.cismet.cids.custom.udm2020di.serversearch.wa.WaowAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.wa.WaowStationSearch;
 
+import static de.cismet.cids.custom.udm2020di.treeicons.WaowStationIconFactory.WAOW_STATION_ICON;
+
 /**
  * DOCUMENT ME!
  *
@@ -44,9 +46,7 @@ public class OwSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui
     public OwSampleValuesPostFilterGui() throws IOException {
         super(new WaowAggregationValuesSearch(),
             new WaowStationSearch(),
-            new ImageIcon(
-                OwSampleValuesPostFilterGui.class.getResource(
-                    "/de/cismet/cids/custom/udm2020di/treeicons/waves_16.png")),
+            WAOW_STATION_ICON,
             "WAOW_STATION");
         this.active = true;
     }

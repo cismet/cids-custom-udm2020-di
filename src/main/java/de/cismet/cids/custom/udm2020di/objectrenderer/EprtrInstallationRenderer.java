@@ -51,7 +51,7 @@ import de.cismet.cids.custom.udm2020di.widgets.eprtr.AddressPanel;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
+public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -181,8 +181,9 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
                     final EprtrExportAction eprtrExportAction = new EprtrExportAction(
-                            Arrays.asList(new Long[] { eprtrInstallation.getErasId() }),
-                            parameterSelectionPanel.getSelectedParameters());
+                            parameterSelectionPanel.getSelectedParameters(),
+                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            Arrays.asList(new Long[] { eprtrInstallation.getErasId() }));
                     parameterSelectionPanel.setExportAction(eprtrExportAction);
 
                     // Visualisation -------------------------------------------
@@ -427,5 +428,17 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer {
             Logger.getLogger(EprtrInstallationRenderer.class).fatal(ex.getMessage(), ex);
             System.exit(1);
         }
+    }
+
+    @Override
+    public void showExportPanel(final Collection<Parameter> selectedParameters) {
+        EventQueue.invokeLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                    jTabbedPane.setSelectedComponent(exportPanel);
+                }
+            });
     }
 }

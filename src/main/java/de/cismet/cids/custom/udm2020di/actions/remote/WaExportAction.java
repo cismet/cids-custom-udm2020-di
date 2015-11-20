@@ -7,30 +7,36 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
+import Sirius.server.middleware.types.MetaClass;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.apache.log4j.Logger;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
+import org.openide.util.NbBundle;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.Action;
 
 import de.cismet.cids.custom.udm2020di.serveractions.wa.WagwExportAction;
 import de.cismet.cids.custom.udm2020di.serveractions.wa.WaowExportAction;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 
+import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
 import de.cismet.cids.server.actions.ServerActionParameter;
 
-import de.cismet.tools.gui.downloadmanager.DownloadManager;
-import de.cismet.tools.gui.downloadmanager.DownloadManagerDialog;
-
+import static de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction.LOGGER;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT_CSV;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_MESSSTELLEN;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_NAME;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_PARAMETER;
+import static de.cismet.cids.custom.udm2020di.treeicons.WagwStationIconFactory.WAGW_STATION_ICON;
+import static de.cismet.cids.custom.udm2020di.treeicons.WaowStationIconFactory.WAOW_STATION_ICON;
 
 /**
  * DOCUMENT ME!
@@ -49,7 +55,9 @@ public class WaExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
+    @JsonProperty(required = true)
     protected Collection<String> messstellen;
+    @JsonProperty(required = true)
     protected final String waSource;
     protected final String taskName;
 
@@ -58,88 +66,79 @@ public class WaExportAction extends AbstractExportAction {
     /**
      * Creates a new WaExportAction object.
      *
-     * @param  waSource     DOCUMENT ME!
-     * @param  messstellen  DOCUMENT ME!
      * @param  parameters   DOCUMENT ME!
+     * @param  objectIds    DOCUMENT ME!
+     * @param  messstellen  DOCUMENT ME!
+     * @param  waSource     DOCUMENT ME!
      */
-    public WaExportAction(final String waSource,
+
+    public WaExportAction(
+            final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
             final Collection<String> messstellen,
-            final Collection<Parameter> parameters) {
-        super();
+            final String waSource) {
+        super(parameters, objectIds);
 
-        if (waSource.equalsIgnoreCase(WAGW)) {
-            this.waSource = waSource;
-            taskName = WagwExportAction.TASK_NAME;
-        } else if (waSource.equalsIgnoreCase(WAOW)) {
-            this.waSource = waSource;
-            taskName = WaowExportAction.TASK_NAME;
-        } else {
-            this.waSource = WAGW;
-            taskName = WagwExportAction.TASK_NAME;
-            LOGGER.error("unsupported WA Station Type: " + this.waSource);
-        }
-
-        this.parameters = parameters;
         this.messstellen = messstellen;
         this.exportFormat = PARAM_EXPORTFORMAT_CSV;
-        this.setEnabled(!this.parameters.isEmpty());
+        this.waSource = (waSource.equalsIgnoreCase(WAGW)) ? WAGW : WAOW;
+
+        if (this.waSource.equalsIgnoreCase(WAGW)) {
+            taskName = WagwExportAction.TASK_NAME;
+            super.putValue(Action.SMALL_ICON, WAGW_STATION_ICON);
+            super.putValue(
+                Action.SHORT_DESCRIPTION,
+                NbBundle.getMessage(
+                    WaExportAction.class,
+                    "WaGwExportAction.description"));
+        } else {
+            taskName = WaowExportAction.TASK_NAME;
+            super.putValue(Action.SMALL_ICON, WAOW_STATION_ICON);
+            super.putValue(
+                Action.SHORT_DESCRIPTION,
+                NbBundle.getMessage(
+                    WaExportAction.class,
+                    "WaOwExportAction.description"));
+        }
+    }
+
+    /**
+     * Creates a new WaExportAction object.
+     *
+     * @param  parameters    DOCUMENT ME!
+     * @param  objectIds     DOCUMENT ME!
+     * @param  messstellen   DOCUMENT ME!
+     * @param  waSource      DOCUMENT ME!
+     * @param  exportFormat  DOCUMENT ME!
+     * @param  exportName    DOCUMENT ME!
+     */
+    @JsonCreator
+    public WaExportAction(
+            final Collection<Parameter> parameters,
+            final Collection<Long> objectIds,
+            final Collection<String> messstellen,
+            final String waSource,
+            final String exportFormat,
+            final String exportName) {
+        this(parameters, objectIds, messstellen, waSource);
+        this.exportFormat = exportFormat;
+        this.exportName = exportName;
+        this.protocolEnabled = false;
+    }
+
+    /**
+     * Creates a new WaExportAction object.
+     *
+     * @param  exportAction  DOCUMENT ME!
+     */
+    protected WaExportAction(final WaExportAction exportAction) {
+        super(exportAction);
+        this.messstellen = new ArrayList<String>(exportAction.getMessstellen());
+        this.waSource = exportAction.waSource;
+        this.taskName = exportAction.taskName;
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  e  DOCUMENT ME!
-     */
-    @Override
-    public void actionPerformed(final ActionEvent e) {
-        final Component component;
-        if (Component.class.isAssignableFrom(e.getSource().getClass())) {
-            component = (Component)e.getSource();
-        } else {
-            LOGGER.warn("could not dtermine source frame of action");
-            component = JFrame.getFrames()[0];
-        }
-
-        if ((messstellen != null) && !messstellen.isEmpty()
-                    && (parameters != null) && !parameters.isEmpty()) {
-            LOGGER.info("perfoming " + waSource + " Export for " + messstellen.size() + " Messstellen and "
-                        + parameters.size() + " parameters");
-
-            final ServerActionParameter[] serverActionParameters = new ServerActionParameter[] {
-                    new ServerActionParameter<Collection<String>>(PARAM_MESSSTELLEN, this.messstellen),
-                    new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
-                    new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
-                    new ServerActionParameter<String>(PARAM_NAME, waSource + "-export")
-                };
-
-            final String filename;
-            final String extension = this.getExtention(exportFormat);
-            if (DownloadManagerDialog.showAskingForUserTitle(component)) {
-                filename = DownloadManagerDialog.getJobname();
-            } else {
-                filename = waSource + "-export";
-            }
-
-            DownloadManager.instance()
-                    .add(
-                        new ExportActionDownload(
-                            DownloadManagerDialog.getJobname(),
-                            "",
-                            filename,
-                            extension,
-                            taskName,
-                            serverActionParameters));
-        } else {
-            LOGGER.error("no PARAM_MESSSTELLEN and PARAM_PARAMETER server action parameters provided");
-            JOptionPane.showMessageDialog(
-                component,
-                "<html><p>Bitte wählen Sie mindestens einen Parameter aus.</p></html>",
-                "Datenexport",
-                JOptionPane.WARNING_MESSAGE);
-        }
-    }
 
     /**
      * DOCUMENT ME!
@@ -157,5 +156,54 @@ public class WaExportAction extends AbstractExportAction {
      */
     public void setMessstellen(final Collection<String> messstellen) {
         this.messstellen = messstellen;
+    }
+
+    @Override
+    protected ServerActionParameter[] createServerActionParameters() {
+        if ((messstellen != null) && !messstellen.isEmpty()
+                    && (parameters != null) && !parameters.isEmpty()) {
+            LOGGER.info("perfoming " + waSource + " Export for " + messstellen.size() + " Messstellen and "
+                        + parameters.size() + " parameters");
+
+            return new ServerActionParameter[] {
+                    new ServerActionParameter<Collection<String>>(PARAM_MESSSTELLEN, this.messstellen),
+                    new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
+                    new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
+                    new ServerActionParameter<String>(PARAM_NAME, waSource + "-export")
+                };
+        }
+        return null;
+    }
+
+    @Override
+    protected String getTaskname() {
+        return taskName;
+    }
+
+    @Override
+    protected String getDefaultExportName() {
+        return waSource + "-export";
+    }
+
+    @Override
+    public int getClassId() {
+        final MetaClass metaClass;
+        if (this.waSource.equalsIgnoreCase(WAGW)) {
+            metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "WAGW_STATION");
+        } else {
+            metaClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "WAOW_STATION");
+        }
+
+        if (metaClass != null) {
+            return metaClass.getID();
+        } else {
+            LOGGER.error("could not retrieve WAxW_STATION class from UDM2020-DI!");
+            return -1;
+        }
+    }
+
+    @Override
+    public ExportAction clone() throws CloneNotSupportedException {
+        return new WaExportAction(this);
     }
 }
