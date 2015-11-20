@@ -125,7 +125,7 @@ public class WaVisualisationAction extends AbstractVisualisationAction {
     protected String getStationName(final String stationPk) {
         if (this.stationMap.containsKey(stationPk)) {
             final Messstelle station = this.stationMap.get(stationPk);
-            final String stationName = ((station.getName() != null)
+            final String stationName = (waSource.equals(WAOW) && (station.getName() != null)
                             && !station.getName().isEmpty()) ? station.getName() : stationPk;
             return stationName;
         } else {
