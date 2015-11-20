@@ -35,7 +35,7 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
     getterVisibility = JsonAutoDetect.Visibility.NONE,
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
-public interface ExportAction extends Action {
+public interface ExportAction extends Action, Cloneable {
 
     //~ Methods ----------------------------------------------------------------
 

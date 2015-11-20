@@ -34,7 +34,6 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXHyperlink exportActionHyperlink;
-    private javax.swing.JLabel exportFileIcon;
     private org.jdesktop.swingx.JXHyperlink exportPanelHyperlink;
     private javax.swing.JLabel iconLabel;
     private javax.swing.JLabel objectInfoLabel;
@@ -69,21 +68,44 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
 
                 @Override
                 public void run() {
+                    iconLabel.setIcon(ExportActionProtocolStepPanel.this.exportAction.getIcon());
+                    titleLabel.setText(ExportActionProtocolStepPanel.this.exportAction.getTitle());
                     exportActionHyperlink.setAction(ExportActionProtocolStepPanel.this.exportAction);
-                    exportFileIcon.setIcon(getFileIcon());
-                    exportFileIcon.setToolTipText(ExportActionProtocolStepPanel.this.exportAction.getExportFormat());
+
+                    // overwrite title and icon provided by action object!
+                    Mnemonics.setLocalizedText(
+                        exportActionHyperlink,
+                        NbBundle.getMessage(
+                            ExportActionProtocolStepPanel.class,
+                            "ExportActionProtocolStepPanel.exportActionHyperlink.text"));
+                    exportActionHyperlink.setIcon(getFileIcon());
+                    exportActionHyperlink.setToolTipText(NbBundle.getMessage(
+                            ExportActionProtocolStepPanel.class,
+                            "ExportActionProtocolStepPanel.exportActionHyperlink.toolTipText",
+                            ExportActionProtocolStepPanel.this.exportAction.getExportFormat())); // NOI18N
+
+                    final String title = ExportActionProtocolStepPanel.this.exportAction.getTitle();
+                    final String suffix;
+                    if (title.charAt(title.length() - 1) == 's') {
+                        suffix = "e";
+                    } else if (title.charAt(title.length() - 1) == 't') {
+                        suffix = "en";
+                    } else {
+                        suffix = "n";
+                    }
+
                     objectInfoLabel.setText(
                         String.valueOf(ExportActionProtocolStepPanel.this.exportAction.getObjectIds().size())
                                 + ' '
-                                + ExportActionProtocolStepPanel.this.exportAction.getTitle()
-                                + ((ExportActionProtocolStepPanel.this.exportAction.getObjectIds().size() > 1) ? 'n'
+                                + title
+                                + ((ExportActionProtocolStepPanel.this.exportAction.getObjectIds().size() > 1) ? suffix
                                                                                                                : ""));
                     Mnemonics.setLocalizedText(
                         exportPanelHyperlink,
                         NbBundle.getMessage(
                             ExportActionProtocolStepPanel.class,
                             "ExportActionProtocolStepPanel.exportPanelHyperlink.text",
-                            ExportActionProtocolStepPanel.this.exportAction.getParameters().size())); // NOI18N
+                            String.valueOf(ExportActionProtocolStepPanel.this.exportAction.getParameters().size()))); // NOI18N
                 }
             };
 
@@ -105,11 +127,9 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         iconLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
         objectInfoLabel = new javax.swing.JLabel();
-        exportFileIcon = new javax.swing.JLabel();
         exportActionHyperlink = new org.jdesktop.swingx.JXHyperlink();
         exportPanelHyperlink = new org.jdesktop.swingx.JXHyperlink();
 
-        iconLabel.setIcon(this.exportAction.getIcon());
         org.openide.awt.Mnemonics.setLocalizedText(
             iconLabel,
             org.openide.util.NbBundle.getMessage(
@@ -117,7 +137,11 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
                 "ExportActionProtocolStepPanel.iconLabel.text")); // NOI18N
         iconLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        org.openide.awt.Mnemonics.setLocalizedText(titleLabel, this.exportAction.getTitle());
+        org.openide.awt.Mnemonics.setLocalizedText(
+            titleLabel,
+            org.openide.util.NbBundle.getMessage(
+                ExportActionProtocolStepPanel.class,
+                "ExportActionProtocolStepPanel.titleLabel.text")); // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -132,24 +156,17 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(objectInfoLabel, gridBagConstraints);
 
-        exportFileIcon.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/de/cismet/cids/custom/udm2020di/protocol/excel_exports.png"))); // NOI18N
         org.openide.awt.Mnemonics.setLocalizedText(
-            exportFileIcon,
+            exportActionHyperlink,
             org.openide.util.NbBundle.getMessage(
                 ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.exportFileIcon.text"));                                   // NOI18N
-        exportFileIcon.setToolTipText(org.openide.util.NbBundle.getMessage(
+                "ExportActionProtocolStepPanel.exportActionHyperlink.text_1"));      // NOI18N
+        exportActionHyperlink.setToolTipText(org.openide.util.NbBundle.getMessage(
                 ExportActionProtocolStepPanel.class,
-                "ExportActionProtocolStepPanel.exportFileIcon.toolTipText"));                            // NOI18N
+                "ExportActionProtocolStepPanel.exportActionHyperlink.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(exportFileIcon, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         add(exportActionHyperlink, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
@@ -157,10 +174,10 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
             org.openide.util.NbBundle.getMessage(
                 ExportActionProtocolStepPanel.class,
                 "ExportActionProtocolStepPanel.exportPanelHyperlink.text")); // NOI18N
+        exportPanelHyperlink.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);

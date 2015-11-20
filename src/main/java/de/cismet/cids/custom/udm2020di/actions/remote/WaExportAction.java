@@ -66,18 +66,6 @@ public class WaExportAction extends AbstractExportAction {
     /**
      * Creates a new WaExportAction object.
      *
-     * @param  exportAction  DOCUMENT ME!
-     */
-    public WaExportAction(final WaExportAction exportAction) {
-        super(exportAction);
-        this.messstellen = new ArrayList<String>(exportAction.getMessstellen());
-        this.waSource = exportAction.waSource;
-        this.taskName = exportAction.taskName;
-    }
-
-    /**
-     * Creates a new WaExportAction object.
-     *
      * @param  parameters   DOCUMENT ME!
      * @param  objectIds    DOCUMENT ME!
      * @param  messstellen  DOCUMENT ME!
@@ -136,6 +124,18 @@ public class WaExportAction extends AbstractExportAction {
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
+    }
+
+    /**
+     * Creates a new WaExportAction object.
+     *
+     * @param  exportAction  DOCUMENT ME!
+     */
+    protected WaExportAction(final WaExportAction exportAction) {
+        super(exportAction);
+        this.messstellen = new ArrayList<String>(exportAction.getMessstellen());
+        this.waSource = exportAction.waSource;
+        this.taskName = exportAction.taskName;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -200,5 +200,10 @@ public class WaExportAction extends AbstractExportAction {
             LOGGER.error("could not retrieve WAxW_STATION class from UDM2020-DI!");
             return -1;
         }
+    }
+
+    @Override
+    public ExportAction clone() throws CloneNotSupportedException {
+        return new WaExportAction(this);
     }
 }

@@ -79,7 +79,7 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
         for (final Parameter parameter : exportAction.getParameters()) {
             this.parameters.add(new Parameter(parameter));
         }
-        this.objectIds = new ArrayList<Long>(exportAction.getObjectIds().size());
+        this.objectIds = new ArrayList<Long>(exportAction.getObjectIds());
         this.exportFormat = exportAction.getExportFormat();
         this.exportName = exportAction.getExportName();
         this.protocolEnabled = exportAction.isProtocolEnabled();
@@ -261,7 +261,17 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("saving export settings to protocol");
                 }
-                ProtocolHandler.getInstance().recordStep(new ExportActionProtocolStep(AbstractExportAction.this));
+                try {
+                    ProtocolHandler.getInstance()
+                            .recordStep(
+                                new ExportActionProtocolStep(AbstractExportAction.this.clone()));
+                } catch (Exception ex) {
+                    LOGGER.error("could not save protocol: " + ex.getMessage(), ex);
+                }
+            } else {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("protocol is globally disabled, or action is invoked from protocol panel");
+                }
             }
         } else {
             LOGGER.error("no server action parameters provided");
@@ -302,4 +312,7 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
 
         return null;
     }
+
+    @Override
+    public abstract ExportAction clone() throws CloneNotSupportedException;
 }

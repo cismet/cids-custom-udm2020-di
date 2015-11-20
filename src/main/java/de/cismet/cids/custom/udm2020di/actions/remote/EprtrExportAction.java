@@ -58,16 +58,6 @@ public class EprtrExportAction extends AbstractExportAction {
     /**
      * Creates a new EprtrExportAction object.
      *
-     * @param  exportAction  DOCUMENT ME!
-     */
-    public EprtrExportAction(final EprtrExportAction exportAction) {
-        super(exportAction);
-        this.installations = new ArrayList<Long>(exportAction.getInstallations());
-    }
-
-    /**
-     * Creates a new EprtrExportAction object.
-     *
      * @param  parameters     DOCUMENT ME!
      * @param  objectIds      DOCUMENT ME!
      * @param  installations  standorte DOCUMENT ME!
@@ -108,6 +98,16 @@ public class EprtrExportAction extends AbstractExportAction {
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
+    }
+
+    /**
+     * Creates a new EprtrExportAction object.
+     *
+     * @param  exportAction  DOCUMENT ME!
+     */
+    protected EprtrExportAction(final EprtrExportAction exportAction) {
+        super(exportAction);
+        this.installations = new ArrayList<Long>(exportAction.getInstallations());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -166,5 +166,10 @@ public class EprtrExportAction extends AbstractExportAction {
             LOGGER.error("could not retrieve EPRTR_INSTALLATION class from UDM2020-DI!");
             return -1;
         }
+    }
+
+    @Override
+    public ExportAction clone() throws CloneNotSupportedException {
+        return new EprtrExportAction(this);
     }
 }

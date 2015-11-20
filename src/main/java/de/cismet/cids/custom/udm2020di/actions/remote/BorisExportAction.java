@@ -57,16 +57,6 @@ public class BorisExportAction extends AbstractExportAction {
     /**
      * Creates a new BorisExportAction object.
      *
-     * @param  exportAction  DOCUMENT ME!
-     */
-    public BorisExportAction(final BorisExportAction exportAction) {
-        super(exportAction);
-        this.standorte = new ArrayList<String>(exportAction.getStandorte());
-    }
-
-    /**
-     * Creates a new BorisExportAction object.
-     *
      * @param  parameters  DOCUMENT ME!
      * @param  objectIds   DOCUMENT ME!
      * @param  standorte   DOCUMENT ME!
@@ -107,6 +97,16 @@ public class BorisExportAction extends AbstractExportAction {
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
+    }
+
+    /**
+     * Creates a new BorisExportAction object.
+     *
+     * @param  exportAction  DOCUMENT ME!
+     */
+    protected BorisExportAction(final BorisExportAction exportAction) {
+        super(exportAction);
+        this.standorte = new ArrayList<String>(exportAction.getStandorte());
     }
 
     /**
@@ -190,5 +190,10 @@ public class BorisExportAction extends AbstractExportAction {
             LOGGER.error("could not retrieve BORIS_SITE class from UDM2020-DI!");
             return -1;
         }
+    }
+
+    @Override
+    public ExportAction clone() throws CloneNotSupportedException {
+        return new BorisExportAction(this);
     }
 }

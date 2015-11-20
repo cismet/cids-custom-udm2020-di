@@ -61,16 +61,6 @@ public class MossExportAction extends AbstractExportAction {
     /**
      * Creates a new MossExportAction object.
      *
-     * @param  exportAction  DOCUMENT ME!
-     */
-    public MossExportAction(final MossExportAction exportAction) {
-        super(exportAction);
-        this.sampleIds = new ArrayList<String>(exportAction.getSampleIds());
-    }
-
-    /**
-     * Creates a new MossExportAction object.
-     *
      * @param  parameters  DOCUMENT ME!
      * @param  objectIds   sites standorte DOCUMENT ME!
      * @param  sampleIds   DOCUMENT ME!
@@ -111,6 +101,16 @@ public class MossExportAction extends AbstractExportAction {
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
+    }
+
+    /**
+     * Creates a new MossExportAction object.
+     *
+     * @param  exportAction  DOCUMENT ME!
+     */
+    protected MossExportAction(final MossExportAction exportAction) {
+        super(exportAction);
+        this.sampleIds = new ArrayList<String>(exportAction.getSampleIds());
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -200,5 +200,10 @@ public class MossExportAction extends AbstractExportAction {
             LOGGER.error("could not retrieve MOSS class from UDM2020-DI!");
             return -1;
         }
+    }
+
+    @Override
+    public ExportAction clone() throws CloneNotSupportedException {
+        return new MossExportAction(this);
     }
 }

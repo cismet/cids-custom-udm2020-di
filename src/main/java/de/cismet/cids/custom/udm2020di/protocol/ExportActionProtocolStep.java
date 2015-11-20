@@ -35,6 +35,8 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     //~ Instance fields --------------------------------------------------------
 
+    protected ExportActionProtocolStepPanel protocolStepPanel;
+
     protected ExportAction exportAction;
 
     //~ Constructors -----------------------------------------------------------
@@ -53,6 +55,7 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
     public ExportActionProtocolStep(final ExportAction exportAction) {
         this.exportAction = exportAction;
         this.exportAction.setProtocolEnabled(false);
+        this.protocolStepPanel = new ExportActionProtocolStepPanel(this.exportAction);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -64,8 +67,7 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     @Override
     public AbstractProtocolStepPanel visualize() {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+        return this.protocolStepPanel;
     }
 
     @Override
