@@ -5,11 +5,6 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.udm2020di.tools;
 
 import java.awt.Component;
@@ -26,7 +21,7 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public final class NameRenderer extends DefaultListCellRenderer {
+public final class WagwListCellRenderer extends DefaultListCellRenderer {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -52,7 +47,7 @@ public final class NameRenderer extends DefaultListCellRenderer {
         if ((comp instanceof JLabel) && (value instanceof CidsBean)) {
             final JLabel label = (JLabel)comp;
             final CidsBean obj = (CidsBean)value;
-            final String name = (String)obj.getProperty("name"); // NOI18N
+            final String name = obj.getProperty("src_messstelle_pk").toString(); // NOI18N
             label.setText(name);
         }
 

@@ -41,7 +41,7 @@ import static de.cismet.cids.custom.udm2020di.tools.UbaConstants.WMS_BASEMAP_AT_
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionStore {
@@ -63,6 +63,10 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private de.cismet.cismap.commons.gui.MappingComponent mappingComponent;
     // End of variables declaration//GEN-END:variables
+
+    private double geometryBuffer = GEOMETRY_BUFFER;
+
+    private double geometryBufferMultiplier = GEOMETRY_BUFFER_MULTIPLIER;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -115,13 +119,13 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
             final XBoundingBox boxToGoto = new XBoundingBox(cidsFeatures.get(selectedBean).getGeometry().getEnvelope()
                             .buffer(GEOMETRY_BUFFER));
             boxToGoto.setX1(boxToGoto.getX1()
-                        - (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getWidth()));
+                        - (this.getGeometryBufferMultiplier() * boxToGoto.getWidth()));
             boxToGoto.setX2(boxToGoto.getX2()
-                        + (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getWidth()));
+                        + (this.getGeometryBufferMultiplier() * boxToGoto.getWidth()));
             boxToGoto.setY1(boxToGoto.getY1()
-                        - (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getHeight()));
+                        - (this.getGeometryBufferMultiplier() * boxToGoto.getHeight()));
             boxToGoto.setY2(boxToGoto.getY2()
-                        + (GEOMETRY_BUFFER_MULTIPLIER * boxToGoto.getHeight()));
+                        + (this.getGeometryBufferMultiplier() * boxToGoto.getHeight()));
             mappingComponent.gotoBoundingBox(boxToGoto, false, true, 500);
             return true;
         } else {
@@ -190,7 +194,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
                 new GeometryFactory());
 
         // TODO Buffer sollte nicht konstant sein!
-        return new XBoundingBox(geoCollection.getEnvelope().buffer(GEOMETRY_BUFFER));
+        return new XBoundingBox(geoCollection.getEnvelope().buffer(this.getGeometryBuffer()));
     }
 
     /**
@@ -233,6 +237,42 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
         } catch (Exception e) {
             LOG.error("cannot initialise mapping component", e);
         }
+    }
+
+    /**
+     * Get the value of geometryBuffer.
+     *
+     * @return  the value of geometryBuffer
+     */
+    public double getGeometryBuffer() {
+        return geometryBuffer;
+    }
+
+    /**
+     * Set the value of geometryBuffer.
+     *
+     * @param  geometryBuffer  new value of geometryBuffer
+     */
+    public void setGeometryBuffer(final double geometryBuffer) {
+        this.geometryBuffer = geometryBuffer;
+    }
+
+    /**
+     * Get the value of geometryBufferMultiplier.
+     *
+     * @return  the value of geometryBufferMultiplier
+     */
+    public double getGeometryBufferMultiplier() {
+        return geometryBufferMultiplier;
+    }
+
+    /**
+     * Set the value of geometryBufferMultiplier.
+     *
+     * @param  geometryBufferMultiplier  new value of geometryBufferMultiplier
+     */
+    public void setGeometryBufferMultiplier(final double geometryBufferMultiplier) {
+        this.geometryBufferMultiplier = geometryBufferMultiplier;
     }
 
     /**

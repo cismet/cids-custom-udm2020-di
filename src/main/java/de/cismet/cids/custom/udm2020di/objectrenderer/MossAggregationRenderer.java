@@ -25,7 +25,7 @@ import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.MossVisualisationAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
-import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
+import de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -175,7 +175,7 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel im
                 }
             });
         featuresList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        featuresList.setCellRenderer(new NameRenderer());
+        featuresList.setCellRenderer(new NameListCellRenderer());
         featuresList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
                 @Override
