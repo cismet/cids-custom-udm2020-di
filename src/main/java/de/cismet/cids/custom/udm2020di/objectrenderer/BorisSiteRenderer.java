@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JLabel;
@@ -36,6 +37,8 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
 import de.cismet.cids.custom.udm2020di.types.boris.Standortparameter;
+
+import static de.cismet.cids.custom.udm2020di.actions.remote.ExportAction.PARAMETER_SETTINGS;
 
 /**
  * DOCUMENT ME!
@@ -248,6 +251,28 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
 
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
+                    final Map<String, Object> parameterSettings = RendererConfigurationRegistry.getInstance()
+                                .popSettings(BorisSiteRenderer.this);
+                    if ((parameterSettings != null) && !parameterSettings.isEmpty()
+                                && parameterSettings.containsKey(PARAMETER_SETTINGS)) {
+                        final Collection<Parameter> selectedParameters = (Collection<Parameter>)parameterSettings.get(
+                                PARAMETER_SETTINGS);
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("restoring saved export parameter settings of "
+                                        + selectedParameters.size() + " selected parameters");
+                        }
+                        parameterSelectionPanel.setSelectedParameters(selectedParameters);
+                        final Map<String, Object> settings;
+                        if (RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class)
+                                    != null) {
+                            settings = RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class);
+                        } else {
+                            settings = new HashMap<String, Object>();
+                            RendererConfigurationRegistry.getInstance().setSettings(BorisSiteRenderer.class, settings);
+                        }
+                        settings.put(SELECTED_TAB, jTabbedPane.indexOfComponent(exportPanel));
+                    }
+
                     final BorisExportAction borisExportAction = new BorisExportAction(
                             parameterSelectionPanel.getSelectedParameters(),
                             Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),

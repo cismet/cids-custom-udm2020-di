@@ -37,6 +37,10 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
 )
 public interface ExportAction extends Action, Cloneable {
 
+    //~ Instance fields --------------------------------------------------------
+
+    String PARAMETER_SETTINGS = "PARAMETER_SETTINGS";
+
     //~ Methods ----------------------------------------------------------------
 
     /**
