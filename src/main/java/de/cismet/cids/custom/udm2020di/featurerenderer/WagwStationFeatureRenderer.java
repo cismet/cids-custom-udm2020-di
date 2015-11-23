@@ -7,12 +7,12 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.featurerenderer;
 
-import org.apache.log4j.Logger;
-
 import java.awt.Image;
 
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
+import de.cismet.cismap.commons.features.ScaleAwareFeatureRenderer;
+import de.cismet.cismap.commons.gui.featurecontrolwidget.CoordHider;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import static de.cismet.cids.custom.udm2020di.treeicons.WagwStationIconFactory.WAGW_STATION_ICON;
@@ -23,11 +23,8 @@ import static de.cismet.cids.custom.udm2020di.treeicons.WagwStationIconFactory.W
  * @author   Pascal Dihé
  * @version  0.1
  */
-public class WagwStationFeatureRenderer extends CustomCidsFeatureRenderer {
-
-    //~ Static fields/initializers ---------------------------------------------
-
-    private static final transient Logger LOG = Logger.getLogger(WagwStationFeatureRenderer.class);
+public class WagwStationFeatureRenderer extends CustomCidsFeatureRenderer implements ScaleAwareFeatureRenderer,
+    CoordHider {
 
     //~ Instance fields --------------------------------------------------------
 
@@ -37,7 +34,6 @@ public class WagwStationFeatureRenderer extends CustomCidsFeatureRenderer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
     /**
      * Creates new form TimeseriesFeatureRenderer.
      */
@@ -67,6 +63,7 @@ public class WagwStationFeatureRenderer extends CustomCidsFeatureRenderer {
     @Override
     public void assign() {
     }
+
     /**
      * TODO: not necessarily only rain symbol, symbol selection must be cidsbean dependent
      *
@@ -93,5 +90,20 @@ public class WagwStationFeatureRenderer extends CustomCidsFeatureRenderer {
     @Override
     public float getTransparency() {
         return 0.9f;
+    }
+
+    @Override
+    public int getMinScale() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public int getMaxScale() {
+        return 126000;
+    }
+
+    @Override
+    public String getAlternativeName() {
+        return cidsBean.getProperty("src_messstelle_pk").toString();
     }
 }

@@ -138,4 +138,11 @@ public interface ExportAction extends Action, Cloneable {
      */
     @JsonProperty(required = true)
     void setObjectIds(Collection<Long> objectIds);
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    boolean isProtocolAction();
 }

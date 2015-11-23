@@ -57,6 +57,8 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
 
     protected boolean protocolEnabled = true;
 
+    protected boolean protocolAction = false;
+
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -69,7 +71,7 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
     }
 
     /**
-     * Creates a new AbstractExportAction object.
+     * Copy Constructor for protocol actions.
      *
      * @param  exportAction  DOCUMENT ME!
      */
@@ -82,7 +84,8 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
         this.objectIds = new ArrayList<Long>(exportAction.getObjectIds());
         this.exportFormat = exportAction.getExportFormat();
         this.exportName = exportAction.getExportName();
-        this.protocolEnabled = exportAction.isProtocolEnabled();
+        this.protocolEnabled = false;
+        this.protocolAction = true;
         super.setEnabled(!this.parameters.isEmpty());
         super.putValue(Action.SMALL_ICON, exportAction.getValue(Action.SMALL_ICON));
         super.putValue(Action.SHORT_DESCRIPTION, exportAction.getValue(Action.SHORT_DESCRIPTION));
@@ -311,6 +314,11 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
         }
 
         return null;
+    }
+
+    @Override
+    public boolean isProtocolAction() {
+        return this.protocolAction;
     }
 
     @Override

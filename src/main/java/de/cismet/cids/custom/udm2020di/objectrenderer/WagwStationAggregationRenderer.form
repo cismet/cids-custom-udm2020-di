@@ -148,7 +148,7 @@
                         </Property>
                         <Property name="selectionMode" type="int" value="0"/>
                         <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                          <Connection code="new NameRenderer()" type="code"/>
+                          <Connection code="new de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer()" type="code"/>
                         </Property>
                       </Properties>
                       <Events>

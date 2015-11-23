@@ -18,6 +18,8 @@ import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
@@ -28,6 +30,7 @@ import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisVisualisationAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.RendererConfigurationRegistry;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
@@ -45,7 +48,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOGGER = Logger.getLogger(BorisSiteRenderer.class);
-    protected static int SELECTED_TAB = 0;
+    protected static final String SELECTED_TAB = "SELECTED_TAB";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -260,17 +263,41 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
                     visualisationPanel.setVisualisationAction(visualisationAction);
 
                     // Saved TAB -----------------------------------------------
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
+
+                    final Map<String, Object> settings = RendererConfigurationRegistry.getInstance()
+                                .getSettings(BorisSiteRenderer.class);
+                    if ((settings != null) && !settings.isEmpty() && settings.containsKey(SELECTED_TAB)) {
+                        final int selectedIndex = (int)settings.get(SELECTED_TAB);
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("restoring selected tab index #" + selectedIndex);
+                        }
+                        jTabbedPane.setSelectedIndex(selectedIndex);
+                    } else {
+                        LOGGER.warn("selected tab settings  not found!");
                     }
-                    jTabbedPane.setSelectedIndex(SELECTED_TAB);
+
                     jTabbedPane.addChangeListener(WeakListeners.create(
                             ChangeListener.class,
                             new ChangeListener() {
 
                                 @Override
                                 public void stateChanged(final ChangeEvent evt) {
-                                    SELECTED_TAB = jTabbedPane.getSelectedIndex();
+                                    final Map<String, Object> settings;
+                                    if (
+                                        RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class)
+                                                != null) {
+                                        settings = RendererConfigurationRegistry.getInstance()
+                                                        .getSettings(BorisSiteRenderer.class);
+                                    } else {
+                                        settings = new HashMap<String, Object>();
+                                        RendererConfigurationRegistry.getInstance()
+                                                    .setSettings(BorisSiteRenderer.class, settings);
+                                    }
+                                    final int selectedIndex = jTabbedPane.getSelectedIndex();
+                                    if (LOGGER.isDebugEnabled()) {
+                                        LOGGER.debug("saving selected tab index #" + selectedIndex);
+                                    }
+                                    settings.put(SELECTED_TAB, selectedIndex);
                                 }
                             },
                             jTabbedPane));

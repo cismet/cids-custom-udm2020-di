@@ -24,7 +24,8 @@ import javax.swing.event.ChangeListener;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
-import de.cismet.cids.custom.udm2020di.tools.NameRenderer;
+import de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer;
+import de.cismet.cids.custom.udm2020di.tools.WagwListCellRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -176,7 +177,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                 }
             });
         featuresList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        featuresList.setCellRenderer(new NameRenderer());
+        featuresList.setCellRenderer(new NameListCellRenderer());
         featuresList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
                 @Override
@@ -247,6 +248,11 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
 
                     @Override
                     public void run() {
+                        if (stationType.equals(WaExportAction.WAGW)) {
+                            mapPanel.setGeometryBuffer(1.5d);
+                            mapPanel.setGeometryBufferMultiplier(1.5d);
+                        }
+
                         mapPanel.setCidsBeans(cidsBeans);
 
                         final Collection<Messstelle> stations = new ArrayList<Messstelle>();
@@ -283,6 +289,10 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                         }
 
                         featuresList.setModel(listModel);
+                        if (stationType.equals(WaExportAction.WAGW)) {
+                            featuresList.setCellRenderer(new WagwListCellRenderer());
+                        }
+
                         // parameterPanel.setParameterNames(parameterNamesSet);
 
                         // Messwerte Tab -------------------------------
