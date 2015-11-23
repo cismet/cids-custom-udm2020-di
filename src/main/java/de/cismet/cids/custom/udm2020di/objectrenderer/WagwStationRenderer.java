@@ -210,7 +210,7 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
                     JLabel label;
                     gridBagConstraints.gridy = 0;
 
-                    if ((messstelle.getName() != null)
+                    if (stationType.equals(WaExportAction.WAOW) && (messstelle.getName() != null)
                                 && !messstelle.getName().isEmpty()) {
                         gridBagConstraints.gridx = 0;
                         gridBagConstraints.weightx = 0.0;
@@ -311,6 +311,12 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
                             Arrays.asList(new String[] { messstelle.getPk() }),
                             stationType);
                     parameterSelectionPanel.setExportAction(waExportAction);
+                    // disable SHP export for grundwasser messstelle
+                    if (stationType.equals(WaExportAction.WAGW)) {
+                        parameterSelectionPanel.setExportFormatEnabled(
+                            de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP,
+                            false);
+                    }
                     if (logger.isDebugEnabled()) {
                         logger.debug("restoring selected tab index: " + SELECTED_TAB);
                     }

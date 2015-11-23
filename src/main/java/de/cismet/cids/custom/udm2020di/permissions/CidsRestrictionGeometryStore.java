@@ -8,6 +8,7 @@
 package de.cismet.cids.custom.udm2020di.permissions;
 
 import Sirius.navigator.connection.SessionManager;
+import Sirius.navigator.resource.PropertyManager;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
@@ -53,6 +54,9 @@ public class CidsRestrictionGeometryStore implements StartupHook {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("CidsRestrictionGeometryStore initialization started");
             }
+
+            PropertyManager.USE_CUSTOM_BEAN_PERMISSION_PROVIDER_FOR_SEARCH = true;
+
             final MetaClass mc = ClassCacheMultiple.getMetaClass(DOMAIN, TABLE);
             final MetaObject[] metaObjects = SessionManager.getConnection()
                         .getMetaObjectByQuery(SessionManager.getSession().getUser(),

@@ -86,7 +86,21 @@
             <crs shortname="EPSG:31287" name="EPSG:31287" code="EPSG:31287" metric="true" selected="false" hideInCrsSwitcher="false">PROJCS["MGI_Austria_Lambert",GEOGCS["GCS_MGI",DATUM["D_MGI",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",49],PARAMETER["standard_parallel_2",46],PARAMETER["latitude_of_origin",47.5],PARAMETER["central_meridian",13.33333333333333],PARAMETER["false_easting",400000],PARAMETER["false_northing",400000],UNIT["Meter",1]]</crs> 
         </crsList>
         <defaultCrs geometrySridAlias="4326"/>
-        <printing/>
+        <printing>
+            <scale selected="true" denominator="0">frei</scale>
+            <scale selected="false" denominator="-1">Benutzerdefiniert</scale>
+            <scale selected="false" denominator="2500">1:2500</scale>
+            <scale selected="false" denominator="5000">1:5000</scale>
+            <scale selected="false" denominator="10000">1:10000</scale>
+            <scale selected="false" denominator="15000">1:15000</scale>
+            <scale selected="false" denominator="20000">1:20000</scale>
+            <scale selected="false" denominator="25000">1:25000</scale>
+            <scale selected="false" denominator="50000">1:50000</scale>
+            <scale selected="false" denominator="75000">1:75000</scale>
+            <scale selected="false" denominator="100000">1:100000</scale>
+            <scale selected="false" denominator="150000">1:150000</scale>
+            <scale selected="false" denominator="250000">1:250000</scale>
+        </printing>
     </cismapMappingPreferences>
 
     <cismapActiveLayerConfiguration>

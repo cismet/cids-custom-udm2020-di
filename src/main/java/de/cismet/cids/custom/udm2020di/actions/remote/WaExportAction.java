@@ -29,7 +29,6 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.cids.server.actions.ServerActionParameter;
 
-import static de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction.LOGGER;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_EXPORTFORMAT_CSV;
 import static de.cismet.cids.custom.udm2020di.serveractions.wa.WaExportAction.PARAM_MESSSTELLEN;
@@ -124,6 +123,7 @@ public class WaExportAction extends AbstractExportAction {
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
+        this.protocolAction = true;
     }
 
     /**

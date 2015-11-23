@@ -14,4 +14,9 @@ package de.cismet.cids.custom.udm2020di.permissions;
  * @version  $Revision$, $Date$
  */
 public class EprtrInstallationPermissionProvider extends DefaultGeometryFromCidsObjectPermissionProvider {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final transient org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
+            EprtrInstallationPermissionProvider.class);
 }

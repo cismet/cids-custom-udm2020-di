@@ -98,6 +98,7 @@ public class EprtrExportAction extends AbstractExportAction {
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
+        this.protocolAction = true;
     }
 
     /**

@@ -18,6 +18,7 @@ import org.jdesktop.beansbinding.ELProperty;
 import org.openide.util.WeakListeners;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -56,22 +57,16 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
     protected boolean disableEvents = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel actionPanel;
-    private javax.swing.JButton btnExport;
-    private javax.swing.JButton btnReset;
-    private javax.swing.JButton btnSelectAll;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler3;
-    private javax.swing.Box.Filler filler4;
-    private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JRadioButton rbtnCsv;
-    private javax.swing.JRadioButton rbtnShp;
-    private javax.swing.JRadioButton rbtnXlsx;
-    private javax.swing.JPanel selectionPanel;
+    protected final javax.swing.JPanel actionPanel = new javax.swing.JPanel();
+    protected final javax.swing.JButton btnExport = new javax.swing.JButton();
+    protected final javax.swing.JButton btnReset = new javax.swing.JButton();
+    protected final javax.swing.JButton btnSelectAll = new javax.swing.JButton();
+    protected final javax.swing.ButtonGroup exportButtonGroup = new javax.swing.ButtonGroup();
+    protected final javax.swing.JLabel formatLabel = new javax.swing.JLabel();
+    protected final javax.swing.JRadioButton rbtnCsv = new javax.swing.JRadioButton();
+    protected final javax.swing.JRadioButton rbtnShp = new javax.swing.JRadioButton();
+    protected final javax.swing.JRadioButton rbtnXlsx = new javax.swing.JRadioButton();
+    protected final javax.swing.JPanel selectionPanel = new javax.swing.JPanel();
     // End of variables declaration//GEN-END:variables
 
     //~ Constructors -----------------------------------------------------------
@@ -116,34 +111,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        selectionPanel = new javax.swing.JPanel();
-        actionPanel = new javax.swing.JPanel();
-        btnExport = new javax.swing.JButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5));
-        btnReset = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5));
-        btnSelectAll = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(0, 0),
-                new java.awt.Dimension(32767, 0));
-        jLabel1 = new javax.swing.JLabel();
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5));
-        rbtnCsv = new javax.swing.JRadioButton();
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5));
-        rbtnXlsx = new javax.swing.JRadioButton();
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5),
-                new java.awt.Dimension(5, 5));
-        rbtnShp = new javax.swing.JRadioButton();
+        java.awt.GridBagConstraints gridBagConstraints;
 
         setBorder(javax.swing.BorderFactory.createCompoundBorder(
                 javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5),
@@ -160,7 +128,8 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         selectionPanel.setLayout(new java.awt.GridLayout(0, 3, 5, 5));
         add(selectionPanel, java.awt.BorderLayout.CENTER);
 
-        actionPanel.setLayout(new javax.swing.BoxLayout(actionPanel, javax.swing.BoxLayout.LINE_AXIS));
+        actionPanel.setPreferredSize(new java.awt.Dimension(571, 46));
+        actionPanel.setLayout(new java.awt.GridBagLayout());
 
         btnExport.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
@@ -169,8 +138,12 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.btnExport.actionCommand")); // NOI18N
         btnExport.setAutoscrolls(true);
-        actionPanel.add(btnExport);
-        actionPanel.add(filler2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        actionPanel.add(btnExport, gridBagConstraints);
 
         btnReset.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
@@ -185,8 +158,12 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                     btnResetActionPerformed(evt);
                 }
             });
-        actionPanel.add(btnReset);
-        actionPanel.add(filler5);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        actionPanel.add(btnReset, gridBagConstraints);
 
         btnSelectAll.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
@@ -198,17 +175,25 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                     btnSelectAllActionPerformed(evt);
                 }
             });
-        actionPanel.add(btnSelectAll);
-        actionPanel.add(filler1);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        actionPanel.add(btnSelectAll, gridBagConstraints);
 
-        jLabel1.setText(org.openide.util.NbBundle.getMessage(
+        formatLabel.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
-                "ExportParameterSelectionPanel.jLabel1.text")); // NOI18N
-        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
-        actionPanel.add(jLabel1);
-        actionPanel.add(filler3);
+                "ExportParameterSelectionPanel.formatLabel.text")); // NOI18N
+        formatLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        actionPanel.add(formatLabel, gridBagConstraints);
 
-        buttonGroup1.add(rbtnCsv);
         rbtnCsv.setSelected(true);
         rbtnCsv.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
@@ -223,10 +208,13 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                     exportFormatSelected(evt);
                 }
             });
-        actionPanel.add(rbtnCsv);
-        actionPanel.add(filler4);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        actionPanel.add(rbtnCsv, gridBagConstraints);
 
-        buttonGroup1.add(rbtnXlsx);
         rbtnXlsx.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.rbtnXlsx.text"));        // NOI18N
@@ -240,10 +228,13 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                     exportFormatSelected(evt);
                 }
             });
-        actionPanel.add(rbtnXlsx);
-        actionPanel.add(filler6);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        actionPanel.add(rbtnXlsx, gridBagConstraints);
 
-        buttonGroup1.add(rbtnShp);
         rbtnShp.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.rbtnShp.text"));        // NOI18N
@@ -257,7 +248,12 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                     exportFormatSelected(evt);
                 }
             });
-        actionPanel.add(rbtnShp);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        actionPanel.add(rbtnShp, gridBagConstraints);
 
         add(actionPanel, java.awt.BorderLayout.SOUTH);
     } // </editor-fold>//GEN-END:initComponents
@@ -283,6 +279,20 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
+    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
+        this.disableEvents = true;
+        for (final Parameter parameter : this.parameters) {
+            parameter.setSelected(true);
+        }
+        this.disableEvents = false;
+        this.enableButtons();
+    }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  evt  DOCUMENT ME!
+     */
     private void exportFormatSelected(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_exportFormatSelected
         // TODO add your handling code here:
 
@@ -298,24 +308,15 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                 } else if (evt.getItemSelectable() == this.rbtnShp) {
                     exportAction.setExportFormat(
                         de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP);
+                } else {
+                    LOGGER.warn("unsupported export format: " + evt.getItem());
+                }
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("export format '" + exportAction.getExportFormat() + "' selected");
                 }
             }
         }
     } //GEN-LAST:event_exportFormatSelected
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  evt  DOCUMENT ME!
-     */
-    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
-        this.disableEvents = true;
-        for (final Parameter parameter : this.parameters) {
-            parameter.setSelected(true);
-        }
-        this.disableEvents = false;
-        this.enableButtons();
-    }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
      * Get the value of parameters.
@@ -420,6 +421,47 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      */
     public void setExportAction(final ExportAction exportAction) {
         btnExport.setAction(exportAction);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  exportFormat  DOCUMENT ME!
+     */
+    public void setExportFormat(final String exportFormat) {
+        if (exportFormat.equals(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_CSV)) {
+            this.rbtnCsv.setSelected(true);
+        } else if (exportFormat.equals(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLSX)) {
+            this.rbtnXlsx.setSelected(true);
+        } else if (exportFormat.equals(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP)) {
+            this.rbtnShp.setSelected(true);
+        } else {
+            LOGGER.warn("unsupported export format: " + exportFormat);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  exportFormat  DOCUMENT ME!
+     * @param  enabled       DOCUMENT ME!
+     */
+    public void setExportFormatEnabled(final String exportFormat, final boolean enabled) {
+        if (exportFormat.equals(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_CSV)) {
+            this.rbtnCsv.setEnabled(enabled);
+        } else if (exportFormat.equals(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_XLSX)) {
+            this.rbtnXlsx.setEnabled(enabled);
+        } else if (exportFormat.equals(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP)) {
+            this.rbtnShp.setEnabled(enabled);
+        } else {
+            LOGGER.warn("unsupported export format: " + exportFormat);
+        }
     }
 
     /**

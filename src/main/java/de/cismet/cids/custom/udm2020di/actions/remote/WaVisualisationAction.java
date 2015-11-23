@@ -125,7 +125,8 @@ public class WaVisualisationAction extends AbstractVisualisationAction {
     protected String getStationName(final String stationPk) {
         if (this.stationMap.containsKey(stationPk)) {
             final Messstelle station = this.stationMap.get(stationPk);
-            final String stationName = (waSource.equals(WAOW) && (station.getName() != null)
+            final String stationName =
+                (waSource.equals(WAOW) && (station.getName() != null)
                             && !station.getName().isEmpty()) ? station.getName() : stationPk;
             return stationName;
         } else {
@@ -141,6 +142,11 @@ public class WaVisualisationAction extends AbstractVisualisationAction {
 
     @Override
     protected int getParameterOffset() {
+        // no coordinates for WAGW Stations
+        if (this.waSource.equalsIgnoreCase(WAGW)) {
+            return 3;
+        }
+
         return 5;
     }
 }
