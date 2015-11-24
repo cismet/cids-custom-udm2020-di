@@ -30,6 +30,7 @@ import de.cismet.cids.custom.udm2020di.tools.RendererConfigurationRegistry;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
 
+import static de.cismet.cids.custom.udm2020di.actions.remote.ExportAction.EXPORT_FORMAT_SETTINGS;
 import static de.cismet.cids.custom.udm2020di.actions.remote.ExportAction.PARAMETER_SETTINGS;
 
 /**
@@ -215,11 +216,12 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
     private void exportPanelHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_exportPanelHyperlinkActionPerformed
         try {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("restoring export panel for " + this.exportAction.getObjectIds() + " objects");
+                LOGGER.debug("restoring export panel for " + this.exportAction.getObjectIds().size() + " objects");
             }
 
             final Map<String, Object> settings = new HashMap<String, Object>();
             settings.put(PARAMETER_SETTINGS, this.exportAction.getParameters());
+            settings.put(EXPORT_FORMAT_SETTINGS, this.exportAction.getExportFormat());
 
 //        RendererConfigurationRegistry.getInstance().pushSettings(
 //                SessionManager.getSession().getConnectionInfo().getUserDomain(),

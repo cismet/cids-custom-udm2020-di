@@ -27,6 +27,7 @@ import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanAggregationRenderer;
 import de.cismet.cids.tools.metaobjectrenderer.CidsBeanRenderer;
 
+import static de.cismet.cids.custom.udm2020di.actions.remote.ExportAction.EXPORT_FORMAT_SETTINGS;
 import static de.cismet.cids.custom.udm2020di.actions.remote.ExportAction.PARAMETER_SETTINGS;
 
 /**
@@ -74,8 +75,7 @@ public class DefaultRendererConfigurationHelper {
             final JTabbedPane jTabbedPane,
             final Logger logger) {
         // restore saved tab
-        final Map<String, Object> settings = RendererConfigurationRegistry.getInstance()
-                    .getSettings(BorisSiteRenderer.class);
+        final Map<String, Object> settings = RendererConfigurationRegistry.getInstance().getSettings(rendererClass);
         if ((settings != null) && !settings.isEmpty() && settings.containsKey(SELECTED_TAB)) {
             final int selectedIndex = (int)settings.get(SELECTED_TAB);
             if (logger.isDebugEnabled()) {
@@ -190,11 +190,17 @@ public class DefaultRendererConfigurationHelper {
                     && parameterSettings.containsKey(PARAMETER_SETTINGS)) {
             final Collection<Parameter> selectedParameters = (Collection<Parameter>)parameterSettings.get(
                     PARAMETER_SETTINGS);
+
+            final String exportFormat = parameterSettings.get(
+                    EXPORT_FORMAT_SETTINGS).toString();
+
             if (logger.isDebugEnabled()) {
-                logger.debug("restoring saved export parameter settings of "
+                logger.debug("restoring saved export '" + exportFormat + "' parameter settings of "
                             + selectedParameters.size() + " selected parameters");
             }
+
             parameterSelectionPanel.setSelectedParameters(selectedParameters);
+            parameterSelectionPanel.setExportFormat(exportFormat);
             final Map<String, Object> settings;
             if (RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class)
                         != null) {
@@ -203,7 +209,11 @@ public class DefaultRendererConfigurationHelper {
                 settings = new HashMap<String, Object>();
                 RendererConfigurationRegistry.getInstance().setSettings(BorisSiteRenderer.class, settings);
             }
-            settings.put(SELECTED_TAB, jTabbedPane.indexOfComponent(exportPanel));
+            final int selectedIndex = jTabbedPane.indexOfComponent(exportPanel);
+            if (logger.isDebugEnabled()) {
+                logger.debug("saving selected tab index #" + selectedIndex);
+            }
+            settings.put(SELECTED_TAB, selectedIndex);
         } else {
             if (logger.isDebugEnabled()) {
                 logger.debug("no saved export settings '" + PARAMETER_SETTINGS + "' found");

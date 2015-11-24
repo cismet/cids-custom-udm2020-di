@@ -9,14 +9,17 @@ package de.cismet.cids.custom.udm2020di.protocol;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.apache.log4j.Logger;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStep;
 import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
 import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
+import de.cismet.commons.gui.protocol.ProtocolStepParameter;
 
 /**
  * DOCUMENT ME!
@@ -24,11 +27,12 @@ import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
  * @version  $Revision$, $Date$
  */
-@Getter
-@Setter
 public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     //~ Static fields/initializers ---------------------------------------------
+
+    private static final Logger LOGGER = Logger.getLogger(ExportActionProtocolStep.class);
+    private static final String PARAMETER_EXPORT_ACTION = "ExportAction";
 
     @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
@@ -38,7 +42,7 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     //~ Instance fields --------------------------------------------------------
 
-    protected ExportAction exportAction;
+    protected ExportAction tmpExportAction;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -56,24 +60,46 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
      */
     public ExportActionProtocolStep(final ExportAction exportAction) {
         super();
-        this.exportAction = exportAction;
+        this.tmpExportAction = exportAction;
     }
 
     //~ Methods ----------------------------------------------------------------
+
+    @Override
+    public Set<ProtocolStepParameter> createParameters() {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("creating serializable ExportAction Parameters");
+        }
+        final Set<ProtocolStepParameter> parameters = new HashSet<ProtocolStepParameter>();
+        parameters.add(new ProtocolStepParameter(PARAMETER_EXPORT_ACTION, this.tmpExportAction));
+        return parameters;
+    }
 
     @Override
     protected ProtocolStepMetaInfo createMetaInfo() {
         return META_INFO;
     }
 
-    @Override
-    public AbstractProtocolStepPanel visualize() {
-        return new ExportActionProtocolStepPanel(this.getExportAction());
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public ExportAction getExportAction() {
+        final Object exportAction = super.getParameterValue(PARAMETER_EXPORT_ACTION);
+        if (exportAction != null) {
+            return (ExportAction)exportAction;
+        } else {
+            LOGGER.error("Export Action not found in parameter value set!");
+            return null;
+        }
     }
 
     @Override
-    protected void copyParams(final AbstractProtocolStep other) {
-        super.copyParams(other);
-        this.setExportAction(((ExportActionProtocolStep)other).getExportAction());
+    public AbstractProtocolStepPanel visualize() {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("visualizing ExportActionProtocolStepPanel");
+        }
+        return new ExportActionProtocolStepPanel(this.getExportAction());
     }
 }

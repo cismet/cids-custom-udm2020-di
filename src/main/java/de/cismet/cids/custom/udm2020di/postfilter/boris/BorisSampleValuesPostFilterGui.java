@@ -15,8 +15,6 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-
 import de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui;
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisSiteSearch;

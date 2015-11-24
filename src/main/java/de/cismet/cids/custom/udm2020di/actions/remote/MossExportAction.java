@@ -132,7 +132,7 @@ public class MossExportAction extends AbstractExportAction {
     protected ServerActionParameter[] createServerActionParameters() {
         if ((objectIds != null) && (objectIds.size() > 0)
                     && (parameters != null) && !parameters.isEmpty()) {
-            LOGGER.info("perfoming EPRTR Export for " + objectIds.size() + " sites and "
+            LOGGER.info("perfoming MOSS Export for " + objectIds.size() + " sites and "
                         + parameters.size() + " parameters");
 
             return new ServerActionParameter[] {

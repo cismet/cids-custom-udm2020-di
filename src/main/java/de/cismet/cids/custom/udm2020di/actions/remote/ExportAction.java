@@ -42,6 +42,7 @@ public interface ExportAction extends Action, Cloneable {
     //~ Instance fields --------------------------------------------------------
 
     String PARAMETER_SETTINGS = "PARAMETER_SETTINGS";
+    String EXPORT_FORMAT_SETTINGS = "EXPORT_FORMAT_SETTINGS";
 
     //~ Methods ----------------------------------------------------------------
 
