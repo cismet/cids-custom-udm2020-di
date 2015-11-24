@@ -10,7 +10,6 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
-import org.openide.util.WeakListeners;
 
 import java.awt.EventQueue;
 
@@ -19,13 +18,12 @@ import java.util.Collection;
 import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisVisualisationAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel;
 import de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
@@ -49,7 +47,6 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOGGER = Logger.getLogger(BorisSiteAggregationRenderer.class);
-    protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -312,18 +309,21 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 visualisationPanel);
                         visualisationPanel.setVisualisationAction(visualisationAction);
 
-                        // Selected Tab ----------------------------------------
-                        jTabbedPane.setSelectedIndex(SELECTED_TAB);
-                        jTabbedPane.addChangeListener(WeakListeners.create(
-                                ChangeListener.class,
-                                new ChangeListener() {
+                        // Saved Configuration: Restore Export Parameters ----------
+                        DefaultRendererConfigurationHelper.getInstance()
+                                .restoreExportSettings(
+                                    BorisSiteAggregationRenderer.this,
+                                    jTabbedPane,
+                                    parameterSelectionPanel,
+                                    exportPanel,
+                                    LOGGER);
 
-                                    @Override
-                                    public void stateChanged(final ChangeEvent evt) {
-                                        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-                                    }
-                                },
-                                jTabbedPane));
+                        // Saved Configuration: Restore selected Tab ---------------
+                        DefaultRendererConfigurationHelper.getInstance()
+                                .restoreSelectedTab(
+                                    BorisSiteAggregationRenderer.class,
+                                    jTabbedPane,
+                                    LOGGER);
                     }
                 };
 

@@ -80,24 +80,27 @@ public class BorisExportAction extends AbstractExportAction {
     /**
      * Creates a new BorisExportAction object.
      *
-     * @param  objectIds     DOCUMENT ME!
      * @param  parameters    DOCUMENT ME!
+     * @param  objectIds     DOCUMENT ME!
      * @param  standorte     DOCUMENT ME!
      * @param  exportFormat  DOCUMENT ME!
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
-    public BorisExportAction(
-            final Collection<Long> objectIds,
-            final Collection<Parameter> parameters,
-            final Collection<String> standorte,
-            final String exportFormat,
-            final String exportName) {
+    public BorisExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
+            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("standorte") final Collection<String> standorte,
+            @JsonProperty("exportFormat") final String exportFormat,
+            @JsonProperty("exportName") final String exportName) {
         this(parameters, objectIds, standorte);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("ExportAction object with " + parameters.size() + " parameters and "
+                        + objectIds.size() + " objects restored from JSON");
+        }
     }
 
     /**

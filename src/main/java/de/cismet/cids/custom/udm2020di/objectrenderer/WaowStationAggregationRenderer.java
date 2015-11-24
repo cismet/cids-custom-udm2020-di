@@ -23,6 +23,10 @@ import de.cismet.cids.dynamics.CidsBean;
  */
 public class WaowStationAggregationRenderer extends WagwStationAggregationRenderer {
 
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final Logger LOGGER = Logger.getLogger(WaowStationAggregationRenderer.class);
+
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -31,7 +35,6 @@ public class WaowStationAggregationRenderer extends WagwStationAggregationRender
     public WaowStationAggregationRenderer() {
         super();
         this.stationType = WaExportAction.WAOW;
-        this.logger = Logger.getLogger(WaowStationAggregationRenderer.class);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -49,5 +52,10 @@ public class WaowStationAggregationRenderer extends WagwStationAggregationRender
             desc += beans.size() + " Oberflächengewässer Messstellen ausgewählt";
         }
         return desc;
+    }
+
+    @Override
+    protected WaowStationAggregationRenderer getOuter() {
+        return WaowStationAggregationRenderer.this;
     }
 }

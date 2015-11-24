@@ -9,8 +9,6 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.WeakListeners;
-
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -18,14 +16,13 @@ import java.util.Collection;
 import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.EprtrExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.EprtrVisualisationAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
@@ -49,8 +46,6 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
         implements ConfigurableRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
-
-    protected static int SELECTED_TAB = 0;
 
     protected static final Logger LOGGER = Logger.getLogger(EprtrInstallationAggregationRenderer.class);
 
@@ -357,18 +352,21 @@ public class EprtrInstallationAggregationRenderer extends CidsBeanAggregationRen
                                 visualisationPanel);
                         visualisationPanel.setVisualisationAction(visualisationAction);
 
-                        // Selected TAB ----------------------------------------
-                        jTabbedPane.setSelectedIndex(SELECTED_TAB);
-                        jTabbedPane.addChangeListener(WeakListeners.create(
-                                ChangeListener.class,
-                                new ChangeListener() {
+                        // Saved Configuration: Restore Export Parameters ----------
+                        DefaultRendererConfigurationHelper.getInstance()
+                                .restoreExportSettings(
+                                    EprtrInstallationAggregationRenderer.this,
+                                    jTabbedPane,
+                                    parameterSelectionPanel,
+                                    exportPanel,
+                                    LOGGER);
 
-                                    @Override
-                                    public void stateChanged(final ChangeEvent evt) {
-                                        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-                                    }
-                                },
-                                jTabbedPane));
+                        // Saved Configuration: Restore selected Tab ---------------
+                        DefaultRendererConfigurationHelper.getInstance()
+                                .restoreSelectedTab(
+                                    EprtrInstallationAggregationRenderer.class,
+                                    jTabbedPane,
+                                    LOGGER);
                     }
                 };
 

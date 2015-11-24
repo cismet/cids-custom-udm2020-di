@@ -91,17 +91,20 @@ public class MossExportAction extends AbstractExportAction {
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
-    public MossExportAction(
-            final Collection<Parameter> parameters,
-            final Collection<Long> objectIds,
-            final Collection<String> sampleIds,
-            final String exportFormat,
-            final String exportName) {
+    public MossExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
+            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("sampleIds") final Collection<String> sampleIds,
+            @JsonProperty("exportFormat") final String exportFormat,
+            @JsonProperty("exportName") final String exportName) {
         this(parameters, objectIds, sampleIds);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("ExportAction object with " + parameters.size() + " parameters and "
+                        + objectIds.size() + " objects restored from JSON");
+        }
     }
 
     /**

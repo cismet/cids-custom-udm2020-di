@@ -477,10 +477,10 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         final Collection<Parameter> selParameters = this.getSelectedParameters();
 
         if (selParameters.isEmpty()) {
-            this.btnExport.getAction().setEnabled(false);
+            this.btnExport.setEnabled(false);
             this.btnReset.setEnabled(false);
         } else {
-            this.btnExport.getAction().setEnabled(true);
+            this.btnExport.setEnabled(true);
             this.btnReset.setEnabled(true);
         }
 

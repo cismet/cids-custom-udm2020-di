@@ -88,17 +88,20 @@ public class EprtrExportAction extends AbstractExportAction {
      * @param  exportName     DOCUMENT ME!
      */
     @JsonCreator
-    public EprtrExportAction(
-            final Collection<Parameter> parameters,
-            final Collection<Long> objectIds,
-            final Collection<Long> installations,
-            final String exportFormat,
-            final String exportName) {
+    public EprtrExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
+            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("installations") final Collection<Long> installations,
+            @JsonProperty("exportFormat") final String exportFormat,
+            @JsonProperty("exportName") final String exportName) {
         this(parameters, objectIds, installations);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("ExportAction object with " + parameters.size() + " parameters and "
+                        + objectIds.size() + " objects restored from JSON");
+        }
     }
 
     /**

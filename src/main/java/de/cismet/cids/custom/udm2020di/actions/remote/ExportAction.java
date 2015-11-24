@@ -8,6 +8,7 @@
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -35,6 +36,7 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
     getterVisibility = JsonAutoDetect.Visibility.NONE,
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
+@JsonIgnoreProperties(ignoreUnknown = true)
 public interface ExportAction extends Action, Cloneable {
 
     //~ Instance fields --------------------------------------------------------
@@ -124,7 +126,6 @@ public interface ExportAction extends Action, Cloneable {
      *
      * @return  DOCUMENT ME!
      */
-    @JsonProperty(required = true)
     int getClassId();
 
     /**
