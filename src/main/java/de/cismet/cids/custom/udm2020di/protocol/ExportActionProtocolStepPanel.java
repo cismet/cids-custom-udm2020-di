@@ -10,6 +10,9 @@ package de.cismet.cids.custom.udm2020di.protocol;
 import Sirius.navigator.connection.SessionManager;
 import Sirius.navigator.exception.ConnectionException;
 import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.DescriptionPane;
+
+import Sirius.server.middleware.types.MetaObjectNode;
 
 import org.apache.log4j.Logger;
 
@@ -19,7 +22,11 @@ import org.openide.util.NbBundle;
 import java.awt.Component;
 import java.awt.EventQueue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -214,42 +221,51 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
      * @param  evt  DOCUMENT ME!
      */
     private void exportPanelHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_exportPanelHyperlinkActionPerformed
-        try {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("restoring export panel for " + this.exportAction.getObjectIds().size() + " objects");
-            }
 
-            final Map<String, Object> settings = new HashMap<String, Object>();
-            settings.put(PARAMETER_SETTINGS, this.exportAction.getParameters());
-            settings.put(EXPORT_FORMAT_SETTINGS, this.exportAction.getExportFormat());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("restoring export panel for " + this.exportAction.getObjectIds().size() + " objects");
+        }
 
-//        RendererConfigurationRegistry.getInstance().pushSettings(
-//                SessionManager.getSession().getConnectionInfo().getUserDomain(),
-//                this.exportAction.getClassId(),
-//                (List<Integer>)(List)this.exportAction.getObjectIds(),
-//                settings);
+        final Map<String, Object> settings = new HashMap<String, Object>();
+        settings.put(PARAMETER_SETTINGS, this.exportAction.getParameters());
+        settings.put(EXPORT_FORMAT_SETTINGS, this.exportAction.getExportFormat());
+
+        // Long cannot be converted to Integer!
+        final ArrayList<Integer> objectIds = new ArrayList<Integer>(this.exportAction.getObjectIds().size());
+        final ArrayList<MetaObjectNode> metaObjectNodes = new ArrayList<MetaObjectNode>(objectIds.size());
+        final String domain = SessionManager.getSession().getConnectionInfo().getUserDomain();
+
+        for (final Long objectId : this.exportAction.getObjectIds()) {
+            final MetaObjectNode metaObjectNode = new MetaObjectNode(
+                    domain,
+                    objectId.intValue(),
+                    this.exportAction.getClassId());
+
+            metaObjectNodes.add(metaObjectNode);
+            objectIds.add(objectId.intValue());
+        }
+
+        if (objectIds.size() == 1) {
             RendererConfigurationRegistry.getInstance()
                     .pushSettings(
                         SessionManager.getSession().getConnectionInfo().getUserDomain(),
                         this.exportAction.getClassId(),
-                        this.exportAction.getObjectIds().iterator().next().intValue(),
+                        objectIds.get(0),
                         settings);
-
-//        ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObjects(
-//                this.exportAction.getObjectIds(), null);
-            ComponentRegistry.getRegistry()
-                    .getDescriptionPane()
-                    .gotoMetaObject(
-                        SessionManager.getProxy().getMetaClass(
-                            this.exportAction.getClassId(),
-                            SessionManager.getSession().getConnectionInfo().getUserDomain()),
-                        this.exportAction.getObjectIds().iterator().next().intValue(),
-                        null);
-
-            ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
-        } catch (ConnectionException ex) {
-            LOGGER.error(ex.getMessage(), ex);
+        } else {
+            RendererConfigurationRegistry.getInstance()
+                    .pushSettings(
+                        SessionManager.getSession().getConnectionInfo().getUserDomain(),
+                        this.exportAction.getClassId(),
+                        objectIds,
+                        settings);
         }
+
+        final DescriptionPane descriptionPane = ComponentRegistry.getRegistry().getDescriptionPane();
+        descriptionPane.gotoMetaObjectNodes(metaObjectNodes.toArray(new MetaObjectNode[metaObjectNodes.size()]));
+        descriptionPane.clearBreadCrumb();
+
+        ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
     } //GEN-LAST:event_exportPanelHyperlinkActionPerformed
 
     @Override

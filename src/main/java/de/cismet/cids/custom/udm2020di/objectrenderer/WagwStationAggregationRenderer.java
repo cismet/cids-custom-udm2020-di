@@ -9,8 +9,6 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.WeakListeners;
-
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import java.util.Collection;
 import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
@@ -231,18 +227,18 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void featuresListValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_featuresListValueChanged
+    private void featuresListValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_featuresListValueChanged
         if (!evt.getValueIsAdjusting()) {
             this.mapPanel.gotoCidsBean((CidsBean)this.featuresList.getSelectedValue());
         }
-    }                                                                                       //GEN-LAST:event_featuresListValueChanged
+    }//GEN-LAST:event_featuresListValueChanged
 
     /**
      * DOCUMENT ME!
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
-            LOGGER.info("processing " + cidsBeans.size() + "cids beans");
+            LOGGER.info("processing " + cidsBeans.size() + " cids beans");
             final Runnable r = new Runnable() {
 
                     @Override
@@ -307,6 +303,12 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                                 messstellenPks,
                                 stationType);
                         parameterSelectionPanel.setExportAction(waExportAction);
+                        // disable SHP export for grundwasser messstelle
+                        if (stationType.equals(WaExportAction.WAGW)) {
+                            parameterSelectionPanel.setExportFormatEnabled(
+                                de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP,
+                                false);
+                        }
 
                         // Visualisation -------------------------------------------
                         visualisationPanel.setParameters(parametersSet);

@@ -20,7 +20,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import de.cismet.cids.custom.udm2020di.objectrenderer.BorisSiteRenderer;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.widgets.ExportParameterSelectionPanel;
 
@@ -83,7 +82,7 @@ public class DefaultRendererConfigurationHelper {
             }
             jTabbedPane.setSelectedIndex(selectedIndex);
         } else {
-            logger.warn("selected tab settings  not found!");
+            logger.warn("selected tab settings '" + rendererClass.hashCode() + "' not found!");
         }
 
         // register listener to save tab
@@ -94,9 +93,9 @@ public class DefaultRendererConfigurationHelper {
                     @Override
                     public void stateChanged(final ChangeEvent evt) {
                         final Map<String, Object> settings;
-                        if (RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class)
+                        if (RendererConfigurationRegistry.getInstance().getSettings(rendererClass)
                                     != null) {
-                            settings = RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class);
+                            settings = RendererConfigurationRegistry.getInstance().getSettings(rendererClass);
                         } else {
                             settings = new HashMap<String, Object>();
                             RendererConfigurationRegistry.getInstance().setSettings(rendererClass, settings);
@@ -129,7 +128,9 @@ public class DefaultRendererConfigurationHelper {
         if (RendererConfigurationRegistry.getInstance().hasSettings(renderer)) {
             final Map<String, Object> parameterSettings = RendererConfigurationRegistry.getInstance()
                         .popSettings(renderer);
-            this.restoreExportSettings(parameterSettings,
+            this.restoreExportSettings(
+                renderer.getClass(),
+                parameterSettings,
                 jTabbedPane,
                 parameterSelectionPanel,
                 exportPanel,
@@ -159,7 +160,9 @@ public class DefaultRendererConfigurationHelper {
         if (RendererConfigurationRegistry.getInstance().hasSettings(aggregationRenderer)) {
             final Map<String, Object> parameterSettings = RendererConfigurationRegistry.getInstance()
                         .popSettings(aggregationRenderer);
-            this.restoreExportSettings(parameterSettings,
+            this.restoreExportSettings(
+                aggregationRenderer.getClass(),
+                parameterSettings,
                 jTabbedPane,
                 parameterSelectionPanel,
                 exportPanel,
@@ -174,6 +177,7 @@ public class DefaultRendererConfigurationHelper {
     /**
      * DOCUMENT ME!
      *
+     * @param  rendererClass            DOCUMENT ME!
      * @param  parameterSettings        DOCUMENT ME!
      * @param  jTabbedPane              DOCUMENT ME!
      * @param  parameterSelectionPanel  DOCUMENT ME!
@@ -181,6 +185,7 @@ public class DefaultRendererConfigurationHelper {
      * @param  logger                   DOCUMENT ME!
      */
     protected void restoreExportSettings(
+            final Class rendererClass,
             final Map<String, Object> parameterSettings,
             final JTabbedPane jTabbedPane,
             final ExportParameterSelectionPanel parameterSelectionPanel,
@@ -195,19 +200,19 @@ public class DefaultRendererConfigurationHelper {
                     EXPORT_FORMAT_SETTINGS).toString();
 
             if (logger.isDebugEnabled()) {
-                logger.debug("restoring saved export '" + exportFormat + "' parameter settings of "
+                logger.info("restoring saved export '" + exportFormat + "' parameter settings of "
                             + selectedParameters.size() + " selected parameters");
             }
 
             parameterSelectionPanel.setSelectedParameters(selectedParameters);
             parameterSelectionPanel.setExportFormat(exportFormat);
             final Map<String, Object> settings;
-            if (RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class)
+            if (RendererConfigurationRegistry.getInstance().getSettings(rendererClass)
                         != null) {
-                settings = RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class);
+                settings = RendererConfigurationRegistry.getInstance().getSettings(rendererClass);
             } else {
                 settings = new HashMap<String, Object>();
-                RendererConfigurationRegistry.getInstance().setSettings(BorisSiteRenderer.class, settings);
+                RendererConfigurationRegistry.getInstance().setSettings(rendererClass, settings);
             }
             final int selectedIndex = jTabbedPane.indexOfComponent(exportPanel);
             if (logger.isDebugEnabled()) {

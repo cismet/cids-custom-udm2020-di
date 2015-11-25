@@ -374,9 +374,9 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         synchronized (selectedParameters) {
             selectedParameters.clear();
             if ((this.parameters != null) && !this.parameters.isEmpty()) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("selecting parameters of " + this.parameters.size() + " parameters");
-                }
+//                if (LOGGER.isDebugEnabled()) {
+//                    LOGGER.debug("selecting parameters of " + this.parameters.size() + " parameters");
+//                }
                 for (final Parameter parameter : this.parameters) {
                     if (parameter.isSelected()) {
                         selectedParameters.add(parameter);

@@ -308,8 +308,13 @@ public class RendererConfigurationRegistry {
             final int metaClassId,
             final Collection<Integer> objectIds) {
         int hashCode = 1;
-        for (final int objectId : objectIds) {
-            hashCode = (31 * hashCode) + hashCode(domain, metaClassId, objectId);
+
+        if (objectIds.size() == 1) {
+            hashCode = hashCode(domain, metaClassId, objectIds.iterator().next());
+        } else {
+            for (final int objectId : objectIds) {
+                hashCode = (31 * hashCode) + hashCode(domain, metaClassId, objectId);
+            }
         }
 
         return hashCode;
