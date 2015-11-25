@@ -11,6 +11,7 @@ import Sirius.navigator.ui.tree.postfilter.PostFilterGUI;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
 import javax.swing.ImageIcon;
@@ -37,7 +38,9 @@ public class PollutantTagsPostFilterGui extends CommonTagsPostFilterGui {
         super();
         logger = Logger.getLogger(PollutantTagsPostFilterGui.class);
         icon = new ImageIcon(getClass().getResource(
-                    "/de/cismet/cids/custom/udm2020di/postfilter/caution_radiation.png"));
+                    NbBundle.getMessage(
+                        CommonTagsPostFilterGui.class,
+                        "PollutantTagsPostFilterGui.icon")));
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -49,7 +52,7 @@ public class PollutantTagsPostFilterGui extends CommonTagsPostFilterGui {
      */
     @Override
     public String getTitle() {
-        return org.openide.util.NbBundle.getMessage(
+        return NbBundle.getMessage(
                 CommonTagsPostFilterGui.class,
                 "PollutantTagsPostFilterGui.title");
     }

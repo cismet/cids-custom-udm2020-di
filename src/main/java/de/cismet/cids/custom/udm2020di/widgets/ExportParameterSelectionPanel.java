@@ -270,7 +270,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnResetActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+    private void btnResetActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnResetActionPerformed
         this.disableEvents = true;
         if ((this.parameters != null) && !this.parameters.isEmpty()) {
             for (final Parameter parameter : this.parameters) {
@@ -279,28 +279,28 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         }
         this.disableEvents = false;
         this.enableButtons();
-    }//GEN-LAST:event_btnResetActionPerformed
+    }                                                                            //GEN-LAST:event_btnResetActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAllActionPerformed
+    private void btnSelectAllActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_btnSelectAllActionPerformed
         this.disableEvents = true;
         for (final Parameter parameter : this.parameters) {
             parameter.setSelected(true);
         }
         this.disableEvents = false;
         this.enableButtons();
-    }//GEN-LAST:event_btnSelectAllActionPerformed
+    }                                                                                //GEN-LAST:event_btnSelectAllActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void exportFormatSelected(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_exportFormatSelected
+    private void exportFormatSelected(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_exportFormatSelected
         // TODO add your handling code here:
 
         if (evt.getStateChange() == ItemEvent.SELECTED) {
@@ -323,7 +323,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                 }
             }
         }
-    }//GEN-LAST:event_exportFormatSelected
+    } //GEN-LAST:event_exportFormatSelected
 
     /**
      * Get the value of parameters.
@@ -374,7 +374,9 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         synchronized (selectedParameters) {
             selectedParameters.clear();
             if ((this.parameters != null) && !this.parameters.isEmpty()) {
-                LOGGER.debug("selecting parameters of " + this.parameters.size() + " parameters");
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("selecting parameters of " + this.parameters.size() + " parameters");
+                }
                 for (final Parameter parameter : this.parameters) {
                     if (parameter.isSelected()) {
                         selectedParameters.add(parameter);

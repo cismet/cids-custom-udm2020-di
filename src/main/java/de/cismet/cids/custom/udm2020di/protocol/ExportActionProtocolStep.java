@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.protocol;
 
+import Sirius.navigator.ui.ComponentRegistry;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.apache.log4j.Logger;
@@ -42,7 +44,8 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     //~ Instance fields --------------------------------------------------------
 
-    protected ExportAction tmpExportAction;
+    @JsonIgnore
+    protected final ExportAction tmpExportAction;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -51,6 +54,7 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
      */
     public ExportActionProtocolStep() {
         super();
+        this.tmpExportAction = null;
     }
 
     /**
@@ -70,8 +74,15 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("creating serializable ExportAction Parameters");
         }
+
         final Set<ProtocolStepParameter> parameters = new HashSet<ProtocolStepParameter>();
-        parameters.add(new ProtocolStepParameter(PARAMETER_EXPORT_ACTION, this.tmpExportAction));
+
+        if (this.tmpExportAction != null) {
+            parameters.add(new ProtocolStepParameter(PARAMETER_EXPORT_ACTION, this.tmpExportAction));
+        } else {
+            LOGGER.error("PARAMETER_EXPORT_ACTION is null!");
+        }
+
         return parameters;
     }
 

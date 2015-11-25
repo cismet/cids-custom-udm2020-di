@@ -17,6 +17,7 @@ import Sirius.server.middleware.types.Node;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
 import java.awt.EventQueue;
@@ -42,6 +43,7 @@ import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.udm2020di.serversearch.FilterByTagsSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterTagsSearch;
+import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
 
 import de.cismet.cids.dynamics.CidsBean;
 
@@ -55,6 +57,8 @@ import de.cismet.cids.dynamics.CidsBean;
 public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements ActionListener {
 
     //~ Static fields/initializers ---------------------------------------------
+
+    public static final String SELECTED_TAGS = "SELECTED_TAGS";
 
     protected static final ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>> QUEUE_MAP =
         new ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>>();
@@ -70,7 +74,9 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
     protected boolean eventsEnabled = true;
     protected ImageIcon icon = new ImageIcon(getClass().getResource(
-                "/de/cismet/cids/custom/udm2020di/postfilter/define_name.png"));
+                NbBundle.getMessage(
+                    CommonTagsPostFilterGui.class,
+                    "CommonTagsPostFilterGui.icon")));
 
     protected final ArrayList<Integer> availableTagIds = new ArrayList<Integer>();
 
@@ -389,10 +395,24 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
                     final Collection<MetaObject> metaObjects = retrieveFilterTags(new ArrayList<Node>(nodes));
                     final Collection<CidsBean> cidsBeans = filterCidsBeans(metaObjects);
+                    final Map<String, String> selectedTags;
+
+                    if (PostfilterConfigurationRegistry.getInstance().hasSetting(
+                                    CommonTagsPostFilterGui.this.getClass(),
+                                    SELECTED_TAGS)) {
+                        selectedTags = (Map<String, String>)PostfilterConfigurationRegistry.getInstance()
+                                    .popSetting(
+                                            CommonTagsPostFilterGui.this.getClass(),
+                                            SELECTED_TAGS);
+                        logger.info("restoring " + selectedTags.size() + " selected tags from saved configuration!");
+                    } else {
+                        selectedTags = new HashMap<String, String>(0);
+                    }
 
                     for (final CidsBean cidsBean : cidsBeans) {
                         final JToggleButton tagButton = generateTagButton(cidsBean);
                         if (tagButton != null) {
+                            tagButton.setSelected(selectedTags.containsKey(tagButton.getName()));
                             tagButtons.add(tagButton);
                         }
                     }
@@ -472,18 +492,18 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
         if (QUEUE_MAP.containsKey(key)) {
             if (logger.isDebugEnabled()) {
-                logger.debug("retrieveFilterTags request is queued");
+                logger.debug("retrieveFilterTags request '" + key + "' is queued");
             }
             final LinkedBlockingDeque<Collection<MetaObject>> queue = QUEUE_MAP.get(nodes.hashCode());
             final Collection<MetaObject> metaObjects = queue.take();
             if (logger.isDebugEnabled()) {
-                logger.debug(metaObjects.size() + " tag objects retrieved from queue ");
+                logger.debug(metaObjects.size() + " tag objects '" + key + "' retrieved from queue");
             }
             queue.put(metaObjects);
             return metaObjects;
         } else {
             if (logger.isDebugEnabled()) {
-                logger.debug("retrieveFilterTags request is not queued, generating new request");
+                logger.debug("retrieveFilterTags request '" + key + "' is not queued, generating new request");
             }
             final LinkedBlockingDeque<Collection<MetaObject>> queue = new LinkedBlockingDeque<Collection<MetaObject>>();
             QUEUE_MAP.clear();
@@ -755,5 +775,21 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         CommonTagsPostFilterGui.this.resetButton.setEnabled( /*!availableTagIds.isEmpty()
                                                               *&& */!filterButtons.isEmpty()
                     && (selectedTagButtons < filterButtons.size()));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Map<String, String> getSelectedTags() {
+        final HashMap<String, String> selectedTags = new HashMap<String, String>();
+        for (final JToggleButton filterButton : this.filterButtons.values()) {
+            if (filterButton.isSelected()) {
+                selectedTags.put(filterButton.getText(), filterButton.getToolTipText());
+            }
+        }
+
+        return selectedTags;
     }
 }

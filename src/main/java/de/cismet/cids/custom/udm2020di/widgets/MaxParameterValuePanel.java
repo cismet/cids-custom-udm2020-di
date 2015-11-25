@@ -5,18 +5,16 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.udm2020di.widgets;
+
+import org.apache.log4j.Logger;
 
 import java.awt.Component;
 import java.awt.event.ItemEvent;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -32,6 +30,10 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValue;
  * @version  $Revision$, $Date$
  */
 public class MaxParameterValuePanel extends javax.swing.JPanel {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final Logger LOGGER = Logger.getLogger(MaxParameterValuePanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -128,8 +130,9 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
      * @param  aggregationValues  DOCUMENT ME!
      */
     public final void setAggregationValues(final Collection<AggregationValue> aggregationValues) {
+        this.aggregationValues = aggregationValues;
         final DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
-        for (final AggregationValue aggregationValue : aggregationValues) {
+        for (final AggregationValue aggregationValue : this.aggregationValues) {
             comboBoxModel.addElement(aggregationValue);
         }
 
@@ -143,7 +146,7 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public SimpleEntry<String, Float> getValue() {
+    public Map.Entry<String, Float> getValue() {
         if (cbParameters.getSelectedIndex() > -1) {
             return new SimpleEntry<String, Float>(
                     ((AggregationValue)this.cbParameters.getSelectedItem()).getPollutantKey(),
@@ -151,6 +154,35 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
         }
 
         return null;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  value  DOCUMENT ME!
+     */
+    public void setValue(final Map.Entry<String, Float> value) {
+        if ((this.aggregationValues != null) && !this.aggregationValues.isEmpty()) {
+            boolean selected = false;
+            for (final AggregationValue aggregationValue : this.aggregationValues) {
+                if (aggregationValue.getPollutantKey().equals(value.getKey())) {
+                    this.cbParameters.setSelectedItem(aggregationValue);
+                    this.maxValuePanel.setAggregationValue(aggregationValue);
+                    this.maxValuePanel.setValue(value.getValue());
+                    selected = true;
+                    break;
+                }
+            }
+
+            if (!selected) {
+                LOGGER.warn("could not set value " + value.getValue() + " of parameter '" + value.getKey()
+                            + "': parameter not found in list of "
+                            + this.aggregationValues.size() + " aggregation values!");
+            }
+        } else {
+            LOGGER.warn("could not select value " + value.getValue() + " of parameter '" + value.getKey()
+                        + "': aggregation values list is empty!");
+        }
     }
 
     //~ Inner Classes ----------------------------------------------------------
