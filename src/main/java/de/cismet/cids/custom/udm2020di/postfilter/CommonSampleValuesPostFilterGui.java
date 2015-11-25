@@ -23,6 +23,7 @@ import java.awt.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.udm2020di.serversearch.CustomMaxValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterAggregationValuesSearch;
+import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
@@ -46,6 +48,10 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
     //~ Static fields/initializers ---------------------------------------------
+
+    public static final String SELECTED_VALUES = "SELECTED_VALUES";
+    public static final String MIN_DATE = "MIN_DATE";
+    public static final String MAX_DATE = "MIN_DATE";
 
     protected static Logger LOGGER = Logger.getLogger(CommonSampleValuesPostFilterGui.class);
 
@@ -297,6 +303,35 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                     LOGGER.warn("search did not return AggregationValues.class object!");
                                     maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
                                 }
+
+                                final Class runtimeClass = CommonSampleValuesPostFilterGui.this.getClass();
+
+                                if (PostfilterConfigurationRegistry.getInstance().hasSetting(
+                                                runtimeClass,
+                                                SELECTED_VALUES)) {
+                                    final Map<String, Float> selectedValues = (Map<String, Float>)
+                                        PostfilterConfigurationRegistry.getInstance()
+                                                .popSetting(
+                                                        runtimeClass,
+                                                        SELECTED_VALUES);
+
+                                    final Date minDate =
+                                        PostfilterConfigurationRegistry
+                                                .getInstance().hasSetting(runtimeClass, MIN_DATE)
+                                        ? (Date)PostfilterConfigurationRegistry.getInstance()
+                                                .popSetting(runtimeClass, MIN_DATE) : null;
+
+                                    final Date maxDate =
+                                        PostfilterConfigurationRegistry
+                                                .getInstance().hasSetting(runtimeClass, MAX_DATE)
+                                        ? (Date)PostfilterConfigurationRegistry.getInstance()
+                                                .popSetting(runtimeClass, MAX_DATE) : null;
+
+                                    LOGGER.info("restoring " + selectedValues.size()
+                                                + " selected values from saved configuration!");
+                                    maxParameterValueSelectionPanel.setValues(selectedValues, minDate, maxDate);
+                                }
+
                                 enableButtons();
                             } else {
                                 LOGGER.warn("no aggregation values found!");

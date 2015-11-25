@@ -41,11 +41,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 import javax.swing.SwingWorker;
 
+import de.cismet.cids.custom.udm2020di.protocol.TagsPostFilterProtocolStep;
 import de.cismet.cids.custom.udm2020di.serversearch.FilterByTagsSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterTagsSearch;
 import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
 
 import de.cismet.cids.dynamics.CidsBean;
+
+import de.cismet.commons.gui.protocol.ProtocolHandler;
 
 /**
  * DOCUMENT ME!
@@ -315,7 +318,23 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
-    }                                                                               //GEN-LAST:event_applyButtonActionPerformed
+
+        if (ProtocolHandler.getInstance().isRecordEnabled()) {
+            final Map<String, String> selectedTags = this.getSelectedTags();
+            final TagsPostFilterProtocolStep protocolStep = new TagsPostFilterProtocolStep(
+                    this.getClass().getCanonicalName(),
+                    this.getTitle(),
+                    this.icon,
+                    selectedTags);
+
+            ProtocolHandler.getInstance().recordStep(protocolStep);
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("saving post filter settings to protocol: "
+                            + selectedTags.size() + " selected tags");
+            }
+        }
+    } //GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!

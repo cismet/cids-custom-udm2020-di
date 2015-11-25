@@ -82,7 +82,7 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
 
     @Override
     public AbstractProtocolStepPanel visualize() {
-        return null;
+        return new TagsPostFilterProtocolStepPanel(this);
     }
 
     /**

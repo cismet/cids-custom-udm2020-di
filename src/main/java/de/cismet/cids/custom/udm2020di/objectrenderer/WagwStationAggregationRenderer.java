@@ -227,11 +227,11 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void featuresListValueChanged(final javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_featuresListValueChanged
+    private void featuresListValueChanged(final javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_featuresListValueChanged
         if (!evt.getValueIsAdjusting()) {
             this.mapPanel.gotoCidsBean((CidsBean)this.featuresList.getSelectedValue());
         }
-    }//GEN-LAST:event_featuresListValueChanged
+    }                                                                                       //GEN-LAST:event_featuresListValueChanged
 
     /**
      * DOCUMENT ME!

@@ -60,9 +60,21 @@ public class PostfilterConfigurationRegistry {
     public void pushSettings(
             final Class<? extends PostFilterGUI> postFilterClass,
             final Map<String, Object> settings) {
-        configurationMap.put(postFilterClass.getName(), settings);
+        this.pushSettings(postFilterClass.getCanonicalName(), settings);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  postFilterClassName  DOCUMENT ME!
+     * @param  settings             DOCUMENT ME!
+     */
+    public void pushSettings(
+            final String postFilterClassName,
+            final Map<String, Object> settings) {
+        configurationMap.put(postFilterClassName, settings);
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("persistent configuration settings '" + postFilterClass.getCanonicalName()
+            LOGGER.debug("persistent configuration settings '" + postFilterClassName
                         + "' saved");
         }
     }

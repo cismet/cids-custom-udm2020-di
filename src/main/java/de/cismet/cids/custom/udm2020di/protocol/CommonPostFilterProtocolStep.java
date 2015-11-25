@@ -167,6 +167,10 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
         final SearchResultsTree searchResultsTree = ComponentRegistry.getRegistry().getSearchResultsTree();
         if ((searchResultsTree != null) && (searchResultsTree instanceof PostfilterEnabledSearchResultsTree)) {
             final List<Node> nodes = ((PostfilterEnabledSearchResultsTree)searchResultsTree).getOriginalResultNodes();
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("saving " + nodes.size() + " nodes in protocol of postfilter '"
+                            + this.tmpPostFilter + "'");
+            }
             parameters.add(new ProtocolStepParameter(PARAMETER_NODES, nodes));
         } else {
             LOGGER.error("PARAMETER_NODES cannot be saved, not PostfilterEnabledSearchResultsTree available!");
