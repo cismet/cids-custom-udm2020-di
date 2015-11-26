@@ -7,21 +7,19 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.protocol;
 
-import Sirius.navigator.ui.ComponentRegistry;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Getter;
 
 import org.apache.log4j.Logger;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStep;
 import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
 import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
-import de.cismet.commons.gui.protocol.ProtocolStepParameter;
 
 /**
  * DOCUMENT ME!
@@ -44,66 +42,28 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     //~ Instance fields --------------------------------------------------------
 
-    @JsonIgnore
-    protected final ExportAction tmpExportAction;
+    @Getter
+    @JsonProperty(required = true)
+    protected final ExportAction exportAction;
 
     //~ Constructors -----------------------------------------------------------
-
-    /**
-     * Creates a new ExportActionProtocolStep object.
-     */
-    public ExportActionProtocolStep() {
-        super();
-        this.tmpExportAction = null;
-    }
 
     /**
      * Creates a new ExportActionProtocolStep object.
      *
      * @param  exportAction  DOCUMENT ME!
      */
+    @JsonCreator
     public ExportActionProtocolStep(final ExportAction exportAction) {
         super();
-        this.tmpExportAction = exportAction;
+        this.exportAction = exportAction;
     }
 
     //~ Methods ----------------------------------------------------------------
 
     @Override
-    public Set<ProtocolStepParameter> createParameters() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("creating serializable ExportAction Parameters");
-        }
-
-        final Set<ProtocolStepParameter> parameters = new HashSet<ProtocolStepParameter>();
-
-        if (this.tmpExportAction != null) {
-            parameters.add(new ProtocolStepParameter(PARAMETER_EXPORT_ACTION, this.tmpExportAction));
-        } else {
-            LOGGER.error("PARAMETER_EXPORT_ACTION is null!");
-        }
-
-        return parameters;
-    }
-
-    @Override
     protected ProtocolStepMetaInfo createMetaInfo() {
         return META_INFO;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public ExportAction getExportAction() {
-        final Object exportAction = super.getParameterValue(PARAMETER_EXPORT_ACTION);
-        if (exportAction != null) {
-            return (ExportAction)exportAction;
-        } else {
-            LOGGER.error("Export Action not found in parameter value set!");
-            return null;
-        }
     }
 
     @Override

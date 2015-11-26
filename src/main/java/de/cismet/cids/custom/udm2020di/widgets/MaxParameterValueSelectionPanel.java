@@ -22,6 +22,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -456,7 +457,17 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             }
 
             this.parametersPanel.removeAll();
-            final SortedSet<Map.Entry> sortedValues = new TreeSet<Map.Entry>(values.entrySet());
+            final SortedSet<Map.Entry<String, Float>> sortedValues = new TreeSet<Map.Entry<String, Float>>(
+                    new Comparator<Map.Entry<String, Float>>() {
+
+                        @Override
+                        public int compare(final Map.Entry<String, Float> o1, final Map.Entry<String, Float> o2) {
+                            return o1.getKey().compareTo(o2.getKey());
+                        }
+                    });
+
+            sortedValues.addAll(values.entrySet());
+
             for (final Map.Entry<String, Float> value : sortedValues) {
                 final GridBagConstraints gridBagConstraints = new GridBagConstraints();
                 gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;

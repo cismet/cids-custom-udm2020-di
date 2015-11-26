@@ -20,6 +20,8 @@ import de.cismet.cids.dynamics.AbstractCustomBeanPermissionProvider;
 
 import de.cismet.cismap.navigatorplugin.CidsFeature;
 
+import static de.cismet.cids.custom.udm2020di.permissions.CidsRestrictionGeometryStore.GEOMETRY_PERMISSION_ATTR;
+
 /**
  * DOCUMENT ME!
  *
@@ -30,9 +32,6 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
 
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final String GEOMETRY_PERMISSION_ATTR =
-        "de.cismet.cids.custom.udm2020di.permissions.GeometryFromCidsObjectPermission";
-
     protected static final transient org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
             BasicGeometryFromCidsObjectPermissionProvider.class);
 
@@ -41,9 +40,9 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
     @Override
     public boolean getCustomReadPermissionDecisionforUser(final User user) {
         if (user.getUserGroup().getName().equalsIgnoreCase("administratoren")) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("member of admin group. access is granted");
-            }
+//            if (LOGGER.isDebugEnabled()) {
+//                LOGGER.debug("member of admin group. access is granted");
+//            }
             return true;
         }
 

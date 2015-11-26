@@ -12,6 +12,9 @@ import Sirius.server.middleware.types.MetaClass;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
@@ -54,6 +57,8 @@ public class MossExportAction extends AbstractExportAction {
     //~ Instance fields --------------------------------------------------------
 
     @JsonProperty(required = true)
+    @Getter
+    @Setter
     protected Collection<String> sampleIds;
 
     //~ Constructors -----------------------------------------------------------
@@ -155,35 +160,6 @@ public class MossExportAction extends AbstractExportAction {
     @Override
     protected String getDefaultExportName() {
         return DEFAULT_EXPORTFILE;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public Collection<Long> getObjectIds() {
-        return objectIds;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  objectIds  DOCUMENT ME!
-     */
-    @Override
-    public void setObjectIds(final Collection<Long> objectIds) {
-        this.objectIds = objectIds;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<String> getSampleIds() {
-        return sampleIds;
     }
 
     /**

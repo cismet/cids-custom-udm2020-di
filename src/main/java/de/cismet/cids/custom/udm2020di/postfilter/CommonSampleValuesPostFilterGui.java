@@ -31,6 +31,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
+import de.cismet.cids.custom.udm2020di.protocol.SampleValuesPostFilterProtocolStep;
 import de.cismet.cids.custom.udm2020di.serversearch.CustomMaxValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
@@ -38,6 +39,8 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.commons.gui.protocol.ProtocolHandler;
 
 /**
  * DOCUMENT ME!
@@ -49,6 +52,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
     //~ Static fields/initializers ---------------------------------------------
 
+    public static final String AGGREGATION_VALUES = "AGGREGATION_VALUES";
     public static final String SELECTED_VALUES = "SELECTED_VALUES";
     public static final String MIN_DATE = "MIN_DATE";
     public static final String MAX_DATE = "MIN_DATE";
@@ -118,7 +122,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                         + " nodes remaining after applying "
                                         + maxParameterValues.size() + " max param value filters to "
                                         + preFilteredNodes.size()
-                                        + " pre-filtered nodes (" + filteredNodes + " actually filtered nodes)");
+                                        + " pre-filtered nodes (" + filteredNodes.size() + " actually filtered nodes)");
                         }
 
                         return postFilteredNodes;
@@ -259,29 +263,41 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
                     @Override
                     protected Collection<AggregationValue> doInBackground() throws Exception {
-                        final ArrayList objectIds = new ArrayList<Integer>();
-                        for (final MetaObjectNode node : preFilteredNodes) {
-                            objectIds.add(node.getObjectId());
-                        }
+                        Collection<AggregationValue> aggregationValues = new ArrayList<AggregationValue>();
+                        final Class runtimeClass = CommonSampleValuesPostFilterGui.this.getClass();
 
-                        postFilterAggregationValuesSearch.setObjectIds(objectIds);
-
-                        try {
-                            final Collection<AggregationValue> aggregationValues = SessionManager.getProxy()
-                                        .customServerSearch(postFilterAggregationValuesSearch);
-
-                            if (LOGGER.isDebugEnabled()) {
-                                LOGGER.debug(aggregationValues.size() + " aggregation values for "
-                                            + objectIds.size() + " nodes retrieved.");
+                        if (PostfilterConfigurationRegistry.getInstance().hasSetting(
+                                        runtimeClass,
+                                        AGGREGATION_VALUES)) {
+                            aggregationValues.addAll((Collection<AggregationValue>)PostfilterConfigurationRegistry
+                                        .getInstance().popSetting(
+                                    runtimeClass,
+                                    AGGREGATION_VALUES));
+                            LOGGER.info("restoring " + aggregationValues.size() + " saved aggregation values!");
+                        } else {
+                            final ArrayList objectIds = new ArrayList<Integer>();
+                            for (final MetaObjectNode node : preFilteredNodes) {
+                                objectIds.add(node.getObjectId());
                             }
 
-                            return aggregationValues;
-                        } catch (Exception e) {
-                            LOGGER.error("could not retrieve aggregation values  for " + objectIds.size() + " nodes!",
-                                e);
+                            postFilterAggregationValuesSearch.setObjectIds(objectIds);
+
+                            try {
+                                aggregationValues = SessionManager.getProxy()
+                                            .customServerSearch(postFilterAggregationValuesSearch);
+
+                                if (LOGGER.isDebugEnabled()) {
+                                    LOGGER.debug(aggregationValues.size() + " aggregation values for "
+                                                + objectIds.size() + " nodes retrieved from server.");
+                                }
+                            } catch (Exception e) {
+                                LOGGER.error("could not retrieve aggregation values  for " + objectIds.size()
+                                            + " nodes!",
+                                    e);
+                            }
                         }
 
-                        return new ArrayList<AggregationValue>(0);
+                        return aggregationValues;
                     }
 
                     @Override
@@ -305,7 +321,6 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                 }
 
                                 final Class runtimeClass = CommonSampleValuesPostFilterGui.this.getClass();
-
                                 if (PostfilterConfigurationRegistry.getInstance().hasSetting(
                                                 runtimeClass,
                                                 SELECTED_VALUES)) {
@@ -485,7 +500,28 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      */
     private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
-    }                                                                               //GEN-LAST:event_applyButtonActionPerformed
+
+        if (ProtocolHandler.getInstance().isRecordEnabled()) {
+            final Collection<AggregationValue> aggregationValues = this.getAggregationValues();
+            final Map<String, Float> selectedValues = this.getSelectedValues();
+            final SampleValuesPostFilterProtocolStep protocolStep = new SampleValuesPostFilterProtocolStep(
+                    this.getClass().getCanonicalName(),
+                    this.getTitle(),
+                    this.icon,
+                    aggregationValues,
+                    selectedValues,
+                    this.getMinDate(),
+                    this.getMaxDate());
+
+            ProtocolHandler.getInstance().recordStep(protocolStep);
+
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.info("saving post filter settings to protocol for "
+                            + aggregationValues.size() + " aggregation values and "
+                            + selectedValues.size() + " selected values");
+            }
+        }
+    } //GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -510,5 +546,41 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
     @Override
     public Integer getDisplayOrderKeyPrio() {
         return 2000;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Map<String, Float> getSelectedValues() {
+        return this.maxParameterValueSelectionPanel.getValues();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getMinDate() {
+        return this.maxParameterValueSelectionPanel.getMinDate();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getMaxDate() {
+        return this.maxParameterValueSelectionPanel.getMaxDate();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<AggregationValue> getAggregationValues() {
+        return this.maxParameterValueSelectionPanel.getAggregationValues();
     }
 }

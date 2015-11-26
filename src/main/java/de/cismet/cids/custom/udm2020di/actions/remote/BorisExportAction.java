@@ -11,17 +11,23 @@ import Sirius.server.middleware.types.MetaClass;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.swing.Action;
 
 import de.cismet.cids.custom.udm2020di.types.Parameter;
+import de.cismet.cids.custom.udm2020di.types.Tag;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
@@ -49,10 +55,18 @@ public class BorisExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
+    @Getter
+    @Setter
     @JsonProperty(required = true)
     protected Collection<String> standorte;
 
     //~ Constructors -----------------------------------------------------------
+
+// @Getter
+// @Setter
+// @JsonProperty(required = true)
+// @JsonDeserialize(contentAs=Tag.class)
+// protected Collection<Tag> tags;
 
     /**
      * Creates a new BorisExportAction object.
@@ -122,24 +136,6 @@ public class BorisExportAction extends AbstractExportAction {
 
     //~ Methods ----------------------------------------------------------------
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<String> getStandorte() {
-        return standorte;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  standorte  DOCUMENT ME!
-     */
-    public void setStandorte(final Collection<String> standorte) {
-        this.standorte = standorte;
-    }
-
     @Override
     protected ServerActionParameter[] createServerActionParameters() {
         if ((standorte != null) && !standorte.isEmpty()
@@ -179,7 +175,16 @@ public class BorisExportAction extends AbstractExportAction {
                 new com.fasterxml.jackson.databind.ObjectMapper();
             mapper.enable(com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT);
             final BorisExportAction borisExportAction = new BorisExportAction();
+            borisExportAction.setStandorte(Arrays.asList(new String[] { "Standort 1", "Standort 2", "Standort 3" }));
+            // borisExportAction.setTags(Arrays.asList(new Tag[]{new Tag(), new Tag()}));
+            final String jsonString = mapper.writeValueAsString(borisExportAction);
             System.out.println(mapper.writeValueAsString(borisExportAction));
+
+            final BorisExportAction exportAction = (BorisExportAction)mapper.readValue(jsonString, ExportAction.class);
+            System.out.println(exportAction.getClass().getCanonicalName());
+            System.out.println(exportAction.getStandorte().iterator().next().getClass());
+            // System.out.println(exportAction.getTags().iterator().next().getClass());
+            // System.out.println(exportAction.getTags().iterator().next().isSelected());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

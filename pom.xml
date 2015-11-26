@@ -265,6 +265,11 @@
             <artifactId>lombok</artifactId>
             <version>1.14.4</version>
         </dependency>
+        <dependency>
+            <groupId>de.cismet.cids</groupId>
+            <artifactId>cids-server-rest-types</artifactId>
+            <version>1.0-20150831.122329-19</version>
+        </dependency>
     </dependencies>
 
     <repositories>

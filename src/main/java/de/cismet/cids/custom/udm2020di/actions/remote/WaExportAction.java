@@ -12,6 +12,9 @@ import Sirius.server.middleware.types.MetaClass;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
@@ -54,6 +57,8 @@ public class WaExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
+    @Getter
+    @Setter
     @JsonProperty(required = true)
     protected Collection<String> messstellen;
     @JsonProperty(required = true)
@@ -142,24 +147,6 @@ public class WaExportAction extends AbstractExportAction {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<String> getMessstellen() {
-        return messstellen;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  messstellen  DOCUMENT ME!
-     */
-    public void setMessstellen(final Collection<String> messstellen) {
-        this.messstellen = messstellen;
-    }
 
     @Override
     protected ServerActionParameter[] createServerActionParameters() {

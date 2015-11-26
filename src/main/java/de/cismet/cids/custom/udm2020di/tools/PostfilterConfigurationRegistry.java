@@ -101,9 +101,15 @@ public class PostfilterConfigurationRegistry {
      */
     public Object popSetting(final Class<? extends PostFilterGUI> postFilterClass,
             final String settingsKey) {
-        final Map<String, Object> settings = configurationMap.remove(postFilterClass.getName());
+        final Map<String, Object> settings = configurationMap.get(postFilterClass.getName());
         if ((settings != null) && !settings.isEmpty()) {
-            return settings.remove(settingsKey);
+            final Object setting = settings.remove(settingsKey);
+
+            // last setting? -> clear the map!
+            if (settings.isEmpty()) {
+                configurationMap.remove(postFilterClass.getName());
+            }
+            return setting;
         } else {
             LOGGER.warn("settings '" + settingsKey + "' for post filter '"
                         + postFilterClass.getSimpleName() + "' not found!");

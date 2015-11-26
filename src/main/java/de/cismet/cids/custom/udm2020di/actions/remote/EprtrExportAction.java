@@ -12,6 +12,9 @@ import Sirius.server.middleware.types.MetaClass;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
@@ -50,6 +53,8 @@ public class EprtrExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
+    @Getter
+    @Setter
     @JsonProperty(required = true)
     protected Collection<Long> installations;
 
@@ -115,24 +120,6 @@ public class EprtrExportAction extends AbstractExportAction {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<Long> getInstallations() {
-        return installations;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  installations  DOCUMENT ME!
-     */
-    public void setInstallations(final Collection<Long> installations) {
-        this.installations = installations;
-    }
 
     @Override
     protected ServerActionParameter[] createServerActionParameters() {

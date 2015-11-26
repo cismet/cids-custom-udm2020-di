@@ -12,6 +12,7 @@ import Sirius.navigator.resource.PropertyManager;
 
 import Sirius.server.middleware.types.MetaClass;
 import Sirius.server.middleware.types.MetaObject;
+import Sirius.server.newuser.User;
 
 import com.vividsolutions.jts.index.strtree.STRtree;
 
@@ -46,6 +47,9 @@ public class CidsRestrictionGeometryStore implements StartupHook {
     protected static final transient Logger LOGGER = Logger.getLogger(CidsRestrictionGeometryStore.class);
     protected static final HashMap<String, STRtree> restrictions = new HashMap<String, STRtree>();
 
+    public static final String GEOMETRY_PERMISSION_ATTR =
+        "de.cismet.cids.custom.udm2020di.permissions.GeometryFromCidsObjectPermission";
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -55,44 +59,71 @@ public class CidsRestrictionGeometryStore implements StartupHook {
                 LOGGER.debug("CidsRestrictionGeometryStore initialization started");
             }
 
-            PropertyManager.USE_CUSTOM_BEAN_PERMISSION_PROVIDER_FOR_SEARCH = true;
+            // for perfomance reasons, active only for usergroups with geo restriction attribute!
+            final User user = SessionManager.getSession().getUser();
+            if (SessionManager.getProxy().hasConfigAttr(user, GEOMETRY_PERMISSION_ATTR)) {
+                final String geometryPermission = SessionManager.getProxy()
+                            .getConfigAttr(user, GEOMETRY_PERMISSION_ATTR);
+                if ((geometryPermission != null) && !geometryPermission.isEmpty()) {
+                    LOGGER.info("loading restriction feature '" + geometryPermission
+                                + "' for usergroup '" + user.getUserGroup().getName() + "'.");
 
-            final MetaClass mc = ClassCacheMultiple.getMetaClass(DOMAIN, TABLE);
-            final MetaObject[] metaObjects = SessionManager.getConnection()
-                        .getMetaObjectByQuery(SessionManager.getSession().getUser(),
-                            "SELECT "
-                            + mc.getID()
-                            + ", "
-                            + mc.getPrimaryKey()
-                            + " FROM "
-                            + mc.getTableName()
-                            // restrict to Niederösterreich to minimise  startup time
-                            + " WHERE "
-                            + mc.getTableName()
-                            + ".name = 'Niederösterreich'");
+                    final MetaClass mc = ClassCacheMultiple.getMetaClass(DOMAIN, TABLE);
+                    final MetaObject[] metaObjects = SessionManager.getConnection()
+                                .getMetaObjectByQuery(SessionManager.getSession().getUser(),
+                                    "SELECT "
+                                    + mc.getID()
+                                    + ", "
+                                    + mc.getPrimaryKey()
+                                    + " FROM "
+                                    + mc.getTableName()
+                                    // restrict to Niederösterreich to minimise  startup time
+                                    + " WHERE "
+                                    + mc.getTableName()
+                                    + ".name = 'Niederösterreich'");
 
-            for (final MetaObject mo : metaObjects) {
-                final CidsBean cb = mo.getBean();
+                    for (final MetaObject mo : metaObjects) {
+                        final CidsBean cb = mo.getBean();
 
-                final String name = (String)cb.getProperty("name");
-                STRtree restrictionfeatures = restrictions.get(name);
-
-                if (restrictionfeatures == null) {
-                    restrictionfeatures = new STRtree();
-                    restrictions.put(name, restrictionfeatures);
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("new geometry restriction for '" + name + "' added");
+                        final String name = (String)cb.getProperty("name");
+                        final CidsFeature feature = new CidsFeature(mo);
+                        if ((feature != null) && (feature.getGeometry() != null)) {
+                            STRtree restrictionfeatures = restrictions.get(name);
+                            if (restrictionfeatures == null) {
+                                restrictionfeatures = new STRtree();
+                                restrictions.put(name, restrictionfeatures);
+                                if (LOGGER.isDebugEnabled()) {
+                                    LOGGER.debug("new geometry restriction for '" + name + "' added");
+                                }
+                            }
+                            restrictionfeatures.insert(feature.getGeometry().getEnvelopeInternal(), feature);
+                        }
                     }
-                }
 
-                final CidsFeature feature = new CidsFeature(mo);
-                if ((feature != null) && (feature.getGeometry() != null)) {
-                    restrictionfeatures.insert(feature.getGeometry().getEnvelopeInternal(), feature);
+                    if (!restrictions.isEmpty()) {
+                        PropertyManager.USE_CUSTOM_BEAN_PERMISSION_PROVIDER_FOR_SEARCH = true;
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.info("CidsRestrictionGeometryStore initialized with " + metaObjects.length
+                                        + " Object"
+                                        + ((metaObjects.length == 1) ? "" : "s") + " for user '"
+                                        + user.getKey() + ", enforcement of geo permissions is acivated!");
+                        }
+                    } else {
+                        LOGGER.warn("no matching restriction features for '" + geometryPermission + "' found for user '"
+                                    + user.getKey() + ", enforcement of geo permissions is deacivated.");
+                        PropertyManager.USE_CUSTOM_BEAN_PERMISSION_PROVIDER_FOR_SEARCH = false;
+                    }
+                } else {
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Config attribute '" + GEOMETRY_PERMISSION_ATTR + "' empty for user '"
+                                    + user.getKey() + ", enforcement of geo permissions is deacivated.");
+                    }
+                    PropertyManager.USE_CUSTOM_BEAN_PERMISSION_PROVIDER_FOR_SEARCH = false;
                 }
-            }
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("CidsRestrictionGeometryStore initialized with " + metaObjects.length + " Object"
-                            + ((metaObjects.length == 1) ? "" : "s") + ".");
+            } else {
+                LOGGER.info("Config attribute '" + GEOMETRY_PERMISSION_ATTR + "' not set for user '"
+                            + user.getKey() + ", enforcement of geo permissions is deacivated.");
+                PropertyManager.USE_CUSTOM_BEAN_PERMISSION_PROVIDER_FOR_SEARCH = false;
             }
         } catch (Exception e) {
             LOGGER.warn("Error during initialization of restriction objects.", e);

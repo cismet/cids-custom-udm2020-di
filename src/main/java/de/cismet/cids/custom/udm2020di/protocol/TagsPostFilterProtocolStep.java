@@ -7,20 +7,26 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.protocol;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import org.apache.log4j.Logger;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.ImageIcon;
 
-import de.cismet.cids.custom.udm2020di.postfilter.CommonTagsPostFilterGui;
+import de.cismet.cids.custom.udm2020di.types.Tag;
+
+import de.cismet.cidsx.server.api.types.CidsNode;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
 import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
-import de.cismet.commons.gui.protocol.ProtocolStepParameter;
 
 /**
  * DOCUMENT ME!
@@ -32,8 +38,7 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String PARAMETER_SELECTED_TAGS = CommonTagsPostFilterGui.SELECTED_TAGS;
-    private static final Logger LOGGER = Logger.getLogger(TagsPostFilterProtocolStep.class);
+    // private static final Logger LOGGER = Logger.getLogger(TagsPostFilterProtocolStep.class);
 
     @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
@@ -43,34 +48,47 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
 
     //~ Instance fields --------------------------------------------------------
 
-    @JsonIgnore
-    private final Map<String, String> tmpSelectedTags;
+    @JsonProperty(required = true)
+    @Getter
+    @Setter
+    private Collection<Tag> filterTags;
 
     //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new TagsPostFilterProtocolStep object.
-     */
-    public TagsPostFilterProtocolStep() {
-        super();
-        this.tmpSelectedTags = null;
-    }
-
-    /**
-     * Creates a new TagsPostFilterProtocolStep object.
      *
-     * @param  postFilter    DOCUMENT ME!
-     * @param  title         DOCUMENT ME!
-     * @param  icon          DOCUMENT ME!
-     * @param  selectedTags  DOCUMENT ME!
+     * @param  postFilter  DOCUMENT ME!
+     * @param  title       DOCUMENT ME!
+     * @param  icon        DOCUMENT ME!
+     * @param  filterTags  selectedTags DOCUMENT ME!
      */
     public TagsPostFilterProtocolStep(
             final String postFilter,
             final String title,
             final ImageIcon icon,
-            final Map<String, String> selectedTags) {
+            final Collection<Tag> filterTags) {
         super(postFilter, title, icon);
-        this.tmpSelectedTags = selectedTags;
+        this.filterTags = filterTags;
+    }
+
+    /**
+     * Creates a new TagsPostFilterProtocolStep object.
+     *
+     * @param  postFilter  DOCUMENT ME!
+     * @param  title       DOCUMENT ME!
+     * @param  iconData    DOCUMENT ME!
+     * @param  cidsNodes   DOCUMENT ME!
+     * @param  filterTags  DOCUMENT ME!
+     */
+    @JsonCreator
+    public TagsPostFilterProtocolStep(@JsonProperty("postFilter") final String postFilter,
+            @JsonProperty("title") final String title,
+            @JsonProperty("iconData") final byte[] iconData,
+            @JsonProperty("cidsNodes") final Collection<CidsNode> cidsNodes,
+            @JsonProperty("filterTags") final Collection<Tag> filterTags) {
+        super(postFilter, title, iconData, cidsNodes);
+        this.filterTags = filterTags;
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -90,27 +108,16 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
      *
      * @return  DOCUMENT ME!
      */
-    @JsonIgnore
-    public Map<String, String> getSelectedTags() {
-        final Object selectedTags = super.getParameterValue(PARAMETER_SELECTED_TAGS);
-        if (selectedTags != null) {
-            return (Map<String, String>)selectedTags;
-        } else {
-            LOGGER.error("SELECTED_TAGS map not found in parameter value set!");
-            return null;
-        }
-    }
-
-    @Override
-    public Set<ProtocolStepParameter> createParameters() {
-        final Set<ProtocolStepParameter> parameters = super.createParameters();
-
-        if (this.tmpSelectedTags != null) {
-            parameters.add(new ProtocolStepParameter(PARAMETER_SELECTED_TAGS, this.tmpSelectedTags));
-        } else {
-            LOGGER.error("PARAMETER_SELECTED_TAGS is null!");
+    public Collection<Tag> getSelectedTags() {
+        final ArrayList<Tag> selectedTags = new ArrayList<Tag>();
+        if ((this.filterTags != null) && !this.filterTags.isEmpty()) {
+            for (final Tag tag : this.filterTags) {
+                if (tag.isSelected()) {
+                    selectedTags.add(tag);
+                }
+            }
         }
 
-        return parameters;
+        return selectedTags;
     }
 }

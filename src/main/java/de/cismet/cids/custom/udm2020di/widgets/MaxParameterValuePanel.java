@@ -156,6 +156,12 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
         return null;
     }
 
+    @Override
+    public void setEnabled(final boolean enabled) {
+        this.cbParameters.setEnabled(enabled);
+        this.maxValuePanel.setEnabled(enabled);
+    }
+
     /**
      * DOCUMENT ME!
      *
