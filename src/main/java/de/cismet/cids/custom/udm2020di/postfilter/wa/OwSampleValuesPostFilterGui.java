@@ -15,8 +15,6 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-
 import de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui;
 import de.cismet.cids.custom.udm2020di.serversearch.wa.WaowAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.wa.WaowStationSearch;
@@ -32,10 +30,6 @@ import static de.cismet.cids.custom.udm2020di.treeicons.WaowStationIconFactory.W
 @ServiceProvider(service = PostFilterGUI.class)
 public class OwSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    protected static final Logger LOGGER = Logger.getLogger(OwSampleValuesPostFilterGui.class);
-
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -48,6 +42,7 @@ public class OwSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui
             new WaowStationSearch(),
             WAOW_STATION_ICON,
             "WAOW_STATION");
+        LOGGER = Logger.getLogger(OwSampleValuesPostFilterGui.class);
         this.active = true;
     }
 }

@@ -28,7 +28,6 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -42,14 +41,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 import javax.swing.SwingWorker;
 
+import de.cismet.cids.custom.udm2020di.protocol.CommonPostFilterProtocolStep;
+import de.cismet.cids.custom.udm2020di.protocol.PostfilterProtocolRegistry;
 import de.cismet.cids.custom.udm2020di.protocol.TagsPostFilterProtocolStep;
 import de.cismet.cids.custom.udm2020di.serversearch.FilterByTagsSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterTagsSearch;
-import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
 import de.cismet.cids.custom.udm2020di.types.Tag;
 
 import de.cismet.commons.gui.protocol.ProtocolHandler;
-import org.openide.util.Exceptions;
 
 /**
  * DOCUMENT ME!
@@ -62,8 +61,6 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
     //~ Static fields/initializers ---------------------------------------------
 
-    public static final String FILTER_TAGS = "FILTER_TAGS";
-
     protected static final boolean TAGS_SELECTED_BY_DEFAULT = true;
 
     protected static final ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>> QUEUE_MAP =
@@ -71,11 +68,11 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Logger logger = Logger.getLogger(CommonTagsPostFilterGui.class);
+    protected Logger LOGGER = Logger.getLogger(CommonTagsPostFilterGui.class);
 
     protected final PostFilterTagsSearch postfilterTagsSearch;
     protected final FilterByTagsSearch filterByTagsSearch;
-    protected final boolean active;
+    protected boolean active;
     protected final Map<Tag, JToggleButton> filterButtons = new Hashtable<Tag, JToggleButton>();
 
     protected boolean eventsEnabled = true;
@@ -109,8 +106,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 final Collection<Node> postFilteredNodes = new ArrayList<Node>(input);
                 postFilteredNodes.removeAll(preFilteredNodes);
 
-                if (logger.isDebugEnabled()) {
-                    logger.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
                                 + input.size() + " available nodes");
                 }
 
@@ -122,8 +119,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                     }
                 }
                 filterByTagsSearch.setFilterTagIds(filterTagIds);
-                if (logger.isDebugEnabled()) {
-                    logger.debug("filtering " + input.size() + " nodes with "
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("filtering " + input.size() + " nodes with "
                                 + filterTagIds.size() + " filter tags of "
                                 + filterButtons.size() + " available filter tags");
                 }
@@ -133,8 +130,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                                 .customServerSearch(filterByTagsSearch);
 
                     postFilteredNodes.addAll(filteredNodes);
-                    if (logger.isDebugEnabled()) {
-                        logger.debug(postFilteredNodes.size() + " of " + input.size()
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(postFilteredNodes.size() + " of " + input.size()
                                     + " nodes remaining after applying "
                                     + filterTagIds.size() + " filter tags to " + preFilteredNodes.size()
                                     + "pre-filtered nodes (" + filteredNodes.size() + " actuially filtered nodes)");
@@ -142,7 +139,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                     return postFilteredNodes;
                 } catch (Exception e) {
-                    logger.error("could not apply filter tags for '" + input.size() + " nodes!", e);
+                    LOGGER.error("could not apply filter tags for '" + input.size() + " nodes!", e);
                     return input;
                 }
             }
@@ -167,18 +164,16 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     public CommonTagsPostFilterGui() {
         PostFilterTagsSearch initPostFilterTagsSearch = null;
         FilterByTagsSearch initFilterByTagsSearch = null;
-        boolean initActive = false;
-
         try {
             initPostFilterTagsSearch = new PostFilterTagsSearch();
             initFilterByTagsSearch = new FilterByTagsSearch();
-            initActive = true;
+            this.active = true;
         } catch (IOException ex) {
-            logger.error("could not initialize PostFilterTagsSearch, disabling filter", ex);
+            LOGGER.error("could not initialize PostFilterTagsSearch, disabling filter", ex);
+            this.active = false;
         }
         this.postfilterTagsSearch = initPostFilterTagsSearch;
         this.filterByTagsSearch = initFilterByTagsSearch;
-        this.active = initActive;
         initComponents();
     }
 
@@ -200,7 +195,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     public synchronized void setEventsEnabled(final boolean eventsEnabled) {
         if (this.eventsEnabled == eventsEnabled) {
-            logger.warn("prossible sychronisation problem, ignoring setEventsEnabled:"
+            LOGGER.warn("prossible sychronisation problem, ignoring setEventsEnabled:"
                         + eventsEnabled);
         }
         this.eventsEnabled = eventsEnabled;
@@ -319,32 +314,32 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
 
         if (ProtocolHandler.getInstance().isRecordEnabled()) {
             final Collection<Tag> filterTags = this.getFilterTags();
             final TagsPostFilterProtocolStep protocolStep = new TagsPostFilterProtocolStep(
-                    this.getClass().getCanonicalName(),
+                    this.getClass().getSimpleName(),
                     this.getTitle(),
                     this.icon,
                     filterTags);
 
-            ProtocolHandler.getInstance().recordStep(protocolStep);
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("saving post filter settings to protocol: "
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("saving post filter settings to protocol: "
                             + filterTags.size() + " filter tags");
             }
+
+            PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
         }
-    }//GEN-LAST:event_applyButtonActionPerformed
+    } //GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
         setEventsEnabled(false);
         for (final JToggleButton filterButton : filterButtons.values()) {
             filterButton.setSelected(true);
@@ -359,14 +354,14 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    }//GEN-LAST:event_resetButtonActionPerformed
+    } //GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
+    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_switchButtonActionPerformed
         setEventsEnabled(false);
         for (final JToggleButton toggleButton : this.filterButtons.values()) {
             toggleButton.setSelected(!toggleButton.isSelected());
@@ -374,7 +369,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    }//GEN-LAST:event_switchButtonActionPerformed
+    }                                                                                //GEN-LAST:event_switchButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -383,20 +378,20 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public void initializeFilter(final Collection<Node> nodes) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("initialize Filter with " + nodes.size() + " nodes");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("initialize Filter with " + nodes.size() + " nodes");
         }
 
         final SwingWorker<Collection<JToggleButton>, Void> worker = new SwingWorker<Collection<JToggleButton>, Void>() {
 
                 @Override
                 protected Collection<JToggleButton> doInBackground() throws Exception {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("waiting for semaphore acquire");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("waiting for semaphore acquire");
                     }
                     semaphore.acquire();
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("semaphore semaphore acquired");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("semaphore semaphore acquired");
                     }
 
                     filterButtons.clear();
@@ -416,15 +411,26 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
                     final Collection<Tag> filterTags;
-                    if (PostfilterConfigurationRegistry.getInstance().hasSetting(
-                                    CommonTagsPostFilterGui.this.getClass(),
-                                    FILTER_TAGS)) {
-                        filterTags = (Collection<Tag>)PostfilterConfigurationRegistry.getInstance()
-                                    .popSetting(
-                                            CommonTagsPostFilterGui.this.getClass(),
-                                            FILTER_TAGS);
-                        logger.info("restoring " + filterTags.size() + " filter tags from saved configuration!");
+                    if (PostfilterProtocolRegistry.getInstance().isShouldRestoreSettings()
+                                && PostfilterProtocolRegistry.getInstance().hasProtocolStep(
+                                    CommonTagsPostFilterGui.this)
+                                && (PostfilterProtocolRegistry.getInstance().getProtocolStep(
+                                        CommonTagsPostFilterGui.this).getNodes().hashCode() == nodes.hashCode())) {
+                        filterTags = new ArrayList<Tag>();
+                        final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry.getInstance()
+                                    .getProtocolStep(CommonTagsPostFilterGui.this);
+
+                        if (TagsPostFilterProtocolStep.class.isAssignableFrom(protocolStep.getClass())) {
+                            for (final Tag tag : ((TagsPostFilterProtocolStep)protocolStep).getFilterTags()) {
+                                filterTags.add(tag.clone());
+                            }
+                        } else {
+                            LOGGER.error("unexpected ProtocolStep:" + protocolStep.getClass().getSimpleName());
+                        }
+
+                        LOGGER.info("restoring " + filterTags.size() + " filter tags from saved configuration!");
                     } else {
+                        PostfilterProtocolRegistry.getInstance().clearProtocolStep(CommonTagsPostFilterGui.this);
                         final Collection<MetaObject> metaObjects = retrieveFilterTags(new ArrayList<Node>(nodes));
                         filterTags = filterCidsBeans(metaObjects);
                     }
@@ -453,7 +459,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         enableButtons();
                         semaphore.release();
                     } catch (Exception ex) {
-                        logger.error(ex.getMessage(), ex);
+                        LOGGER.error(ex.getMessage(), ex);
                     }
                 }
             };
@@ -461,7 +467,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         if ((nodes != null) && !nodes.isEmpty()) {
             worker.execute();
         } else {
-            logger.warn("no nodes provided, filter disabled");
+            LOGGER.warn("no nodes provided, filter disabled");
         }
     }
 
@@ -488,7 +494,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
             this.filterButtons.put(tag, tagButton);
             return tagButton;
         } else {
-            logger.warn("tag '" + tag.getName()
+            LOGGER.warn("tag '" + tag.getName()
                         + "with id " + tagId + " already added!");
             return null;
         }
@@ -506,24 +512,24 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     protected Collection<MetaObject> retrieveFilterTags(final Collection<Node> nodes) throws Exception {
         final int key = nodes.hashCode();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("retrieving tags for " + nodes.size() + " nodes: " + key);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("retrieving tags for " + nodes.size() + " nodes: " + key);
         }
 
         if (QUEUE_MAP.containsKey(key)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("retrieveFilterTags request '" + key + "' is queued");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("retrieveFilterTags request '" + key + "' is queued");
             }
             final LinkedBlockingDeque<Collection<MetaObject>> queue = QUEUE_MAP.get(nodes.hashCode());
             final Collection<MetaObject> metaObjects = queue.take();
-            if (logger.isDebugEnabled()) {
-                logger.debug(metaObjects.size() + " tag objects '" + key + "' retrieved from queue");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(metaObjects.size() + " tag objects '" + key + "' retrieved from queue");
             }
             queue.put(metaObjects);
             return metaObjects;
         } else {
-            if (logger.isDebugEnabled()) {
-                logger.debug("retrieveFilterTags request '" + key + "' is not queued, generating new request");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("retrieveFilterTags request '" + key + "' is not queued, generating new request");
             }
             final LinkedBlockingDeque<Collection<MetaObject>> queue = new LinkedBlockingDeque<Collection<MetaObject>>();
             QUEUE_MAP.clear();
@@ -552,16 +558,16 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             .customServerSearch(postfilterTagsSearch);
                 metaObjects.addAll(result);
             } catch (Exception e) {
-                logger.error("could not retrieve tags for " + nodes.size() + " nodes!", e);
+                LOGGER.error("could not retrieve tags for " + nodes.size() + " nodes!", e);
             }
 
-            if (logger.isDebugEnabled()) {
-                logger.debug(metaObjects.size() + " tags for " + nodes.size() + " nodes retrieved.");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(metaObjects.size() + " tags for " + nodes.size() + " nodes retrieved.");
             }
 
             queue.put(metaObjects);
-            if (logger.isDebugEnabled()) {
-                logger.debug(metaObjects.size() + " tag objects retrieved from server ");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(metaObjects.size() + " tag objects retrieved from server ");
             }
             return metaObjects;
         }
@@ -590,8 +596,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 // availableTagIds.add(tagId);
             }
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug(tags.size() + " of " + metaObjects.size() + " retrieved tags available for filtering");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(tags.size() + " of " + metaObjects.size() + " retrieved tags available for filtering");
         }
         return tags;
     }
@@ -621,8 +627,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public void adjustFilter(final Collection<Node> nodes) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("adjust Filter with " + nodes.size() + " nodes");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("adjust Filter with " + nodes.size() + " nodes");
         }
 
 //        final SwingWorker<Collection<CidsBean>, Void> worker
@@ -676,7 +682,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
-        return true;
+        this.active = !nodes.isEmpty();
+        return this.active;
     }
 
     /**
@@ -686,7 +693,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public boolean isActive() {
-        return active;
+        return this.active && this.applyButton.isEnabled();
     }
 
     /**
@@ -763,8 +770,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     public void actionPerformed(final ActionEvent e) {
         if (isEventsEnabled()) {
             if (e.getModifiers() == ActionEvent.CTRL_MASK) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("SHIFT KEY pressed, performing switch action");
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("SHIFT KEY pressed, performing switch action");
                 }
                 this.switchButtonActionPerformed(e);
             } else {
@@ -805,16 +812,23 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     public Collection<Tag> getFilterTags() {
         final ArrayList<Tag> filterTags = new ArrayList<Tag>(this.filterButtons.keySet().size());
-        for(final Tag tag:this.filterButtons.keySet()) {
+        for (final Tag tag : this.filterButtons.keySet()) {
             try {
                 filterTags.add(tag.clone());
             } catch (CloneNotSupportedException ex) {
-                logger.error(ex.getMessage(), ex);
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
-        
-        
+
         return filterTags;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return PostfilterProtocolRegistry.getInstance().isShouldRestoreSettings()
+                    && (PostfilterProtocolRegistry.getInstance().getMasterPostFilter() != null)
+                    && PostfilterProtocolRegistry.getInstance().getMasterPostFilter()
+                    .equals(this.getClass().getSimpleName());
     }
 
     //~ Inner Classes ----------------------------------------------------------

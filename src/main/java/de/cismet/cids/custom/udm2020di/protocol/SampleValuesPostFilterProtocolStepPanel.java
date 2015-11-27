@@ -29,11 +29,6 @@ import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValuePanel;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
 
-import static de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui.AGGREGATION_VALUES;
-import static de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui.MAX_DATE;
-import static de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui.MIN_DATE;
-import static de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui.SELECTED_VALUES;
-
 /**
  * DOCUMENT ME!
  *
@@ -223,9 +218,9 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
      */
     private void restoreSearchResultsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_restoreSearchResultsHyperlinkActionPerformed
 
-        if (!this.protocolStep.getNodes().isEmpty()) {
+        if (!this.protocolStep.getCascadingProtocolStep().getNodes().isEmpty()) {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("restoring " + this.protocolStep.getNodes().size()
+                LOGGER.debug("restoring " + this.protocolStep.getCascadingProtocolStep().getNodes().size()
                             + " search results from  protocol of post filter '"
                             + this.protocolStep.getPostFilter() + "'");
             }
@@ -233,7 +228,8 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
             ComponentRegistry.getRegistry()
                     .getSearchResultsTree()
                     .setResultNodes(
-                        this.protocolStep.getNodes().toArray(new Node[this.protocolStep.getNodes().size()]));
+                        this.protocolStep.getCascadingProtocolStep().getNodes().toArray(
+                            new Node[this.protocolStep.getCascadingProtocolStep().getNodes().size()]));
         } else {
             LOGGER.error("nodes list is empty, cannot restore search result from  protocol of post filter '"
                         + this.protocolStep.getPostFilter() + "'");
@@ -253,14 +249,9 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
                             + this.protocolStep.getPostFilter() + "'");
             }
 
-            final Map<String, Object> settings = new HashMap<String, Object>();
-
-            settings.put(AGGREGATION_VALUES, this.protocolStep.getAggregationValues());
-            settings.put(SELECTED_VALUES, this.protocolStep.getSelectedValues());
-            settings.put(MIN_DATE, this.protocolStep.getMinDate());
-            settings.put(MAX_DATE, this.protocolStep.getMaxDate());
-
-            PostfilterConfigurationRegistry.getInstance().pushSettings(this.protocolStep.getPostFilter(), settings);
+            PostfilterProtocolRegistry.getInstance()
+                    .restoreCascadingProtocolStep(
+                        this.protocolStep.getCascadingProtocolStep());
 
             this.restoreSearchResultsHyperlinkActionPerformed(evt);
         } else {

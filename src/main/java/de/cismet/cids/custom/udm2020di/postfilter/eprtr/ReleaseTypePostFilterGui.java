@@ -29,7 +29,7 @@ public class ReleaseTypePostFilterGui extends NotificationPeriodPostFilterGui {
      */
     public ReleaseTypePostFilterGui() {
         super();
-        logger = Logger.getLogger(ReleaseTypePostFilterGui.class);
+        LOGGER = Logger.getLogger(ReleaseTypePostFilterGui.class);
     }
 
     //~ Methods ----------------------------------------------------------------

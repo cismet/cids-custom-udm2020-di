@@ -30,10 +30,6 @@ import static de.cismet.cids.custom.udm2020di.treeicons.WagwStationIconFactory.W
 @ServiceProvider(service = PostFilterGUI.class)
 public class GwSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    protected static final Logger LOGGER = Logger.getLogger(GwSampleValuesPostFilterGui.class);
-
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -47,6 +43,7 @@ public class GwSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui
             new WagwStationSearch(),
             WAGW_STATION_ICON,
             "WAGW_STATION");
+        LOGGER = Logger.getLogger(GwSampleValuesPostFilterGui.class);
         this.active = true;
     }
 }

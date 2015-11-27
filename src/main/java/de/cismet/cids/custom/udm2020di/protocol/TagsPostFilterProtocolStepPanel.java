@@ -19,22 +19,17 @@ import org.openide.util.NbBundle;
 import java.awt.Component;
 import java.awt.EventQueue;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
+import de.cismet.cids.custom.udm2020di.tools.WrapLayout;
 import de.cismet.cids.custom.udm2020di.types.Tag;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
-
-import static de.cismet.cids.custom.udm2020di.postfilter.CommonTagsPostFilterGui.FILTER_TAGS;
 
 /**
  * DOCUMENT ME!
@@ -69,6 +64,7 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
      */
     public TagsPostFilterProtocolStepPanel(final TagsPostFilterProtocolStep protocolStep) {
         initComponents();
+        this.tagButtonPanel.setLayout(new WrapLayout());
         this.setProtocolStep(protocolStep);
 
         // ComponentRegistry.getRegistry().getDescriptionPane().gotoMetaObjects(to, TOOL_TIP_TEXT_KEY);
@@ -100,7 +96,7 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
                         NbBundle.getMessage(
                             TagsPostFilterProtocolStepPanel.class,
                             "TagsPostFilterProtocolStepPanel.restoreSearchResultsHyperlink.text",
-                            String.valueOf(protocolStep.getNodes().size())));
+                            String.valueOf(protocolStep.getCascadingProtocolStep().getNodes().size())));
 
                     Mnemonics.setLocalizedText(
                         restorePostFilterHyperlink,
@@ -127,6 +123,8 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
                         LOGGER.debug(i + " selected tag labeles generated from "
                                     + protocolStep.getFilterTags().size() + " available tags");
                     }
+
+                    validate();
                 }
             };
 
@@ -152,20 +150,36 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
         restorePostFilterHyperlink = new org.jdesktop.swingx.JXHyperlink();
         tagButtonPanel = new javax.swing.JPanel();
 
-        org.openide.awt.Mnemonics.setLocalizedText(iconLabel, org.openide.util.NbBundle.getMessage(TagsPostFilterProtocolStepPanel.class, "TagsPostFilterProtocolStepPanel.iconLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            iconLabel,
+            org.openide.util.NbBundle.getMessage(
+                TagsPostFilterProtocolStepPanel.class,
+                "TagsPostFilterProtocolStepPanel.iconLabel.text")); // NOI18N
         iconLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        org.openide.awt.Mnemonics.setLocalizedText(titleLabel, org.openide.util.NbBundle.getMessage(TagsPostFilterProtocolStepPanel.class, "TagsPostFilterProtocolStepPanel.titleLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            titleLabel,
+            org.openide.util.NbBundle.getMessage(
+                TagsPostFilterProtocolStepPanel.class,
+                "TagsPostFilterProtocolStepPanel.titleLabel.text")); // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(restoreSearchResultsHyperlink, org.openide.util.NbBundle.getMessage(TagsPostFilterProtocolStepPanel.class, "TagsPostFilterProtocolStepPanel.restoreSearchResultsHyperlink.text")); // NOI18N
-        restoreSearchResultsHyperlink.setActionCommand(org.openide.util.NbBundle.getMessage(TagsPostFilterProtocolStepPanel.class, "TagsPostFilterProtocolStepPanel.restoreSearchResultsHyperlink.actionCommand")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            restoreSearchResultsHyperlink,
+            org.openide.util.NbBundle.getMessage(
+                TagsPostFilterProtocolStepPanel.class,
+                "TagsPostFilterProtocolStepPanel.restoreSearchResultsHyperlink.text"));          // NOI18N
+        restoreSearchResultsHyperlink.setActionCommand(org.openide.util.NbBundle.getMessage(
+                TagsPostFilterProtocolStepPanel.class,
+                "TagsPostFilterProtocolStepPanel.restoreSearchResultsHyperlink.actionCommand")); // NOI18N
         restoreSearchResultsHyperlink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                restoreSearchResultsHyperlinkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    restoreSearchResultsHyperlinkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -174,13 +188,21 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(restoreSearchResultsHyperlink, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(restorePostFilterHyperlink, org.openide.util.NbBundle.getMessage(TagsPostFilterProtocolStepPanel.class, "TagsPostFilterProtocolStepPanel.restorePostFilterHyperlink.text")); // NOI18N
-        restorePostFilterHyperlink.setActionCommand(org.openide.util.NbBundle.getMessage(TagsPostFilterProtocolStepPanel.class, "TagsPostFilterProtocolStepPanel.restorePostFilterHyperlink.actionCommand")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            restorePostFilterHyperlink,
+            org.openide.util.NbBundle.getMessage(
+                TagsPostFilterProtocolStepPanel.class,
+                "TagsPostFilterProtocolStepPanel.restorePostFilterHyperlink.text"));          // NOI18N
+        restorePostFilterHyperlink.setActionCommand(org.openide.util.NbBundle.getMessage(
+                TagsPostFilterProtocolStepPanel.class,
+                "TagsPostFilterProtocolStepPanel.restorePostFilterHyperlink.actionCommand")); // NOI18N
         restorePostFilterHyperlink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                restorePostFilterHyperlinkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    restorePostFilterHyperlinkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -189,8 +211,8 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         add(restorePostFilterHyperlink, gridBagConstraints);
 
+        tagButtonPanel.setFocusable(false);
         tagButtonPanel.setMaximumSize(new java.awt.Dimension(300, 32767));
-        tagButtonPanel.setPreferredSize(new java.awt.Dimension(200, 100));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -200,18 +222,18 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(tagButtonPanel, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void restoreSearchResultsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreSearchResultsHyperlinkActionPerformed
+    private void restoreSearchResultsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_restoreSearchResultsHyperlinkActionPerformed
 
-        if (!this.protocolStep.getNodes().isEmpty()) {
+        if (!this.protocolStep.getCascadingProtocolStep().getNodes().isEmpty()) {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("restoring " + this.protocolStep.getNodes().size()
+                LOGGER.debug("restoring " + this.protocolStep.getCascadingProtocolStep().getNodes().size()
                             + " search results from  protocol of post filter '"
                             + this.protocolStep.getPostFilter() + "'");
             }
@@ -219,19 +241,20 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
             ComponentRegistry.getRegistry()
                     .getSearchResultsTree()
                     .setResultNodes(
-                        this.protocolStep.getNodes().toArray(new Node[this.protocolStep.getNodes().size()]));
+                        this.protocolStep.getCascadingProtocolStep().getNodes().toArray(
+                            new Node[this.protocolStep.getCascadingProtocolStep().getNodes().size()]));
         } else {
             LOGGER.error("nodes list is empty, cannot restore search result from  protocol of post filter '"
                         + this.protocolStep.getPostFilter() + "'");
         }
-    }//GEN-LAST:event_restoreSearchResultsHyperlinkActionPerformed
+    } //GEN-LAST:event_restoreSearchResultsHyperlinkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void restorePostFilterHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restorePostFilterHyperlinkActionPerformed
+    private void restorePostFilterHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_restorePostFilterHyperlinkActionPerformed
         if (!this.protocolStep.getFilterTags().isEmpty()) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("restoring " + this.protocolStep.getFilterTags().size()
@@ -239,27 +262,16 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
                             + this.protocolStep.getPostFilter() + "'");
             }
 
-            final Map<String, Object> settings = new HashMap<String, Object>();
-            final ArrayList<Tag> filterTags = new ArrayList<Tag>(this.protocolStep.getFilterTags().size());
-            try {
-                for (final Tag tag : this.protocolStep.getFilterTags()) {
-                    // prevent changing selected state of tags in protocol!
-                    filterTags.add(tag.clone());
-                }
-            } catch (CloneNotSupportedException ex) {
-                LOGGER.error(ex.getMessage(), ex);
-            }
-
-            settings.put(FILTER_TAGS, filterTags);
-
-            PostfilterConfigurationRegistry.getInstance().pushSettings(this.protocolStep.getPostFilter(), settings);
+            PostfilterProtocolRegistry.getInstance()
+                    .restoreCascadingProtocolStep(
+                        this.protocolStep.getCascadingProtocolStep());
 
             this.restoreSearchResultsHyperlinkActionPerformed(evt);
         } else {
             LOGGER.error("selected tags list is empty, cannot filter settings from protocol of post filter '"
                         + this.protocolStep.getPostFilter() + "'");
         }
-    }//GEN-LAST:event_restorePostFilterHyperlinkActionPerformed
+    } //GEN-LAST:event_restorePostFilterHyperlinkActionPerformed
 
     @Override
     public Component getIconComponent() {

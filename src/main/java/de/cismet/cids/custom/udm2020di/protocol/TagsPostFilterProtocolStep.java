@@ -14,8 +14,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -42,9 +40,8 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
 
     @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
-            "TagsPostFilter",
-            "TagsPostFilter protocol",
-            TagsPostFilterProtocolStep.class.getCanonicalName());
+            TagsPostFilterProtocolStep.class.getSimpleName(),
+            "TagsPostFilter protocol");
 
     //~ Instance fields --------------------------------------------------------
 

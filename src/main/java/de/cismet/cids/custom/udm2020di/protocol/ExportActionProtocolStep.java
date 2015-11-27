@@ -32,13 +32,11 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOGGER = Logger.getLogger(ExportActionProtocolStep.class);
-    private static final String PARAMETER_EXPORT_ACTION = "ExportAction";
 
     @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
-            "ExportAction",
-            "comment step protocol",
-            ExportActionProtocolStep.class.getCanonicalName());
+            ExportActionProtocolStep.class.getSimpleName(),
+            "ExportAction");
 
     //~ Instance fields --------------------------------------------------------
 

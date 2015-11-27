@@ -17,9 +17,11 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * DOCUMENT ME!
  *
- * @author   Pascal Dihé <pascal.dihe@cismet.de>
- * @version  $Revision$, $Date$
+ * @author      Pascal Dihé <pascal.dihe@cismet.de>
+ * @version     $Revision$, $Date$
+ * @deprecated  use PostfilterProtocolRegistry instead!
  */
+@Deprecated
 public class PostfilterConfigurationRegistry {
 
     //~ Static fields/initializers ---------------------------------------------

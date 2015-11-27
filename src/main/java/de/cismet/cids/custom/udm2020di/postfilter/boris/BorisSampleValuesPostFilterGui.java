@@ -30,10 +30,6 @@ import static de.cismet.cids.custom.udm2020di.treeicons.BorisSiteIconFactory.BOR
 @ServiceProvider(service = PostFilterGUI.class)
 public class BorisSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    protected static final Logger LOGGER = Logger.getLogger(BorisSampleValuesPostFilterGui.class);
-
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -46,6 +42,7 @@ public class BorisSampleValuesPostFilterGui extends CommonSampleValuesPostFilter
             new BorisSiteSearch(),
             BORIS_SITE_ICON,
             "BORIS_SITE");
+        LOGGER = Logger.getLogger(BorisSampleValuesPostFilterGui.class);
         this.active = true;
     }
 }

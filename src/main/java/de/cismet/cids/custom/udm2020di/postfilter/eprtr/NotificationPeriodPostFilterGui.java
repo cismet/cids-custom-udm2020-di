@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 import de.cismet.cids.custom.udm2020di.postfilter.*;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
@@ -48,11 +46,11 @@ public class NotificationPeriodPostFilterGui extends CommonTagsPostFilterGui {
      */
     public NotificationPeriodPostFilterGui() {
         super();
-        logger = Logger.getLogger(NotificationPeriodPostFilterGui.class);
+        LOGGER = Logger.getLogger(NotificationPeriodPostFilterGui.class);
         icon = EPRTR_INSTALLATION_ICON;
         eprtrClass = ClassCacheMultiple.getMetaClass("UDM2020-DI", "EPRTR_INSTALLATION");
         if (eprtrClass == null) {
-            logger.warn("could not retrieve EPRTR_INSTALLATION class from UDM2020-DI, "
+            LOGGER.warn("could not retrieve EPRTR_INSTALLATION class from UDM2020-DI, "
                         + "filter is disabled!");
         }
     }
@@ -101,8 +99,8 @@ public class NotificationPeriodPostFilterGui extends CommonTagsPostFilterGui {
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
         final boolean canHandle = !this.preFilterNodes(nodes).isEmpty();
-        if (logger.isDebugEnabled()) {
-            logger.debug("filter can handle " + nodes.size() + " nodes:" + canHandle);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("filter can handle " + nodes.size() + " nodes:" + canHandle);
         }
         return canHandle;
     }

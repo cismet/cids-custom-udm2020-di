@@ -31,10 +31,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
+import de.cismet.cids.custom.udm2020di.protocol.CommonPostFilterProtocolStep;
+import de.cismet.cids.custom.udm2020di.protocol.PostfilterProtocolRegistry;
 import de.cismet.cids.custom.udm2020di.protocol.SampleValuesPostFilterProtocolStep;
 import de.cismet.cids.custom.udm2020di.serversearch.CustomMaxValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterAggregationValuesSearch;
-import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
@@ -50,16 +51,9 @@ import de.cismet.commons.gui.protocol.ProtocolHandler;
  */
 public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    public static final String AGGREGATION_VALUES = "AGGREGATION_VALUES";
-    public static final String SELECTED_VALUES = "SELECTED_VALUES";
-    public static final String MIN_DATE = "MIN_DATE";
-    public static final String MAX_DATE = "MIN_DATE";
-
-    protected static Logger LOGGER = Logger.getLogger(CommonSampleValuesPostFilterGui.class);
-
     //~ Instance fields --------------------------------------------------------
+
+    protected Logger LOGGER = Logger.getLogger(CommonSampleValuesPostFilterGui.class);
 
     protected final PostFilterAggregationValuesSearch postFilterAggregationValuesSearch;
     protected final CustomMaxValuesSearch customMaxValuesSearch;
@@ -180,16 +174,16 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
     @Override
     public boolean isActive() {
-        return this.active && (this.metaClass != null);
+        return this.active && (this.metaClass != null) && this.applyButton.isEnabled();
     }
 
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
-        final boolean canHandle = !this.preFilterNodes(nodes).isEmpty();
+        this.active = !this.preFilterNodes(nodes).isEmpty();
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("filter can handle " + nodes.size() + " nodes:" + canHandle);
+            LOGGER.debug("filter can handle " + nodes.size() + " nodes:" + this.active);
         }
-        return canHandle;
+        return this.active;
     }
 
     /**
@@ -264,17 +258,27 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                     @Override
                     protected Collection<AggregationValue> doInBackground() throws Exception {
                         Collection<AggregationValue> aggregationValues = new ArrayList<AggregationValue>();
-                        final Class runtimeClass = CommonSampleValuesPostFilterGui.this.getClass();
 
-                        if (PostfilterConfigurationRegistry.getInstance().hasSetting(
-                                        runtimeClass,
-                                        AGGREGATION_VALUES)) {
-                            aggregationValues.addAll((Collection<AggregationValue>)PostfilterConfigurationRegistry
-                                        .getInstance().popSetting(
-                                    runtimeClass,
-                                    AGGREGATION_VALUES));
-                            LOGGER.info("restoring " + aggregationValues.size() + " saved aggregation values!");
+                        if (PostfilterProtocolRegistry.getInstance().isShouldRestoreSettings()
+                                    && PostfilterProtocolRegistry.getInstance().hasProtocolStep(
+                                        CommonSampleValuesPostFilterGui.this)
+                                    && (PostfilterProtocolRegistry.getInstance().getProtocolStep(
+                                            CommonSampleValuesPostFilterGui.this).getNodes().hashCode()
+                                        == nodes.hashCode())) {
+                            final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry.getInstance()
+                                        .getProtocolStep(CommonSampleValuesPostFilterGui.this);
+
+                            if (SampleValuesPostFilterProtocolStep.class.isAssignableFrom(protocolStep.getClass())) {
+                                aggregationValues.addAll(((SampleValuesPostFilterProtocolStep)protocolStep)
+                                            .getAggregationValues());
+                                LOGGER.info("restoring " + aggregationValues.size()
+                                            + " saved aggregation values from protocol!");
+                            } else {
+                                LOGGER.error("unexpected ProtocolStep:" + protocolStep.getClass().getSimpleName());
+                            }
                         } else {
+                            PostfilterProtocolRegistry.getInstance()
+                                    .clearProtocolStep(CommonSampleValuesPostFilterGui.this);
                             final ArrayList objectIds = new ArrayList<Integer>();
                             for (final MetaObjectNode node : preFilteredNodes) {
                                 objectIds.add(node.getObjectId());
@@ -320,31 +324,32 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                     maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
                                 }
 
-                                final Class runtimeClass = CommonSampleValuesPostFilterGui.this.getClass();
-                                if (PostfilterConfigurationRegistry.getInstance().hasSetting(
-                                                runtimeClass,
-                                                SELECTED_VALUES)) {
-                                    final Map<String, Float> selectedValues = (Map<String, Float>)
-                                        PostfilterConfigurationRegistry.getInstance()
-                                                .popSetting(
-                                                        runtimeClass,
-                                                        SELECTED_VALUES);
+                                if (PostfilterProtocolRegistry.getInstance().isShouldRestoreSettings()
+                                            && PostfilterProtocolRegistry.getInstance().hasProtocolStep(
+                                                CommonSampleValuesPostFilterGui.this)) {
+                                    final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry
+                                                .getInstance().getProtocolStep(CommonSampleValuesPostFilterGui.this);
 
-                                    final Date minDate =
-                                        PostfilterConfigurationRegistry
-                                                .getInstance().hasSetting(runtimeClass, MIN_DATE)
-                                        ? (Date)PostfilterConfigurationRegistry.getInstance()
-                                                .popSetting(runtimeClass, MIN_DATE) : null;
+                                    if (SampleValuesPostFilterProtocolStep.class.isAssignableFrom(
+                                                    protocolStep.getClass())) {
+                                        aggregationValues.addAll(((SampleValuesPostFilterProtocolStep)protocolStep)
+                                                    .getAggregationValues());
 
-                                    final Date maxDate =
-                                        PostfilterConfigurationRegistry
-                                                .getInstance().hasSetting(runtimeClass, MAX_DATE)
-                                        ? (Date)PostfilterConfigurationRegistry.getInstance()
-                                                .popSetting(runtimeClass, MAX_DATE) : null;
+                                        final Map<String, Float> selectedValues =
+                                            ((SampleValuesPostFilterProtocolStep)protocolStep).getSelectedValues();
 
-                                    LOGGER.info("restoring " + selectedValues.size()
-                                                + " selected values from saved configuration!");
-                                    maxParameterValueSelectionPanel.setValues(selectedValues, minDate, maxDate);
+                                        final Date minDate = ((SampleValuesPostFilterProtocolStep)protocolStep)
+                                                    .getMinDate();
+                                        final Date maxDate = ((SampleValuesPostFilterProtocolStep)protocolStep)
+                                                    .getMaxDate();
+
+                                        LOGGER.info("restoring " + selectedValues.size()
+                                                    + " selected values from saved configuration!");
+                                        maxParameterValueSelectionPanel.setValues(selectedValues, minDate, maxDate);
+                                    } else {
+                                        LOGGER.error("unexpected ProtocolStep:"
+                                                    + protocolStep.getClass().getSimpleName());
+                                    }
                                 }
 
                                 enableButtons();
@@ -388,9 +393,9 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      * DOCUMENT ME!
      */
     protected void enableButtons() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("enable buttons: " + maxParameterValueSelectionPanel.getSelectedValues());
-        }
+//        if (LOGGER.isDebugEnabled()) {
+//            LOGGER.debug("enable buttons: " + maxParameterValueSelectionPanel.getSelectedValues());
+//        }
         applyButton.setEnabled(maxParameterValueSelectionPanel.getSelectedValues() > 0);
         resetButton.setEnabled(maxParameterValueSelectionPanel.getSelectedValues() > 0);
     }
@@ -498,14 +503,14 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
 
         if (ProtocolHandler.getInstance().isRecordEnabled()) {
             final Collection<AggregationValue> aggregationValues = this.getAggregationValues();
             final Map<String, Float> selectedValues = this.getSelectedValues();
             final SampleValuesPostFilterProtocolStep protocolStep = new SampleValuesPostFilterProtocolStep(
-                    this.getClass().getCanonicalName(),
+                    this.getClass().getSimpleName(),
                     this.getTitle(),
                     this.icon,
                     aggregationValues,
@@ -513,35 +518,35 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                     this.getMinDate(),
                     this.getMaxDate());
 
-            ProtocolHandler.getInstance().recordStep(protocolStep);
-
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.info("saving post filter settings to protocol for "
                             + aggregationValues.size() + " aggregation values and "
                             + selectedValues.size() + " selected values");
             }
+
+            PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
         }
-    } //GEN-LAST:event_applyButtonActionPerformed
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         this.maxParameterValueSelectionPanel.reset();
-        this.validateTree();
+        this.validate();
         this.enableButtons();
-    }                                                                               //GEN-LAST:event_resetButtonActionPerformed
+    }//GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
+    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
         this.enableButtons();
-    }                                                                                                      //GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
+    }//GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
 
     @Override
     public Integer getDisplayOrderKeyPrio() {
@@ -582,5 +587,13 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      */
     public Collection<AggregationValue> getAggregationValues() {
         return this.maxParameterValueSelectionPanel.getAggregationValues();
+    }
+
+    @Override
+    public boolean isSelected() {
+        return PostfilterProtocolRegistry.getInstance().isShouldRestoreSettings()
+                    && (PostfilterProtocolRegistry.getInstance().getMasterPostFilter() != null)
+                    && PostfilterProtocolRegistry.getInstance().getMasterPostFilter()
+                    .equals(this.getClass().getSimpleName());
     }
 }

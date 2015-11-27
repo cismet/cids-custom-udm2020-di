@@ -36,7 +36,7 @@ public class PollutantGroupTagsPostFilterGui extends CommonTagsPostFilterGui {
      */
     public PollutantGroupTagsPostFilterGui() {
         super();
-        logger = Logger.getLogger(PollutantGroupTagsPostFilterGui.class);
+        LOGGER = Logger.getLogger(PollutantGroupTagsPostFilterGui.class);
         icon = new ImageIcon(getClass().getResource(
                     NbBundle.getMessage(
                         CommonTagsPostFilterGui.class,

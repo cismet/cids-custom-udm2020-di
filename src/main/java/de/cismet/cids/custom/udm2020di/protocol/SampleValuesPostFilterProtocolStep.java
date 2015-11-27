@@ -42,9 +42,8 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
 
     @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
-            "Max Values Post Filter",
-            "\"Max Values Post Filter Protocol",
-            SampleValuesPostFilterProtocolStep.class.getCanonicalName());
+            SampleValuesPostFilterProtocolStep.class.getSimpleName(),
+            "Max Values Post Filter Protocol");
 
     //~ Instance fields --------------------------------------------------------
 
