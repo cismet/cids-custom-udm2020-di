@@ -382,6 +382,11 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
             LOGGER.debug("initialize Filter with " + nodes.size() + " nodes");
         }
 
+        final PostfilterProtocolRegistry registry = PostfilterProtocolRegistry.getInstance();
+        this.selected = registry.isShouldRestoreSettings(this, nodes.hashCode())
+                    && (registry.getMasterPostFilter() != null)
+                    && registry.getMasterPostFilter().equals(this.getClass().getSimpleName());
+
         final SwingWorker<Collection<JToggleButton>, Void> worker = new SwingWorker<Collection<JToggleButton>, Void>() {
 
                 @Override
@@ -411,11 +416,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
                     final Collection<Tag> filterTags;
-                    if (PostfilterProtocolRegistry.getInstance().isShouldRestoreSettings()
-                                && PostfilterProtocolRegistry.getInstance().hasProtocolStep(
-                                    CommonTagsPostFilterGui.this)
-                                && (PostfilterProtocolRegistry.getInstance().getProtocolStep(
-                                        CommonTagsPostFilterGui.this).getNodes().hashCode() == nodes.hashCode())) {
+                    if (registry.isShouldRestoreSettings(CommonTagsPostFilterGui.this, nodes.hashCode())) {
                         filterTags = new ArrayList<Tag>();
                         final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry.getInstance()
                                     .getProtocolStep(CommonTagsPostFilterGui.this);
@@ -430,7 +431,6 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                         LOGGER.info("restoring " + filterTags.size() + " filter tags from saved configuration!");
                     } else {
-                        PostfilterProtocolRegistry.getInstance().clearProtocolStep(CommonTagsPostFilterGui.this);
                         final Collection<MetaObject> metaObjects = retrieveFilterTags(new ArrayList<Node>(nodes));
                         filterTags = filterCidsBeans(metaObjects);
                     }
@@ -821,14 +821,6 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         }
 
         return filterTags;
-    }
-
-    @Override
-    public boolean isSelected() {
-        return PostfilterProtocolRegistry.getInstance().isShouldRestoreSettings()
-                    && (PostfilterProtocolRegistry.getInstance().getMasterPostFilter() != null)
-                    && PostfilterProtocolRegistry.getInstance().getMasterPostFilter()
-                    .equals(this.getClass().getSimpleName());
     }
 
     //~ Inner Classes ----------------------------------------------------------
