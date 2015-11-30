@@ -25,6 +25,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -138,6 +139,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.btnExport.actionCommand")); // NOI18N
         btnExport.setAutoscrolls(true);
+        exportButtonGroup.add(btnExport);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -151,6 +153,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         btnReset.setActionCommand(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.btnReset.actionCommand")); // NOI18N
+        exportButtonGroup.add(btnReset);
         btnReset.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -168,6 +171,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         btnSelectAll.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.btnSelectAll.text")); // NOI18N
+        exportButtonGroup.add(btnSelectAll);
         btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
 
                 @Override
@@ -194,6 +198,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(formatLabel, gridBagConstraints);
 
+        exportButtonGroup.add(rbtnCsv);
         rbtnCsv.setSelected(true);
         rbtnCsv.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
@@ -215,6 +220,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(rbtnCsv, gridBagConstraints);
 
+        exportButtonGroup.add(rbtnXlsx);
         rbtnXlsx.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.rbtnXlsx.text"));        // NOI18N
@@ -235,6 +241,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         actionPanel.add(rbtnXlsx, gridBagConstraints);
 
+        exportButtonGroup.add(rbtnShp);
         rbtnShp.setText(org.openide.util.NbBundle.getMessage(
                 ExportParameterSelectionPanel.class,
                 "ExportParameterSelectionPanel.rbtnShp.text"));        // NOI18N
@@ -335,38 +342,26 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
     public final void setParameters(final Collection<Parameter> parameters) {
         this.parameters.addAll(parameters);
 
-        final Runnable r = new Runnable() {
+        ExportParameterSelectionPanel.this.selectionPanel.removeAll();
+        bindingGroup.unbind();
+        if ((parameters != null) && !ExportParameterSelectionPanel.this.parameters.isEmpty()) {
+            for (final Parameter parameter : ExportParameterSelectionPanel.this.parameters) {
+                final JCheckBox checkBox = new JCheckBox(parameter.getParameterName());
+                checkBox.addItemListener(WeakListeners.create(
+                        ItemListener.class,
+                        ExportParameterSelectionPanel.this,
+                        checkBox));
+                ExportParameterSelectionPanel.this.selectionPanel.add(checkBox);
+                final Binding binding = Bindings.createAutoBinding(
+                        AutoBinding.UpdateStrategy.READ_WRITE,
+                        parameter,
+                        ELProperty.create("${selected}"),
+                        checkBox,
+                        BeanProperty.create("selected"));
+                bindingGroup.addBinding(binding);
+            }
 
-                @Override
-                public void run() {
-                    ExportParameterSelectionPanel.this.selectionPanel.removeAll();
-                    bindingGroup.unbind();
-                    if ((parameters != null) && !ExportParameterSelectionPanel.this.parameters.isEmpty()) {
-                        for (final Parameter parameter : ExportParameterSelectionPanel.this.parameters) {
-                            final JCheckBox checkBox = new JCheckBox(parameter.getParameterName());
-                            checkBox.addItemListener(WeakListeners.create(
-                                    ItemListener.class,
-                                    ExportParameterSelectionPanel.this,
-                                    checkBox));
-                            ExportParameterSelectionPanel.this.selectionPanel.add(checkBox);
-                            final Binding binding = Bindings.createAutoBinding(
-                                    AutoBinding.UpdateStrategy.READ_WRITE,
-                                    parameter,
-                                    ELProperty.create("${selected}"),
-                                    checkBox,
-                                    BeanProperty.create("selected"));
-                            bindingGroup.addBinding(binding);
-                        }
-
-                        bindingGroup.bind();
-                    }
-                }
-            };
-
-        if (EventQueue.isDispatchThread()) {
-            r.run();
-        } else {
-            EventQueue.invokeLater(r);
+            bindingGroup.bind();
         }
     }
 
@@ -379,6 +374,9 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         synchronized (selectedParameters) {
             selectedParameters.clear();
             if ((this.parameters != null) && !this.parameters.isEmpty()) {
+//                if (LOGGER.isDebugEnabled()) {
+//                    LOGGER.debug("selecting parameters of " + this.parameters.size() + " parameters");
+//                }
                 for (final Parameter parameter : this.parameters) {
                     if (parameter.isSelected()) {
                         selectedParameters.add(parameter);
@@ -395,18 +393,26 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      * @param  selectedParameters  DOCUMENT ME!
      */
     public void setSelectedParameters(final Collection<Parameter> selectedParameters) {
-        synchronized (selectedParameters) {
-            selectedParameters.clear();
+        synchronized (this.selectedParameters) {
+            this.selectedParameters.clear();
             if ((this.parameters != null) && !this.parameters.isEmpty()) {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("selecting " + selectedParameters.size() + " of " + this.parameters.size()
                                 + " parameters");
                 }
+
+                final HashSet selectedParameterPks = new HashSet<String>(selectedParameters.size());
+                for (final Parameter selectedParameter : selectedParameters) {
+                    selectedParameterPks.add(selectedParameter.getParameterPk());
+                }
+
                 for (final Parameter parameter : this.parameters) {
-                    parameter.setSelected(selectedParameters.contains(parameter));
-                    if (parameter.isSelected()) {
-                        selectedParameters.add(parameter);
-                    }
+                    parameter.setSelected(selectedParameterPks.contains(parameter.getParameterPk()));
+                }
+
+                if (this.selectedParameters.size() != selectedParameters.size()) {
+                    LOGGER.warn("only " + this.selectedParameters.size() + " of "
+                                + selectedParameters.size() + " parameters selected!");
                 }
             } else {
                 LOGGER.warn("cannot select parameters, parameter list is empty!");
@@ -478,7 +484,7 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
     @Override
     public void itemStateChanged(final ItemEvent e) {
         if (!this.disableEvents) {
-            enableButtons();
+            this.enableButtons();
         }
     }
 
@@ -489,10 +495,10 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
         final Collection<Parameter> selParameters = this.getSelectedParameters();
 
         if (selParameters.isEmpty()) {
-            this.btnExport.getAction().setEnabled(false);
+            this.btnExport.setEnabled(false);
             this.btnReset.setEnabled(false);
         } else {
-            this.btnExport.getAction().setEnabled(true);
+            this.btnExport.setEnabled(true);
             this.btnReset.setEnabled(true);
         }
 

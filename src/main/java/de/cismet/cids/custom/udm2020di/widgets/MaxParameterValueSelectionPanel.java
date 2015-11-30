@@ -7,7 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.widgets;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import org.jdesktop.beansbinding.Validator;
@@ -19,12 +18,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,6 +35,8 @@ import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.boris.Standort;
+
+import de.cismet.tools.gui.log4jquickconfig.Log4JQuickConfig;
 
 /**
  * DOCUMENT ME!
@@ -64,7 +67,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
     private final transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-    private final MaxDateValidator maxDateValidator = new MaxDateValidator();
+    // private final MaxDateValidator maxDateValidator = new MaxDateValidator();
 
     private Date minDate;
 
@@ -205,15 +208,17 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
         this.aggregationValues = aggregationValues;
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("generating parameter selection panels for " + this.aggregationValues.size() + " parameters");
-        }
 //        //EventQueue.invokeLater(new Runnable() {
 //
 //                @Override
 //                public void run() {
         if ((MaxParameterValueSelectionPanel.this.aggregationValues != null)
                     && !MaxParameterValueSelectionPanel.this.aggregationValues.isEmpty()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("generating parameter selection panels for " + this.aggregationValues.size()
+                            + " parameters");
+            }
+
             this.addMeButton.setEnabled(true);
             this.initDate(aggregationValues.getMinDate(), aggregationValues.getMaxDate());
         } else {
@@ -436,6 +441,107 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     }
 
     /**
+     * Inits the panel with pre-selected values.
+     *
+     * @param  values   DOCUMENT ME!
+     * @param  minDate  DOCUMENT ME!
+     * @param  maxDate  DOCUMENT ME!
+     */
+    public void setValues(
+            final Map<String, Float> values,
+            final Date minDate,
+            final Date maxDate) {
+        if ((this.aggregationValues != null) && !this.aggregationValues.isEmpty()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("selecting " + values.size() + " values");
+            }
+
+            this.parametersPanel.removeAll();
+            final SortedSet<Map.Entry<String, Float>> sortedValues = new TreeSet<Map.Entry<String, Float>>(
+                    new Comparator<Map.Entry<String, Float>>() {
+
+                        @Override
+                        public int compare(final Map.Entry<String, Float> o1, final Map.Entry<String, Float> o2) {
+                            return o1.getKey().compareTo(o2.getKey());
+                        }
+                    });
+
+            sortedValues.addAll(values.entrySet());
+
+            for (final Map.Entry<String, Float> value : sortedValues) {
+                final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+                gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+                gridBagConstraints.weightx = 1.0;
+                gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+                gridBagConstraints.gridx = 0;
+                gridBagConstraints.gridy = GridBagConstraints.RELATIVE;
+
+                final MaxParameterValuePanel parameterValuePanel = new MaxParameterValuePanel(aggregationValues);
+                parameterValuePanel.setValue(value);
+                this.parametersPanel.add(parameterValuePanel, gridBagConstraints);
+                this.parameterValuePanels.add(parameterValuePanel);
+
+                final JButton removeMeButton = new javax.swing.JButton("-");
+                removeMeButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+                removeMeButton.setMargin(new java.awt.Insets(2, 8, 2, 8));
+                if (this.parameterValuePanels.size() > 0) {
+                    removeMeButton.addActionListener(new java.awt.event.ActionListener() {
+
+                            @Override
+                            public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                                parameterValuePanels.remove(parameterValuePanel);
+                                parametersPanel.remove(parameterValuePanel);
+                                parametersPanel.remove(removeMeButton);
+                                removeMeButton.removeActionListener(this);
+                                setSelectedValues(parameterValuePanels.size());
+                                parametersPanel.validate();
+                                parametersPanel.repaint();
+                            }
+                        });
+                } else {
+                    removeMeButton.setEnabled(false);
+                }
+
+                gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+                gridBagConstraints.fill = GridBagConstraints.NONE;
+                gridBagConstraints.gridx = 1;
+                gridBagConstraints.weightx = 0.0;
+                this.parametersPanel.add(removeMeButton, gridBagConstraints);
+            }
+
+            final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+            gridBagConstraints.gridx = 1;
+            gridBagConstraints.weightx = 0.0;
+            gridBagConstraints.weighty = 1.0;
+            gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+            this.parametersPanel.add(addMeButton, gridBagConstraints);
+            setSelectedValues(parameterValuePanels.size());
+
+            validate();
+            repaint();
+
+            if (maxDate != null) {
+                this.setMaxDate(maxDate);
+            } else {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("could not set maxDate, date is null");
+                }
+            }
+
+            if (minDate != null) {
+                this.setMinDate(minDate);
+            } else {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("could not set minDate, date is null");
+                }
+            }
+        } else {
+            LOGGER.warn("could not select " + values.size() + "' values: aggregation values list is empty!");
+        }
+    }
+
+    /**
      * DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -443,7 +549,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
     public Map<String, Float> getValues() {
         final Map<String, Float> values = new HashMap<String, Float>();
         for (final MaxParameterValuePanel parameterValuePanel : this.parameterValuePanels) {
-            final SimpleEntry<String, Float> value = parameterValuePanel.getValue();
+            final Map.Entry<String, Float> value = parameterValuePanel.getValue();
             values.put(value.getKey(), value.getValue());
         }
 
@@ -505,7 +611,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
      */
     public static void main(final String[] args) {
         try {
-            BasicConfigurator.configure();
+            Log4JQuickConfig.configure4LumbermillOnLocalhost();
             final Standort borisStandort = OracleImport.JSON_MAPPER.readValue(
                     MaxParameterValueSelectionPanel.class.getResourceAsStream(
                         "/de/cismet/cids/custom/udm2020di/testing/BorisStandort.json"),
@@ -516,6 +622,14 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
             aggregationValues.addAll(borisStandort.getAggregationValues());
             panel.setAggregationValues(aggregationValues);
+
+            final Map<String, Float> values = new HashMap<String, Float>();
+            values.put("As", 7f);
+            values.put("Hg", 0.1f);
+            values.put("Pb", 59f);
+            values.put("Zn", 5f);
+            values.put("Cd", 10000f);
+            panel.setValues(values, null, null);
 
             panel.addPropertyChangeListener(new PropertyChangeListener() {
 

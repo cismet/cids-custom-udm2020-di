@@ -31,6 +31,7 @@ import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.wa.GwMessstelle;
@@ -47,11 +48,10 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static int SELECTED_TAB = 0;
+    protected static final Logger LOGGER = Logger.getLogger(WagwStationRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Logger logger = Logger.getLogger(WagwStationRenderer.class);
     protected String stationType = WaExportAction.WAGW;
 
     private Messstelle messstelle;
@@ -192,7 +192,7 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
                     try {
                         WagwStationRenderer.this.messstelle = WagwStationRenderer.this.deserializeStation();
                     } catch (Exception ex) {
-                        logger.error("could not deserialize WA Messtelle JSON: " + ex.getMessage(), ex);
+                        LOGGER.error("could not deserialize WA Messtelle JSON: " + ex.getMessage(), ex);
                         if (WagwStationRenderer.this.messstelle == null) {
                             return;
                         }
@@ -317,9 +317,6 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
                             de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP,
                             false);
                     }
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("restoring selected tab index: " + SELECTED_TAB);
-                    }
 
                     // Visualisation -------------------------------------------
                     visualisationPanel.setParameters(parameters);
@@ -330,18 +327,21 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
                             visualisationPanel);
                     visualisationPanel.setVisualisationAction(visualisationAction);
 
-                    // selected TAB --------------------------------------------
-                    jTabbedPane.setSelectedIndex(SELECTED_TAB);
-                    jTabbedPane.addChangeListener(WeakListeners.create(
-                            ChangeListener.class,
-                            new ChangeListener() {
+                    // Saved Configuration: Restore Export Parameters ----------
+                    DefaultRendererConfigurationHelper.getInstance()
+                            .restoreExportSettings(
+                                getOuter(),
+                                jTabbedPane,
+                                parameterSelectionPanel,
+                                exportPanel,
+                                LOGGER);
 
-                                @Override
-                                public void stateChanged(final ChangeEvent evt) {
-                                    SELECTED_TAB = jTabbedPane.getSelectedIndex();
-                                }
-                            },
-                            jTabbedPane));
+                    // Saved Configuration: Restore selected Tab ---------------
+                    DefaultRendererConfigurationHelper.getInstance()
+                            .restoreSelectedTab(
+                                getOuter().getClass(),
+                                jTabbedPane,
+                                LOGGER);
                 }
             };
 
@@ -449,5 +449,14 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
                     jTabbedPane.setSelectedComponent(exportPanel);
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected WagwStationRenderer getOuter() {
+        return WagwStationRenderer.this;
     }
 }

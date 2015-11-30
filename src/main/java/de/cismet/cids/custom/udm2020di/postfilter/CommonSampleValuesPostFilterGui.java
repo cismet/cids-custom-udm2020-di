@@ -23,6 +23,7 @@ import java.awt.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +31,17 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
+import de.cismet.cids.custom.udm2020di.protocol.CommonPostFilterProtocolStep;
+import de.cismet.cids.custom.udm2020di.protocol.PostfilterProtocolRegistry;
+import de.cismet.cids.custom.udm2020di.protocol.SampleValuesPostFilterProtocolStep;
 import de.cismet.cids.custom.udm2020di.serversearch.CustomMaxValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
+
+import de.cismet.commons.gui.protocol.ProtocolHandler;
 
 /**
  * DOCUMENT ME!
@@ -45,11 +51,9 @@ import de.cismet.cids.navigator.utils.ClassCacheMultiple;
  */
 public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilterGUI {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    protected static Logger LOGGER = Logger.getLogger(CommonSampleValuesPostFilterGui.class);
-
     //~ Instance fields --------------------------------------------------------
+
+    protected Logger LOGGER = Logger.getLogger(CommonSampleValuesPostFilterGui.class);
 
     protected final PostFilterAggregationValuesSearch postFilterAggregationValuesSearch;
     protected final CustomMaxValuesSearch customMaxValuesSearch;
@@ -112,7 +116,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                         + " nodes remaining after applying "
                                         + maxParameterValues.size() + " max param value filters to "
                                         + preFilteredNodes.size()
-                                        + " pre-filtered nodes (" + filteredNodes + " actually filtered nodes)");
+                                        + " pre-filtered nodes (" + filteredNodes.size() + " actually filtered nodes)");
                         }
 
                         return postFilteredNodes;
@@ -170,16 +174,16 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
     @Override
     public boolean isActive() {
-        return this.active && (this.metaClass != null);
+        return this.active && (this.metaClass != null) && this.applyButton.isEnabled();
     }
 
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
-        final boolean canHandle = !this.preFilterNodes(nodes).isEmpty();
+        this.active = !this.preFilterNodes(nodes).isEmpty();
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("filter can handle " + nodes.size() + " nodes:" + canHandle);
+            LOGGER.debug("filter can handle " + nodes.size() + " nodes:" + this.active);
         }
-        return canHandle;
+        return this.active;
     }
 
     /**
@@ -214,9 +218,9 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      * DOCUMENT ME!
      */
     protected void disableButtons() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("disable buttons");
-        }
+//        if (LOGGER.isDebugEnabled()) {
+//            LOGGER.debug("disable buttons");
+//        }
         applyButton.setEnabled(false);
         resetButton.setEnabled(false);
     }
@@ -232,19 +236,10 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
             LOGGER.debug("initialize Filter with " + nodes.size() + " nodes");
         }
 
-        EventQueue.invokeLater(new Runnable() {
-
-                @Override
-                public void run() {
-                    parameterPanel.removeAll();
-                    parameterPanel.setLayout(new FlowLayout());
-                    parameterPanel.add(progressBar);
-                    maxParameterValueSelectionPanel.reset();
-                    disableButtons();
-                    parameterPanel.validate();
-                    parameterPanel.repaint();
-                }
-            });
+        final PostfilterProtocolRegistry registry = PostfilterProtocolRegistry.getInstance();
+        this.selected = registry.isShouldRestoreSettings(this, nodes)
+                    && (registry.getMasterPostFilter() != null)
+                    && registry.getMasterPostFilter().equals(this.getClass().getSimpleName());
 
         final List<MetaObjectNode> preFilteredNodes = preFilterNodes(nodes);
         if (!preFilteredNodes.isEmpty()) {
@@ -253,36 +248,75 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
                     @Override
                     protected Collection<AggregationValue> doInBackground() throws Exception {
-                        final ArrayList objectIds = new ArrayList<Integer>();
-                        for (final MetaObjectNode node : preFilteredNodes) {
-                            objectIds.add(node.getObjectId());
+                        try {
+                            EventQueue.invokeAndWait(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        if (LOGGER.isDebugEnabled()) {
+                                            LOGGER.debug("showing progress bar");
+                                        }
+                                        parameterPanel.removeAll();
+                                        parameterPanel.setLayout(new FlowLayout());
+                                        parameterPanel.add(progressBar);
+                                        maxParameterValueSelectionPanel.reset();
+                                        disableButtons();
+                                        parameterPanel.validate();
+                                        parameterPanel.repaint();
+                                    }
+                                });
+                        } catch (Exception ex) {
+                            LOGGER.error("could not show progress bar: " + ex.getMessage(), ex);
                         }
 
-                        postFilterAggregationValuesSearch.setObjectIds(objectIds);
+                        Collection<AggregationValue> aggregationValues = new ArrayList<AggregationValue>();
+                        if (registry.isShouldRestoreSettings(
+                                        CommonSampleValuesPostFilterGui.this,
+                                        nodes)) {
+                            final CommonPostFilterProtocolStep protocolStep = registry.getProtocolStep(
+                                    CommonSampleValuesPostFilterGui.this);
 
-                        try {
-                            final Collection<AggregationValue> aggregationValues = SessionManager.getProxy()
-                                        .customServerSearch(postFilterAggregationValuesSearch);
-
-                            if (LOGGER.isDebugEnabled()) {
-                                LOGGER.debug(aggregationValues.size() + " aggregation values for "
-                                            + objectIds.size() + " nodes retrieved.");
+                            if (SampleValuesPostFilterProtocolStep.class.isAssignableFrom(protocolStep.getClass())) {
+                                aggregationValues.addAll(((SampleValuesPostFilterProtocolStep)protocolStep)
+                                            .getAggregationValues());
+                                LOGGER.info("restoring " + aggregationValues.size()
+                                            + " saved aggregation values from protocol!");
+                            } else {
+                                LOGGER.error("unexpected ProtocolStep:" + protocolStep.getClass().getSimpleName());
+                            }
+                        } else {
+                            final ArrayList objectIds = new ArrayList<Integer>();
+                            for (final MetaObjectNode node : preFilteredNodes) {
+                                objectIds.add(node.getObjectId());
                             }
 
-                            return aggregationValues;
-                        } catch (Exception e) {
-                            LOGGER.error("could not retrieve aggregation values  for " + objectIds.size() + " nodes!",
-                                e);
+                            postFilterAggregationValuesSearch.setObjectIds(objectIds);
+
+                            try {
+                                aggregationValues = SessionManager.getProxy()
+                                            .customServerSearch(postFilterAggregationValuesSearch);
+
+                                if (LOGGER.isDebugEnabled()) {
+                                    LOGGER.debug(aggregationValues.size() + " aggregation values for "
+                                                + objectIds.size() + " nodes retrieved from server.");
+                                }
+                            } catch (Exception e) {
+                                LOGGER.error("could not retrieve aggregation values  for " + objectIds.size()
+                                            + " nodes!",
+                                    e);
+                            }
                         }
 
-                        return new ArrayList<AggregationValue>(0);
+                        return aggregationValues;
                     }
 
                     @Override
                     protected void done() {
                         try {
                             final Collection<AggregationValue> aggregationValues = this.get();
-
+                            if (LOGGER.isDebugEnabled()) {
+                                LOGGER.debug("hiding progress bar");
+                            }
                             parameterPanel.removeAll();
                             parameterPanel.setLayout(new BorderLayout());
                             parameterPanel.add(maxParameterValueSelectionPanel, BorderLayout.CENTER);
@@ -294,12 +328,46 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                     maxParameterValueSelectionPanel.setAggregationValues((AggregationValues)
                                         aggregationValues);
                                 } else {
-                                    LOGGER.warn("search did not return AggregationValues.class object!");
+                                    if (LOGGER.isDebugEnabled()) {
+                                        LOGGER.debug("search did not return AggregationValues.class object: "
+                                                    + aggregationValues.getClass().getSimpleName());
+                                    }
                                     maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
                                 }
+
+                                if (registry.isShouldRestoreSettings(
+                                                CommonSampleValuesPostFilterGui.this,
+                                                nodes)) {
+                                    final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry
+                                                .getInstance().getProtocolStep(CommonSampleValuesPostFilterGui.this);
+
+                                    if (SampleValuesPostFilterProtocolStep.class.isAssignableFrom(
+                                                    protocolStep.getClass())) {
+                                        aggregationValues.addAll(((SampleValuesPostFilterProtocolStep)protocolStep)
+                                                    .getAggregationValues());
+
+                                        final Map<String, Float> selectedValues =
+                                            ((SampleValuesPostFilterProtocolStep)protocolStep).getSelectedValues();
+
+                                        final Date minDate = ((SampleValuesPostFilterProtocolStep)protocolStep)
+                                                    .getMinDate();
+                                        final Date maxDate = ((SampleValuesPostFilterProtocolStep)protocolStep)
+                                                    .getMaxDate();
+
+                                        LOGGER.info("restoring " + selectedValues.size()
+                                                    + " selected values from saved configuration!");
+                                        maxParameterValueSelectionPanel.setValues(selectedValues, minDate, maxDate);
+                                        maxParameterValueSelectionPanel.setEnabled(true);
+                                    } else {
+                                        LOGGER.error("unexpected ProtocolStep:"
+                                                    + protocolStep.getClass().getSimpleName());
+                                    }
+                                }
+
                                 enableButtons();
                             } else {
                                 LOGGER.warn("no aggregation values found!");
+                                maxParameterValueSelectionPanel.setAggregationValues(null);
                             }
                             parameterPanel.validate();
                             parameterPanel.repaint();
@@ -338,9 +406,9 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      * DOCUMENT ME!
      */
     protected void enableButtons() {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("enable buttons: " + maxParameterValueSelectionPanel.getSelectedValues());
-        }
+//        if (LOGGER.isDebugEnabled()) {
+//            LOGGER.debug("enable buttons: " + maxParameterValueSelectionPanel.getSelectedValues());
+//        }
         applyButton.setEnabled(maxParameterValueSelectionPanel.getSelectedValues() > 0);
         resetButton.setEnabled(maxParameterValueSelectionPanel.getSelectedValues() > 0);
     }
@@ -450,7 +518,28 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      */
     private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
-    }                                                                               //GEN-LAST:event_applyButtonActionPerformed
+
+        if (ProtocolHandler.getInstance().isRecordEnabled()) {
+            final Collection<AggregationValue> aggregationValues = this.getAggregationValues();
+            final Map<String, Float> selectedValues = this.getSelectedValues();
+            final SampleValuesPostFilterProtocolStep protocolStep = new SampleValuesPostFilterProtocolStep(
+                    this.getClass().getSimpleName(),
+                    this.getTitle(),
+                    this.icon,
+                    aggregationValues,
+                    selectedValues,
+                    this.getMinDate(),
+                    this.getMaxDate());
+
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.info("saving post filter settings to protocol for "
+                            + aggregationValues.size() + " aggregation values and "
+                            + selectedValues.size() + " selected values");
+            }
+
+            PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
+        }
+    } //GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -459,7 +548,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      */
     private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
         this.maxParameterValueSelectionPanel.reset();
-        this.validateTree();
+        this.validate();
         this.enableButtons();
     }                                                                               //GEN-LAST:event_resetButtonActionPerformed
 
@@ -475,5 +564,41 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
     @Override
     public Integer getDisplayOrderKeyPrio() {
         return 2000;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Map<String, Float> getSelectedValues() {
+        return this.maxParameterValueSelectionPanel.getValues();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getMinDate() {
+        return this.maxParameterValueSelectionPanel.getMinDate();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Date getMaxDate() {
+        return this.maxParameterValueSelectionPanel.getMaxDate();
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<AggregationValue> getAggregationValues() {
+        return this.maxParameterValueSelectionPanel.getAggregationValues();
     }
 }

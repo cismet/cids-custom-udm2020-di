@@ -9,8 +9,6 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.WeakListeners;
-
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
@@ -18,12 +16,11 @@ import java.util.Collection;
 import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer;
 import de.cismet.cids.custom.udm2020di.tools.WagwListCellRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
@@ -45,11 +42,9 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static int SELECTED_TAB = 0;
+    protected static final Logger LOGGER = Logger.getLogger(WagwStationAggregationRenderer.class);
 
     //~ Instance fields --------------------------------------------------------
-
-    protected Logger logger = Logger.getLogger(WagwStationAggregationRenderer.class);
 
     protected String stationType = WaExportAction.WAGW;
 
@@ -243,7 +238,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
      */
     protected void init() {
         if ((cidsBeans != null) && !cidsBeans.isEmpty()) {
-            logger.info("processing " + cidsBeans.size() + "cids beans");
+            LOGGER.info("processing " + cidsBeans.size() + " cids beans");
             final Runnable r = new Runnable() {
 
                     @Override
@@ -284,7 +279,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
 
                                 aggregationValues.addAll(messstelle.getAggregationValues());
                             } catch (Exception ex) {
-                                logger.error("could not deserialize wagw Messstelle JSON: " + ex.getMessage(), ex);
+                                LOGGER.error("could not deserialize wagw Messstelle JSON: " + ex.getMessage(), ex);
                             }
                         }
 
@@ -308,6 +303,12 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                                 messstellenPks,
                                 stationType);
                         parameterSelectionPanel.setExportAction(waExportAction);
+                        // disable SHP export for grundwasser messstelle
+                        if (stationType.equals(WaExportAction.WAGW)) {
+                            parameterSelectionPanel.setExportFormatEnabled(
+                                de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP,
+                                false);
+                        }
 
                         // Visualisation -------------------------------------------
                         visualisationPanel.setParameters(parametersSet);
@@ -318,18 +319,21 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                                 visualisationPanel);
                         visualisationPanel.setVisualisationAction(visualisationAction);
 
-                        // selected TAB ----------------------------------------
-                        jTabbedPane.setSelectedIndex(SELECTED_TAB);
-                        jTabbedPane.addChangeListener(WeakListeners.create(
-                                ChangeListener.class,
-                                new ChangeListener() {
+                        // Saved Configuration: Restore Export Parameters ----------
+                        DefaultRendererConfigurationHelper.getInstance()
+                                .restoreExportSettings(
+                                    getOuter(),
+                                    jTabbedPane,
+                                    parameterSelectionPanel,
+                                    exportPanel,
+                                    LOGGER);
 
-                                    @Override
-                                    public void stateChanged(final ChangeEvent evt) {
-                                        SELECTED_TAB = jTabbedPane.getSelectedIndex();
-                                    }
-                                },
-                                jTabbedPane));
+                        // Saved Configuration: Restore selected Tab ---------------
+                        DefaultRendererConfigurationHelper.getInstance()
+                                .restoreSelectedTab(
+                                    getOuter().getClass(),
+                                    jTabbedPane,
+                                    LOGGER);
                     }
                 };
 
@@ -383,5 +387,14 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
                     jTabbedPane.setSelectedComponent(exportPanel);
                 }
             });
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    protected WagwStationAggregationRenderer getOuter() {
+        return WagwStationAggregationRenderer.this;
     }
 }

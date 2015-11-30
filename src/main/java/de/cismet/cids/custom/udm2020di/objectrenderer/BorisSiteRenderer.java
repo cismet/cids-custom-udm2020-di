@@ -9,8 +9,6 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.WeakListeners;
-
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -18,19 +16,15 @@ import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JLabel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisVisualisationAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
-import de.cismet.cids.custom.udm2020di.tools.RendererConfigurationRegistry;
+import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.boris.Probenparameter;
@@ -48,7 +42,6 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOGGER = Logger.getLogger(BorisSiteRenderer.class);
-    protected static final String SELECTED_TAB = "SELECTED_TAB";
 
     //~ Instance fields --------------------------------------------------------
 
@@ -248,6 +241,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
 
                     // ParameterSelection (EXPORT) -----------------------------
                     parameterSelectionPanel.setParameters(parameters);
+
                     final BorisExportAction borisExportAction = new BorisExportAction(
                             parameterSelectionPanel.getSelectedParameters(),
                             Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
@@ -262,45 +256,21 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
                             visualisationPanel);
                     visualisationPanel.setVisualisationAction(visualisationAction);
 
-                    // Saved TAB -----------------------------------------------
+                    // Saved Configuration: Restore Export Parameters ----------
+                    DefaultRendererConfigurationHelper.getInstance()
+                            .restoreExportSettings(
+                                BorisSiteRenderer.this,
+                                jTabbedPane,
+                                parameterSelectionPanel,
+                                exportPanel,
+                                LOGGER);
 
-                    final Map<String, Object> settings = RendererConfigurationRegistry.getInstance()
-                                .getSettings(BorisSiteRenderer.class);
-                    if ((settings != null) && !settings.isEmpty() && settings.containsKey(SELECTED_TAB)) {
-                        final int selectedIndex = (int)settings.get(SELECTED_TAB);
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("restoring selected tab index #" + selectedIndex);
-                        }
-                        jTabbedPane.setSelectedIndex(selectedIndex);
-                    } else {
-                        LOGGER.warn("selected tab settings  not found!");
-                    }
-
-                    jTabbedPane.addChangeListener(WeakListeners.create(
-                            ChangeListener.class,
-                            new ChangeListener() {
-
-                                @Override
-                                public void stateChanged(final ChangeEvent evt) {
-                                    final Map<String, Object> settings;
-                                    if (
-                                        RendererConfigurationRegistry.getInstance().getSettings(BorisSiteRenderer.class)
-                                                != null) {
-                                        settings = RendererConfigurationRegistry.getInstance()
-                                                        .getSettings(BorisSiteRenderer.class);
-                                    } else {
-                                        settings = new HashMap<String, Object>();
-                                        RendererConfigurationRegistry.getInstance()
-                                                    .setSettings(BorisSiteRenderer.class, settings);
-                                    }
-                                    final int selectedIndex = jTabbedPane.getSelectedIndex();
-                                    if (LOGGER.isDebugEnabled()) {
-                                        LOGGER.debug("saving selected tab index #" + selectedIndex);
-                                    }
-                                    settings.put(SELECTED_TAB, selectedIndex);
-                                }
-                            },
-                            jTabbedPane));
+                    // Saved Configuration: Restore selected Tab ---------------
+                    DefaultRendererConfigurationHelper.getInstance()
+                            .restoreSelectedTab(
+                                BorisSiteRenderer.class,
+                                jTabbedPane,
+                                LOGGER);
                 }
             };
 

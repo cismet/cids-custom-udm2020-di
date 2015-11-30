@@ -7,8 +7,13 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.protocol;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
-import lombok.Setter;
+
+import org.apache.log4j.Logger;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
 
@@ -22,40 +27,34 @@ import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
  * @version  $Revision$, $Date$
  */
-@Getter
-@Setter
 public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     //~ Static fields/initializers ---------------------------------------------
 
+    private static final Logger LOGGER = Logger.getLogger(ExportActionProtocolStep.class);
+
+    @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
-            "ExportAction",
-            "comment step protocol",
-            ExportActionProtocolStep.class.getCanonicalName());
+            ExportActionProtocolStep.class.getSimpleName(),
+            "ExportAction");
 
     //~ Instance fields --------------------------------------------------------
 
-    protected ExportActionProtocolStepPanel protocolStepPanel;
-
-    protected ExportAction exportAction;
+    @Getter
+    @JsonProperty(required = true)
+    protected final ExportAction exportAction;
 
     //~ Constructors -----------------------------------------------------------
-
-    /**
-     * Creates a new ExportActionProtocolStep object.
-     */
-    public ExportActionProtocolStep() {
-    }
 
     /**
      * Creates a new ExportActionProtocolStep object.
      *
      * @param  exportAction  DOCUMENT ME!
      */
-    public ExportActionProtocolStep(final ExportAction exportAction) {
+    @JsonCreator
+    public ExportActionProtocolStep(@JsonProperty("exportAction") final ExportAction exportAction) {
+        super();
         this.exportAction = exportAction;
-        this.exportAction.setProtocolEnabled(false);
-        this.protocolStepPanel = new ExportActionProtocolStepPanel(this.exportAction);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -67,12 +66,9 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
 
     @Override
     public AbstractProtocolStepPanel visualize() {
-        return this.protocolStepPanel;
-    }
-
-    @Override
-    protected void copyParams(final AbstractProtocolStep other) {
-        super.copyParams(other);
-        this.setExportAction(((ExportActionProtocolStep)other).getExportAction());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("visualizing ExportActionProtocolStepPanel");
+        }
+        return new ExportActionProtocolStepPanel(this.getExportAction());
     }
 }

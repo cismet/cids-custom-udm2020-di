@@ -12,6 +12,9 @@ import Sirius.server.middleware.types.MetaClass;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
@@ -54,6 +57,8 @@ public class MossExportAction extends AbstractExportAction {
     //~ Instance fields --------------------------------------------------------
 
     @JsonProperty(required = true)
+    @Getter
+    @Setter
     protected Collection<String> sampleIds;
 
     //~ Constructors -----------------------------------------------------------
@@ -91,17 +96,20 @@ public class MossExportAction extends AbstractExportAction {
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
-    public MossExportAction(
-            final Collection<Parameter> parameters,
-            final Collection<Long> objectIds,
-            final Collection<String> sampleIds,
-            final String exportFormat,
-            final String exportName) {
+    public MossExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
+            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("sampleIds") final Collection<String> sampleIds,
+            @JsonProperty("exportFormat") final String exportFormat,
+            @JsonProperty("exportName") final String exportName) {
         this(parameters, objectIds, sampleIds);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("ExportAction object with " + parameters.size() + " parameters and "
+                        + objectIds.size() + " objects restored from JSON");
+        }
     }
 
     /**
@@ -129,7 +137,7 @@ public class MossExportAction extends AbstractExportAction {
     protected ServerActionParameter[] createServerActionParameters() {
         if ((objectIds != null) && (objectIds.size() > 0)
                     && (parameters != null) && !parameters.isEmpty()) {
-            LOGGER.info("perfoming EPRTR Export for " + objectIds.size() + " sites and "
+            LOGGER.info("perfoming MOSS Export for " + objectIds.size() + " sites and "
                         + parameters.size() + " parameters");
 
             return new ServerActionParameter[] {
@@ -152,35 +160,6 @@ public class MossExportAction extends AbstractExportAction {
     @Override
     protected String getDefaultExportName() {
         return DEFAULT_EXPORTFILE;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    @Override
-    public Collection<Long> getObjectIds() {
-        return objectIds;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  objectIds  DOCUMENT ME!
-     */
-    @Override
-    public void setObjectIds(final Collection<Long> objectIds) {
-        this.objectIds = objectIds;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<String> getSampleIds() {
-        return sampleIds;
     }
 
     /**

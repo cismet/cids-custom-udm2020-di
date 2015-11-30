@@ -15,8 +15,6 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-
 import de.cismet.cids.custom.udm2020di.postfilter.CommonSampleValuesPostFilterGui;
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisAggregationValuesSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.boris.BorisSiteSearch;
@@ -32,10 +30,6 @@ import static de.cismet.cids.custom.udm2020di.treeicons.BorisSiteIconFactory.BOR
 @ServiceProvider(service = PostFilterGUI.class)
 public class BorisSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    protected static final Logger LOGGER = Logger.getLogger(BorisSampleValuesPostFilterGui.class);
-
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -48,6 +42,7 @@ public class BorisSampleValuesPostFilterGui extends CommonSampleValuesPostFilter
             new BorisSiteSearch(),
             BORIS_SITE_ICON,
             "BORIS_SITE");
+        LOGGER = Logger.getLogger(BorisSampleValuesPostFilterGui.class);
         this.active = true;
     }
 }

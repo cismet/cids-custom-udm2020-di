@@ -32,10 +32,6 @@ import static de.cismet.cids.custom.udm2020di.treeicons.MossIconFactory.MOSS_ICO
 @ServiceProvider(service = PostFilterGUI.class)
 public class MossSampleValuesPostFilterGui extends CommonSampleValuesPostFilterGui {
 
-    //~ Static fields/initializers ---------------------------------------------
-
-    protected static final Logger LOGGER = Logger.getLogger(MossSampleValuesPostFilterGui.class);
-
     //~ Constructors -----------------------------------------------------------
 
     /**
@@ -48,6 +44,7 @@ public class MossSampleValuesPostFilterGui extends CommonSampleValuesPostFilterG
             new MossSearch(),
             MOSS_ICON,
             "MOSS");
+        LOGGER = Logger.getLogger(MossSampleValuesPostFilterGui.class);
         this.active = true;
     }
 }

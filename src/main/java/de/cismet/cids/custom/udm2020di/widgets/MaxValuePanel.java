@@ -5,12 +5,9 @@
 *              ... and it just works.
 *
 ****************************************************/
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.cismet.cids.custom.udm2020di.widgets;
+
+import org.apache.log4j.Logger;
 
 import org.jdesktop.beansbinding.Converter;
 
@@ -21,10 +18,14 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public class MaxValuePanel extends javax.swing.JPanel {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final Logger LOGGER = Logger.getLogger(MaxValuePanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -114,7 +115,7 @@ public class MaxValuePanel extends javax.swing.JPanel {
         this.bindingGroup.unbind();
         this.aggregationValue = aggregationValue;
         this.bindingGroup.bind();
-        this.sldrMaxValue.setValue(getMinThreshold());
+        this.sldrMaxValue.setValue(this.getMinThreshold());
     }
 
     /**
@@ -167,7 +168,31 @@ public class MaxValuePanel extends javax.swing.JPanel {
      * @return  DOCUMENT ME!
      */
     public float getValue() {
-        return this.sldrMaxValue.getValue() / factor;
+        return this.sldrMaxValue.getValue() / this.factor;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  value  DOCUMENT ME!
+     */
+    public void setValue(final float value) {
+        final int convertedValue = Math.round(value * this.factor);
+
+        if (convertedValue < this.getMinThreshold()) {
+            LOGGER.warn("new value " + convertedValue + " (" + value + " x " + this.factor
+                        + ") exceeds minimum threshold " + this.getMinThreshold() + "!");
+        } else if (convertedValue > this.getMaxThreshold()) {
+            LOGGER.warn("new value " + convertedValue + " (" + value + " x " + this.factor
+                        + ") exceeds maximum threshold " + this.getMaxThreshold() + "!");
+        } else {
+            this.sldrMaxValue.setValue(convertedValue);
+        }
+    }
+
+    @Override
+    public void setEnabled(final boolean enabled) {
+        this.sldrMaxValue.setEnabled(enabled);
     }
 
     /**

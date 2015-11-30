@@ -9,18 +9,12 @@ package de.cismet.cids.custom.udm2020di.postfilter;
 
 import Sirius.navigator.ui.tree.postfilter.PostFilterGUI;
 
-import Sirius.server.middleware.types.MetaObject;
-
 import org.apache.log4j.Logger;
 
+import org.openide.util.NbBundle;
 import org.openide.util.lookup.ServiceProvider;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.swing.ImageIcon;
-
-import de.cismet.cids.dynamics.CidsBean;
 
 /**
  * DOCUMENT ME!
@@ -42,7 +36,11 @@ public class PollutantGroupTagsPostFilterGui extends CommonTagsPostFilterGui {
      */
     public PollutantGroupTagsPostFilterGui() {
         super();
-        logger = Logger.getLogger(PollutantGroupTagsPostFilterGui.class);
+        LOGGER = Logger.getLogger(PollutantGroupTagsPostFilterGui.class);
+        icon = new ImageIcon(getClass().getResource(
+                    NbBundle.getMessage(
+                        CommonTagsPostFilterGui.class,
+                        "PollutantGroupTagsPostFilterGui.icon")));
     }
 
     //~ Methods ----------------------------------------------------------------

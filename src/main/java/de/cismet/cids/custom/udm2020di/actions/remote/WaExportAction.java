@@ -12,6 +12,9 @@ import Sirius.server.middleware.types.MetaClass;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.log4j.Logger;
 
 import org.openide.util.NbBundle;
@@ -54,6 +57,8 @@ public class WaExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
+    @Getter
+    @Setter
     @JsonProperty(required = true)
     protected Collection<String> messstellen;
     @JsonProperty(required = true)
@@ -112,18 +117,21 @@ public class WaExportAction extends AbstractExportAction {
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
-    public WaExportAction(
-            final Collection<Parameter> parameters,
-            final Collection<Long> objectIds,
-            final Collection<String> messstellen,
-            final String waSource,
-            final String exportFormat,
-            final String exportName) {
+    public WaExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
+            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("messstellen") final Collection<String> messstellen,
+            @JsonProperty("waSource") final String waSource,
+            @JsonProperty("exportFormat") final String exportFormat,
+            @JsonProperty("exportName") final String exportName) {
         this(parameters, objectIds, messstellen, waSource);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(this.waSource + " ExportAction object with " + parameters.size() + " parameters and "
+                        + objectIds.size() + " objects restored from JSON");
+        }
     }
 
     /**
@@ -139,24 +147,6 @@ public class WaExportAction extends AbstractExportAction {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<String> getMessstellen() {
-        return messstellen;
-    }
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  messstellen  DOCUMENT ME!
-     */
-    public void setMessstellen(final Collection<String> messstellen) {
-        this.messstellen = messstellen;
-    }
 
     @Override
     protected ServerActionParameter[] createServerActionParameters() {

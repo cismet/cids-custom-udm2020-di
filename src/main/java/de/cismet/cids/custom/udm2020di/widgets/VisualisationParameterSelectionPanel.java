@@ -314,10 +314,10 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
         final Collection<Parameter> selParameters = this.getSelectedParameters();
 
         if (selParameters.isEmpty()) {
-            this.btnVisualise.getAction().setEnabled(false);
+            this.btnVisualise.setEnabled(false);
             this.btnReset.setEnabled(false);
         } else {
-            this.btnVisualise.getAction().setEnabled(true);
+            this.btnVisualise.setEnabled(true);
             this.btnReset.setEnabled(true);
         }
 

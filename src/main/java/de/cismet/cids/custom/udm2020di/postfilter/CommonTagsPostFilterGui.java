@@ -17,6 +17,7 @@ import Sirius.server.middleware.types.Node;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.NbBundle;
 import org.openide.util.WeakListeners;
 
 import java.awt.EventQueue;
@@ -40,10 +41,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 import javax.swing.SwingWorker;
 
+import de.cismet.cids.custom.udm2020di.protocol.CommonPostFilterProtocolStep;
+import de.cismet.cids.custom.udm2020di.protocol.PostfilterProtocolRegistry;
+import de.cismet.cids.custom.udm2020di.protocol.TagsPostFilterProtocolStep;
 import de.cismet.cids.custom.udm2020di.serversearch.FilterByTagsSearch;
 import de.cismet.cids.custom.udm2020di.serversearch.PostFilterTagsSearch;
+import de.cismet.cids.custom.udm2020di.types.Tag;
 
-import de.cismet.cids.dynamics.CidsBean;
+import de.cismet.commons.gui.protocol.ProtocolHandler;
 
 /**
  * DOCUMENT ME!
@@ -56,23 +61,27 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
     //~ Static fields/initializers ---------------------------------------------
 
+    protected static final boolean TAGS_SELECTED_BY_DEFAULT = true;
+
     protected static final ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>> QUEUE_MAP =
         new ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>>();
 
     //~ Instance fields --------------------------------------------------------
 
-    protected Logger logger = Logger.getLogger(CommonTagsPostFilterGui.class);
+    protected Logger LOGGER = Logger.getLogger(CommonTagsPostFilterGui.class);
 
     protected final PostFilterTagsSearch postfilterTagsSearch;
     protected final FilterByTagsSearch filterByTagsSearch;
-    protected final boolean active;
-    protected final Map<Integer, JToggleButton> filterButtons = new Hashtable<Integer, JToggleButton>();
+    protected boolean active;
+    protected final Map<Tag, JToggleButton> filterButtons = new Hashtable<Tag, JToggleButton>();
 
     protected boolean eventsEnabled = true;
     protected ImageIcon icon = new ImageIcon(getClass().getResource(
-                "/de/cismet/cids/custom/udm2020di/postfilter/define_name.png"));
+                NbBundle.getMessage(
+                    CommonTagsPostFilterGui.class,
+                    "CommonTagsPostFilterGui.icon")));
 
-    protected final ArrayList<Integer> availableTagIds = new ArrayList<Integer>();
+    // protected final ArrayList<Integer> availableTagIds = new ArrayList<Integer>();
 
     protected final Semaphore semaphore = new Semaphore(1);
 
@@ -97,21 +106,21 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 final Collection<Node> postFilteredNodes = new ArrayList<Node>(input);
                 postFilteredNodes.removeAll(preFilteredNodes);
 
-                if (logger.isDebugEnabled()) {
-                    logger.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
                                 + input.size() + " available nodes");
                 }
 
                 filterByTagsSearch.setNodes(preFilteredNodes);
                 final ArrayList filterTagIds = new ArrayList<Integer>();
-                for (final Integer tagId : filterButtons.keySet()) {
-                    if (filterButtons.get(tagId).isSelected()) {
-                        filterTagIds.add(tagId);
+                for (final Tag tag : filterButtons.keySet()) {
+                    if (tag.isSelected()) {
+                        filterTagIds.add((int)tag.getId());
                     }
                 }
                 filterByTagsSearch.setFilterTagIds(filterTagIds);
-                if (logger.isDebugEnabled()) {
-                    logger.debug("filtering " + input.size() + " nodes with "
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("filtering " + input.size() + " nodes with "
                                 + filterTagIds.size() + " filter tags of "
                                 + filterButtons.size() + " available filter tags");
                 }
@@ -121,16 +130,16 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                                 .customServerSearch(filterByTagsSearch);
 
                     postFilteredNodes.addAll(filteredNodes);
-                    if (logger.isDebugEnabled()) {
-                        logger.debug(postFilteredNodes.size() + " of " + input.size()
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(postFilteredNodes.size() + " of " + input.size()
                                     + " nodes remaining after applying "
                                     + filterTagIds.size() + " filter tags to " + preFilteredNodes.size()
-                                    + "pre-filtered nodes (" + filteredNodes + " actuially filtered nodes)");
+                                    + "pre-filtered nodes (" + filteredNodes.size() + " actuially filtered nodes)");
                     }
 
                     return postFilteredNodes;
                 } catch (Exception e) {
-                    logger.error("could not apply filter tags for '" + input.size() + " nodes!", e);
+                    LOGGER.error("could not apply filter tags for '" + input.size() + " nodes!", e);
                     return input;
                 }
             }
@@ -155,18 +164,16 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     public CommonTagsPostFilterGui() {
         PostFilterTagsSearch initPostFilterTagsSearch = null;
         FilterByTagsSearch initFilterByTagsSearch = null;
-        boolean initActive = false;
-
         try {
             initPostFilterTagsSearch = new PostFilterTagsSearch();
             initFilterByTagsSearch = new FilterByTagsSearch();
-            initActive = true;
+            this.active = true;
         } catch (IOException ex) {
-            logger.error("could not initialize PostFilterTagsSearch, disabling filter", ex);
+            LOGGER.error("could not initialize PostFilterTagsSearch, disabling filter", ex);
+            this.active = false;
         }
         this.postfilterTagsSearch = initPostFilterTagsSearch;
         this.filterByTagsSearch = initFilterByTagsSearch;
-        this.active = initActive;
         initComponents();
     }
 
@@ -188,7 +195,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     public synchronized void setEventsEnabled(final boolean eventsEnabled) {
         if (this.eventsEnabled == eventsEnabled) {
-            logger.warn("prossible sychronisation problem, ignoring setEventsEnabled:"
+            LOGGER.warn("prossible sychronisation problem, ignoring setEventsEnabled:"
                         + eventsEnabled);
         }
         this.eventsEnabled = eventsEnabled;
@@ -309,7 +316,23 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
-    }                                                                               //GEN-LAST:event_applyButtonActionPerformed
+
+        if (ProtocolHandler.getInstance().isRecordEnabled()) {
+            final Collection<Tag> filterTags = this.getFilterTags();
+            final TagsPostFilterProtocolStep protocolStep = new TagsPostFilterProtocolStep(
+                    this.getClass().getSimpleName(),
+                    this.getTitle(),
+                    this.icon,
+                    filterTags);
+
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("saving post filter settings to protocol: "
+                            + filterTags.size() + " filter tags");
+            }
+
+            PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
+        }
+    } //GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -318,15 +341,15 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
         setEventsEnabled(false);
-        for (final Integer tagId : filterButtons.keySet()) {
-            filterButtons.get(tagId).setSelected(true);
+        for (final JToggleButton filterButton : filterButtons.values()) {
+            filterButton.setSelected(true);
 
             // does not work as expected
-// if (!availableTagIds.contains(tagId)) {
-// filterButtons.get(tagId).setSelected(false);
-// } else {
-// filterButtons.get(tagId).setSelected(true);
-// }
+            // if (!availableTagIds.contains(tagId)) {
+            // filterButtons.get(tagId).setSelected(false);
+            // } else {
+            // filterButtons.get(tagId).setSelected(true);
+            // }
         }
         this.enableButtons();
         this.tagsPanel.validate();
@@ -355,24 +378,29 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public void initializeFilter(final Collection<Node> nodes) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("initialize Filter with " + nodes.size() + " nodes");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("initialize Filter with " + nodes.size() + " nodes");
         }
+
+        final PostfilterProtocolRegistry registry = PostfilterProtocolRegistry.getInstance();
+        this.selected = registry.isShouldRestoreSettings(this, nodes)
+                    && (registry.getMasterPostFilter() != null)
+                    && registry.getMasterPostFilter().equals(this.getClass().getSimpleName());
 
         final SwingWorker<Collection<JToggleButton>, Void> worker = new SwingWorker<Collection<JToggleButton>, Void>() {
 
                 @Override
                 protected Collection<JToggleButton> doInBackground() throws Exception {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("waiting for semaphore acquire");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("waiting for semaphore acquire");
                     }
                     semaphore.acquire();
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("semaphore semaphore acquired");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("semaphore semaphore acquired");
                     }
 
                     filterButtons.clear();
-                    availableTagIds.clear();
+                    // availableTagIds.clear();
 
                     EventQueue.invokeLater(new Runnable() {
 
@@ -387,11 +415,28 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         });
 
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
-                    final Collection<MetaObject> metaObjects = retrieveFilterTags(new ArrayList<Node>(nodes));
-                    final Collection<CidsBean> cidsBeans = filterCidsBeans(metaObjects);
+                    final Collection<Tag> filterTags;
+                    if (registry.isShouldRestoreSettings(CommonTagsPostFilterGui.this, nodes)) {
+                        filterTags = new ArrayList<Tag>();
+                        final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry.getInstance()
+                                    .getProtocolStep(CommonTagsPostFilterGui.this);
 
-                    for (final CidsBean cidsBean : cidsBeans) {
-                        final JToggleButton tagButton = generateTagButton(cidsBean);
+                        if (TagsPostFilterProtocolStep.class.isAssignableFrom(protocolStep.getClass())) {
+                            for (final Tag tag : ((TagsPostFilterProtocolStep)protocolStep).getFilterTags()) {
+                                filterTags.add(tag.clone());
+                            }
+                        } else {
+                            LOGGER.error("unexpected ProtocolStep:" + protocolStep.getClass().getSimpleName());
+                        }
+
+                        LOGGER.info("restoring " + filterTags.size() + " filter tags from saved configuration!");
+                    } else {
+                        final Collection<MetaObject> metaObjects = retrieveFilterTags(new ArrayList<Node>(nodes));
+                        filterTags = filterCidsBeans(metaObjects);
+                    }
+
+                    for (final Tag tag : filterTags) {
+                        final JToggleButton tagButton = generateTagButton(tag);
                         if (tagButton != null) {
                             tagButtons.add(tagButton);
                         }
@@ -414,7 +459,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         enableButtons();
                         semaphore.release();
                     } catch (Exception ex) {
-                        logger.error(ex.getMessage(), ex);
+                        LOGGER.error(ex.getMessage(), ex);
                     }
                 }
             };
@@ -422,33 +467,34 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         if ((nodes != null) && !nodes.isEmpty()) {
             worker.execute();
         } else {
-            logger.warn("no nodes provided, filter disabled");
+            LOGGER.warn("no nodes provided, filter disabled");
         }
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param   cidsBean  DOCUMENT ME!
+     * @param   tag  cidsBean DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    protected JToggleButton generateTagButton(final CidsBean cidsBean) {
-        final int tagId = (int)cidsBean.getProperty("id");
-        final JToggleButton tagButton = new JToggleButton(cidsBean.getProperty("key").toString());
-        tagButton.setToolTipText(cidsBean.getProperty("name").toString());
-        tagButton.setSelected(true);
+    protected JToggleButton generateTagButton(final Tag tag) {
+        final int tagId = (int)tag.getId();
+        final JToggleButton tagButton = new JToggleButton(tag.getKey());
+        tagButton.setModel(new TagButtonModel((tag)));
+        tagButton.setSelected(tag.isSelected());
+        tagButton.setToolTipText(tag.getName());
         tagButton.setActionCommand(String.valueOf(tagId));
         tagButton.addActionListener(WeakListeners.create(
                 ActionListener.class,
                 CommonTagsPostFilterGui.this,
                 tagButton));
 
-        if (!this.filterButtons.containsKey(tagId)) {
-            this.filterButtons.put(tagId, tagButton);
+        if (!this.filterButtons.containsKey(tag)) {
+            this.filterButtons.put(tag, tagButton);
             return tagButton;
         } else {
-            logger.warn("tag '" + cidsBean.getProperty("name").toString()
+            LOGGER.warn("tag '" + tag.getName()
                         + "with id " + tagId + " already added!");
             return null;
         }
@@ -466,24 +512,24 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     protected Collection<MetaObject> retrieveFilterTags(final Collection<Node> nodes) throws Exception {
         final int key = nodes.hashCode();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("retrieving tags for " + nodes.size() + " nodes: " + key);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("retrieving tags for " + nodes.size() + " nodes: " + key);
         }
 
         if (QUEUE_MAP.containsKey(key)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("retrieveFilterTags request is queued");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("retrieveFilterTags request '" + key + "' is queued");
             }
             final LinkedBlockingDeque<Collection<MetaObject>> queue = QUEUE_MAP.get(nodes.hashCode());
             final Collection<MetaObject> metaObjects = queue.take();
-            if (logger.isDebugEnabled()) {
-                logger.debug(metaObjects.size() + " tag objects retrieved from queue ");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(metaObjects.size() + " tag objects '" + key + "' retrieved from queue");
             }
             queue.put(metaObjects);
             return metaObjects;
         } else {
-            if (logger.isDebugEnabled()) {
-                logger.debug("retrieveFilterTags request is not queued, generating new request");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("retrieveFilterTags request '" + key + "' is not queued, generating new request");
             }
             final LinkedBlockingDeque<Collection<MetaObject>> queue = new LinkedBlockingDeque<Collection<MetaObject>>();
             QUEUE_MAP.clear();
@@ -512,16 +558,16 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             .customServerSearch(postfilterTagsSearch);
                 metaObjects.addAll(result);
             } catch (Exception e) {
-                logger.error("could not retrieve tags for " + nodes.size() + " nodes!", e);
+                LOGGER.error("could not retrieve tags for " + nodes.size() + " nodes!", e);
             }
 
-            if (logger.isDebugEnabled()) {
-                logger.debug(metaObjects.size() + " tags for " + nodes.size() + " nodes retrieved.");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(metaObjects.size() + " tags for " + nodes.size() + " nodes retrieved.");
             }
 
             queue.put(metaObjects);
-            if (logger.isDebugEnabled()) {
-                logger.debug(metaObjects.size() + " tag objects retrieved from server ");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(metaObjects.size() + " tag objects retrieved from server ");
             }
             return metaObjects;
         }
@@ -534,25 +580,26 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      *
      * @return  DOCUMENT ME!
      */
-    protected Collection<CidsBean> filterCidsBeans(
+    protected Collection<Tag> filterCidsBeans(
             final Collection<MetaObject> metaObjects) {
-        final Collection<CidsBean> cidsBeans = new ArrayList<CidsBean>(metaObjects.size());
-        availableTagIds.clear();
+        final Collection<Tag> tags = new ArrayList<Tag>(metaObjects.size());
+        // availableTagIds.clear();
         for (final MetaObject metaObject : metaObjects) {
-            final CidsBean cidsBean = metaObject.getBean();
+            final Tag tag = new Tag(metaObject.getBean());
+            tag.setSelected(TAGS_SELECTED_BY_DEFAULT);
 
             if ((getFilterTagGroup() == null)
-                        || ((cidsBean.getProperty("taggroup_key") != null)
-                            && cidsBean.getProperty("taggroup_key").toString().equalsIgnoreCase(getFilterTagGroup()))) {
-                cidsBeans.add(cidsBean);
-                final int tagId = (Integer)cidsBean.getProperty("id");
-                availableTagIds.add(tagId);
+                        || ((tag.getTaggroupKey() != null)
+                            && tag.getTaggroupKey().equalsIgnoreCase(getFilterTagGroup()))) {
+                tags.add(tag);
+                // final int tagId = (Integer)cidsBean.getProperty("id");
+                // availableTagIds.add(tagId);
             }
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug(cidsBeans.size() + " of " + metaObjects.size() + " retrieved tags available for filtering");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(tags.size() + " of " + metaObjects.size() + " retrieved tags available for filtering");
         }
-        return cidsBeans;
+        return tags;
     }
 
     /**
@@ -580,8 +627,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public void adjustFilter(final Collection<Node> nodes) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("adjust Filter with " + nodes.size() + " nodes");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("adjust Filter with " + nodes.size() + " nodes");
         }
 
 //        final SwingWorker<Collection<CidsBean>, Void> worker
@@ -635,7 +682,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
-        return true;
+        this.active = !nodes.isEmpty();
+        return this.active;
     }
 
     /**
@@ -645,7 +693,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public boolean isActive() {
-        return active;
+        return this.active && this.applyButton.isEnabled();
     }
 
     /**
@@ -721,9 +769,9 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (isEventsEnabled()) {
-            if (e.getModifiers() == ActionEvent.CTRL_MASK) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("SHIFT KEY pressed, performing switch action");
+            if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("CTRL KEY pressed, performing switch action");
                 }
                 this.switchButtonActionPerformed(e);
             } else {
@@ -755,5 +803,56 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         CommonTagsPostFilterGui.this.resetButton.setEnabled( /*!availableTagIds.isEmpty()
                                                               *&& */!filterButtons.isEmpty()
                     && (selectedTagButtons < filterButtons.size()));
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<Tag> getFilterTags() {
+        final ArrayList<Tag> filterTags = new ArrayList<Tag>(this.filterButtons.keySet().size());
+        for (final Tag tag : this.filterButtons.keySet()) {
+            try {
+                filterTags.add(tag.clone());
+            } catch (CloneNotSupportedException ex) {
+                LOGGER.error(ex.getMessage(), ex);
+            }
+        }
+
+        return filterTags;
+    }
+
+    //~ Inner Classes ----------------------------------------------------------
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @version  $Revision$, $Date$
+     */
+    protected static class TagButtonModel extends JToggleButton.ToggleButtonModel {
+
+        //~ Instance fields ----------------------------------------------------
+
+        final Tag tag;
+
+        //~ Constructors -------------------------------------------------------
+
+        /**
+         * Creates a new TagButtonModel object.
+         *
+         * @param  tag  DOCUMENT ME!
+         */
+        protected TagButtonModel(final Tag tag) {
+            this.tag = tag;
+        }
+
+        //~ Methods ------------------------------------------------------------
+
+        @Override
+        public void setSelected(final boolean b) {
+            super.setSelected(b);
+            this.tag.setSelected(b);
+        }
     }
 }

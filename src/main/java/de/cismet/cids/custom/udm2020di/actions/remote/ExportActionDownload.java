@@ -66,7 +66,7 @@ public class ExportActionDownload extends AbstractDownload {
         this.actionParameters = actionParameters;
 
         status = State.WAITING;
-        determineDestinationFile(filename, extension);
+        super.determineDestinationFile(filename, extension);
     }
 
     //~ Methods ----------------------------------------------------------------

@@ -77,6 +77,18 @@ public class RendererConfigurationRegistry {
     /**
      * DOCUMENT ME!
      *
+     * @param   rendererClass  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean hasSettings(final Class rendererClass) {
+        final int hashCode = rendererClass.hashCode();
+        return configurationMap.containsKey(hashCode);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param  renderer  DOCUMENT ME!
      * @param  settings  DOCUMENT ME!
      */
@@ -123,6 +135,22 @@ public class RendererConfigurationRegistry {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("configuration settings '" + hashCode + "' saved");
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   domain       DOCUMENT ME!
+     * @param   metaClassId  DOCUMENT ME!
+     * @param   objectIds    DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean hasSettings(final String domain,
+            final int metaClassId,
+            final Collection<Integer> objectIds) {
+        final int hashCode = hashCode(domain, metaClassId, objectIds);
+        return configurationMap.containsKey(hashCode);
     }
 
     /**
@@ -194,6 +222,18 @@ public class RendererConfigurationRegistry {
     /**
      * DOCUMENT ME!
      *
+     * @param   renderer  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean hasSettings(final CidsBeanRenderer renderer) {
+        final int hashCode = renderer.getCidsBean().hashCode();
+        return configurationMap.containsKey(hashCode);
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
      * @param   aggregationRenderer  DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
@@ -210,6 +250,18 @@ public class RendererConfigurationRegistry {
             LOGGER.warn("configuration settings '" + hashCode + "' not found!");
         }
         return settings;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   aggregationRenderer  DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public boolean hasSettings(final CidsBeanAggregationRenderer aggregationRenderer) {
+        final int hashCode = aggregationRenderer.getCidsBeans().hashCode();
+        return configurationMap.containsKey(hashCode);
     }
 
     /**
@@ -239,7 +291,7 @@ public class RendererConfigurationRegistry {
             final int objectId) {
         int hashCode = 1;
         final String s = objectId + "." + metaClassId + "." + domain; // NOI18N
-        hashCode = (31 * hashCode) + ((s == null) ? 0 : s.hashCode());
+        hashCode = s.hashCode();
         return hashCode;
     }
 
@@ -256,9 +308,13 @@ public class RendererConfigurationRegistry {
             final int metaClassId,
             final Collection<Integer> objectIds) {
         int hashCode = 1;
-        for (final int objectId : objectIds) {
-            final String s = objectId + "." + metaClassId + "." + domain; // NOI18N
-            hashCode = (31 * hashCode) + ((s == null) ? 0 : s.hashCode());
+
+        if (objectIds.size() == 1) {
+            hashCode = hashCode(domain, metaClassId, objectIds.iterator().next());
+        } else {
+            for (final int objectId : objectIds) {
+                hashCode = (31 * hashCode) + hashCode(domain, metaClassId, objectId);
+            }
         }
 
         return hashCode;

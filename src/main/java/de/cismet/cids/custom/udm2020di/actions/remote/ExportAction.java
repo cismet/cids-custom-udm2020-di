@@ -8,7 +8,10 @@
 package de.cismet.cids.custom.udm2020di.actions.remote;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Collection;
@@ -25,9 +28,34 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
  * @version  $Revision$, $Date$
  */
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.CLASS,
+    use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY,
-    property = "class"
+    property = "@type"
+)
+
+/**
+ * SubTypes Defintiion only required if used with NAME property!
+ * see http://stackoverflow.com/questions/31665620/is-jacksons-jsonsubtypes-still-necessary-for-polymorphic-deserialization
+ */
+@JsonSubTypes(
+    {
+        @Type(
+            value = BorisExportAction.class,
+            name = "BORIS"
+        ),
+        @Type(
+            value = EprtrExportAction.class,
+            name = "EPRTR"
+        ),
+        @Type(
+            value = MossExportAction.class,
+            name = "MOSS"
+        ),
+        @Type(
+            value = WaExportAction.class,
+            name = "WATER"
+        )
+    }
 )
 @JsonAutoDetect(
     fieldVisibility = JsonAutoDetect.Visibility.NONE,
@@ -35,7 +63,13 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
     getterVisibility = JsonAutoDetect.Visibility.NONE,
     setterVisibility = JsonAutoDetect.Visibility.NONE
 )
+@JsonIgnoreProperties(ignoreUnknown = true)
 public interface ExportAction extends Action, Cloneable {
+
+    //~ Instance fields --------------------------------------------------------
+
+    String PARAMETER_SETTINGS = "PARAMETER_SETTINGS";
+    String EXPORT_FORMAT_SETTINGS = "EXPORT_FORMAT_SETTINGS";
 
     //~ Methods ----------------------------------------------------------------
 
@@ -120,7 +154,6 @@ public interface ExportAction extends Action, Cloneable {
      *
      * @return  DOCUMENT ME!
      */
-    @JsonProperty(required = true)
     int getClassId();
 
     /**

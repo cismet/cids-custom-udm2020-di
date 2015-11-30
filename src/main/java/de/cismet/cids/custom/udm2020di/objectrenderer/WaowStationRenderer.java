@@ -31,7 +31,7 @@ public class WaowStationRenderer extends WagwStationRenderer {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static int SELECTED_TAB = 0;
+    protected static final Logger LOGGER = Logger.getLogger(WagwStationRenderer.class);
 
     //~ Constructors -----------------------------------------------------------
 
@@ -41,7 +41,6 @@ public class WaowStationRenderer extends WagwStationRenderer {
     public WaowStationRenderer() {
         super();
         this.stationType = WaExportAction.WAOW;
-        this.logger = Logger.getLogger(WaowStationRenderer.class);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -118,5 +117,10 @@ public class WaowStationRenderer extends WagwStationRenderer {
             label.setMaximumSize(new Dimension(200, 50));
             standortdatenPanel.add(label, gridBagConstraints);
         }
+    }
+
+    @Override
+    protected WaowStationRenderer getOuter() {
+        return WaowStationRenderer.this;
     }
 }

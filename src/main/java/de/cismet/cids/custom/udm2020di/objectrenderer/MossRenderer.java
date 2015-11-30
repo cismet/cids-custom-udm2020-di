@@ -46,6 +46,7 @@ import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.MossVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
 import de.cismet.cids.custom.udm2020di.types.moss.Moss;
@@ -67,7 +68,6 @@ public class MossRenderer extends AbstractCidsBeanRenderer implements Configurab
     //~ Static fields/initializers ---------------------------------------------
 
     protected static final Logger LOGGER = Logger.getLogger(BorisSiteRenderer.class);
-    protected static int SELECTED_TAB = 0;
 
     //~ Instance fields --------------------------------------------------------
 
@@ -371,9 +371,6 @@ public class MossRenderer extends AbstractCidsBeanRenderer implements Configurab
                             Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
                             Arrays.asList(new String[] { moss.getSampleId() }));
                     parameterSelectionPanel.setExportAction(exportAction);
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("restoring selected tab index: " + SELECTED_TAB);
-                    }
 
                     // Visualisation -------------------------------------------
                     visualisationPanel.setParameters(parameters);
@@ -383,18 +380,21 @@ public class MossRenderer extends AbstractCidsBeanRenderer implements Configurab
                             visualisationPanel);
                     visualisationPanel.setVisualisationAction(visualisationAction);
 
-                    // Selected TAB ---------------------------------------------
-                    jTabbedPane.setSelectedIndex(SELECTED_TAB);
-                    jTabbedPane.addChangeListener(WeakListeners.create(
-                            ChangeListener.class,
-                            new ChangeListener() {
+                    // Saved Configuration: Restore Export Parameters ----------
+                    DefaultRendererConfigurationHelper.getInstance()
+                            .restoreExportSettings(
+                                MossRenderer.this,
+                                jTabbedPane,
+                                parameterSelectionPanel,
+                                exportPanel,
+                                LOGGER);
 
-                                @Override
-                                public void stateChanged(final ChangeEvent evt) {
-                                    SELECTED_TAB = jTabbedPane.getSelectedIndex();
-                                }
-                            },
-                            jTabbedPane));
+                    // Saved Configuration: Restore selected Tab ---------------
+                    DefaultRendererConfigurationHelper.getInstance()
+                            .restoreSelectedTab(
+                                MossRenderer.class,
+                                jTabbedPane,
+                                LOGGER);
 
                     bindingGroup.bind();
                 }

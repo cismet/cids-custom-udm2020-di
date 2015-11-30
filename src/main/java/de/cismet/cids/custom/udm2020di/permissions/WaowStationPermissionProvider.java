@@ -15,8 +15,13 @@ package de.cismet.cids.custom.udm2020di.permissions;
  */
 public class WaowStationPermissionProvider extends DefaultGeometryFromCidsObjectPermissionProvider {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Constructors -----------------------------------------------------------
 
-    protected static final transient org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
-            WaowStationPermissionProvider.class);
+    /**
+     * Creates a new WaowStationPermissionProvider object.
+     */
+    public WaowStationPermissionProvider() {
+        LOGGER = org.apache.log4j.Logger.getLogger(
+                WaowStationPermissionProvider.class);
+    }
 }
