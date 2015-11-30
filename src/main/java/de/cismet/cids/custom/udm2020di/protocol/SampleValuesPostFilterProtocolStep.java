@@ -15,8 +15,10 @@ import lombok.Getter;
 
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -118,6 +120,19 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
         this.maxDate = minDate;
     }
 
+    /**
+     * Creates a new SampleValuesPostFilterProtocolStep object.
+     *
+     * @param  protocolStep  DOCUMENT ME!
+     */
+    protected SampleValuesPostFilterProtocolStep(final SampleValuesPostFilterProtocolStep protocolStep) {
+        super(protocolStep);
+        this.aggregationValues = new ArrayList<AggregationValue>(protocolStep.aggregationValues);
+        this.selectedValues = new HashMap<String, Float>(protocolStep.selectedValues);
+        this.minDate = new Date((protocolStep.minDate != null) ? protocolStep.minDate.getTime() : null);
+        this.maxDate = new Date((protocolStep.maxDate != null) ? protocolStep.maxDate.getTime() : null);
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -152,5 +167,10 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
         }
 
         return null;
+    }
+
+    @Override
+    public SampleValuesPostFilterProtocolStep clone() throws CloneNotSupportedException {
+        return new SampleValuesPostFilterProtocolStep(this);
     }
 }

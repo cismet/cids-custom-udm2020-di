@@ -14,6 +14,7 @@ import Sirius.navigator.ui.tree.SearchResultsTree;
 
 import Sirius.server.middleware.types.Node;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,8 +25,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 
 import de.cismet.cidsx.server.api.types.CidsNode;
@@ -56,7 +56,7 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
 
     @Getter
     @JsonIgnore
-    protected transient List<Node> nodes = null;
+    protected transient Collection<Node> nodes = null;
 
     @Getter
     @Setter
@@ -79,7 +79,15 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
             final String masterPostFilter,
             final Map<String, CommonPostFilterProtocolStep> protocolSteps) {
         this.masterPostFilter = masterPostFilter;
-        this.protocolSteps = protocolSteps;
+        this.protocolSteps = Collections.unmodifiableMap(protocolSteps);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("created CascadingPostFilterProtocolStep with " + protocolSteps.size()
+                        + " protocol steps for master post filter '" + masterPostFilter + "'");
+        }
+
+        for (final CommonPostFilterProtocolStep protocolStep : this.protocolSteps.values()) {
+            protocolStep.setCascadingProtocolStep(this);
+        }
     }
 
     /**
@@ -89,17 +97,39 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
      * @param  protocolSteps     title DOCUMENT ME!
      * @param  cidsNodes         DOCUMENT ME!
      */
-    protected CascadingPostFilterProtocolStep(
-            final String masterPostFilter,
-            final Map<String, CommonPostFilterProtocolStep> protocolSteps,
-            final Collection<CidsNode> cidsNodes) {
+    @JsonCreator
+    protected CascadingPostFilterProtocolStep(@JsonProperty("masterPostFilter") final String masterPostFilter,
+            @JsonProperty("protocolSteps") final Map<String, CommonPostFilterProtocolStep> protocolSteps,
+            @JsonProperty("cidsNodes") final Collection<CidsNode> cidsNodes) {
         this.masterPostFilter = masterPostFilter;
-        this.protocolSteps = protocolSteps;
+
+        this.protocolSteps = Collections.unmodifiableMap(protocolSteps);
+        for (final CommonPostFilterProtocolStep protocolStep : this.protocolSteps.values()) {
+            protocolStep.setCascadingProtocolStep(this);
+        }
+
+        this.nodes = new ArrayList<Node>((cidsNodes != null) ? cidsNodes.size() : 0);
+        if ((cidsNodes != null) && !cidsNodes.isEmpty()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("restoring nodes from " + cidsNodes.size() + " json-deserialized cids nodes");
+            }
+            for (final CidsNode cidsNode : cidsNodes) {
+                try {
+                    final Node node = CidsNodeFactory.getFactory().legacyCidsNodeFromRestCidsNode(cidsNode);
+                    this.nodes.add(node);
+                } catch (Exception ex) {
+                    LOGGER.error("cannot restore nodes from json-deserialized cids node:" + ex.getMessage(), ex);
+                }
+            }
+        } else {
+            LOGGER.warn("cannot restore nodes from json-deserialized cids nodes: cidsNodes list is empty!");
+        }
+
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("restored " + protocolSteps.size()
-                        + " protocol steps with master protocol step '" + this.masterPostFilter + "'");
+                        + " protocol steps with master protocol step '" + this.masterPostFilter
+                        + "' and " + cidsNodes + " nodes");
         }
-        this.setCidsNodes(cidsNodes);
     }
 
     //~ Methods ----------------------------------------------------------------
@@ -153,36 +183,12 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
         return cidsNodes;
     }
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param  cidsNodes  DOCUMENT ME!
-     */
-    @JsonProperty
-    public final void setCidsNodes(final Collection<CidsNode> cidsNodes) {
-        if ((cidsNodes != null) && !cidsNodes.isEmpty()) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("restoring nodes from " + cidsNodes.size() + " json-deserialized cids nodes");
-            }
-            this.nodes = new ArrayList<Node>(cidsNodes.size());
-            for (final CidsNode cidsNode : cidsNodes) {
-                try {
-                    final Node node = CidsNodeFactory.getFactory().legacyCidsNodeFromRestCidsNode(cidsNode);
-                    nodes.add(node);
-                } catch (Exception ex) {
-                    LOGGER.error("cannot restore nodes from json-deserialized cids node:" + ex.getMessage(), ex);
-                }
-            }
-        } else {
-            LOGGER.warn("cannot restore nodes from json-deserialized cids nodes: cidsNodes list is empty!");
-        }
-    }
-
     @Override
     public void initParameters() {
         final SearchResultsTree searchResultsTree = ComponentRegistry.getRegistry().getSearchResultsTree();
         if ((searchResultsTree != null) && (searchResultsTree instanceof PostfilterEnabledSearchResultsTree)) {
-            this.nodes = ((PostfilterEnabledSearchResultsTree)searchResultsTree).getOriginalResultNodes();
+            this.nodes = Collections.unmodifiableCollection(
+                    ((PostfilterEnabledSearchResultsTree)searchResultsTree).getOriginalResultNodes());
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.info("saving " + this.nodes.size() + " nodes in protocol of master postfilter '"
                             + this.masterPostFilter + "'");

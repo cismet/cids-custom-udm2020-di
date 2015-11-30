@@ -48,6 +48,7 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
     protected TagsPostFilterProtocolStep protocolStep;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel additionalFiltersLabel;
     private javax.swing.JLabel iconLabel;
     private org.jdesktop.swingx.JXHyperlink restorePostFilterHyperlink;
     private org.jdesktop.swingx.JXHyperlink restoreSearchResultsHyperlink;
@@ -99,6 +100,13 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
                             String.valueOf(protocolStep.getCascadingProtocolStep().getNodes().size())));
 
                     Mnemonics.setLocalizedText(
+                        additionalFiltersLabel,
+                        NbBundle.getMessage(
+                            TagsPostFilterProtocolStepPanel.class,
+                            "TagsPostFilterProtocolStepPanel.additionalFiltersLabel.text",
+                            String.valueOf(protocolStep.getCascadingProtocolStep().getProtocolSteps().size())));
+
+                    Mnemonics.setLocalizedText(
                         restorePostFilterHyperlink,
                         NbBundle.getMessage(
                             TagsPostFilterProtocolStepPanel.class,
@@ -120,7 +128,7 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
                         i++;
                     }
                     if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug(i + " selected tag labeles generated from "
+                        LOGGER.debug(i + " selected tag labels generated from "
                                     + protocolStep.getFilterTags().size() + " available tags");
                     }
 
@@ -147,6 +155,7 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
         iconLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
         restoreSearchResultsHyperlink = new org.jdesktop.swingx.JXHyperlink();
+        additionalFiltersLabel = new javax.swing.JLabel();
         restorePostFilterHyperlink = new org.jdesktop.swingx.JXHyperlink();
         tagButtonPanel = new javax.swing.JPanel();
 
@@ -187,6 +196,19 @@ public class TagsPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(restoreSearchResultsHyperlink, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            additionalFiltersLabel,
+            org.openide.util.NbBundle.getMessage(
+                TagsPostFilterProtocolStepPanel.class,
+                "TagsPostFilterProtocolStepPanel.additionalFiltersLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(additionalFiltersLabel, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             restorePostFilterHyperlink,

@@ -52,7 +52,7 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
      * @param  exportAction  DOCUMENT ME!
      */
     @JsonCreator
-    public ExportActionProtocolStep(final ExportAction exportAction) {
+    public ExportActionProtocolStep(@JsonProperty("exportAction") final ExportAction exportAction) {
         super();
         this.exportAction = exportAction;
     }

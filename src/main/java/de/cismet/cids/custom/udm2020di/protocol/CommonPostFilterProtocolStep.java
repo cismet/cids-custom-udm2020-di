@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -34,6 +33,7 @@ import javax.swing.ImageIcon;
 import de.cismet.cidsx.server.api.types.CidsNode;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStep;
+import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
 
 /**
  * DOCUMENT ME!
@@ -41,7 +41,7 @@ import de.cismet.commons.gui.protocol.AbstractProtocolStep;
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
  * @version  $Revision$, $Date$
  */
-public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep {
+public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep implements Cloneable {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -61,6 +61,7 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
     @JsonIgnore
     protected final transient ImageIcon icon;
 
+    /** Back-reference to parent step. ignored in serialized json! */
     @Getter
     @Setter
     @JsonIgnore
@@ -83,6 +84,17 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
         this.postFilter = postFilter;
         this.title = title;
         this.icon = icon;
+    }
+
+    /**
+     * Creates a new CommonPostFilterProtocolStep object.
+     *
+     * @param  protocolStep  DOCUMENT ME!
+     */
+    protected CommonPostFilterProtocolStep(final CommonPostFilterProtocolStep protocolStep) {
+        this.title = protocolStep.title;
+        this.icon = protocolStep.icon;
+        this.postFilter = protocolStep.postFilter;
     }
 
     /**
@@ -120,7 +132,7 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
      * @return  DOCUMENT ME!
      */
     @JsonIgnore
-    public List<Node> getNodes() {
+    public Collection<Node> getNodes() {
         if (this.getCascadingProtocolStep() != null) {
             return this.getCascadingProtocolStep().getNodes();
         } else {
@@ -159,4 +171,7 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
 
         return null;
     }
+
+    @Override
+    public abstract CommonPostFilterProtocolStep clone() throws CloneNotSupportedException;
 }

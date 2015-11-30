@@ -69,18 +69,25 @@ public class CidsRestrictionGeometryStore implements StartupHook {
                                 + "' for usergroup '" + user.getUserGroup().getName() + "'.");
 
                     final MetaClass mc = ClassCacheMultiple.getMetaClass(DOMAIN, TABLE);
+                    final String statement = "SELECT "
+                                + mc.getID()
+                                + ", "
+                                + mc.getPrimaryKey()
+                                + " FROM "
+                                + mc.getTableName()
+                                // restrict to Niederösterreich to minimise  startup time
+                                + " WHERE "
+                                + mc.getTableName()
+                                + ".type = 'state'"
+                                + " AND "
+                                + mc.getTableName()
+                                + ".name = 'Niederösterreich'";
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("loading restriction geometries with statement:\n" + statement);
+                    }
                     final MetaObject[] metaObjects = SessionManager.getConnection()
                                 .getMetaObjectByQuery(SessionManager.getSession().getUser(),
-                                    "SELECT "
-                                    + mc.getID()
-                                    + ", "
-                                    + mc.getPrimaryKey()
-                                    + " FROM "
-                                    + mc.getTableName()
-                                    // restrict to Niederösterreich to minimise  startup time
-                                    + " WHERE "
-                                    + mc.getTableName()
-                                    + ".name = 'Niederösterreich'");
+                                    statement);
 
                     for (final MetaObject mo : metaObjects) {
                         final CidsBean cb = mo.getBean();

@@ -20,10 +20,8 @@ import java.awt.Component;
 import java.awt.EventQueue;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
-import de.cismet.cids.custom.udm2020di.tools.PostfilterConfigurationRegistry;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValuePanel;
 
@@ -46,6 +44,7 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
     protected SampleValuesPostFilterProtocolStep protocolStep;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel additionalFiltersLabel;
     private javax.swing.JLabel iconLabel;
     private javax.swing.JPanel parameterPanel;
     private org.jdesktop.swingx.JXHyperlink restorePostFilterHyperlink;
@@ -94,6 +93,13 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
                             String.valueOf(protocolStep.getNodes().size())));
 
                     Mnemonics.setLocalizedText(
+                        additionalFiltersLabel,
+                        NbBundle.getMessage(
+                            SampleValuesPostFilterProtocolStepPanel.class,
+                            "SampleValuesPostFilterProtocolStepPanel.additionalFiltersLabel.text",
+                            String.valueOf(protocolStep.getCascadingProtocolStep().getProtocolSteps().size())));
+
+                    Mnemonics.setLocalizedText(
                         restorePostFilterHyperlink,
                         NbBundle.getMessage(
                             SampleValuesPostFilterProtocolStepPanel.class,
@@ -136,6 +142,7 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
         iconLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
         restoreSearchResultsHyperlink = new org.jdesktop.swingx.JXHyperlink();
+        additionalFiltersLabel = new javax.swing.JLabel();
         restorePostFilterHyperlink = new org.jdesktop.swingx.JXHyperlink();
         parameterPanel = new javax.swing.JPanel();
 
@@ -173,9 +180,21 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(restoreSearchResultsHyperlink, gridBagConstraints);
+
+        org.openide.awt.Mnemonics.setLocalizedText(
+            additionalFiltersLabel,
+            org.openide.util.NbBundle.getMessage(
+                SampleValuesPostFilterProtocolStepPanel.class,
+                "SampleValuesPostFilterProtocolStepPanel.additionalFiltersLabel.text")); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(additionalFiltersLabel, gridBagConstraints);
 
         org.openide.awt.Mnemonics.setLocalizedText(
             restorePostFilterHyperlink,
@@ -196,7 +215,6 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         add(restorePostFilterHyperlink, gridBagConstraints);
 
@@ -204,6 +222,7 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;

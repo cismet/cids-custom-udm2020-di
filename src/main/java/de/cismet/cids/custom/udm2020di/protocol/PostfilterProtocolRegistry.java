@@ -16,6 +16,8 @@ import lombok.Setter;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.Exceptions;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -171,14 +173,20 @@ public class PostfilterProtocolRegistry {
             new HashMap<String, CommonPostFilterProtocolStep>();
         for (final Map.Entry<PostFilterGUI, CommonPostFilterProtocolStep> entry
                     : this.protocolMap.entrySet()) {
-            if (entry.getKey().isActive()) {
-                activeProtocolSteps.put(entry.getKey().getClass().getSimpleName(),
-                    entry.getValue());
+            if (entry.getKey().isActive() && (entry.getValue() != null)) {
+                final String key = entry.getKey().getClass().getSimpleName();
+                try {
+                    activeProtocolSteps.put(key,
+                        entry.getValue().clone());
+                } catch (Exception ex) {
+                    LOGGER.error("could not clone protocol for filter '" + key + "'", ex);
+                }
             }
         }
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("returning " + activeProtocolSteps.size() + " protocol steps for active post filters of "
+            LOGGER.debug("returning " + activeProtocolSteps.size()
+                        + " active protocol steps for active post filters of "
                         + this.protocolMap.size() + " total post filters for master post filter '"
                         + this.getMasterPostFilter() + "'");
         }
@@ -224,6 +232,8 @@ public class PostfilterProtocolRegistry {
     public void recordCascadingProtocolStep(final PostFilterGUI postFilterGUI,
             final CommonPostFilterProtocolStep protocolStep) {
         final String postFilter = postFilterGUI.getClass().getSimpleName();
+        // reset restore flag!
+        this.setMasterPostFilter(postFilter);
 
         // save protocol for executed filter
         this.putProtocolStep(postFilterGUI, protocolStep);
@@ -237,10 +247,6 @@ public class PostfilterProtocolRegistry {
         final CascadingPostFilterProtocolStep cascadingProtocolStep = new CascadingPostFilterProtocolStep(
                 postFilter,
                 activeProtocolSteps);
-        protocolStep.setCascadingProtocolStep(cascadingProtocolStep);
-
-        // reset restore flag!
-        this.setMasterPostFilter(postFilter);
 
         // record the step
         ProtocolHandler.getInstance().recordStep(cascadingProtocolStep);
@@ -253,8 +259,10 @@ public class PostfilterProtocolRegistry {
      */
     public void restoreCascadingProtocolStep(final CascadingPostFilterProtocolStep cascadingProtocolStep) {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("restoring post filter GUI settings of " + cascadingProtocolStep.getProtocolSteps().size()
-                        + " protocol steps for master post filter '"
+            LOGGER.info("restoring post filter GUI settings of CascadingPostFilterProtocolStep with "
+                        + cascadingProtocolStep.getProtocolSteps().size()
+                        + " protocol steps and " + cascadingProtocolStep.getNodes().size()
+                        + " nodes for master post filter '"
                         + cascadingProtocolStep.getMasterPostFilter() + "' and clearing "
                         + this.protocolMap.size() + " saved protocol settings");
         }
@@ -271,16 +279,18 @@ public class PostfilterProtocolRegistry {
      * DOCUMENT ME!
      *
      * @param   postFilterGUI  DOCUMENT ME!
-     * @param   nodesHash      DOCUMENT ME!
+     * @param   nodes          DOCUMENT ME!
      *
      * @return  DOCUMENT ME!
      */
-    public boolean isShouldRestoreSettings(final PostFilterGUI postFilterGUI, final int nodesHash) {
+    public boolean isShouldRestoreSettings(final PostFilterGUI postFilterGUI, final Collection<Node> nodes) {
         if (this.hasProtocolStep(postFilterGUI)) {
             if (this.getProtocolStep(postFilterGUI).getNodes() != null) {
                 final Collection<Node> nodesSaved = this.getProtocolStep(postFilterGUI).getNodes();
-                final int nodesHashSaved = nodesSaved.hashCode();
-                if (nodesHashSaved == nodesHash) {
+                final int nodesHash = nodes.hashCode();
+                final int savedNodesHash = nodesSaved.hashCode();
+                // if (savedNodesHash == nodesHash) {
+                if ((nodes.size() == nodesSaved.size()) && nodes.containsAll(nodesSaved)) {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("post filter settings should be restored for " + nodesSaved.size()
                                     + " saved nodes for master post filter '" + this.getMasterPostFilter() + "'");
@@ -290,7 +300,8 @@ public class PostfilterProtocolRegistry {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("post filter settings should NOT be restored for " + nodesSaved.size()
                                     + " saved nodes ("
-                                    + nodesHashSaved + "), new nodes collection (" + nodesHash + ") available!");
+                                    + savedNodesHash + "), " + nodes.size() + " new nodes (" + nodesHash
+                                    + ") available!");
                     }
                     this.clearAll();
                 }

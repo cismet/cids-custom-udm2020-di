@@ -383,7 +383,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         }
 
         final PostfilterProtocolRegistry registry = PostfilterProtocolRegistry.getInstance();
-        this.selected = registry.isShouldRestoreSettings(this, nodes.hashCode())
+        this.selected = registry.isShouldRestoreSettings(this, nodes)
                     && (registry.getMasterPostFilter() != null)
                     && registry.getMasterPostFilter().equals(this.getClass().getSimpleName());
 
@@ -416,7 +416,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
                     final Collection<Tag> filterTags;
-                    if (registry.isShouldRestoreSettings(CommonTagsPostFilterGui.this, nodes.hashCode())) {
+                    if (registry.isShouldRestoreSettings(CommonTagsPostFilterGui.this, nodes)) {
                         filterTags = new ArrayList<Tag>();
                         final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry.getInstance()
                                     .getProtocolStep(CommonTagsPostFilterGui.this);
@@ -769,9 +769,9 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
     @Override
     public void actionPerformed(final ActionEvent e) {
         if (isEventsEnabled()) {
-            if (e.getModifiers() == ActionEvent.CTRL_MASK) {
+            if ((e.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK) {
                 if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("SHIFT KEY pressed, performing switch action");
+                    LOGGER.debug("CTRL KEY pressed, performing switch action");
                 }
                 this.switchButtonActionPerformed(e);
             } else {

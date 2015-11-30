@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -132,6 +133,15 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
             LOG.warn("selected cids bean not found in map of cids features!");
             return false;
         }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param  cidsBean  DOCUMENT ME!
+     */
+    public void setCidsBean(final CidsBean cidsBean) {
+        this.setCidsBeans(Arrays.asList(new CidsBean[] { cidsBean }));
     }
 
     /**

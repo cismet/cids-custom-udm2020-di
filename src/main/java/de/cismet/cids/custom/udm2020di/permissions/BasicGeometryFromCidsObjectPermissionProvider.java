@@ -30,9 +30,9 @@ import static de.cismet.cids.custom.udm2020di.permissions.CidsRestrictionGeometr
  */
 public abstract class BasicGeometryFromCidsObjectPermissionProvider extends AbstractCustomBeanPermissionProvider {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Instance fields --------------------------------------------------------
 
-    protected static final transient org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
+    protected transient org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
             BasicGeometryFromCidsObjectPermissionProvider.class);
 
     //~ Methods ----------------------------------------------------------------

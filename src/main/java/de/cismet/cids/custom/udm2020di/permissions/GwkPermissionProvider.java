@@ -13,15 +13,14 @@ package de.cismet.cids.custom.udm2020di.permissions;
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
  * @version  $Revision$, $Date$
  */
-public class WagwStationPermissionProvider extends DefaultGeometryFromCidsObjectPermissionProvider {
+public class GwkPermissionProvider extends DefaultGeometryFromCidsObjectPermissionProvider {
 
     //~ Constructors -----------------------------------------------------------
 
     /**
-     * Creates a new WagwStationPermissionProvider object.
+     * Creates a new GwkPermissionProvider object.
      */
-    public WagwStationPermissionProvider() {
-        LOGGER = org.apache.log4j.Logger.getLogger(
-                WagwStationPermissionProvider.class);
+    public GwkPermissionProvider() {
+        LOGGER = org.apache.log4j.Logger.getLogger(GwkPermissionProvider.class);
     }
 }

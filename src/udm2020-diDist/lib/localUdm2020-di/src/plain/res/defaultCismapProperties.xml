@@ -2,6 +2,13 @@
 <cismetConfigurationManager>
     <metaSearch>
         <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Grundwasserkörper" 
+                     description="Suche nach Grundwasserkörpern" 
+                     key="cmdGwk" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/polygon_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="GWK"/>
+        </searchTopic>
         <searchTopic name="Bodenmesstellen" 
                      description="Suche nach Bodenmesstellen" 
                      key="cmdBoden" 
@@ -23,14 +30,23 @@
                      selected="false">
             <searchClass domain="UDM2020-DI" cidsClass="WAOW_STATION"/>
         </searchTopic>
-        <searchTopic name="ePRTR Emittenten" description="Suche nach PRTR Betriebseinrichtungen" key="cmdEprtr" icon="/de/cismet/cids/custom/udm2020di/treeicons/factory_16.png" selected="false">
+        <searchTopic name="ePRTR Emittenten" 
+                     description="Suche nach PRTR Betriebseinrichtungen" 
+                     key="cmdEprtr" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/factory_16.png" 
+                     selected="false">
             <searchClass domain="UDM2020-DI" cidsClass="EPRTR_INSTALLATION"/>
         </searchTopic>
-        <searchTopic name="Moose" description="Suche nach Moosen" key="cmdMoss" icon="/de/cismet/cids/custom/udm2020di/treeicons/moss_16.png" selected="false">
+        <searchTopic name="Moose" 
+                     description="Suche nach Moosen" 
+                     key="cmdMoss" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/moss_16.png" 
+                     selected="false">
             <!-- arbitrary number of searchClass -->
             <!-- domain = name of domainserver, cidsClass = name of class in domain -->
             <searchClass domain="UDM2020-DI" cidsClass="MOSS"/>
         </searchTopic>
+        
     </metaSearch>
     <cismapOverviewComponentPreferences srs="EPSG:4326">
         <overviewExtent>

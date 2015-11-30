@@ -88,6 +88,22 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
         this.filterTags = filterTags;
     }
 
+    /**
+     * Creates a new TagsPostFilterProtocolStep object.
+     *
+     * @param   protocolStep  DOCUMENT ME!
+     *
+     * @throws  CloneNotSupportedException  DOCUMENT ME!
+     */
+    protected TagsPostFilterProtocolStep(final TagsPostFilterProtocolStep protocolStep)
+            throws CloneNotSupportedException {
+        super(protocolStep);
+        this.filterTags = new ArrayList<Tag>(protocolStep.filterTags.size());
+        for (final Tag tag : protocolStep.filterTags) {
+            this.filterTags.add(tag.clone());
+        }
+    }
+
     //~ Methods ----------------------------------------------------------------
 
     @Override
@@ -116,5 +132,10 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
         }
 
         return selectedTags;
+    }
+
+    @Override
+    public TagsPostFilterProtocolStep clone() throws CloneNotSupportedException {
+        return new TagsPostFilterProtocolStep(this);
     }
 }

@@ -7,7 +7,6 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.widgets;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import org.jdesktop.beansbinding.Validator;
@@ -19,7 +18,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -69,7 +67,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
     private final transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-    private final MaxDateValidator maxDateValidator = new MaxDateValidator();
+    // private final MaxDateValidator maxDateValidator = new MaxDateValidator();
 
     private Date minDate;
 
@@ -210,15 +208,17 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
 
         this.aggregationValues = aggregationValues;
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("generating parameter selection panels for " + this.aggregationValues.size() + " parameters");
-        }
 //        //EventQueue.invokeLater(new Runnable() {
 //
 //                @Override
 //                public void run() {
         if ((MaxParameterValueSelectionPanel.this.aggregationValues != null)
                     && !MaxParameterValueSelectionPanel.this.aggregationValues.isEmpty()) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("generating parameter selection panels for " + this.aggregationValues.size()
+                            + " parameters");
+            }
+
             this.addMeButton.setEnabled(true);
             this.initDate(aggregationValues.getMinDate(), aggregationValues.getMaxDate());
         } else {

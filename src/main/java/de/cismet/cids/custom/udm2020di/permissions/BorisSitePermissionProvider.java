@@ -15,8 +15,13 @@ package de.cismet.cids.custom.udm2020di.permissions;
  */
 public class BorisSitePermissionProvider extends DefaultGeometryFromCidsObjectPermissionProvider {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Constructors -----------------------------------------------------------
 
-    protected static final transient org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
-            BorisSitePermissionProvider.class);
+    /**
+     * Creates a new BorisSitePermissionProvider object.
+     */
+    public BorisSitePermissionProvider() {
+        LOGGER = org.apache.log4j.Logger.getLogger(
+                BorisSitePermissionProvider.class);
+    }
 }

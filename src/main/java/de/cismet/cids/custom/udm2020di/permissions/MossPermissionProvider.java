@@ -15,8 +15,13 @@ package de.cismet.cids.custom.udm2020di.permissions;
  */
 public class MossPermissionProvider extends DefaultGeometryFromCidsObjectPermissionProvider {
 
-    //~ Static fields/initializers ---------------------------------------------
+    //~ Constructors -----------------------------------------------------------
 
-    protected static final transient org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(
-            MossPermissionProvider.class);
+    /**
+     * Creates a new MossPermissionProvider object.
+     */
+    public MossPermissionProvider() {
+        LOGGER = org.apache.log4j.Logger.getLogger(
+                MossPermissionProvider.class);
+    }
 }
