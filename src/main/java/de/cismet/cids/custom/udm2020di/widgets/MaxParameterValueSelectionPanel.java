@@ -156,9 +156,9 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         this.setMaxDate(
             maxDate);
         if (!dateEnabled) {
-            final String message = "no valid / distinct aggregation values start and end dates provided: "
+            final String message = "no valid / distinct aggregation values start and end dates provided: \n"
                         + " startDate = "
-                        + minDate
+                        + minDate + " \n"
                         + " endDate = "
                         + maxDate;
             LOGGER.warn(message);
@@ -168,9 +168,9 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             this.validate();
         } else {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("showing date chooser with "
+                LOGGER.debug("showing date chooser with \n"
                             + " startDate = "
-                            + minDate
+                            + minDate + " \n"
                             + " endDate = "
                             + maxDate);
             }
@@ -561,7 +561,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<AggregationValue> getAggregationValues() {
+    public AggregationValues getAggregationValues() {
         return aggregationValues;
     }
 

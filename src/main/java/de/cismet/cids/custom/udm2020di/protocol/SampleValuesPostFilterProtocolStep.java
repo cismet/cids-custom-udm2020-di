@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
+import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
 import de.cismet.cidsx.server.api.types.CidsNode;
 
@@ -51,7 +52,7 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
 
     @Getter
     @JsonProperty(required = true)
-    final Collection<AggregationValue> aggregationValues;
+    final AggregationValues aggregationValues;
     @JsonIgnore
     transient SampleValuesPostFilterProtocolStepPanel protocolStepPanel = null;
     @Getter
@@ -81,7 +82,7 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
             final String postFilter,
             final String title,
             final ImageIcon icon,
-            final Collection<AggregationValue> aggregationValues,
+            final AggregationValues aggregationValues,
             final Map<String, Float> selectedValues,
             final Date minDate,
             final Date maxDate) {
@@ -109,7 +110,7 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
             @JsonProperty("title") final String title,
             @JsonProperty("iconData") final byte[] iconData,
             @JsonProperty("cidsNodes") final Collection<CidsNode> cidsNodes,
-            @JsonProperty("aggregationValues") final Collection<AggregationValue> aggregationValues,
+            @JsonProperty("aggregationValues") final AggregationValues aggregationValues,
             @JsonProperty("selectedValues") final Map<String, Float> selectedValues,
             @JsonProperty("minDate") final Date minDate,
             @JsonProperty("maxDate") final Date maxDate) {
@@ -125,9 +126,9 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
      *
      * @param  protocolStep  DOCUMENT ME!
      */
-    protected SampleValuesPostFilterProtocolStep(final SampleValuesPostFilterProtocolStep protocolStep) {
+    protected SampleValuesPostFilterProtocolStep(final SampleValuesPostFilterProtocolStep protocolStep) throws CloneNotSupportedException {
         super(protocolStep);
-        this.aggregationValues = new ArrayList<AggregationValue>(protocolStep.aggregationValues);
+        this.aggregationValues = protocolStep.aggregationValues.clone();
         this.selectedValues = new HashMap<String, Float>(protocolStep.selectedValues);
         this.minDate = new Date((protocolStep.minDate != null) ? protocolStep.minDate.getTime() : null);
         this.maxDate = new Date((protocolStep.maxDate != null) ? protocolStep.maxDate.getTime() : null);

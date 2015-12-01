@@ -128,7 +128,7 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("restored " + protocolSteps.size()
                         + " protocol steps with master protocol step '" + this.masterPostFilter
-                        + "' and " + cidsNodes + " nodes");
+                        + "' and " + ((cidsNodes != null) ? cidsNodes.size() : 0) + " nodes");
         }
     }
 

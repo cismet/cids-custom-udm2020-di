@@ -7,6 +7,9 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.protocol;
 
+import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.tree.PostfilterEnabledSearchResultsTree;
+import Sirius.navigator.ui.tree.SearchResultsTree;
 import Sirius.navigator.ui.tree.postfilter.PostFilterGUI;
 
 import Sirius.server.middleware.types.Node;
@@ -16,13 +19,10 @@ import lombok.Setter;
 
 import org.apache.log4j.Logger;
 
-import org.openide.util.Exceptions;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import de.cismet.commons.gui.protocol.ProtocolHandler;
 
@@ -81,7 +81,8 @@ public class PostfilterProtocolRegistry {
         final CommonPostFilterProtocolStep oldProtocolStep = protocolMap.put(postFilterGUI, protocolStep);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("persistent configuration settings '" + postFilterGUI.getClass().getSimpleName()
-                        + "' " + ((oldProtocolStep != null) ? "overwitten" : "stored"));
+                        + "' (" + postFilterGUI.hashCode() + ") "
+                        + ((oldProtocolStep != null) ? "overwitten" : "stored"));
         }
 
         return oldProtocolStep;
@@ -103,9 +104,29 @@ public class PostfilterProtocolRegistry {
                 return this.putProtocolStep(postFilterGUI, protocolStep);
             }
         }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("no protocol step for postFilter '" + postFilter
+                        + "' available for master post filter '" + this.getMasterPostFilter()
+                        + "', trying to obtain post filter from PostfilterEnabledSearchResultsTree");
+        }
+
+        final SearchResultsTree searchResultsTree = ComponentRegistry.getRegistry().getSearchResultsTree();
+        if ((searchResultsTree != null) && (searchResultsTree instanceof PostfilterEnabledSearchResultsTree)) {
+            final Collection<PostFilterGUI> availablePostFilterGUIs =
+                ((PostfilterEnabledSearchResultsTree)searchResultsTree).getAvailablePostFilterGUIs();
+            for (final PostFilterGUI postFilterGUI : availablePostFilterGUIs) {
+                if (postFilterGUI.getClass().getSimpleName().equals(postFilter)) {
+                    return this.putProtocolStep(postFilterGUI, protocolStep);
+                }
+            }
+        } else {
+            LOGGER.error("no PostfilterEnabledSearchResultsTree available!");
+        }
 
         LOGGER.warn("no protocol step for postFilter '" + postFilter
-                    + "' available for master post filter '" + this.getMasterPostFilter() + "'");
+                    + "' available for master post filter '" + this.getMasterPostFilter()
+                    + "' and could not obtain post filter from PostfilterEnabledSearchResultsTree!");
+
         return null;
     }
 
@@ -202,8 +223,22 @@ public class PostfilterProtocolRegistry {
      * @return  DOCUMENT ME!
      */
     public boolean hasProtocolStep(final PostFilterGUI postFilterGUI) {
-        return this.protocolMap.containsKey(postFilterGUI)
-                    && (this.protocolMap.get(postFilterGUI) != null);
+        final boolean hasProtocolStep = this.protocolMap.containsKey(postFilterGUI);
+        if (!hasProtocolStep) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("unknown post filter gui '" + postFilterGUI.getClass().getSimpleName()
+                            + "' (" + postFilterGUI.hashCode() + ")");
+            }
+            return false;
+        } else if (this.protocolMap.get(postFilterGUI) == null) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("no saved protocol for post filter gui '"
+                            + postFilterGUI.getClass().getSimpleName() + "' available");
+            }
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -285,8 +320,8 @@ public class PostfilterProtocolRegistry {
      */
     public boolean isShouldRestoreSettings(final PostFilterGUI postFilterGUI, final Collection<Node> nodes) {
         if (this.hasProtocolStep(postFilterGUI)) {
-            if (this.getProtocolStep(postFilterGUI).getNodes() != null) {
-                final Collection<Node> nodesSaved = this.getProtocolStep(postFilterGUI).getNodes();
+            final Collection<Node> nodesSaved = this.getProtocolStep(postFilterGUI).getNodes();
+            if ((nodesSaved != null) && !nodesSaved.isEmpty()) {
                 final int nodesHash = nodes.hashCode();
                 final int savedNodesHash = nodesSaved.hashCode();
                 // if (savedNodesHash == nodesHash) {
@@ -304,6 +339,11 @@ public class PostfilterProtocolRegistry {
                                     + ") available!");
                     }
                     this.clearAll();
+                }
+            } else {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("no saved nodes found for post filter '" + postFilterGUI.getClass().getSimpleName()
+                                + "', settings should not be restored");
                 }
             }
         }

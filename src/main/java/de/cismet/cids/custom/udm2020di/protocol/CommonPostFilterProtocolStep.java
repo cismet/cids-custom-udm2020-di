@@ -33,7 +33,6 @@ import javax.swing.ImageIcon;
 import de.cismet.cidsx.server.api.types.CidsNode;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStep;
-import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
 
 /**
  * DOCUMENT ME!
@@ -136,7 +135,7 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
         if (this.getCascadingProtocolStep() != null) {
             return this.getCascadingProtocolStep().getNodes();
         } else {
-            LOGGER.error("could not get nodes, CascadingProtocolStep is null");
+            LOGGER.warn("could not get nodes, CascadingProtocolStep is null (" + this.getPostFilter() + ")");
             return Arrays.asList(new Node[0]);
         }
     }
