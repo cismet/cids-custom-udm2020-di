@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -162,15 +163,15 @@ public interface ExportAction extends Action, Cloneable {
      * @return  DOCUMENT ME!
      */
     @JsonProperty(required = true)
-    Collection<Long> getObjectIds();
+    Map<Long, String> getObjects();
 
     /**
      * DOCUMENT ME!
      *
-     * @param  objectIds  DOCUMENT ME!
+     * @param  objects  DOCUMENT ME!
      */
     @JsonProperty(required = true)
-    void setObjectIds(Collection<Long> objectIds);
+    void setObjects(Map<Long, String> objects);
 
     /**
      * DOCUMENT ME!

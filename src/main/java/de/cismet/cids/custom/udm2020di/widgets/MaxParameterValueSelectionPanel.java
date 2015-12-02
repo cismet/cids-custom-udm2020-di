@@ -156,21 +156,23 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         this.setMaxDate(
             maxDate);
         if (!dateEnabled) {
-            final String message = "no valid / distinct aggregation values start and end dates provided: "
+            final String message = "no valid / distinct aggregation values start and end dates provided: \n"
                         + " startDate = "
-                        + minDate
+                        + minDate + " \n"
                         + " endDate = "
                         + maxDate;
-            LOGGER.warn(message);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(message);
+            }
             this.jdcStartDate.setEnabled(false);
             this.jdcEndDate.setEnabled(false);
             this.datePanel.setVisible(false);
             this.validate();
         } else {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("showing date chooser with "
+                LOGGER.debug("showing date chooser with \n"
                             + " startDate = "
-                            + minDate
+                            + minDate + " \n"
                             + " endDate = "
                             + maxDate);
             }
@@ -379,7 +381,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         parametersPanel.add(addMeButton, gridBagConstraints);
         this.addMeButton.setEnabled(!this.aggregationValues.isEmpty());
-        this.initDate(this.aggregationValues.getMinDate(), this.aggregationValues.getMinDate());
+        this.initDate(this.aggregationValues.getMinDate(), this.aggregationValues.getMaxDate());
         setSelectedValues(0);
         this.validate();
     }
@@ -453,7 +455,8 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             final Date maxDate) {
         if ((this.aggregationValues != null) && !this.aggregationValues.isEmpty()) {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("selecting " + values.size() + " values");
+                LOGGER.debug("selecting " + values.size() + " values with minDate: "
+                            + minDate + " and maxDate:" + maxDate);
             }
 
             this.parametersPanel.removeAll();
@@ -521,19 +524,19 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             validate();
             repaint();
 
-            if (maxDate != null) {
-                this.setMaxDate(maxDate);
-            } else {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("could not set maxDate, date is null");
-                }
-            }
-
             if (minDate != null) {
                 this.setMinDate(minDate);
             } else {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("could not set minDate, date is null");
+                }
+            }
+
+            if (maxDate != null) {
+                this.setMaxDate(maxDate);
+            } else {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("could not set maxDate, date is null");
                 }
             }
         } else {
@@ -561,7 +564,7 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<AggregationValue> getAggregationValues() {
+    public AggregationValues getAggregationValues() {
         return aggregationValues;
     }
 

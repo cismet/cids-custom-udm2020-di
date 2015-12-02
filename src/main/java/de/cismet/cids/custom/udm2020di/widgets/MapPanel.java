@@ -191,7 +191,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
         for (final CidsBean deltaSurface : deltaSurfaces) {
             try {
-                final Geometry geom = (Geometry)deltaSurface.getProperty("geometry.geo_field");
+                final Geometry geom = new CidsFeature(deltaSurface.getMetaObject()).getGeometry();
                 final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaConstants.EPSG_UBA);
                 geometries.add(geomUba);
             } catch (Exception ex) {
@@ -219,22 +219,22 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
                     UbaConstants.EPSG_UBA,
                     UbaConstants.EPSG_UBA,
                     UbaConstants.EPSG_UBA,
-                    true,
+                    false,
                     true));
-
             mappingModel.addHome(new XBoundingBox(
                     box.getX1(),
                     box.getY1(),
                     box.getX2(),
                     box.getY2(),
                     UbaConstants.EPSG_UBA,
-                    true));
+                    false));
 
-            final SimpleWMS ortho = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_BASEMAP_AT_GETMAP_TEMPLATE));
+            final SimpleWMS basemap = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_BASEMAP_AT_GETMAP_TEMPLATE));
 
-            ortho.setName("Worldmap"); // NOI18N
+            basemap.setName("Worldmap"); // NOI18N
+            basemap.setTranslucency(0.25f);
 
-            mappingModel.addLayer(ortho);
+            mappingModel.addLayer(basemap);
 
             mappingComponent.setMappingModel(mappingModel);
 

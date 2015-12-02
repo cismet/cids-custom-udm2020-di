@@ -29,17 +29,17 @@ import java.util.Collection;
 import javax.imageio.ImageIO;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import de.cismet.cidsx.server.api.types.CidsNode;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStep;
-import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
 
 /**
  * DOCUMENT ME!
  *
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
- * @version  $Revision$, $Date$
+ * @version  $Revision$, $Date$I
  */
 public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep implements Cloneable {
 
@@ -132,11 +132,26 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
      * @return  DOCUMENT ME!
      */
     @JsonIgnore
-    public Collection<Node> getNodes() {
+    public Collection<Node> getResultNodes() {
         if (this.getCascadingProtocolStep() != null) {
-            return this.getCascadingProtocolStep().getNodes();
+            return this.getCascadingProtocolStep().getResultNodes();
         } else {
-            LOGGER.error("could not get nodes, CascadingProtocolStep is null");
+            LOGGER.warn("could not get result nodes, CascadingProtocolStep is null (" + this.getPostFilter() + ")");
+            return Arrays.asList(new Node[0]);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @JsonIgnore
+    public Collection<Node> getFilteredNodes() {
+        if (this.getCascadingProtocolStep() != null) {
+            return this.getCascadingProtocolStep().getFilteredNodes();
+        } else {
+            LOGGER.warn("could not get filtered nodes, CascadingProtocolStep is null (" + this.getPostFilter() + ")");
             return Arrays.asList(new Node[0]);
         }
     }
@@ -174,4 +189,6 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
 
     @Override
     public abstract CommonPostFilterProtocolStep clone() throws CloneNotSupportedException;
+    
+    public abstract int appliedFilters();
 }

@@ -15,7 +15,6 @@ import lombok.Getter;
 
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
+import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 
 import de.cismet.cidsx.server.api.types.CidsNode;
 
@@ -51,7 +51,7 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
 
     @Getter
     @JsonProperty(required = true)
-    final Collection<AggregationValue> aggregationValues;
+    final AggregationValues aggregationValues;
     @JsonIgnore
     transient SampleValuesPostFilterProtocolStepPanel protocolStepPanel = null;
     @Getter
@@ -59,10 +59,10 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
     private final Map<String, Float> selectedValues;
     @Getter
     @JsonProperty(required = true)
-    private final Date maxDate;
+    private final Date minDate;
     @Getter
     @JsonProperty(required = true)
-    private final Date minDate;
+    private final Date maxDate;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -81,15 +81,15 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
             final String postFilter,
             final String title,
             final ImageIcon icon,
-            final Collection<AggregationValue> aggregationValues,
+            final AggregationValues aggregationValues,
             final Map<String, Float> selectedValues,
             final Date minDate,
             final Date maxDate) {
         super(postFilter, title, icon);
         this.aggregationValues = aggregationValues;
         this.selectedValues = selectedValues;
-        this.minDate = maxDate;
-        this.maxDate = minDate;
+        this.minDate = minDate;
+        this.maxDate = maxDate;
     }
 
     /**
@@ -109,25 +109,28 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
             @JsonProperty("title") final String title,
             @JsonProperty("iconData") final byte[] iconData,
             @JsonProperty("cidsNodes") final Collection<CidsNode> cidsNodes,
-            @JsonProperty("aggregationValues") final Collection<AggregationValue> aggregationValues,
+            @JsonProperty("aggregationValues") final AggregationValues aggregationValues,
             @JsonProperty("selectedValues") final Map<String, Float> selectedValues,
             @JsonProperty("minDate") final Date minDate,
             @JsonProperty("maxDate") final Date maxDate) {
         super(postFilter, title, iconData, cidsNodes);
         this.aggregationValues = aggregationValues;
         this.selectedValues = selectedValues;
-        this.minDate = maxDate;
-        this.maxDate = minDate;
+        this.minDate = minDate;
+        this.maxDate = maxDate;
     }
 
     /**
      * Creates a new SampleValuesPostFilterProtocolStep object.
      *
-     * @param  protocolStep  DOCUMENT ME!
+     * @param   protocolStep  DOCUMENT ME!
+     *
+     * @throws  CloneNotSupportedException  DOCUMENT ME!
      */
-    protected SampleValuesPostFilterProtocolStep(final SampleValuesPostFilterProtocolStep protocolStep) {
+    protected SampleValuesPostFilterProtocolStep(final SampleValuesPostFilterProtocolStep protocolStep)
+            throws CloneNotSupportedException {
         super(protocolStep);
-        this.aggregationValues = new ArrayList<AggregationValue>(protocolStep.aggregationValues);
+        this.aggregationValues = protocolStep.aggregationValues.clone();
         this.selectedValues = new HashMap<String, Float>(protocolStep.selectedValues);
         this.minDate = new Date((protocolStep.minDate != null) ? protocolStep.minDate.getTime() : null);
         this.maxDate = new Date((protocolStep.maxDate != null) ? protocolStep.maxDate.getTime() : null);
@@ -173,4 +176,10 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
     public SampleValuesPostFilterProtocolStep clone() throws CloneNotSupportedException {
         return new SampleValuesPostFilterProtocolStep(this);
     }
+
+    @Override
+    public int appliedFilters() {
+        return this.getSelectedValues() != null ? this.getSelectedValues().size() : 0;
+        
+        }
 }

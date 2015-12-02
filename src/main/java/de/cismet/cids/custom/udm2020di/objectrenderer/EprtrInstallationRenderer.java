@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -115,6 +116,8 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer implemen
 
                     final Collection<Parameter> parameters = new ArrayList<Parameter>(
                             eprtrInstallation.getReleaseParameters());
+                    final HashMap<Long, String> objectIds = new HashMap<Long, String>();
+                    objectIds.put(cidsBean.getPrimaryKeyValue().longValue(), cidsBean.getProperty("name").toString());
 
                     // Addresses -----------------------------------------------
                     if (eprtrInstallation.getAddresses() != null) {
@@ -178,7 +181,7 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer implemen
                     parameterSelectionPanel.setParameters(parameters);
                     final EprtrExportAction eprtrExportAction = new EprtrExportAction(
                             parameterSelectionPanel.getSelectedParameters(),
-                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            objectIds,
                             Arrays.asList(new Long[] { eprtrInstallation.getErasId() }));
                     parameterSelectionPanel.setExportAction(eprtrExportAction);
 

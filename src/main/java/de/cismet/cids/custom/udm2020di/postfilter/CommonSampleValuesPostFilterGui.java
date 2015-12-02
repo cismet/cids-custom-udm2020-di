@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -46,7 +47,7 @@ import de.cismet.commons.gui.protocol.ProtocolHandler;
 /**
  * DOCUMENT ME!
  *
- * @author   pd
+ * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
 public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilterGUI {
@@ -60,7 +61,9 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
     protected boolean active = false;
     protected final MetaClass metaClass;
     protected final ImageIcon icon;
-
+    protected final Object filterInitializedLock = new Object();
+    protected volatile Boolean filterInitialized = false;
+    protected final Semaphore semaphore = new Semaphore(1);
     protected final PostFilter postFilter = new PostFilter() {
 
             @Override
@@ -70,6 +73,20 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
             @Override
             public Collection<Node> filter(final Collection<Node> input) {
+                synchronized (filterInitializedLock) {
+                    while (!filterInitialized) {
+                        try {
+                            LOGGER.warn("Filter not yet initialized! Forced waiting for filter to be initilaized!");
+                            final long current = System.currentTimeMillis();
+                            filterInitializedLock.wait();
+                            LOGGER.warn("forcibly waited " + (System.currentTimeMillis() - current)
+                                        + "ms for Filter to become initialized");
+                        } catch (InterruptedException ex) {
+                            LOGGER.error(ex.getMessage(), ex);
+                        }
+                    }
+                }
+
                 final Map<String, Float> maxParameterValues = maxParameterValueSelectionPanel.getValues();
 
                 if (!maxParameterValues.isEmpty()) {
@@ -90,43 +107,52 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                     + input.size() + " available nodes");
                     }
 
-                    final ArrayList objectIds = new ArrayList<Integer>();
-                    for (final MetaObjectNode node : preFilteredNodes) {
-                        objectIds.add(node.getObjectId());
-                    }
-
-                    customMaxValuesSearch.setObjectIds(objectIds);
-                    customMaxValuesSearch.setClassId(metaClass.getID());
-                    customMaxValuesSearch.setMaxValues(maxParameterValues);
-                    customMaxValuesSearch.setMinDate(maxParameterValueSelectionPanel.getMinDate());
-                    customMaxValuesSearch.setMaxDate(maxParameterValueSelectionPanel.getMaxDate());
-
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("filtering " + input.size() + " nodes with "
-                                    + maxParameterValues.size() + " max param value filters");
-                    }
-
-                    try {
-                        final Collection<Node> filteredNodes = SessionManager.getProxy()
-                                    .customServerSearch(customMaxValuesSearch);
-
-                        postFilteredNodes.addAll(filteredNodes);
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug(postFilteredNodes.size() + " of " + input.size()
-                                        + " nodes remaining after applying "
-                                        + maxParameterValues.size() + " max param value filters to "
-                                        + preFilteredNodes.size()
-                                        + " pre-filtered nodes (" + filteredNodes.size() + " actually filtered nodes)");
+                    if (!preFilteredNodes.isEmpty()) {
+                        final ArrayList objectIds = new ArrayList<Integer>();
+                        for (final MetaObjectNode node : preFilteredNodes) {
+                            objectIds.add(node.getObjectId());
                         }
 
-                        return postFilteredNodes;
-                    } catch (Exception e) {
-                        LOGGER.error("could not apply max param value filters for '" + input.size() + " nodes!", e);
-                        return input;
+                        customMaxValuesSearch.setObjectIds(objectIds);
+                        customMaxValuesSearch.setClassId(metaClass.getID());
+                        customMaxValuesSearch.setMaxValues(maxParameterValues);
+                        customMaxValuesSearch.setMinDate(maxParameterValueSelectionPanel.getMinDate());
+                        customMaxValuesSearch.setMaxDate(maxParameterValueSelectionPanel.getMaxDate());
+
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("filtering " + input.size() + " nodes with "
+                                        + maxParameterValues.size() + " max param value filters");
+                        }
+
+                        try {
+                            final Collection<Node> filteredNodes = SessionManager.getProxy()
+                                        .customServerSearch(customMaxValuesSearch);
+
+                            postFilteredNodes.addAll(filteredNodes);
+                            if (LOGGER.isDebugEnabled()) {
+                                LOGGER.debug(postFilteredNodes.size() + " of " + input.size()
+                                            + " nodes remaining after applying "
+                                            + maxParameterValues.size() + " max param value filters to "
+                                            + preFilteredNodes.size()
+                                            + " pre-filtered nodes (" + filteredNodes.size()
+                                            + " actually filtered nodes)");
+                            }
+
+                            return postFilteredNodes;
+                        } catch (Exception e) {
+                            LOGGER.error("could not apply max param value filters for '" + input.size() + " nodes!", e);
+                        }
+                    } else if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug(
+                            "filter is not applied: no nodes left for filtering after applying pre-filter to "
+                                    + input.size()
+                                    + " nodes!");
                     }
-                } else {
-                    return input;
+                } else if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("filter is not applied: no max paramete values set");
                 }
+
+                return input;
             }
         };
 
@@ -248,6 +274,18 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
                     @Override
                     protected Collection<AggregationValue> doInBackground() throws Exception {
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("waiting for semaphore acquire!");
+                        }
+                        final long current = System.currentTimeMillis();
+                        semaphore.acquire();
+                        synchronized (filterInitializedLock) {
+                            filterInitialized = false;
+                        }
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("semaphore acquired in " + (System.currentTimeMillis() - current) + "ms");
+                        }
+
                         try {
                             EventQueue.invokeAndWait(new Runnable() {
 
@@ -269,7 +307,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                             LOGGER.error("could not show progress bar: " + ex.getMessage(), ex);
                         }
 
-                        Collection<AggregationValue> aggregationValues = new ArrayList<AggregationValue>();
+                        Collection<AggregationValue> aggregationValues = new ArrayList<AggregationValue>(0);
                         if (registry.isShouldRestoreSettings(
                                         CommonSampleValuesPostFilterGui.this,
                                         nodes)) {
@@ -277,8 +315,9 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                     CommonSampleValuesPostFilterGui.this);
 
                             if (SampleValuesPostFilterProtocolStep.class.isAssignableFrom(protocolStep.getClass())) {
-                                aggregationValues.addAll(((SampleValuesPostFilterProtocolStep)protocolStep)
-                                            .getAggregationValues());
+                                aggregationValues = ((SampleValuesPostFilterProtocolStep)protocolStep)
+                                            .getAggregationValues();
+
                                 LOGGER.info("restoring " + aggregationValues.size()
                                             + " saved aggregation values from protocol!");
                             } else {
@@ -329,7 +368,8 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                         aggregationValues);
                                 } else {
                                     if (LOGGER.isDebugEnabled()) {
-                                        LOGGER.debug("search did not return AggregationValues.class object: "
+                                        LOGGER.debug(
+                                            "search or protocol did not return AggregationValues.class object: "
                                                     + aggregationValues.getClass().getSimpleName());
                                     }
                                     maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
@@ -363,7 +403,6 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                                     + protocolStep.getClass().getSimpleName());
                                     }
                                 }
-
                                 enableButtons();
                             } else {
                                 LOGGER.warn("no aggregation values found!");
@@ -371,8 +410,16 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                             }
                             parameterPanel.validate();
                             parameterPanel.repaint();
+                            synchronized (filterInitializedLock) {
+                                filterInitialized = true;
+                            }
                         } catch (Exception ex) {
                             LOGGER.error(ex.getMessage(), ex);
+                        } finally {
+                            semaphore.release();
+                            synchronized (filterInitializedLock) {
+                                filterInitializedLock.notifyAll();
+                            }
                         }
                     }
                 };
@@ -516,11 +563,11 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
 
-        if (ProtocolHandler.getInstance().isRecordEnabled()) {
-            final Collection<AggregationValue> aggregationValues = this.getAggregationValues();
+        
+            final AggregationValues aggregationValues = this.getAggregationValues();
             final Map<String, Float> selectedValues = this.getSelectedValues();
             final SampleValuesPostFilterProtocolStep protocolStep = new SampleValuesPostFilterProtocolStep(
                     this.getClass().getSimpleName(),
@@ -531,35 +578,45 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                     this.getMinDate(),
                     this.getMaxDate());
 
+            if (ProtocolHandler.getInstance().isRecordEnabled()) {
             if (LOGGER.isDebugEnabled()) {
+                LOGGER.info("recording post filter settings to protocol for "
+                            + aggregationValues.size() + " aggregation values and "
+                            + selectedValues.size() + " selected values (protocol recording is disabled)");
+               
+            }  PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
+           
+            }  else {
+                if (LOGGER.isDebugEnabled()) {
                 LOGGER.info("saving post filter settings to protocol for "
                             + aggregationValues.size() + " aggregation values and "
-                            + selectedValues.size() + " selected values");
-            }
-
-            PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
-        }
-    } //GEN-LAST:event_applyButtonActionPerformed
+                            + selectedValues.size() + " selected values (protocol recording is disabled)");
+                }
+                
+                PostfilterProtocolRegistry.getInstance().createCascadingProtocolStep(this, protocolStep);
+         }
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        PostfilterProtocolRegistry.getInstance().clearProtocolStep(this);
         this.maxParameterValueSelectionPanel.reset();
         this.validate();
         this.enableButtons();
-    }                                                                               //GEN-LAST:event_resetButtonActionPerformed
+    }//GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
+    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
         this.enableButtons();
-    }                                                                                                      //GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
+    }//GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
 
     @Override
     public Integer getDisplayOrderKeyPrio() {
@@ -598,7 +655,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<AggregationValue> getAggregationValues() {
+    public AggregationValues getAggregationValues() {
         return this.maxParameterValueSelectionPanel.getAggregationValues();
     }
 }

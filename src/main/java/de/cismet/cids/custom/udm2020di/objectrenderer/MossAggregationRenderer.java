@@ -13,6 +13,7 @@ import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
@@ -242,14 +243,15 @@ public class MossAggregationRenderer extends CidsBeanAggregationRendererPanel im
 
                         final Collection<Moss> stations = new ArrayList<Moss>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
-                        final TreeSet<Long> objectIds = new TreeSet<Long>();
+                        final HashMap<Long, String> objectIds = new HashMap<Long, String>();
                         final TreeSet<String> sampleIds = new TreeSet<String>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
-                            objectIds.add(cidsBean.getPrimaryKeyValue().longValue());
+                            objectIds.put(cidsBean.getPrimaryKeyValue().longValue(),
+                                cidsBean.getProperty("name").toString());
 
                             try {
                                 final Moss moss = OracleImport.JSON_MAPPER.readValue(

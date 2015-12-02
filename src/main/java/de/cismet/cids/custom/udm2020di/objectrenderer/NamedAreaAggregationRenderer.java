@@ -49,6 +49,8 @@ public class NamedAreaAggregationRenderer extends CidsBeanAggregationRendererPan
     private void initComponents() {
         mapPanel = new de.cismet.cids.custom.udm2020di.widgets.MapPanel();
 
+        setMinimumSize(new java.awt.Dimension(600, 400));
+        setPreferredSize(new java.awt.Dimension(600, 400));
         setLayout(new java.awt.BorderLayout());
         add(mapPanel, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents

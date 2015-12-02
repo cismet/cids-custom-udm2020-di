@@ -50,6 +50,9 @@ public class GwkAggregationRenderer extends CidsBeanAggregationRendererPanel {
         mapPanel = new de.cismet.cids.custom.udm2020di.widgets.MapPanel();
 
         setLayout(new java.awt.BorderLayout());
+
+        mapPanel.setMinimumSize(new java.awt.Dimension(600, 400));
+        mapPanel.setPreferredSize(new java.awt.Dimension(600, 400));
         add(mapPanel, java.awt.BorderLayout.CENTER);
     } // </editor-fold>//GEN-END:initComponents
 

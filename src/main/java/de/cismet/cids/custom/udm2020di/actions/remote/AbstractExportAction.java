@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -56,7 +58,7 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
 
     @Getter
     @Setter
-    protected Collection<Long> objectIds;
+    protected Map<Long, String> objects;
 
     @Getter
     @Setter
@@ -92,7 +94,7 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
         for (final Parameter parameter : exportAction.getParameters()) {
             this.parameters.add(new Parameter(parameter));
         }
-        this.objectIds = new ArrayList<Long>(exportAction.getObjectIds());
+        this.objects = new HashMap<Long, String>(exportAction.getObjects());
         this.exportFormat = exportAction.getExportFormat();
         this.exportName = exportAction.getExportName();
         this.protocolEnabled = false;
@@ -106,13 +108,13 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
      * Creates a new AbstractExportAction object.
      *
      * @param  parameters  DOCUMENT ME!
-     * @param  objectIds   DOCUMENT ME!
+     * @param  objects     DOCUMENT ME!
      */
     protected AbstractExportAction(final Collection<Parameter> parameters,
-            final Collection<Long> objectIds) {
+            final Map<Long, String> objects) {
         this();
         this.parameters = parameters;
-        this.objectIds = objectIds;
+        this.objects = objects;
         super.setEnabled((this.parameters != null) && !this.parameters.isEmpty());
     }
 
@@ -260,6 +262,15 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
     @Override
     public boolean isProtocolAction() {
         return this.protocolAction;
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    public Collection<Long> getObjectIds() {
+        return (this.objects != null) ? this.objects.keySet() : new ArrayList<Long>(0);
     }
 
     @Override

@@ -10,8 +10,6 @@ package de.cismet.cids.custom.udm2020di.objectrenderer;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
-import org.openide.util.WeakListeners;
-
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
@@ -21,11 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.WaExportAction;
@@ -200,6 +197,14 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
 
                     final Collection<Parameter> parameters = new ArrayList<Parameter>(
                             messstelle.getProbenparameter());
+                    final HashMap<Long, String> objectIds = new HashMap<Long, String>();
+                    if (stationType.equals(WaExportAction.WAGW)) {
+                        objectIds.put(cidsBean.getPrimaryKeyValue().longValue(),
+                            cidsBean.getProperty("src_messstelle_pk").toString());
+                    } else {
+                        objectIds.put(cidsBean.getPrimaryKeyValue().longValue(),
+                            cidsBean.getProperty("name").toString());
+                    }
 
                     final GridBagConstraints gridBagConstraints = new GridBagConstraints();
                     gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -307,7 +312,7 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
                     parameterSelectionPanel.setParameters(parameters);
                     final WaExportAction waExportAction = new WaExportAction(
                             parameterSelectionPanel.getSelectedParameters(),
-                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            objectIds,
                             Arrays.asList(new String[] { messstelle.getPk() }),
                             stationType);
                     parameterSelectionPanel.setExportAction(waExportAction);

@@ -13,6 +13,7 @@ import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
@@ -252,14 +253,20 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
 
                         final Collection<Messstelle> stations = new ArrayList<Messstelle>();
                         final TreeSet<Parameter> parametersSet = new TreeSet<Parameter>();
-                        final TreeSet<Long> objectIds = new TreeSet<Long>();
+                        final HashMap<Long, String> objectIds = new HashMap<Long, String>();
                         final TreeSet<String> messstellenPks = new TreeSet<String>();
                         final DefaultListModel listModel = new DefaultListModel();
                         final AggregationValues aggregationValues = new AggregationValues();
 
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
-                            objectIds.add(cidsBean.getPrimaryKeyValue().longValue());
+                            if (stationType.equals(WaExportAction.WAGW)) {
+                                objectIds.put(cidsBean.getPrimaryKeyValue().longValue(),
+                                    cidsBean.getProperty("src_messstelle_pk").toString());
+                            } else {
+                                objectIds.put(cidsBean.getPrimaryKeyValue().longValue(),
+                                    cidsBean.getProperty("name").toString());
+                            }
 
                             try {
                                 final Messstelle messstelle = OracleImport.JSON_MAPPER.readValue(

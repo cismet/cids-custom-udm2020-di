@@ -8,6 +8,8 @@
 package de.cismet.cids.custom.udm2020di.protocol;
 
 import Sirius.navigator.ui.ComponentRegistry;
+import Sirius.navigator.ui.tree.PostfilterEnabledSearchResultsTree;
+import Sirius.navigator.ui.tree.SearchResultsTree;
 
 import Sirius.server.middleware.types.Node;
 
@@ -22,6 +24,8 @@ import java.awt.EventQueue;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.swing.JPanel;
+
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValuePanel;
 
@@ -33,7 +37,8 @@ import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
  * @version  $Revision$, $Date$
  */
-public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
+public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolStepPanel
+        implements CommonPostFilterProtocolStepPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -90,7 +95,7 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
                         NbBundle.getMessage(
                             SampleValuesPostFilterProtocolStepPanel.class,
                             "SampleValuesPostFilterProtocolStepPanel.restoreSearchResultsHyperlink.text",
-                            String.valueOf(protocolStep.getNodes().size())));
+                            String.valueOf(protocolStep.getResultNodes().size())));
 
                     Mnemonics.setLocalizedText(
                         additionalFiltersLabel,
@@ -237,9 +242,9 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
      */
     private void restoreSearchResultsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_restoreSearchResultsHyperlinkActionPerformed
 
-        if (!this.protocolStep.getCascadingProtocolStep().getNodes().isEmpty()) {
+        if (!this.protocolStep.getResultNodes().isEmpty()) {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("restoring " + this.protocolStep.getCascadingProtocolStep().getNodes().size()
+                LOGGER.debug("restoring " + this.protocolStep.getCascadingProtocolStep().getResultNodes().size()
                             + " search results from  protocol of post filter '"
                             + this.protocolStep.getPostFilter() + "'");
             }
@@ -247,10 +252,10 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
             ComponentRegistry.getRegistry()
                     .getSearchResultsTree()
                     .setResultNodes(
-                        this.protocolStep.getCascadingProtocolStep().getNodes().toArray(
-                            new Node[this.protocolStep.getCascadingProtocolStep().getNodes().size()]));
+                        this.protocolStep.getResultNodes().toArray(
+                            new Node[this.protocolStep.getResultNodes().size()]));
         } else {
-            LOGGER.error("nodes list is empty, cannot restore search result from  protocol of post filter '"
+            LOGGER.error("result nodes list is empty, cannot restore search result from  protocol of post filter '"
                         + this.protocolStep.getPostFilter() + "'");
         }
     } //GEN-LAST:event_restoreSearchResultsHyperlinkActionPerformed
@@ -268,11 +273,34 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
                             + this.protocolStep.getPostFilter() + "'");
             }
 
-            PostfilterProtocolRegistry.getInstance()
-                    .restoreCascadingProtocolStep(
-                        this.protocolStep.getCascadingProtocolStep());
+            final SearchResultsTree searchResultsTree = ComponentRegistry.getRegistry().getSearchResultsTree();
+            if ((searchResultsTree != null) && (searchResultsTree instanceof PostfilterEnabledSearchResultsTree)) {
+                PostfilterProtocolRegistry.getInstance()
+                        .restoreCascadingProtocolStep(
+                            this.protocolStep.getCascadingProtocolStep());
 
-            this.restoreSearchResultsHyperlinkActionPerformed(evt);
+                if (!this.protocolStep.getCascadingProtocolStep().getResultNodes().isEmpty()) {
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("restoring " + this.protocolStep.getResultNodes().size()
+                                    + " result nodes and " + this.protocolStep.getFilteredNodes().size()
+                                    + " filtered nodes from  protocol of post filter '"
+                                    + this.protocolStep.getPostFilter() + "'");
+                    }
+
+                    ((PostfilterEnabledSearchResultsTree)searchResultsTree).setFilteredResultNodes(
+                        this.protocolStep.getResultNodes().toArray(
+                            new Node[this.protocolStep.getFilteredNodes().size()]),
+                        this.protocolStep.getFilteredNodes().toArray(
+                            new Node[this.protocolStep.getFilteredNodes().size()]));
+                } else {
+                    LOGGER.error(
+                        "result nodes list is empty, cannot restore search result from  protocol of post filter '"
+                                + this.protocolStep.getPostFilter()
+                                + "'");
+                }
+            } else {
+                LOGGER.error("result nodes cannot be restored, no PostfilterEnabledSearchResultsTree available!");
+            }
         } else {
             LOGGER.error("selected tags list is empty, cannot filter settings from protocol of post filter '"
                         + this.protocolStep.getPostFilter() + "'");
@@ -287,5 +315,10 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
     @Override
     public Component getTitleComponent() {
         return this.titleLabel;
+    }
+
+    @Override
+    public JPanel getFilterSettingsPanel() {
+        return this.parameterPanel;
     }
 }
