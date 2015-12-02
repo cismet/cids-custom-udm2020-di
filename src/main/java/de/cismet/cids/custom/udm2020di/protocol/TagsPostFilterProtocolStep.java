@@ -138,4 +138,10 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
     public TagsPostFilterProtocolStep clone() throws CloneNotSupportedException {
         return new TagsPostFilterProtocolStep(this);
     }
+    
+    @Override
+    public int appliedFilters() {
+        return this.getSelectedTags()!= null ? this.getSelectedTags().size() : 0;
+        
+        }
 }

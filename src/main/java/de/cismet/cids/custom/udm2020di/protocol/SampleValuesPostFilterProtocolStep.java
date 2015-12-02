@@ -15,7 +15,6 @@ import lombok.Getter;
 
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -177,4 +176,10 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
     public SampleValuesPostFilterProtocolStep clone() throws CloneNotSupportedException {
         return new SampleValuesPostFilterProtocolStep(this);
     }
+
+    @Override
+    public int appliedFilters() {
+        return this.getSelectedValues() != null ? this.getSelectedValues().size() : 0;
+        
+        }
 }

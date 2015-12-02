@@ -219,16 +219,15 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
                     UbaConstants.EPSG_UBA,
                     UbaConstants.EPSG_UBA,
                     UbaConstants.EPSG_UBA,
-                    true,
+                    false,
                     true));
-
             mappingModel.addHome(new XBoundingBox(
                     box.getX1(),
                     box.getY1(),
                     box.getX2(),
                     box.getY2(),
                     UbaConstants.EPSG_UBA,
-                    true));
+                    false));
 
             final SimpleWMS basemap = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_BASEMAP_AT_GETMAP_TEMPLATE));
 

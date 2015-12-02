@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.cismet.commons.gui.protocol.ProtocolHandler;
+import java.util.TreeMap;
 
 /**
  * DOCUMENT ME!
@@ -190,8 +191,8 @@ public class PostfilterProtocolRegistry {
      * @return  DOCUMENT ME!
      */
     public Map<String, CommonPostFilterProtocolStep> getActiveProtocolSteps() {
-        final HashMap<String, CommonPostFilterProtocolStep> activeProtocolSteps =
-            new HashMap<String, CommonPostFilterProtocolStep>();
+        final TreeMap<String, CommonPostFilterProtocolStep> activeProtocolSteps =
+            new TreeMap<String, CommonPostFilterProtocolStep>();
         for (final Map.Entry<PostFilterGUI, CommonPostFilterProtocolStep> entry
                     : this.protocolMap.entrySet()) {
             if (entry.getKey().isActive() && (entry.getValue() != null)) {
@@ -266,6 +267,15 @@ public class PostfilterProtocolRegistry {
      */
     public void recordCascadingProtocolStep(final PostFilterGUI postFilterGUI,
             final CommonPostFilterProtocolStep protocolStep) {
+        final CascadingPostFilterProtocolStep cascadingProtocolStep =
+                this.createCascadingProtocolStep(postFilterGUI, protocolStep);
+        ProtocolHandler.getInstance().recordStep(cascadingProtocolStep);
+    }
+    
+    public CascadingPostFilterProtocolStep createCascadingProtocolStep(final PostFilterGUI postFilterGUI,
+            
+            
+        final CommonPostFilterProtocolStep protocolStep) {
         final String postFilter = postFilterGUI.getClass().getSimpleName();
         // reset restore flag!
         this.setMasterPostFilter(postFilter);
@@ -274,7 +284,7 @@ public class PostfilterProtocolRegistry {
         this.putProtocolStep(postFilterGUI, protocolStep);
 
         final Map<String, CommonPostFilterProtocolStep> activeProtocolSteps = this.getActiveProtocolSteps();
-        LOGGER.info("recording " + activeProtocolSteps.size() + " protocol steps for cascading master post filter '"
+        LOGGER.info("storing " + activeProtocolSteps.size() + " protocol steps for cascading master post filter '"
                     + postFilter + "'");
 
         // create cascading filter protocol setp with refence to all active filters
@@ -283,8 +293,7 @@ public class PostfilterProtocolRegistry {
                 postFilter,
                 activeProtocolSteps);
 
-        // record the step
-        ProtocolHandler.getInstance().recordStep(cascadingProtocolStep);
+       return cascadingProtocolStep;
     }
 
     /**

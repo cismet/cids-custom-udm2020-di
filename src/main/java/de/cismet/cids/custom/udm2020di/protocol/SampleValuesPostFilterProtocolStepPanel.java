@@ -24,6 +24,8 @@ import java.awt.EventQueue;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.swing.JPanel;
+
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.widgets.MaxParameterValuePanel;
 
@@ -35,7 +37,8 @@ import de.cismet.commons.gui.protocol.AbstractProtocolStepPanel;
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
  * @version  $Revision$, $Date$
  */
-public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolStepPanel {
+public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolStepPanel
+        implements CommonPostFilterProtocolStepPanel {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -312,5 +315,10 @@ public class SampleValuesPostFilterProtocolStepPanel extends AbstractProtocolSte
     @Override
     public Component getTitleComponent() {
         return this.titleLabel;
+    }
+
+    @Override
+    public JPanel getFilterSettingsPanel() {
+        return this.parameterPanel;
     }
 }

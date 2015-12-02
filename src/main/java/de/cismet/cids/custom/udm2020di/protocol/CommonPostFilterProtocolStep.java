@@ -29,6 +29,7 @@ import java.util.Collection;
 import javax.imageio.ImageIO;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import de.cismet.cidsx.server.api.types.CidsNode;
 
@@ -38,7 +39,7 @@ import de.cismet.commons.gui.protocol.AbstractProtocolStep;
  * DOCUMENT ME!
  *
  * @author   Pascal Dihé <pascal.dihe@cismet.de>
- * @version  $Revision$, $Date$
+ * @version  $Revision$, $Date$I
  */
 public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep implements Cloneable {
 
@@ -188,4 +189,6 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
 
     @Override
     public abstract CommonPostFilterProtocolStep clone() throws CloneNotSupportedException;
+    
+    public abstract int appliedFilters();
 }

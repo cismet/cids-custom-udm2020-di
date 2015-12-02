@@ -15,6 +15,11 @@ import lombok.Getter;
 
 import org.apache.log4j.Logger;
 
+import org.openide.util.ImageUtilities;
+
+import javax.swing.ImageIcon;
+
+import de.cismet.cids.custom.udm2020di.ImageUtil;
 import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
 
 import de.cismet.commons.gui.protocol.AbstractProtocolStep;
@@ -32,6 +37,11 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
     //~ Static fields/initializers ---------------------------------------------
 
     private static final Logger LOGGER = Logger.getLogger(ExportActionProtocolStep.class);
+
+    protected static final ImageIcon ICON = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
+                ExportActionProtocolStep.class,
+                "table_export.png"),
+            false);
 
     @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(

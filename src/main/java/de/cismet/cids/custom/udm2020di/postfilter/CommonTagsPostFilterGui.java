@@ -365,32 +365,41 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
-
-        if (ProtocolHandler.getInstance().isRecordEnabled()) {
-            final Collection<Tag> filterTags = this.getFilterTags();
+        
+        final Collection<Tag> filterTags = this.getFilterTags();
             final TagsPostFilterProtocolStep protocolStep = new TagsPostFilterProtocolStep(
                     this.getClass().getSimpleName(),
                     this.getTitle(),
                     this.icon,
                     filterTags);
 
+            
+
+        if (ProtocolHandler.getInstance().isRecordEnabled()) {
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("saving post filter settings to protocol: "
+                LOGGER.info("recording post filter settings to protocol: "
                             + filterTags.size() + " filter tags");
             }
-
+            
             PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
+        } else {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.info("saving post filter settings to protocol: "
+                            + filterTags.size() + " filter tags");
+            }
+            
+            PostfilterProtocolRegistry.getInstance().createCascadingProtocolStep(this, protocolStep);
         }
-    } //GEN-LAST:event_applyButtonActionPerformed
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         setEventsEnabled(false);
         for (final JToggleButton filterButton : filterButtons.values()) {
             filterButton.setSelected(true);
@@ -406,14 +415,14 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    } //GEN-LAST:event_resetButtonActionPerformed
+    }//GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_switchButtonActionPerformed
+    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
         setEventsEnabled(false);
         for (final JToggleButton toggleButton : this.filterButtons.values()) {
             toggleButton.setSelected(!toggleButton.isSelected());
@@ -421,7 +430,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    }                                                                                //GEN-LAST:event_switchButtonActionPerformed
+    }//GEN-LAST:event_switchButtonActionPerformed
 
     /**
      * DOCUMENT ME!
