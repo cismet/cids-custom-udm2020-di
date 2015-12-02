@@ -60,10 +60,10 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
     private final Map<String, Float> selectedValues;
     @Getter
     @JsonProperty(required = true)
-    private final Date maxDate;
+    private final Date minDate;
     @Getter
     @JsonProperty(required = true)
-    private final Date minDate;
+    private final Date maxDate;
 
     //~ Constructors -----------------------------------------------------------
 
@@ -89,8 +89,8 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
         super(postFilter, title, icon);
         this.aggregationValues = aggregationValues;
         this.selectedValues = selectedValues;
-        this.minDate = maxDate;
-        this.maxDate = minDate;
+        this.minDate = minDate;
+        this.maxDate = maxDate;
     }
 
     /**
@@ -117,16 +117,19 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
         super(postFilter, title, iconData, cidsNodes);
         this.aggregationValues = aggregationValues;
         this.selectedValues = selectedValues;
-        this.minDate = maxDate;
-        this.maxDate = minDate;
+        this.minDate = minDate;
+        this.maxDate = maxDate;
     }
 
     /**
      * Creates a new SampleValuesPostFilterProtocolStep object.
      *
-     * @param  protocolStep  DOCUMENT ME!
+     * @param   protocolStep  DOCUMENT ME!
+     *
+     * @throws  CloneNotSupportedException  DOCUMENT ME!
      */
-    protected SampleValuesPostFilterProtocolStep(final SampleValuesPostFilterProtocolStep protocolStep) throws CloneNotSupportedException {
+    protected SampleValuesPostFilterProtocolStep(final SampleValuesPostFilterProtocolStep protocolStep)
+            throws CloneNotSupportedException {
         super(protocolStep);
         this.aggregationValues = protocolStep.aggregationValues.clone();
         this.selectedValues = new HashMap<String, Float>(protocolStep.selectedValues);

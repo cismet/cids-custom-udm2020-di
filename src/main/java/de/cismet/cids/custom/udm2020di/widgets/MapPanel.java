@@ -57,7 +57,8 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
     //~ Instance fields --------------------------------------------------------
 
-    private final transient Map<CidsBean, CidsFeature> cidsFeatures = new HashMap<CidsBean, CidsFeature>();
+    private final transient Map<CidsBean, CidsFeature> cidsFeatures 
+            = new HashMap<CidsBean, CidsFeature>();
 
     private transient Collection<CidsBean> cidsBeans;
 
@@ -191,7 +192,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
         for (final CidsBean deltaSurface : deltaSurfaces) {
             try {
-                final Geometry geom = (Geometry)deltaSurface.getProperty("geometry.geo_field");
+                final Geometry geom = new CidsFeature(deltaSurface.getMetaObject()).getGeometry();
                 final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaConstants.EPSG_UBA);
                 geometries.add(geomUba);
             } catch (Exception ex) {
@@ -230,11 +231,12 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
                     UbaConstants.EPSG_UBA,
                     true));
 
-            final SimpleWMS ortho = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_BASEMAP_AT_GETMAP_TEMPLATE));
-
-            ortho.setName("Worldmap"); // NOI18N
-
-            mappingModel.addLayer(ortho);
+            final SimpleWMS basemap = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_BASEMAP_AT_GETMAP_TEMPLATE));
+            
+            basemap.setName("Worldmap"); // NOI18N
+            basemap.setTranslucency(0.25f);
+            
+            mappingModel.addLayer(basemap);
 
             mappingComponent.setMappingModel(mappingModel);
 

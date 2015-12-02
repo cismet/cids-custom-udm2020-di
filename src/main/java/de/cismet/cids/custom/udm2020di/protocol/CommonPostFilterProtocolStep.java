@@ -131,11 +131,26 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
      * @return  DOCUMENT ME!
      */
     @JsonIgnore
-    public Collection<Node> getNodes() {
+    public Collection<Node> getResultNodes() {
         if (this.getCascadingProtocolStep() != null) {
-            return this.getCascadingProtocolStep().getNodes();
+            return this.getCascadingProtocolStep().getResultNodes();
         } else {
-            LOGGER.warn("could not get nodes, CascadingProtocolStep is null (" + this.getPostFilter() + ")");
+            LOGGER.warn("could not get result nodes, CascadingProtocolStep is null (" + this.getPostFilter() + ")");
+            return Arrays.asList(new Node[0]);
+        }
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
+    @JsonIgnore
+    public Collection<Node> getFilteredNodes() {
+        if (this.getCascadingProtocolStep() != null) {
+            return this.getCascadingProtocolStep().getFilteredNodes();
+        } else {
+            LOGGER.warn("could not get filtered nodes, CascadingProtocolStep is null (" + this.getPostFilter() + ")");
             return Arrays.asList(new Node[0]);
         }
     }

@@ -761,7 +761,10 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      */
     @Override
     public boolean canHandle(final Collection<Node> nodes) {
-        this.active = !nodes.isEmpty();
+        this.active = !this.preFilterNodes(nodes).isEmpty();
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("filter can handle " + nodes.size() + " nodes:" + this.active);
+        }
         return this.active;
     }
 

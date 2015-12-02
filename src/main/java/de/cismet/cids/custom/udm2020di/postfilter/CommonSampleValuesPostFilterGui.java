@@ -307,7 +307,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                             LOGGER.error("could not show progress bar: " + ex.getMessage(), ex);
                         }
 
-                        final Collection<AggregationValue> aggregationValues;
+                        Collection<AggregationValue> aggregationValues = new ArrayList<AggregationValue>(0);
                         if (registry.isShouldRestoreSettings(
                                         CommonSampleValuesPostFilterGui.this,
                                         nodes)) {
@@ -317,7 +317,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                             if (SampleValuesPostFilterProtocolStep.class.isAssignableFrom(protocolStep.getClass())) {
                                 aggregationValues = ((SampleValuesPostFilterProtocolStep)protocolStep)
                                             .getAggregationValues();
-                                
+
                                 LOGGER.info("restoring " + aggregationValues.size()
                                             + " saved aggregation values from protocol!");
                             } else {
@@ -368,7 +368,8 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                         aggregationValues);
                                 } else {
                                     if (LOGGER.isDebugEnabled()) {
-                                        LOGGER.debug("search or protocol did not return AggregationValues.class object: "
+                                        LOGGER.debug(
+                                            "search or protocol did not return AggregationValues.class object: "
                                                     + aggregationValues.getClass().getSimpleName());
                                     }
                                     maxParameterValueSelectionPanel.setAggregationValues(aggregationValues);
@@ -562,7 +563,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
 
         if (ProtocolHandler.getInstance().isRecordEnabled()) {
@@ -585,28 +586,28 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
             PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
         }
-    }//GEN-LAST:event_applyButtonActionPerformed
+    } //GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
         PostfilterProtocolRegistry.getInstance().clearProtocolStep(this);
         this.maxParameterValueSelectionPanel.reset();
         this.validate();
         this.enableButtons();
-    }//GEN-LAST:event_resetButtonActionPerformed
+    }                                                                               //GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
+    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
         this.enableButtons();
-    }//GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
+    }                                                                                                      //GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
 
     @Override
     public Integer getDisplayOrderKeyPrio() {

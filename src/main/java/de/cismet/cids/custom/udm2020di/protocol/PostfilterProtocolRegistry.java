@@ -296,8 +296,9 @@ public class PostfilterProtocolRegistry {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.info("restoring post filter GUI settings of CascadingPostFilterProtocolStep with "
                         + cascadingProtocolStep.getProtocolSteps().size()
-                        + " protocol steps and " + cascadingProtocolStep.getNodes().size()
-                        + " nodes for master post filter '"
+                        + " protocol steps, " + cascadingProtocolStep.getResultNodes().size()
+                        + " result nodes and " + cascadingProtocolStep.getFilteredNodes().size()
+                        + " filtered nodes for master post filter '"
                         + cascadingProtocolStep.getMasterPostFilter() + "' and clearing "
                         + this.protocolMap.size() + " saved protocol settings");
         }
@@ -320,7 +321,7 @@ public class PostfilterProtocolRegistry {
      */
     public boolean isShouldRestoreSettings(final PostFilterGUI postFilterGUI, final Collection<Node> nodes) {
         if (this.hasProtocolStep(postFilterGUI)) {
-            final Collection<Node> nodesSaved = this.getProtocolStep(postFilterGUI).getNodes();
+            final Collection<Node> nodesSaved = this.getProtocolStep(postFilterGUI).getResultNodes();
             if ((nodesSaved != null) && !nodesSaved.isEmpty()) {
                 final int nodesHash = nodes.hashCode();
                 final int savedNodesHash = nodesSaved.hashCode();

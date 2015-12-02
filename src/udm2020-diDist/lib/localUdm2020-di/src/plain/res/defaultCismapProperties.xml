@@ -6,25 +6,25 @@
                      description="Suche nach Grundwasserkörpern" 
                      key="cmdGwk" 
                      icon="/de/cismet/cids/custom/udm2020di/treeicons/polygon_16.png" 
-                     selected="false">
+                     selected="true">
             <searchClass domain="UDM2020-DI" cidsClass="GWK"/>
         </searchTopic>
         <searchTopic name="Bodenmesstellen" 
-                     description="Suche nach Bodenmesstellen" 
+                     description="Suche nach Bodenmessstellen" 
                      key="cmdBoden" 
                      icon="/de/cismet/cids/custom/udm2020di/treeicons/showel_16.png" 
                      selected="false">
             <searchClass domain="UDM2020-DI" cidsClass="BORIS_SITE"/>
         </searchTopic>
         <searchTopic name="Grundwassermesstellen" 
-                     description="Suche nach Grundwassermesstellen" 
+                     description="Suche nach Grundwassermessstellen" 
                      key="cmdWagw" 
                      icon="/de/cismet/cids/custom/udm2020di/treeicons/waves_mirror_16.png" 
                      selected="false">
             <searchClass domain="UDM2020-DI" cidsClass="WAGW_STATION"/>
         </searchTopic>
         <searchTopic name="Wassermesstellen" 
-                     description="Suche nach Oberflächengewässermesstellen" 
+                     description="Suche nach Oberflächengewässermessstellen" 
                      key="cmdWagw" 
                      icon="/de/cismet/cids/custom/udm2020di/treeicons/waves_16.png" 
                      selected="false">
@@ -38,7 +38,7 @@
             <searchClass domain="UDM2020-DI" cidsClass="EPRTR_INSTALLATION"/>
         </searchTopic>
         <searchTopic name="Moose" 
-                     description="Suche nach Moosen" 
+                     description="Suche nach Moosmessstellen" 
                      key="cmdMoss" 
                      icon="/de/cismet/cids/custom/udm2020di/treeicons/moss_16.png" 
                      selected="false">
@@ -121,7 +121,13 @@
 
     <cismapActiveLayerConfiguration>
         <Layers>
-            <WMSServiceLayer name="World Map" title="" visible="true" enabled="true" translucency="1.0" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+            <WMSServiceLayer name="World Map" title="World Map" 
+                             visible="true" 
+                             enabled="true" 
+                             translucency="0.20" 
+                             bgColor="0xF0F0F0" 
+                             imageFormat="image/png" 
+                             exceptionFormat="application/vnd.ogc.se_xml">
                 <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/wms/wms.ashx?Service=WMS&WMS=WorldMap&Version=1.1.0&Request=GetCapabilities]]></capabilities>
                 <wmsLayer name="Bathymetry" title="Bathymetry" enabled="true" info="false" />
                 <wmsLayer name="Countries" title="Countries" enabled="true" info="false" />
@@ -144,7 +150,14 @@
                 <wmsLayer name="Airports" title="Airports" enabled="true" info="false" />
                 <wmsLayer name="Ocean features" title="Ocean features" enabled="true" info="false" />
             </WMSServiceLayer>
-            <WMSServiceLayer name="Basemap Austria" title="" visible="true" enabled="true" translucency="1.0" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+            <WMSServiceLayer name="Basemap Austria" 
+                             title="Basemap Austria" 
+                             visible="true" 
+                             enabled="true" 
+                             translucency="0.35" 
+                             bgColor="0xF0F0F0" 
+                             imageFormat="image/png" 
+                             exceptionFormat="application/vnd.ogc.se_xml">
                 <capabilities type="OGC" active="false"><![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/WMSServer.xml?service=WMS&version=1.1.0]]></capabilities>
                 <wmsLayer name="Staatsgrenze" title="Staatsgrenze" enabled="true" style="default" info="false" />
                 <wmsLayer name="Landesgrenze" title="Landesgrenze" enabled="true" style="default" info="false" />
@@ -155,7 +168,12 @@
                 <wmsLayer name="OEK200" title="OEK200" enabled="true" style="default" info="false" />
                 <wmsLayer name="OEK50" title="OEK50" enabled="true" style="default" info="false" />
             </WMSServiceLayer>
-            <WMSServiceLayer name="Orthophoto Austria" title="" visible="false" enabled="false" translucency="1.0" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+            <WMSServiceLayer name="Orthophoto Austria" 
+                             title="Orthophoto Austria" visible="false" 
+                             enabled="false" translucency="1.0"
+                             bgColor="0xF0F0F0" 
+                             imageFormat="image/png" 
+                             exceptionFormat="application/vnd.ogc.se_xml">
                 <capabilities type="OGC" active="false"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]></capabilities>
                 <wmsLayer name="Orthophoto" title="Orthophoto" enabled="true" info="false" />
                 <wmsLayer name="Satellitenbild_30m" title="Satellitenbild_30m" enabled="true" style="default" info="false" />
