@@ -31,7 +31,7 @@ public final class WaowStationIconFactory implements CidsTreeObjectIconFactory {
 
     public static final ImageIcon WAOW_STATION_ICON = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
                 WaowStationIconFactory.class,
-                "waves_16.png"),
+                "waow_16.png"),
             false);
 
     //~ Constructors -----------------------------------------------------------

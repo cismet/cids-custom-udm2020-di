@@ -57,8 +57,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
     //~ Instance fields --------------------------------------------------------
 
-    private final transient Map<CidsBean, CidsFeature> cidsFeatures 
-            = new HashMap<CidsBean, CidsFeature>();
+    private final transient Map<CidsBean, CidsFeature> cidsFeatures = new HashMap<CidsBean, CidsFeature>();
 
     private transient Collection<CidsBean> cidsBeans;
 
@@ -232,10 +231,10 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
                     true));
 
             final SimpleWMS basemap = new SimpleWMS(new SimpleWmsGetMapUrl(WMS_BASEMAP_AT_GETMAP_TEMPLATE));
-            
+
             basemap.setName("Worldmap"); // NOI18N
             basemap.setTranslucency(0.25f);
-            
+
             mappingModel.addLayer(basemap);
 
             mappingComponent.setMappingModel(mappingModel);

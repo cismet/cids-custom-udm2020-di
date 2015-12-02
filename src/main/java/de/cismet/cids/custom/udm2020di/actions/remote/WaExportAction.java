@@ -21,6 +21,7 @@ import org.openide.util.NbBundle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.swing.Action;
 
@@ -71,17 +72,17 @@ public class WaExportAction extends AbstractExportAction {
      * Creates a new WaExportAction object.
      *
      * @param  parameters   DOCUMENT ME!
-     * @param  objectIds    DOCUMENT ME!
+     * @param  objects      DOCUMENT ME!
      * @param  messstellen  DOCUMENT ME!
      * @param  waSource     DOCUMENT ME!
      */
 
     public WaExportAction(
             final Collection<Parameter> parameters,
-            final Collection<Long> objectIds,
+            final Map<Long, String> objects,
             final Collection<String> messstellen,
             final String waSource) {
-        super(parameters, objectIds);
+        super(parameters, objects);
 
         this.messstellen = messstellen;
         this.exportFormat = PARAM_EXPORTFORMAT_CSV;
@@ -110,7 +111,7 @@ public class WaExportAction extends AbstractExportAction {
      * Creates a new WaExportAction object.
      *
      * @param  parameters    DOCUMENT ME!
-     * @param  objectIds     DOCUMENT ME!
+     * @param  objects       DOCUMENT ME!
      * @param  messstellen   DOCUMENT ME!
      * @param  waSource      DOCUMENT ME!
      * @param  exportFormat  DOCUMENT ME!
@@ -118,19 +119,19 @@ public class WaExportAction extends AbstractExportAction {
      */
     @JsonCreator
     public WaExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
-            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("objects") final Map<Long, String> objects,
             @JsonProperty("messstellen") final Collection<String> messstellen,
             @JsonProperty("waSource") final String waSource,
             @JsonProperty("exportFormat") final String exportFormat,
             @JsonProperty("exportName") final String exportName) {
-        this(parameters, objectIds, messstellen, waSource);
+        this(parameters, objects, messstellen, waSource);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(this.waSource + " ExportAction object with " + parameters.size() + " parameters and "
-                        + objectIds.size() + " objects restored from JSON");
+                        + objects.size() + " objects restored from JSON");
         }
     }
 

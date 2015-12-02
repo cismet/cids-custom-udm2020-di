@@ -31,7 +31,7 @@ public final class WagwStationIconFactory implements CidsTreeObjectIconFactory {
 
     public static final ImageIcon WAGW_STATION_ICON = ImageUtilities.loadImageIcon(ImageUtil.getResourcePath(
                 WagwStationIconFactory.class,
-                "waves_mirror_16.png"),
+                "wagw_16.png"),
             false);
 
     //~ Constructors -----------------------------------------------------------

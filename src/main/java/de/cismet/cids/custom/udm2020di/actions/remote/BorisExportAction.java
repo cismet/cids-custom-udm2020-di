@@ -23,6 +23,7 @@ import org.openide.util.NbBundle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.swing.Action;
 
@@ -72,13 +73,13 @@ public class BorisExportAction extends AbstractExportAction {
      * Creates a new BorisExportAction object.
      *
      * @param  parameters  DOCUMENT ME!
-     * @param  objectIds   DOCUMENT ME!
+     * @param  objects     DOCUMENT ME!
      * @param  standorte   DOCUMENT ME!
      */
     public BorisExportAction(final Collection<Parameter> parameters,
-            final Collection<Long> objectIds,
+            final Map<Long, String> objects,
             final Collection<String> standorte) {
-        super(parameters, objectIds);
+        super(parameters, objects);
 
         this.standorte = standorte;
         this.exportFormat =
@@ -95,25 +96,25 @@ public class BorisExportAction extends AbstractExportAction {
      * Creates a new BorisExportAction object.
      *
      * @param  parameters    DOCUMENT ME!
-     * @param  objectIds     DOCUMENT ME!
+     * @param  objects       DOCUMENT ME!
      * @param  standorte     DOCUMENT ME!
      * @param  exportFormat  DOCUMENT ME!
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
     public BorisExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
-            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("objects") final Map<Long, String> objects,
             @JsonProperty("standorte") final Collection<String> standorte,
             @JsonProperty("exportFormat") final String exportFormat,
             @JsonProperty("exportName") final String exportName) {
-        this(parameters, objectIds, standorte);
+        this(parameters, objects, standorte);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("ExportAction object with " + parameters.size() + " parameters and "
-                        + objectIds.size() + " objects restored from JSON");
+                        + objects.size() + " objects restored from JSON");
         }
     }
 

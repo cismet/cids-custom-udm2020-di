@@ -31,6 +31,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -319,6 +320,8 @@ public class MossRenderer extends AbstractCidsBeanRenderer implements Configurab
 
                     final Collection<Parameter> parameters = new ArrayList<Parameter>(
                             moss.getProbenparameter());
+                    final HashMap<Long, String> objectIds = new HashMap<Long, String>();
+                    objectIds.put(cidsBean.getPrimaryKeyValue().longValue(), cidsBean.getProperty("name").toString());
 
                     final String mossType = moss.getType();
                     mossTypePanel.setBorder(
@@ -368,7 +371,7 @@ public class MossRenderer extends AbstractCidsBeanRenderer implements Configurab
                     parameterSelectionPanel.setParameters(parameters);
                     final MossExportAction exportAction = new MossExportAction(
                             parameterSelectionPanel.getSelectedParameters(),
-                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            objectIds,
                             Arrays.asList(new String[] { moss.getSampleId() }));
                     parameterSelectionPanel.setExportAction(exportAction);
 

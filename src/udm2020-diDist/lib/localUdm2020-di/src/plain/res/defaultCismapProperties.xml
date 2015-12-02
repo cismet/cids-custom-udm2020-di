@@ -19,14 +19,14 @@
         <searchTopic name="Grundwassermesstellen" 
                      description="Suche nach Grundwassermessstellen" 
                      key="cmdWagw" 
-                     icon="/de/cismet/cids/custom/udm2020di/treeicons/waves_mirror_16.png" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/wagw_16.png" 
                      selected="false">
             <searchClass domain="UDM2020-DI" cidsClass="WAGW_STATION"/>
         </searchTopic>
         <searchTopic name="Wassermesstellen" 
                      description="Suche nach Oberflächengewässermessstellen" 
                      key="cmdWagw" 
-                     icon="/de/cismet/cids/custom/udm2020di/treeicons/waves_16.png" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/waow_16.png" 
                      selected="false">
             <searchClass domain="UDM2020-DI" cidsClass="WAOW_STATION"/>
         </searchTopic>

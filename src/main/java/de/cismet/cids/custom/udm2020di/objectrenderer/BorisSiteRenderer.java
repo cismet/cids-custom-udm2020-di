@@ -16,6 +16,7 @@ import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.swing.JLabel;
 
@@ -192,6 +193,8 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
 
                     final Collection<Parameter> parameters = new ArrayList<Parameter>(
                             borisStandort.getProbenparameter());
+                    final HashMap<Long, String> objectIds = new HashMap<Long, String>();
+                    objectIds.put(cidsBean.getPrimaryKeyValue().longValue(), cidsBean.getProperty("name").toString());
 
                     final GridBagConstraints gridBagConstraints = new GridBagConstraints();
                     gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
@@ -244,7 +247,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
 
                     final BorisExportAction borisExportAction = new BorisExportAction(
                             parameterSelectionPanel.getSelectedParameters(),
-                            Arrays.asList(new Long[] { getCidsBean().getPrimaryKeyValue().longValue() }),
+                            objectIds,
                             Arrays.asList(new String[] { borisStandort.getPk() }));
                     parameterSelectionPanel.setExportAction(borisExportAction);
 

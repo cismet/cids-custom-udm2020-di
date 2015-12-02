@@ -8,7 +8,6 @@
 package de.cismet.cids.custom.udm2020di.protocol;
 
 import Sirius.navigator.connection.SessionManager;
-import Sirius.navigator.exception.ConnectionException;
 import Sirius.navigator.ui.ComponentRegistry;
 import Sirius.navigator.ui.DescriptionPane;
 
@@ -23,10 +22,7 @@ import java.awt.Component;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -119,11 +115,11 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
                     }
 
                     objectInfoLabel.setText(
-                        String.valueOf(ExportActionProtocolStepPanel.this.exportAction.getObjectIds().size())
+                        String.valueOf(ExportActionProtocolStepPanel.this.exportAction.getObjects().size())
                                 + ' '
                                 + title
-                                + ((ExportActionProtocolStepPanel.this.exportAction.getObjectIds().size() > 1) ? suffix
-                                                                                                               : ""));
+                                + ((ExportActionProtocolStepPanel.this.exportAction.getObjects().size() > 1) ? suffix
+                                                                                                             : ""));
                     Mnemonics.setLocalizedText(
                         exportPanelHyperlink,
                         NbBundle.getMessage(
@@ -223,7 +219,7 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
     private void exportPanelHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_exportPanelHyperlinkActionPerformed
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("restoring export panel for " + this.exportAction.getObjectIds().size() + " objects");
+            LOGGER.debug("restoring export panel for " + this.exportAction.getObjects().size() + " objects");
         }
 
         final Map<String, Object> settings = new HashMap<String, Object>();
@@ -231,18 +227,19 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         settings.put(EXPORT_FORMAT_SETTINGS, this.exportAction.getExportFormat());
 
         // Long cannot be converted to Integer!
-        final ArrayList<Integer> objectIds = new ArrayList<Integer>(this.exportAction.getObjectIds().size());
+        final ArrayList<Integer> objectIds = new ArrayList<Integer>(this.exportAction.getObjects().size());
         final ArrayList<MetaObjectNode> metaObjectNodes = new ArrayList<MetaObjectNode>(objectIds.size());
         final String domain = SessionManager.getSession().getConnectionInfo().getUserDomain();
 
-        for (final Long objectId : this.exportAction.getObjectIds()) {
+        for (final Map.Entry<Long, String> object : this.exportAction.getObjects().entrySet()) {
             final MetaObjectNode metaObjectNode = new MetaObjectNode(
                     domain,
-                    objectId.intValue(),
-                    this.exportAction.getClassId());
+                    object.getKey().intValue(),
+                    this.exportAction.getClassId(),
+                    object.getValue());
 
             metaObjectNodes.add(metaObjectNode);
-            objectIds.add(objectId.intValue());
+            objectIds.add(object.getKey().intValue());
         }
 
         if (objectIds.size() == 1) {

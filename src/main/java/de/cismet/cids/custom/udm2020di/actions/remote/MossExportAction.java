@@ -21,6 +21,7 @@ import org.openide.util.NbBundle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.swing.Action;
 
@@ -67,16 +68,16 @@ public class MossExportAction extends AbstractExportAction {
      * Creates a new MossExportAction object.
      *
      * @param  parameters  DOCUMENT ME!
-     * @param  objectIds   sites standorte DOCUMENT ME!
+     * @param  objects     sites standorte DOCUMENT ME!
      * @param  sampleIds   DOCUMENT ME!
      */
     public MossExportAction(final Collection<Parameter> parameters,
-            final Collection<Long> objectIds,
+            final Map<Long, String> objects,
             final Collection<String> sampleIds) {
-        super(parameters, objectIds);
+        super(parameters, objects);
 
         this.sampleIds = sampleIds;
-        this.objectIds = objectIds;
+        this.objects = objects;
         this.exportFormat = PARAM_EXPORTFORMAT_CSV;
         super.putValue(Action.SMALL_ICON, MOSS_ICON);
         super.putValue(
@@ -90,25 +91,25 @@ public class MossExportAction extends AbstractExportAction {
      * Creates a new MossExportAction object.
      *
      * @param  parameters    DOCUMENT ME!
-     * @param  objectIds     DOCUMENT ME!
+     * @param  objects       DOCUMENT ME!
      * @param  sampleIds     DOCUMENT ME!
      * @param  exportFormat  DOCUMENT ME!
      * @param  exportName    DOCUMENT ME!
      */
     @JsonCreator
     public MossExportAction(@JsonProperty("parameters") final Collection<Parameter> parameters,
-            @JsonProperty("objectIds") final Collection<Long> objectIds,
+            @JsonProperty("objects") final Map<Long, String> objects,
             @JsonProperty("sampleIds") final Collection<String> sampleIds,
             @JsonProperty("exportFormat") final String exportFormat,
             @JsonProperty("exportName") final String exportName) {
-        this(parameters, objectIds, sampleIds);
+        this(parameters, objects, sampleIds);
         this.exportFormat = exportFormat;
         this.exportName = exportName;
         this.protocolEnabled = false;
         this.protocolAction = true;
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("ExportAction object with " + parameters.size() + " parameters and "
-                        + objectIds.size() + " objects restored from JSON");
+                        + objects.size() + " objects restored from JSON");
         }
     }
 
@@ -135,13 +136,13 @@ public class MossExportAction extends AbstractExportAction {
 
     @Override
     protected ServerActionParameter[] createServerActionParameters() {
-        if ((objectIds != null) && (objectIds.size() > 0)
+        if ((this.objects != null) && (objects.size() > 0)
                     && (parameters != null) && !parameters.isEmpty()) {
-            LOGGER.info("perfoming MOSS Export for " + objectIds.size() + " sites and "
+            LOGGER.info("perfoming MOSS Export for " + objects.size() + " sites and "
                         + parameters.size() + " parameters");
 
             return new ServerActionParameter[] {
-                    new ServerActionParameter<Collection<Long>>(PARAM_OBJECT_IDS, this.objectIds),
+                    new ServerActionParameter<Collection<Long>>(PARAM_OBJECT_IDS, this.getObjectIds()),
                     new ServerActionParameter<Collection<String>>(PARAM_SAMPLE_IDS, this.sampleIds),
                     new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                     new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),
