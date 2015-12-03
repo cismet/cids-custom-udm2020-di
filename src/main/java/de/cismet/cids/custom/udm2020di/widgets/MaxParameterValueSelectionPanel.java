@@ -363,9 +363,9 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_addMeButtonActionPerformed
+    private void addMeButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMeButtonActionPerformed
         this.addParameterValuePanel();
-    }                                                                               //GEN-LAST:event_addMeButtonActionPerformed
+    }//GEN-LAST:event_addMeButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -627,11 +627,10 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             panel.setAggregationValues(aggregationValues);
 
             final Map<String, Float> values = new HashMap<String, Float>();
-            values.put("As", 7f);
-            values.put("Hg", 0.1f);
-            values.put("Pb", 59f);
-            values.put("Zn", 5f);
-            values.put("Cd", 10000f);
+            values.put("As", 0.029f);
+            //values.put("Pb", 59f);
+            //values.put("Zn", 5f);
+            values.put("Cr", 30.0E-5f);
             panel.setValues(values, null, null);
 
             panel.addPropertyChangeListener(new PropertyChangeListener() {

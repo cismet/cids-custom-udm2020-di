@@ -53,6 +53,7 @@ import de.cismet.cids.custom.udm2020di.types.Tag;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.commons.gui.protocol.ProtocolHandler;
+import java.util.Collections;
 
 /**
  * DOCUMENT ME!
@@ -487,7 +488,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                     }
 
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
-                    final Collection<Tag> filterTags;
+                    final List<Tag> filterTags;
                     if (registry.isShouldRestoreSettings(CommonTagsPostFilterGui.this, nodes)) {
                         filterTags = new ArrayList<Tag>();
                         final CommonPostFilterProtocolStep protocolStep = PostfilterProtocolRegistry.getInstance()
@@ -507,6 +508,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         filterTags = filterCidsBeans(metaObjects);
                     }
 
+                    Collections.sort(filterTags);
                     for (final Tag tag : filterTags) {
                         final JToggleButton tagButton = generateTagButton(tag);
                         if (tagButton != null) {
@@ -662,9 +664,9 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      *
      * @return  DOCUMENT ME!
      */
-    protected Collection<Tag> filterCidsBeans(
+    protected List<Tag> filterCidsBeans(
             final Collection<MetaObject> metaObjects) {
-        final Collection<Tag> tags = new ArrayList<Tag>(metaObjects.size());
+        final List<Tag> tags = new ArrayList<Tag>(metaObjects.size());
         // availableTagIds.clear();
         for (final MetaObject metaObject : metaObjects) {
             final Tag tag = new Tag(metaObject.getBean());

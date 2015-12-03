@@ -94,10 +94,20 @@ public class MaxValuePanel extends javax.swing.JPanel {
      * @param  aggregationValue  DOCUMENT ME!
      */
     public void setAggregationValue(final AggregationValue aggregationValue) {
-        if (aggregationValue.getMaxValue() <= 0.01f) {
-            this.factor = 1000.0f;
+        if (aggregationValue.getMaxValue() <= 1.0E-6f) {
+            this.factor = 100000000.0f;
+        } else if (aggregationValue.getMaxValue() <= 1.0E-5f) {
+            this.factor = 10000000.0f;
+        } else if (aggregationValue.getMaxValue() <= 1.0E-4f) {
+            this.factor = 1000000.0f;
+        } else if (aggregationValue.getMaxValue() <= 1.0E-3f) {
+            this.factor = 100000.0f;
+        } else if (aggregationValue.getMaxValue() <= 0.001f) {
+            this.factor = 100000.0f;
+        } else if (aggregationValue.getMaxValue() <= 0.01f) {
+            this.factor = 10000.0f;
         } else if (aggregationValue.getMaxValue() <= 0.1f) {
-            this.factor = 100.0f;
+            this.factor = 1000.0f;
         } else if (aggregationValue.getMaxValue() <= 1f) {
             this.factor = 100.0f;
         } else if (aggregationValue.getMaxValue() <= 100f) {

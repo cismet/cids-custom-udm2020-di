@@ -2,4 +2,14 @@
 <cismetConfigurationManager>
     <cismetLookupOptions>
     </cismetLookupOptions>
+    <protocolHandler>
+        <protocolSteps>
+            <GeometryProtocolStep>
+                <backgroundlayer 
+                    wmsMapUrl="http://www3.demis.nl/wms/wms.asp?wms=WorldMap&amp;&amp;VERSION=1.1.0&amp;REQUEST=GetMap&amp;BBOX=&lt;cismap:boundingBox&gt;&amp;WIDTH=&lt;cismap:width&gt;&amp;HEIGHT=&lt;cismap:height&gt;&amp;SRS=EPSG:4326&amp;FORMAT=image/png&amp;TRANSPARENT=TRUE&amp;BGCOLOR=0xF0F0F0&amp;EXCEPTIONS=application/vnd.ogc.se_xml&amp;LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup%20areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot%20elevations,Airports,Ocean%20features&amp;TYLES=" 
+                    srs="EPSG:4326" />
+                <zoomFactor>0.2</zoomFactor>
+            </GeometryProtocolStep>
+        </protocolSteps>
+    </protocolHandler> 
 </cismetConfigurationManager>
