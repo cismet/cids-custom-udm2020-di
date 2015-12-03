@@ -22,6 +22,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * DOCUMENT ME!
@@ -37,7 +40,7 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
-    protected transient Collection<AggregationValue> aggregationValues;
+    protected transient final List<AggregationValue> aggregationValues = new ArrayList<AggregationValue>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbParameters;
@@ -64,15 +67,6 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
     }
 
     //~ Methods ----------------------------------------------------------------
-
-    /**
-     * DOCUMENT ME!
-     *
-     * @return  DOCUMENT ME!
-     */
-    public Collection<AggregationValue> getAggregationValues() {
-        return aggregationValues;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
@@ -118,11 +112,11 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbParametersItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbParametersItemStateChanged
+    private void cbParametersItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbParametersItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             this.maxValuePanel.setAggregationValue((AggregationValue)evt.getItem());
         }
-    }                                                                               //GEN-LAST:event_cbParametersItemStateChanged
+    }//GEN-LAST:event_cbParametersItemStateChanged
 
     /**
      * DOCUMENT ME!
@@ -130,7 +124,9 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
      * @param  aggregationValues  DOCUMENT ME!
      */
     public final void setAggregationValues(final Collection<AggregationValue> aggregationValues) {
-        this.aggregationValues = aggregationValues;
+        this.aggregationValues.clear();
+        this.aggregationValues.addAll(aggregationValues);
+        Collections.sort(this.aggregationValues);
         final DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
         for (final AggregationValue aggregationValue : this.aggregationValues) {
             comboBoxModel.addElement(aggregationValue);

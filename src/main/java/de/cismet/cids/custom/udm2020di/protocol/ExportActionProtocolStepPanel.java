@@ -261,7 +261,7 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
     private void exportParameterHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportParameterHyperlinkActionPerformed
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("restoring export panel for " + this.exportAction.getObjects().size() + " objects");
+            LOGGER.debug("restoring export panel for " + this.metaObjectNodes.size() + " objects");
         }
 
         final Map<String, Object> settings = new HashMap<String, Object>();
@@ -275,6 +275,7 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
             objectIds.add(object.getKey().intValue());
         }
 
+        final DescriptionPane descriptionPane = ComponentRegistry.getRegistry().getDescriptionPane();
         if (objectIds.size() == 1) {
             RendererConfigurationRegistry.getInstance()
                     .pushSettings(
@@ -282,20 +283,22 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
                         this.exportAction.getClassId(),
                         objectIds.get(0),
                         settings);
-        } else {
+            descriptionPane.gotoMetaObjectNode(metaObjectNodes.get(0), true);
+            ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
+        } else if(objectIds.size() > 1){
             RendererConfigurationRegistry.getInstance()
                     .pushSettings(
                         SessionManager.getSession().getConnectionInfo().getUserDomain(),
                         this.exportAction.getClassId(),
                         objectIds,
                         settings);
+            descriptionPane.gotoMetaObjectNodes(metaObjectNodes.toArray(new MetaObjectNode[metaObjectNodes.size()]));
+            descriptionPane.clearBreadCrumb();
+            ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
+        } else {
+            LOGGER.error("cannot restore meta objects: no meta object nodes available: " 
+                    + this.metaObjectNodes.size() + " (" + objectIds.size()+")");
         }
-
-        final DescriptionPane descriptionPane = ComponentRegistry.getRegistry().getDescriptionPane();
-        descriptionPane.gotoMetaObjectNodes(metaObjectNodes.toArray(new MetaObjectNode[metaObjectNodes.size()]));
-        descriptionPane.clearBreadCrumb();
-
-        ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
     }//GEN-LAST:event_exportParameterHyperlinkActionPerformed
 
     /**

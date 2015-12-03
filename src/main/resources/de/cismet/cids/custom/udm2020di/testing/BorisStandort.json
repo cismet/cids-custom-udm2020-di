@@ -265,8 +265,8 @@
             "pollutantgroupkey": "MET",
             "mindate": "2006-08-10",
             "maxdate": "2006-08-07",
-            "minvalue": 5.900000095367432,
-            "maxvalue": 9.399999618530273,
+            "minvalue": 5.900000095367432E-3,
+            "maxvalue": 9.399999618530273E-3,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -287,8 +287,8 @@
             "pollutantgroupkey": "MET",
             "mindate": "2006-08-10",
             "maxdate": "2001-01-05",
-            "minvalue": 6.599999904632568,
-            "maxvalue": 9.199999809265137,
+            "minvalue": 0.005,
+            "maxvalue": 0.059,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -298,8 +298,8 @@
             "pollutantgroupkey": "MET",
             "mindate": "2001-01-05",
             "maxdate": "2006-08-10",
-            "minvalue": 29.0,
-            "maxvalue": 40.0,
+            "minvalue": 19.0E-5,
+            "maxvalue": 45.0E-5,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
@@ -320,8 +320,8 @@
             "pollutantgroupkey": "MET",
             "mindate": "1998-01-22",
             "maxdate": "2006-08-10",
-            "minvalue": 0.0,
-            "maxvalue": 0.30000001192092896,
+            "minvalue" : 1.0E-4,
+            "maxvalue" : 2.0E-4,
             "unit": "mg/kg",
             "probepk": null,
             "releasetype": null
