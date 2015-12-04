@@ -179,7 +179,6 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
 
     @Override
     public int appliedFilters() {
-        return this.getSelectedValues() != null ? this.getSelectedValues().size() : 0;
-        
-        }
+        return (this.getSelectedValues() != null) ? this.getSelectedValues().size() : 0;
+    }
 }

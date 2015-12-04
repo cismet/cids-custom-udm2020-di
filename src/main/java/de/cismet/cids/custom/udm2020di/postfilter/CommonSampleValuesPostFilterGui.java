@@ -563,60 +563,58 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
 
-        
-            final AggregationValues aggregationValues = this.getAggregationValues();
-            final Map<String, Float> selectedValues = this.getSelectedValues();
-            final SampleValuesPostFilterProtocolStep protocolStep = new SampleValuesPostFilterProtocolStep(
-                    this.getClass().getSimpleName(),
-                    this.getTitle(),
-                    this.icon,
-                    aggregationValues,
-                    selectedValues,
-                    this.getMinDate(),
-                    this.getMaxDate());
+        final AggregationValues aggregationValues = this.getAggregationValues();
+        final Map<String, Float> selectedValues = this.getSelectedValues();
+        final SampleValuesPostFilterProtocolStep protocolStep = new SampleValuesPostFilterProtocolStep(
+                this.getClass().getSimpleName(),
+                this.getTitle(),
+                this.icon,
+                aggregationValues,
+                selectedValues,
+                this.getMinDate(),
+                this.getMaxDate());
 
-            if (ProtocolHandler.getInstance().isRecordEnabled()) {
+        if (ProtocolHandler.getInstance().isRecordEnabled()) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.info("recording post filter settings to protocol for "
                             + aggregationValues.size() + " aggregation values and "
                             + selectedValues.size() + " selected values (protocol recording is disabled)");
-               
-            }  PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
-           
-            }  else {
-                if (LOGGER.isDebugEnabled()) {
+            }
+            PostfilterProtocolRegistry.getInstance().recordCascadingProtocolStep(this, protocolStep);
+        } else {
+            if (LOGGER.isDebugEnabled()) {
                 LOGGER.info("saving post filter settings to protocol for "
                             + aggregationValues.size() + " aggregation values and "
                             + selectedValues.size() + " selected values (protocol recording is disabled)");
-                }
-                
-                PostfilterProtocolRegistry.getInstance().createCascadingProtocolStep(this, protocolStep);
-         }
-    }//GEN-LAST:event_applyButtonActionPerformed
+            }
+
+            PostfilterProtocolRegistry.getInstance().createCascadingProtocolStep(this, protocolStep);
+        }
+    } //GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
         PostfilterProtocolRegistry.getInstance().clearProtocolStep(this);
         this.maxParameterValueSelectionPanel.reset();
         this.validate();
         this.enableButtons();
-    }//GEN-LAST:event_resetButtonActionPerformed
+    }                                                                               //GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
+    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
         this.enableButtons();
-    }//GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
+    }                                                                                                      //GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
 
     @Override
     public Integer getDisplayOrderKeyPrio() {

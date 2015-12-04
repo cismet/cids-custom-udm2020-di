@@ -23,9 +23,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import de.cismet.commons.gui.protocol.ProtocolHandler;
-import java.util.TreeMap;
 
 /**
  * DOCUMENT ME!
@@ -267,15 +267,22 @@ public class PostfilterProtocolRegistry {
      */
     public void recordCascadingProtocolStep(final PostFilterGUI postFilterGUI,
             final CommonPostFilterProtocolStep protocolStep) {
-        final CascadingPostFilterProtocolStep cascadingProtocolStep =
-                this.createCascadingProtocolStep(postFilterGUI, protocolStep);
+        final CascadingPostFilterProtocolStep cascadingProtocolStep = this.createCascadingProtocolStep(
+                postFilterGUI,
+                protocolStep);
         ProtocolHandler.getInstance().recordStep(cascadingProtocolStep);
     }
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   postFilterGUI  DOCUMENT ME!
+     * @param   protocolStep   DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public CascadingPostFilterProtocolStep createCascadingProtocolStep(final PostFilterGUI postFilterGUI,
-            
-            
-        final CommonPostFilterProtocolStep protocolStep) {
+            final CommonPostFilterProtocolStep protocolStep) {
         final String postFilter = postFilterGUI.getClass().getSimpleName();
         // reset restore flag!
         this.setMasterPostFilter(postFilter);
@@ -293,7 +300,7 @@ public class PostfilterProtocolRegistry {
                 postFilter,
                 activeProtocolSteps);
 
-       return cascadingProtocolStep;
+        return cascadingProtocolStep;
     }
 
     /**

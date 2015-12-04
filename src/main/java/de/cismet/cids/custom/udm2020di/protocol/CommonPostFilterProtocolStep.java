@@ -189,6 +189,11 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
 
     @Override
     public abstract CommonPostFilterProtocolStep clone() throws CloneNotSupportedException;
-    
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return  DOCUMENT ME!
+     */
     public abstract int appliedFilters();
 }

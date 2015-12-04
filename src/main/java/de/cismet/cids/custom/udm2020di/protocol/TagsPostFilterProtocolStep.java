@@ -16,6 +16,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -35,8 +36,6 @@ import de.cismet.commons.gui.protocol.ProtocolStepMetaInfo;
 public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
 
     //~ Static fields/initializers ---------------------------------------------
-
-    // private static final Logger LOGGER = Logger.getLogger(TagsPostFilterProtocolStep.class);
 
     @JsonIgnore
     protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
@@ -121,7 +120,7 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
      *
      * @return  DOCUMENT ME!
      */
-    public Collection<Tag> getSelectedTags() {
+    public List<Tag> getSelectedTags() {
         final ArrayList<Tag> selectedTags = new ArrayList<Tag>();
         if ((this.filterTags != null) && !this.filterTags.isEmpty()) {
             for (final Tag tag : this.filterTags) {
@@ -138,10 +137,9 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
     public TagsPostFilterProtocolStep clone() throws CloneNotSupportedException {
         return new TagsPostFilterProtocolStep(this);
     }
-    
+
     @Override
     public int appliedFilters() {
-        return this.getSelectedTags()!= null ? this.getSelectedTags().size() : 0;
-        
-        }
+        return (this.getSelectedTags() != null) ? this.getSelectedTags().size() : 0;
+    }
 }

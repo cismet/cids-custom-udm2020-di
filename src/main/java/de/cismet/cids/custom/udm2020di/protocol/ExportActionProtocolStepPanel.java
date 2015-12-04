@@ -184,20 +184,35 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
             e1.printStackTrace();
         }
 
-        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/cismet/cids/custom/udm2020di/protocol/table_export_20.png"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(iconLabel, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.iconLabel.text")); // NOI18N
+        iconLabel.setIcon(new javax.swing.ImageIcon(
+                getClass().getResource("/de/cismet/cids/custom/udm2020di/protocol/table_export_20.png"))); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            iconLabel,
+            org.openide.util.NbBundle.getMessage(
+                ExportActionProtocolStepPanel.class,
+                "ExportActionProtocolStepPanel.iconLabel.text"));                                          // NOI18N
         iconLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        org.openide.awt.Mnemonics.setLocalizedText(titleLabel, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.titleLabel.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            titleLabel,
+            org.openide.util.NbBundle.getMessage(
+                ExportActionProtocolStepPanel.class,
+                "ExportActionProtocolStepPanel.titleLabel.text")); // NOI18N
 
         setLayout(new java.awt.GridBagLayout());
 
-        org.openide.awt.Mnemonics.setLocalizedText(exportObjectsHyperlink, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.exportObjectsHyperlink.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            exportObjectsHyperlink,
+            org.openide.util.NbBundle.getMessage(
+                ExportActionProtocolStepPanel.class,
+                "ExportActionProtocolStepPanel.exportObjectsHyperlink.text")); // NOI18N
         exportObjectsHyperlink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportObjectsHyperlinkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    exportObjectsHyperlinkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -206,12 +221,18 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(exportObjectsHyperlink, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(exportParameterHyperlink, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.exportParameterHyperlink.text")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            exportParameterHyperlink,
+            org.openide.util.NbBundle.getMessage(
+                ExportActionProtocolStepPanel.class,
+                "ExportActionProtocolStepPanel.exportParameterHyperlink.text")); // NOI18N
         exportParameterHyperlink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportParameterHyperlinkActionPerformed(evt);
-            }
-        });
+
+                @Override
+                public void actionPerformed(final java.awt.event.ActionEvent evt) {
+                    exportParameterHyperlinkActionPerformed(evt);
+                }
+            });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -219,8 +240,14 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(exportParameterHyperlink, gridBagConstraints);
 
-        org.openide.awt.Mnemonics.setLocalizedText(exportActionHyperlink, org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.exportActionHyperlink.text_1")); // NOI18N
-        exportActionHyperlink.setToolTipText(org.openide.util.NbBundle.getMessage(ExportActionProtocolStepPanel.class, "ExportActionProtocolStepPanel.exportActionHyperlink.toolTipText")); // NOI18N
+        org.openide.awt.Mnemonics.setLocalizedText(
+            exportActionHyperlink,
+            org.openide.util.NbBundle.getMessage(
+                ExportActionProtocolStepPanel.class,
+                "ExportActionProtocolStepPanel.exportActionHyperlink.text_1"));      // NOI18N
+        exportActionHyperlink.setToolTipText(org.openide.util.NbBundle.getMessage(
+                ExportActionProtocolStepPanel.class,
+                "ExportActionProtocolStepPanel.exportActionHyperlink.toolTipText")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -251,14 +278,14 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         add(objectsPanel, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void exportParameterHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportParameterHyperlinkActionPerformed
+    private void exportParameterHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_exportParameterHyperlinkActionPerformed
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("restoring export panel for " + this.metaObjectNodes.size() + " objects");
@@ -285,7 +312,7 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
                         settings);
             descriptionPane.gotoMetaObjectNode(metaObjectNodes.get(0), true);
             ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
-        } else if(objectIds.size() > 1){
+        } else if (objectIds.size() > 1) {
             RendererConfigurationRegistry.getInstance()
                     .pushSettings(
                         SessionManager.getSession().getConnectionInfo().getUserDomain(),
@@ -296,19 +323,19 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
             descriptionPane.clearBreadCrumb();
             ComponentRegistry.getRegistry().showComponent(ComponentRegistry.DESCRIPTION_PANE);
         } else {
-            LOGGER.error("cannot restore meta objects: no meta object nodes available: " 
-                    + this.metaObjectNodes.size() + " (" + objectIds.size()+")");
+            LOGGER.error("cannot restore meta objects: no meta object nodes available: "
+                        + this.metaObjectNodes.size() + " (" + objectIds.size() + ")");
         }
-    }//GEN-LAST:event_exportParameterHyperlinkActionPerformed
+    } //GEN-LAST:event_exportParameterHyperlinkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void exportObjectsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportObjectsHyperlinkActionPerformed
+    private void exportObjectsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_exportObjectsHyperlinkActionPerformed
         this.toggleObjectsPanelVisibility();
-    }//GEN-LAST:event_exportObjectsHyperlinkActionPerformed
+    }                                                                                          //GEN-LAST:event_exportObjectsHyperlinkActionPerformed
 
     @Override
     public Component getIconComponent() {
