@@ -80,8 +80,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
     //~ Instance fields --------------------------------------------------------
 
-    protected final Object filterInitializedLock = new Object();
-    protected volatile Boolean filterInitialized = false;
+    //protected final Object filterInitializedLock = new Object();
+    //protected volatile Boolean filterInitialized = false;
 
     protected Logger LOGGER = Logger.getLogger(CommonTagsPostFilterGui.class);
 
@@ -110,19 +110,19 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
             @Override
             public Collection<Node> filter(final Collection<Node> input) {
-                synchronized (filterInitializedLock) {
-                    while (!filterInitialized) {
-                        try {
-                            LOGGER.warn("Filter not yet initialized! Forced waiting for filter to be initilaized!");
-                            final long current = System.currentTimeMillis();
-                            filterInitializedLock.wait();
-                            LOGGER.warn("forcibly waited " + (System.currentTimeMillis() - current)
-                                        + "ms for Filter to become initialized");
-                        } catch (InterruptedException ex) {
-                            LOGGER.error(ex.getMessage(), ex);
-                        }
-                    }
-                }
+//                synchronized (filterInitializedLock) {
+//                    while (!filterInitialized) {
+//                        try {
+//                            LOGGER.warn("Filter not yet initialized! Forced waiting for filter to be initilaized!");
+//                            final long current = System.currentTimeMillis();
+//                            filterInitializedLock.wait();
+//                            LOGGER.warn("forcibly waited " + (System.currentTimeMillis() - current)
+//                                        + "ms for Filter to become initialized");
+//                        } catch (InterruptedException ex) {
+//                            LOGGER.error(ex.getMessage(), ex);
+//                        }
+//                    }
+//                }
 
                 final Collection<Integer> filterTagIds = getFilterTagIds();
                 if (!filterTagIds.isEmpty() && (filterTagIds.size() < filterButtons.size())) {
@@ -458,9 +458,9 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                     }
                     final long current = System.currentTimeMillis();
                     semaphore.acquire();
-                    synchronized (filterInitializedLock) {
-                        filterInitialized = false;
-                    }
+//                    synchronized (filterInitializedLock) {
+//                        filterInitialized = false;
+//                    }
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("semaphore acquired in " + (System.currentTimeMillis() - current) + "ms");
                     }
@@ -502,6 +502,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             LOGGER.error("unexpected ProtocolStep:" + protocolStep.getClass().getSimpleName());
                         }
 
+                        Collections.sort(filterTags);
                         LOGGER.info("restoring " + filterTags.size() + " filter tags from saved configuration!");
                     } else {
                         final Collection<MetaObject> metaObjects = retrieveFilterTags(new ArrayList<Node>(nodes));
@@ -534,16 +535,16 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         CommonTagsPostFilterGui.this.tagsPanel.validate();
                         CommonTagsPostFilterGui.this.tagsPanel.repaint();
                         enableButtons();
-                        synchronized (filterInitializedLock) {
-                            filterInitialized = true;
-                        }
+//                        synchronized (filterInitializedLock) {
+//                            filterInitialized = true;
+//                        }
                     } catch (Exception ex) {
                         LOGGER.error(ex.getMessage(), ex);
                     } finally {
                         semaphore.release();
-                        synchronized (filterInitializedLock) {
-                            filterInitializedLock.notifyAll();
-                        }
+//                        synchronized (filterInitializedLock) {
+//                            filterInitializedLock.notifyAll();
+//                        }
                     }
                 }
             };
@@ -683,6 +684,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(tags.size() + " of " + metaObjects.size() + " retrieved tags available for filtering");
         }
+        Collections.sort(tags);
         return tags;
     }
 
