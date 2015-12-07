@@ -362,6 +362,7 @@ public class PostfilterProtocolRegistry {
                     LOGGER.debug("no saved nodes found for post filter '" + postFilterGUI.getClass().getSimpleName()
                                 + "', settings should not be restored");
                 }
+                this.clearAll();
             }
         }
 

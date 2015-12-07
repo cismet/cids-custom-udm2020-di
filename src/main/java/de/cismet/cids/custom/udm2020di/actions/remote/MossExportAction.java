@@ -142,7 +142,9 @@ public class MossExportAction extends AbstractExportAction {
                         + parameters.size() + " parameters");
 
             return new ServerActionParameter[] {
-                    new ServerActionParameter<Collection<Long>>(PARAM_OBJECT_IDS, this.getObjectIds()),
+                    new ServerActionParameter<Collection<Long>>(
+                        PARAM_OBJECT_IDS,
+                        new ArrayList<Long>(this.getObjectIds())),
                     new ServerActionParameter<Collection<String>>(PARAM_SAMPLE_IDS, this.sampleIds),
                     new ServerActionParameter<Collection<Parameter>>(PARAM_PARAMETER, this.parameters),
                     new ServerActionParameter<String>(PARAM_EXPORTFORMAT, this.exportFormat),

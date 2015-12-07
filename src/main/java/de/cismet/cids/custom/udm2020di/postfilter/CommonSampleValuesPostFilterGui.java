@@ -603,8 +603,9 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
     private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
         PostfilterProtocolRegistry.getInstance().clearProtocolStep(this);
         this.maxParameterValueSelectionPanel.reset();
-        this.validate();
         this.enableButtons();
+        this.validate();
+        this.repaint();
     }                                                                               //GEN-LAST:event_resetButtonActionPerformed
 
     /**
