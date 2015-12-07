@@ -13,7 +13,10 @@ import java.awt.Component;
 import java.awt.event.ItemEvent;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
@@ -22,9 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * DOCUMENT ME!
@@ -40,7 +40,7 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
 
     //~ Instance fields --------------------------------------------------------
 
-    protected transient final List<AggregationValue> aggregationValues = new ArrayList<AggregationValue>();
+    protected final transient List<AggregationValue> aggregationValues = new ArrayList<AggregationValue>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbParameters;
@@ -112,11 +112,11 @@ public class MaxParameterValuePanel extends javax.swing.JPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void cbParametersItemStateChanged(final java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbParametersItemStateChanged
+    private void cbParametersItemStateChanged(final java.awt.event.ItemEvent evt) { //GEN-FIRST:event_cbParametersItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             this.maxValuePanel.setAggregationValue((AggregationValue)evt.getItem());
         }
-    }//GEN-LAST:event_cbParametersItemStateChanged
+    }                                                                               //GEN-LAST:event_cbParametersItemStateChanged
 
     /**
      * DOCUMENT ME!

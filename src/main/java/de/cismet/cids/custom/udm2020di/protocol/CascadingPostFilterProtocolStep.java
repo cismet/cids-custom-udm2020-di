@@ -23,12 +23,10 @@ import lombok.Setter;
 
 import org.apache.log4j.Logger;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-
 
 import de.cismet.cidsx.server.api.types.CidsNode;
 import de.cismet.cidsx.server.api.types.legacy.CidsNodeFactory;
@@ -72,7 +70,7 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
     @Getter
     @JsonProperty(required = true)
     protected final Map<String, CommonPostFilterProtocolStep> protocolSteps;
-    
+
     @JsonIgnore
     CascadingPostFilterProtocolStepPanel protocolStepPanel = null;
 
@@ -271,10 +269,10 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
 
     @Override
     public AbstractProtocolStepPanel visualize() {
-        if(this.protocolStepPanel == null) {
-        this.protocolStepPanel = new CascadingPostFilterProtocolStepPanel(this);
+        if (this.protocolStepPanel == null) {
+            this.protocolStepPanel = new CascadingPostFilterProtocolStepPanel(this);
         }
-        return this.protocolStepPanel ;
+        return this.protocolStepPanel;
     }
 
     @Override
