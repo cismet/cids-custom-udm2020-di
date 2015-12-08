@@ -2,6 +2,13 @@
 <cismetConfigurationManager>
     <metaSearch>
         <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Bundesländer" 
+                     description="Suche nach österreichischen Bundesländern" 
+                     key="cmdBdl" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/austria_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="NAMED_AREA"/>
+        </searchTopic>        
         <searchTopic name="Grundwasserkörper" 
                      description="Suche nach Grundwasserkörpern" 
                      key="cmdGwk" 
