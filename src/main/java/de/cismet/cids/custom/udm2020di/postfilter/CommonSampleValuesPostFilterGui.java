@@ -23,6 +23,7 @@ import java.awt.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,8 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
             @Override
             public Collection<Node> filter(final Collection<Node> input) {
+                final Collection<Node> inputCollection = Collections.unmodifiableCollection(new ArrayList<Node>(input));
+
                 synchronized (filterInitializedLock) {
                     while (!filterInitialized) {
                         try {
@@ -98,13 +101,13 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                             }
                         });
 
-                    final List<MetaObjectNode> preFilteredNodes = preFilterNodes(input);
-                    final Collection<Node> postFilteredNodes = new ArrayList<Node>(input);
+                    final List<MetaObjectNode> preFilteredNodes = preFilterNodes(inputCollection);
+                    final Collection<Node> postFilteredNodes = new ArrayList<Node>(inputCollection);
                     postFilteredNodes.removeAll(preFilteredNodes);
 
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
-                                    + input.size() + " available nodes");
+                                    + inputCollection.size() + " available nodes");
                     }
 
                     if (!preFilteredNodes.isEmpty()) {
@@ -120,7 +123,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                         customMaxValuesSearch.setMaxDate(maxParameterValueSelectionPanel.getMaxDate());
 
                         if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("filtering " + input.size() + " nodes with "
+                            LOGGER.debug("filtering " + inputCollection.size() + " nodes with "
                                         + maxParameterValues.size() + " max param value filters");
                         }
 
@@ -130,7 +133,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
                             postFilteredNodes.addAll(filteredNodes);
                             if (LOGGER.isDebugEnabled()) {
-                                LOGGER.debug(postFilteredNodes.size() + " of " + input.size()
+                                LOGGER.debug(postFilteredNodes.size() + " of " + inputCollection.size()
                                             + " nodes remaining after applying "
                                             + maxParameterValues.size() + " max param value filters to "
                                             + preFilteredNodes.size()
@@ -140,19 +143,20 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
                             return postFilteredNodes;
                         } catch (Exception e) {
-                            LOGGER.error("could not apply max param value filters for '" + input.size() + " nodes!", e);
+                            LOGGER.error("could not apply max param value filters for '" + inputCollection.size()
+                                        + " nodes!",
+                                e);
                         }
                     } else if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug(
-                            "filter is not applied: no nodes left for filtering after applying pre-filter to "
-                                    + input.size()
+                        LOGGER.debug("filter is not applied: no nodes left for filtering after applying pre-filter to "
+                                    + inputCollection.size()
                                     + " nodes!");
                     }
                 } else if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("filter is not applied: no max paramete values set");
                 }
 
-                return input;
+                return inputCollection;
             }
         };
 
