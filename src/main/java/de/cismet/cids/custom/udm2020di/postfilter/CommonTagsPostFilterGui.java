@@ -127,6 +127,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 //                    }
 //                }
 
+                final Collection<Node> inputCollection = Collections.unmodifiableCollection(new ArrayList<Node>(input));
                 final Collection<Integer> filterTagIds = getFilterTagIds();
                 if (!filterTagIds.isEmpty() && (filterTagIds.size() < filterButtons.size())) {
                     EventQueue.invokeLater(new Runnable() {
@@ -137,13 +138,13 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             }
                         });
 
-                    final List<Node> preFilteredNodes = preFilterNodes(input);
-                    final Collection<Node> postFilteredNodes = new ArrayList<Node>(input);
+                    final List<Node> preFilteredNodes = preFilterNodes(inputCollection);
+                    final Collection<Node> postFilteredNodes = new ArrayList<Node>(inputCollection);
                     postFilteredNodes.removeAll(preFilteredNodes);
 
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.info("PostFilter: filtering " + preFilteredNodes.size() + " pre-filtered nodes of "
-                                    + input.size() + " available nodes  with "
+                                    + inputCollection.size() + " available nodes  with "
                                     + filterTagIds.size() + " filter tags of "
                                     + filterButtons.size() + " available filter tags");
                     }
@@ -158,7 +159,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                             postFilteredNodes.addAll(filteredNodes);
                             if (LOGGER.isDebugEnabled()) {
-                                LOGGER.debug(postFilteredNodes.size() + " of " + input.size()
+                                LOGGER.debug(postFilteredNodes.size() + " of " + inputCollection.size()
                                             + " nodes remaining after applying "
                                             + filterTagIds.size() + " filter tags to " + preFilteredNodes.size()
                                             + " pre-filtered nodes (" + filteredNodes.size()
@@ -167,7 +168,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                             return postFilteredNodes;
                         } catch (Exception e) {
-                            LOGGER.error("could not apply filter tags for '" + input.size() + " nodes: "
+                            LOGGER.error("could not apply filter tags for '" + inputCollection.size() + " nodes: "
                                         + e.getMessage(),
                                 e);
                         }
@@ -175,7 +176,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         if (LOGGER.isDebugEnabled()) {
                             LOGGER.debug(
                                 "filter is not applied: no nodes left for filtering after applying pre-filter to "
-                                        + input.size()
+                                        + inputCollection.size()
                                         + " nodes!");
                         }
                     }
@@ -185,7 +186,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                     }
                 }
 
-                return input;
+                return inputCollection;
             }
         };
 
