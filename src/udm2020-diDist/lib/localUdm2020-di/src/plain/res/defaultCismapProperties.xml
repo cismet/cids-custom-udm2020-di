@@ -70,28 +70,50 @@
     </cismapOverviewComponentPreferences>
 
     <cismapCapabilitiesPreferences>
-        <capabilities type="OGC-WMS"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
+        <capabilities type="OGC" 
+                      active="true">
+                      <![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
         </capabilities>
-        <capabilitiesList titlestring="Demis NL WMS"  type="OGC-WMS"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
-        </capabilitiesList>
-        <capabilities titlestring="Orthophoto WMS" type="OGC-WMS" active="true"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]>
+        
+        <capabilities type="OGC" 
+                      active="true">
+                      <![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/basemap_at.xml?service=WMS&version=1.1.0]]>
         </capabilities>
-        <capabilitiesList titlestring="Orthophoto WMS" type="OGC-WMS" active="true"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]>
+        
+        <capabilities type="OGC" 
+                      active="true">
+                      <![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/ortophoto_at.xml?service=WMS&version=1.1.1]]>
+        </capabilities>
+
+        <capabilitiesList 
+            titlestring="Worldmap"  
+            type="OGC-WMS"
+            active="true">
+            <![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
         </capabilitiesList>
         <capabilitiesList 
             titlestring="Basemap Austria" 
             type="OGC-WMS" 
-            active="true"><![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/WMSServer.xml?service=WMS&version=1.1.0]]>
+            active="true">
+            <![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/basemap_at.xml?service=WMS&version=1.1.0]]>
         </capabilitiesList>
         <capabilitiesList 
-            titlestring="eBod WMS" 
+            titlestring="Orthophoto Austria" 
             type="OGC-WMS" 
-            active="true"><![CDATA[http://gis.lebensministerium.at/wmsgw/gs100804/?&service=wms&version=1.1.0&request=GetCapabilities]]>
+            active="true">
+            <![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/ortophoto_at.xml?service=WMS&version=1.1.1]]>
         </capabilitiesList>
         <capabilitiesList 
-            titlestring="Hydrography WMS" 
+            titlestring="eBod Austria" 
             type="OGC-WMS" 
-            active="true"><![CDATA[https://secure.umweltbundesamt.at/spatial-r/services/gewaessernetztool/hydrography/MapServer/WMSServer?Service=WMS&Request=GetCapabilities&version=1.1.0]]>
+            active="true">
+            <![CDATA[http://gis.lebensministerium.at/wmsgw/gs100804/?&service=wms&version=1.1.0&request=GetCapabilities]]>
+        </capabilitiesList>
+        <capabilitiesList 
+            titlestring="Hydrography Austria" 
+            type="OGC-WMS" 
+            active="true">
+            <![CDATA[https://secure.umweltbundesamt.at/spatial-r/services/gewaessernetztool/hydrography/MapServer/WMSServer?Service=WMS&Request=GetCapabilities&version=1.1.0]]>
         </capabilitiesList>        
     </cismapCapabilitiesPreferences>
 
