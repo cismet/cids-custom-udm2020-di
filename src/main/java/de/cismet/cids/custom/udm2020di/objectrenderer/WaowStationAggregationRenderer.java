@@ -49,7 +49,7 @@ public class WaowStationAggregationRenderer extends WagwStationAggregationRender
         String desc = "";
         final Collection<CidsBean> beans = this.getCidsBeans();
         if ((beans != null) && (beans.size() > 0)) {
-            desc += beans.size() + " Oberflächengewässer Messstellen ausgewählt";
+            desc += beans.size() + " Oberflächengewässermessstellen ausgewählt";
         }
         return desc;
     }

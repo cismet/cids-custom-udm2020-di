@@ -440,4 +440,14 @@ public class EprtrInstallationRenderer extends AbstractCidsBeanRenderer implemen
                 }
             });
     }
+
+    @Override
+    public String getTitle() {
+        String desc = "EPRTR Emittent";
+        if (this.getCidsBean() != null) {
+            desc += ": ";
+            desc += this.getCidsBean().getProperty("name").toString();
+        }
+        return desc;
+    }
 }
