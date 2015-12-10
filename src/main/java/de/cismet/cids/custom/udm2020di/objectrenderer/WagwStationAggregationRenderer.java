@@ -370,7 +370,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
         String desc = "";
         final Collection<CidsBean> beans = cidsBeans;
         if ((beans != null) && (beans.size() > 0)) {
-            desc += beans.size() + " Grundwasser Messstellen ausgewählt";
+            desc += beans.size() + " Grundwassermessstellen ausgewählt";
         }
         return desc;
     }

@@ -295,4 +295,14 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
                 }
             });
     }
+
+    @Override
+    public String getTitle() {
+        String desc = "BORIS Standort";
+        if (this.getCidsBean() != null) {
+            desc += ": ";
+            desc += this.getCidsBean().getProperty("name").toString();
+        }
+        return desc;
+    }
 }

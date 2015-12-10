@@ -355,7 +355,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
         String desc = "";
         final Collection<CidsBean> beans = cidsBeans;
         if ((beans != null) && (beans.size() > 0)) {
-            desc += beans.size() + " Boris Standorte ausgewählt";
+            desc += beans.size() + " BORIS Standorte ausgewählt";
         }
         return desc;
     }

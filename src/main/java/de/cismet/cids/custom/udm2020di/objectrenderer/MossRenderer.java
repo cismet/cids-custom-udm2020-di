@@ -18,7 +18,6 @@ import org.jdesktop.beansbinding.ELProperty;
 
 import org.openide.util.ImageUtilities;
 import org.openide.util.NbBundle;
-import org.openide.util.WeakListeners;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -40,8 +39,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import de.cismet.cids.custom.udm2020di.AbstractCidsBeanRenderer;
 import de.cismet.cids.custom.udm2020di.actions.remote.MossExportAction;
@@ -450,5 +447,15 @@ public class MossRenderer extends AbstractCidsBeanRenderer implements Configurab
                     jTabbedPane.setSelectedComponent(exportPanel);
                 }
             });
+    }
+
+    @Override
+    public String getTitle() {
+        String desc = "Moosprobe";
+        if (this.getCidsBean() != null) {
+            desc += ": ";
+            desc += this.getCidsBean().getProperty("name").toString();
+        }
+        return desc;
     }
 }

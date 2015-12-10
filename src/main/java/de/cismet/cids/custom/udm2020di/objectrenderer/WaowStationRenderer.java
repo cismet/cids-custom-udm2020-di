@@ -123,4 +123,14 @@ public class WaowStationRenderer extends WagwStationRenderer {
     protected WaowStationRenderer getOuter() {
         return WaowStationRenderer.this;
     }
+
+    @Override
+    public String getTitle() {
+        String desc = " Oberflächengewässermessstelle";
+        if (this.getCidsBean() != null) {
+            desc += ": ";
+            desc += this.getCidsBean().getProperty("name").toString();
+        }
+        return desc;
+    }
 }

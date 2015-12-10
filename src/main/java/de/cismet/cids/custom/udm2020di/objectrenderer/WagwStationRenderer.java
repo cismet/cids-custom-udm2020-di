@@ -464,4 +464,14 @@ public class WagwStationRenderer extends AbstractCidsBeanRenderer implements Con
     protected WagwStationRenderer getOuter() {
         return WagwStationRenderer.this;
     }
+
+    @Override
+    public String getTitle() {
+        String desc = "Grundwassermessstelle";
+        if (this.getCidsBean() != null) {
+            desc += ": ";
+            desc += this.getCidsBean().getProperty("src_messstelle_pk").toString();
+        }
+        return desc;
+    }
 }
