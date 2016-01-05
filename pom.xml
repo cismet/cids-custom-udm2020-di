@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.cismet.cids</groupId>
         <artifactId>cids-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.2</version>
     </parent>
 
     <groupId>de.cismet.cids.custom.udm2020</groupId>
@@ -286,11 +286,6 @@
                 <checksumPolicy>warn</checksumPolicy>
                 <updatePolicy>interval:60</updatePolicy>
             </snapshots>
-        </repository>
-        <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
         </repository>
     </repositories>
 
