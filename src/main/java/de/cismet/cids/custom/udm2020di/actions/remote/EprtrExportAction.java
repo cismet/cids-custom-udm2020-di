@@ -54,8 +54,7 @@ public class EprtrExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @JsonProperty(required = true)
     protected Collection<Long> installations;
 

@@ -4,7 +4,7 @@
     "typ": "GWMST",
     "status": "Messstelle in Beobachtung",
     "bundesland": "Burgenland",
-    "messtellenart": "Sonde",
+    "messstellenart": "Sonde",
     "tiefe": 7.0,
     "zustaendigestelle": "Burgenland",
     "xkoordinate": 636097.0,

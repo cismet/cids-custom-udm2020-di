@@ -43,8 +43,7 @@ public class ExportActionProtocolStep extends AbstractProtocolStep {
                 "table_export.png"),
             false);
 
-    @JsonIgnore
-    protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
+    @JsonIgnore protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
             ExportActionProtocolStep.class.getSimpleName(),
             "ExportAction");
 
