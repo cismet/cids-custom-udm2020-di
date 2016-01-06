@@ -47,23 +47,17 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
 
     private static final Logger LOGGER = Logger.getLogger(CascadingPostFilterProtocolStep.class);
 
-    @JsonIgnore
-    protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
+    @JsonIgnore protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
             CascadingPostFilterProtocolStep.class.getSimpleName(),
             "Cascading Post Filter (not directly visible in GUI!)");
 
     //~ Instance fields --------------------------------------------------------
 
-    @Getter
-    @JsonIgnore
-    protected transient Collection<Node> resultNodes = null;
+    @Getter @JsonIgnore protected transient Collection<Node> resultNodes = null;
 
-    @Getter
-    @JsonIgnore
-    protected transient Collection<Node> filteredNodes = null;
+    @Getter @JsonIgnore protected transient Collection<Node> filteredNodes = null;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @JsonProperty(required = true)
     protected String masterPostFilter;
 
@@ -71,8 +65,7 @@ public class CascadingPostFilterProtocolStep extends AbstractProtocolStep {
     @JsonProperty(required = true)
     protected final Map<String, CommonPostFilterProtocolStep> protocolSteps;
 
-    @JsonIgnore
-    CascadingPostFilterProtocolStepPanel protocolStepPanel = null;
+    @JsonIgnore CascadingPostFilterProtocolStepPanel protocolStepPanel = null;
 
     //~ Constructors -----------------------------------------------------------
 

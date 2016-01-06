@@ -37,17 +37,14 @@ public class TagsPostFilterProtocolStep extends CommonPostFilterProtocolStep {
 
     //~ Static fields/initializers ---------------------------------------------
 
-    @JsonIgnore
-    protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
+    @JsonIgnore protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
             TagsPostFilterProtocolStep.class.getSimpleName(),
             "TagsPostFilter protocol");
 
     //~ Instance fields --------------------------------------------------------
 
     @JsonProperty(required = true)
-    @Getter
-    @Setter
-    private Collection<Tag> filterTags;
+    @Getter @Setter private Collection<Tag> filterTags;
 
     //~ Constructors -----------------------------------------------------------
 

@@ -52,21 +52,13 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
 
     //~ Instance fields --------------------------------------------------------
 
-    @Getter
-    @Setter
-    protected Collection<Parameter> parameters;
+    @Getter @Setter protected Collection<Parameter> parameters;
 
-    @Getter
-    @Setter
-    protected Map<Long, String> objects;
+    @Getter @Setter protected Map<Long, String> objects;
 
-    @Getter
-    @Setter
-    protected String exportFormat;
+    @Getter @Setter protected String exportFormat;
 
-    @Getter
-    @Setter
-    protected String exportName;
+    @Getter @Setter protected String exportName;
 
     protected boolean protocolEnabled = true;
 
