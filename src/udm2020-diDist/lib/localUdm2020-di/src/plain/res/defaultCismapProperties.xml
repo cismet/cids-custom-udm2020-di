@@ -150,67 +150,95 @@
 
     <cismapActiveLayerConfiguration>
         <Layers>
-            <WMSServiceLayer name="World Map" title="World Map" 
-                             visible="true" 
-                             enabled="true" 
-                             translucency="0.20" 
-                             bgColor="0xF0F0F0" 
-                             imageFormat="image/png" 
-                             exceptionFormat="application/vnd.ogc.se_xml">
-                <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/wms/wms.ashx?Service=WMS&WMS=WorldMap&Version=1.1.0&Request=GetCapabilities]]></capabilities>
-                <wmsLayer name="Bathymetry" title="Bathymetry" enabled="true" info="false" />
-                <wmsLayer name="Countries" title="Countries" enabled="true" info="false" />
-                <wmsLayer name="Topography" title="Topography" enabled="true" info="false" />
-                <wmsLayer name="Hillshading" title="Hillshading" enabled="true" info="false" />
-                <wmsLayer name="Builtup areas" title="Builtup areas" enabled="true" info="false" />
-                <wmsLayer name="Coastlines" title="Coastlines" enabled="true" info="false" />
-                <wmsLayer name="Waterbodies" title="Waterbodies" enabled="true" info="false" />
-                <wmsLayer name="Inundated" title="Inundated" enabled="true" info="false" />
-                <wmsLayer name="Rivers" title="Rivers" enabled="true" info="false" />
-                <wmsLayer name="Streams" title="Streams" enabled="true" info="false" />
-                <wmsLayer name="Railroads" title="Railroads" enabled="true" info="false" />
-                <wmsLayer name="Highways" title="Highways" enabled="true" info="false" />
-                <wmsLayer name="Roads" title="Roads" enabled="true" info="false" />
-                <wmsLayer name="Trails" title="Trails" enabled="true" info="false" />
-                <wmsLayer name="Borders" title="Borders" enabled="true" info="false" />
-                <wmsLayer name="Cities" title="Cities" enabled="true" info="false" />
-                <wmsLayer name="Settlements" title="Settlements" enabled="true" info="false" />
-                <wmsLayer name="Spot elevations" title="Spot elevations" enabled="true" info="false" />
-                <wmsLayer name="Airports" title="Airports" enabled="true" info="false" />
-                <wmsLayer name="Ocean features" title="Ocean features" enabled="true" info="false" />
-            </WMSServiceLayer>
-            <WMSServiceLayer name="Basemap Austria" 
-                             title="Basemap Austria" 
-                             visible="true" 
-                             enabled="true" 
-                             translucency="0.35" 
-                             bgColor="0xF0F0F0" 
-                             imageFormat="image/png" 
-                             exceptionFormat="application/vnd.ogc.se_xml">
-                <capabilities type="OGC" active="false"><![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/basemap_at.xml?service=WMS&version=1.1.0]]></capabilities>
-                <wmsLayer name="Staatsgrenze" title="Staatsgrenze" enabled="true" style="default" info="false" />
-                <wmsLayer name="Landesgrenze" title="Landesgrenze" enabled="true" style="default" info="false" />
-                <wmsLayer name="Bezirksgrenze" title="Bezirksgrenze" enabled="true" style="default" info="false" />
-                <wmsLayer name="Gemeindegrenze" title="Gemeindegrenze" enabled="true" style="default" info="false" />
-                <wmsLayer name="Katastralgemeindegrenze" title="Katastralgemeindegrenze" enabled="true" style="default" info="false" />
-                <wmsLayer name="OEK500" title="OEK500" enabled="true" style="default" info="false" />
-                <wmsLayer name="OEK200" title="OEK200" enabled="true" style="default" info="false" />
-                <wmsLayer name="OEK50" title="OEK50" enabled="true" style="default" info="false" />
-            </WMSServiceLayer>
-            <WMSServiceLayer name="Orthophoto Austria" 
-                             title="Orthophoto Austria" visible="false" 
-                             enabled="false" translucency="1.0"
-                             bgColor="0xF0F0F0" 
-                             imageFormat="image/png" 
-                             exceptionFormat="application/vnd.ogc.se_xml">
-                <capabilities type="OGC" active="false"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]></capabilities>
-                <wmsLayer name="Orthophoto" title="Orthophoto" enabled="true" info="false" />
-                <wmsLayer name="Satellitenbild_30m" title="Satellitenbild_30m" enabled="true" style="default" info="false" />
-                <wmsLayer name="Luftbild_8m" title="Luftbild_8m_LB" enabled="true" style="default" info="false" />
-                <wmsLayer name="Luftbild_1m" title="Luftbild_1m_LB" enabled="true" style="default" info="false" />
-                <wmsLayer name="Luftbild_MR" title="Luftbild_MR" enabled="true" style="default" info="false" />
-            </WMSServiceLayer>
-        </Layers>
+      <WMSServiceLayer name="DEMIS World Map" 
+                       title="DEMIS World Map" 
+                       visible="true" 
+                       enabled="true" 
+                       translucency="0.25" 
+                       bgColor="0xF0F0F0" 
+                       imageFormat="image/png" 
+                       exceptionFormat="application/vnd.ogc.se_xml">
+        <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/wms/wms.ashx?Service=WMS&WMS=WorldMap&Version=1.1.0&Request=GetCapabilities]]></capabilities>
+        <wmsLayer name="Bathymetry" title="Bathymetry" enabled="true" info="false" />
+        <wmsLayer name="Countries" title="Countries" enabled="true" info="false" />
+        <wmsLayer name="Topography" title="Topography" enabled="true" info="false" />
+        <wmsLayer name="Hillshading" title="Hillshading" enabled="true" info="false" />
+        <wmsLayer name="Builtup areas" title="Builtup areas" enabled="true" info="false" />
+        <wmsLayer name="Coastlines" title="Coastlines" enabled="true" info="false" />
+        <wmsLayer name="Waterbodies" title="Waterbodies" enabled="true" info="false" />
+        <wmsLayer name="Inundated" title="Inundated" enabled="true" info="false" />
+        <wmsLayer name="Rivers" title="Rivers" enabled="true" info="false" />
+        <wmsLayer name="Streams" title="Streams" enabled="true" info="false" />
+        <wmsLayer name="Railroads" title="Railroads" enabled="true" info="false" />
+        <wmsLayer name="Highways" title="Highways" enabled="true" info="false" />
+        <wmsLayer name="Roads" title="Roads" enabled="true" info="false" />
+        <wmsLayer name="Trails" title="Trails" enabled="true" info="false" />
+        <wmsLayer name="Borders" title="Borders" enabled="true" info="false" />
+        <wmsLayer name="Cities" title="Cities" enabled="true" info="false" />
+        <wmsLayer name="Settlements" title="Settlements" enabled="true" info="false" />
+        <wmsLayer name="Spot elevations" title="Spot elevations" enabled="true" info="false" />
+        <wmsLayer name="Airports" title="Airports" enabled="true" info="false" />
+        <wmsLayer name="Ocean features" title="Ocean features" enabled="true" info="false" />
+      </WMSServiceLayer>
+      <WMSServiceLayer name="Orthophoto Österreich" 
+                       title="Orthophoto Österreich" 
+                       visible="true" 
+                       enabled="true" 
+                       translucency="0.50" 
+                       bgColor="0xF0F0F0" 
+                       imageFormat="image/png" 
+                       exceptionFormat="application/vnd.ogc.se_xml">
+        <capabilities type="OGC" active="false"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]></capabilities>
+        <wmsLayer name="Orthophoto" title="Orthophoto" enabled="true" info="false" />
+        <wmsLayer name="Satellitenbild_30m" title="Satellitenbild_30m" enabled="true" style="default" info="false" />
+        <wmsLayer name="Luftbild_8m" title="Luftbild_8m_LB" enabled="true" style="default" info="false" />
+        <wmsLayer name="Luftbild_1m" title="Luftbild_1m_LB" enabled="true" style="default" info="false" />
+        <wmsLayer name="Luftbild_MR" title="Luftbild_MR" enabled="true" style="default" info="false" />
+      </WMSServiceLayer>
+      <WMSServiceLayer name="DEMIS World Map Overlay" 
+                       title="DEMIS World Map Overlay" 
+                       visible="true" 
+                       enabled="true" 
+                       translucency="0.80" 
+                       bgColor="0xF0F0F0" 
+                       imageFormat="image/png" 
+                       exceptionFormat="application/vnd.ogc.se_xml">
+        <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]></capabilities>
+        <wmsLayer name="Builtup areas" title="Builtup areas" enabled="true" info="false" />
+        <wmsLayer name="Airports" title="Airports" enabled="true" info="false" />
+        <wmsLayer name="Spot elevations" title="Spot elevations" enabled="true" info="false" />
+        <wmsLayer name="Settlements" title="Settlements" enabled="true" info="false" />
+        <wmsLayer name="Cities" title="Cities" enabled="true" info="false" />
+        <wmsLayer name="Borders" title="Borders" enabled="true" info="false" />
+        <wmsLayer name="Trails" title="Trails" enabled="true" info="false" />
+        <wmsLayer name="Roads" title="Roads" enabled="true" info="false" />
+        <wmsLayer name="Highways" title="Highways" enabled="true" info="false" />
+        <wmsLayer name="Railroads" title="Railroads" enabled="true" info="false" />
+        <wmsLayer name="Streams" title="Streams" enabled="true" info="false" />
+        <wmsLayer name="Rivers" title="Rivers" enabled="true" info="false" />
+        <wmsLayer name="Inundated" title="Inundated" enabled="true" info="false" />
+        <wmsLayer name="Waterbodies" title="Waterbodies" enabled="true" info="false" />
+        <wmsLayer name="Coastlines" title="Coastlines" enabled="true" info="false" />
+      </WMSServiceLayer>
+      <WMSServiceLayer name="Basiskarte Österreich" 
+                       title="Basiskarte Österreich" 
+                       visible="false" 
+                       enabled="false" 
+                       translucency="0.35" 
+                       bgColor="0xF0F0F0" 
+                       imageFormat="image/png" 
+                       exceptionFormat="application/vnd.ogc.se_xml">
+        <capabilities type="OGC" active="false"><![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/basemap_at.xml?service=WMS&version=1.1.0]]></capabilities>
+        <wmsLayer name="Staatsgrenze" title="Staatsgrenze" enabled="true" style="default" info="false" />
+        <wmsLayer name="Landesgrenze" title="Landesgrenze" enabled="true" style="default" info="false" />
+        <wmsLayer name="Bezirksgrenze" title="Bezirksgrenze" enabled="true" style="default" info="false" />
+        <wmsLayer name="Gemeindegrenze" title="Gemeindegrenze" enabled="true" style="default" info="false" />
+        <wmsLayer name="Katastralgemeindegrenze" title="Katastralgemeindegrenze" enabled="true" style="default" info="false" />
+        <wmsLayer name="OEK500" title="OEK500" enabled="true" style="default" info="false" />
+        <wmsLayer name="OEK200" title="OEK200" enabled="true" style="default" info="false" />
+        <wmsLayer name="OEK50" title="OEK50" enabled="true" style="default" info="false" />
+      </WMSServiceLayer>
+    </Layers>
     </cismapActiveLayerConfiguration>
     <cismapPluginSelectedSearchClasses/>
     <cismapPluginUIPreferences>
