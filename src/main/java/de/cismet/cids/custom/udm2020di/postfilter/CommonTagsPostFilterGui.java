@@ -55,6 +55,7 @@ import de.cismet.cids.custom.udm2020di.types.Tag;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.commons.gui.protocol.ProtocolHandler;
+import javax.swing.JOptionPane;
 
 /**
  * DOCUMENT ME!
@@ -171,6 +172,19 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             LOGGER.error("could not apply filter tags for '" + inputCollection.size() + " nodes: "
                                         + e.getMessage(),
                                 e);
+                            
+                            JOptionPane.showMessageDialog(
+                        CommonTagsPostFilterGui.this,
+                        org.openide.util.NbBundle.getMessage(
+                            CommonTagsPostFilterGui.this.getClass(),
+                                CommonTagsPostFilterGui.this.getClass().getSimpleName() +
+                            ".applyFilter.error.message"),               // NOI18N
+                        org.openide.util.NbBundle.getMessage(
+                            CommonTagsPostFilterGui.this.getClass(),
+                                CommonTagsPostFilterGui.this.getClass().getSimpleName() +
+                            ".applyFilter.error.title"),                 // NOI18N
+                        JOptionPane.ERROR_MESSAGE); 
+                            
                         }
                     } else {
                         if (LOGGER.isDebugEnabled()) {
@@ -370,7 +384,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
 
         final Collection<Tag> filterTags = this.getFilterTags();
@@ -395,14 +409,14 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
             PostfilterProtocolRegistry.getInstance().createCascadingProtocolStep(this, protocolStep);
         }
-    } //GEN-LAST:event_applyButtonActionPerformed
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         setEventsEnabled(false);
         for (final JToggleButton filterButton : filterButtons.values()) {
             filterButton.setSelected(true);
@@ -418,14 +432,14 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    } //GEN-LAST:event_resetButtonActionPerformed
+    }//GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_switchButtonActionPerformed
+    private void switchButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonActionPerformed
         setEventsEnabled(false);
         for (final JToggleButton toggleButton : this.filterButtons.values()) {
             toggleButton.setSelected(!toggleButton.isSelected());
@@ -433,7 +447,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
         this.enableButtons();
         this.tagsPanel.validate();
         setEventsEnabled(true);
-    }                                                                                //GEN-LAST:event_switchButtonActionPerformed
+    }//GEN-LAST:event_switchButtonActionPerformed
 
     /**
      * DOCUMENT ME!
@@ -487,6 +501,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             });
                     } catch (Exception ex) {
                         LOGGER.error("could not show progress bar: " + ex.getMessage(), ex);
+                        throw ex;
                     }
 
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
@@ -524,6 +539,9 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                 @Override
                 protected void done() {
+                  
+                    CommonTagsPostFilterGui.this.tagsPanel.removeAll();
+                    
                     try {
                         if (LOGGER.isDebugEnabled()) {
                             LOGGER.debug("hiding progress bar");
@@ -534,15 +552,27 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                         for (final JToggleButton tagButton : tagButtons) {
                             CommonTagsPostFilterGui.this.tagsPanel.add(tagButton);
                         }
-                        CommonTagsPostFilterGui.this.tagsPanel.validate();
-                        CommonTagsPostFilterGui.this.tagsPanel.repaint();
-                        enableButtons();
 //                        synchronized (filterInitializedLock) {
 //                            filterInitialized = true;
 //                        }
                     } catch (Exception ex) {
                         LOGGER.error(ex.getMessage(), ex);
+                        JOptionPane.showMessageDialog(
+                        CommonTagsPostFilterGui.this,
+                        org.openide.util.NbBundle.getMessage(
+                            CommonTagsPostFilterGui.this.getClass(),
+                                CommonTagsPostFilterGui.this.getClass().getSimpleName() +
+                            ".initializeFilter.error.message"),               // NOI18N
+                        org.openide.util.NbBundle.getMessage(
+                            CommonTagsPostFilterGui.this.getClass(),
+                                CommonTagsPostFilterGui.this.getClass().getSimpleName() +
+                            ".initializeFilter.error.title"),                 // NOI18N
+                        JOptionPane.ERROR_MESSAGE); 
+                        CommonTagsPostFilterGui.this.tagsPanel.removeAll();
                     } finally {
+                        CommonTagsPostFilterGui.this.tagsPanel.validate();
+                        CommonTagsPostFilterGui.this.tagsPanel.repaint();
+                        enableButtons();
                         semaphore.release();
 //                        synchronized (filterInitializedLock) {
 //                            filterInitializedLock.notifyAll();
@@ -646,6 +676,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 metaObjects.addAll(result);
             } catch (Exception e) {
                 LOGGER.error("could not retrieve tags for " + nodes.size() + " nodes!", e);
+                throw e;
             }
 
             if (LOGGER.isDebugEnabled()) {

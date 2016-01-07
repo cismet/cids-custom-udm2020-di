@@ -44,6 +44,7 @@ import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.navigator.utils.ClassCacheMultiple;
 
 import de.cismet.commons.gui.protocol.ProtocolHandler;
+import javax.swing.JOptionPane;
 
 /**
  * DOCUMENT ME!
@@ -146,6 +147,17 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                             LOGGER.error("could not apply max param value filters for '" + inputCollection.size()
                                         + " nodes!",
                                 e);
+                            JOptionPane.showMessageDialog(
+                        CommonSampleValuesPostFilterGui.this,
+                        org.openide.util.NbBundle.getMessage(
+                            CommonSampleValuesPostFilterGui.this.getClass(),
+                                CommonSampleValuesPostFilterGui.this.getClass().getSimpleName() +
+                            ".applyFilter.error.message"),               // NOI18N
+                        org.openide.util.NbBundle.getMessage(
+                            CommonSampleValuesPostFilterGui.this.getClass(),
+                                CommonSampleValuesPostFilterGui.this.getClass().getSimpleName() +
+                            ".applyFilter.error.title"),                 // NOI18N
+                        JOptionPane.ERROR_MESSAGE); 
                         }
                     } else if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("filter is not applied: no nodes left for filtering after applying pre-filter to "
@@ -309,6 +321,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                 });
                         } catch (Exception ex) {
                             LOGGER.error("could not show progress bar: " + ex.getMessage(), ex);
+                            throw ex;
                         }
 
                         Collection<AggregationValue> aggregationValues = new ArrayList<AggregationValue>(0);
@@ -347,6 +360,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                 LOGGER.error("could not retrieve aggregation values  for " + objectIds.size()
                                             + " nodes!",
                                     e);
+                                throw e;
                             }
                         }
 
@@ -355,14 +369,18 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
                     @Override
                     protected void done() {
-                        try {
-                            final Collection<AggregationValue> aggregationValues = this.get();
-                            if (LOGGER.isDebugEnabled()) {
+                        
+                        if (LOGGER.isDebugEnabled()) {
                                 LOGGER.debug("hiding progress bar");
                             }
-                            parameterPanel.removeAll();
-                            parameterPanel.setLayout(new BorderLayout());
-                            parameterPanel.add(maxParameterValueSelectionPanel, BorderLayout.CENTER);
+                        parameterPanel.removeAll();
+                        
+                        try {
+                            final Collection<AggregationValue> aggregationValues = this.get();
+                            
+                            CommonSampleValuesPostFilterGui.this.parameterPanel.setLayout(new BorderLayout());
+                            CommonSampleValuesPostFilterGui.this.parameterPanel.add(
+                                    maxParameterValueSelectionPanel, BorderLayout.CENTER);
                             if (!aggregationValues.isEmpty()) {
                                 if (LOGGER.isDebugEnabled()) {
                                     LOGGER.debug("setting " + aggregationValues.size() + " aggregation values");
@@ -407,19 +425,36 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
                                                     + protocolStep.getClass().getSimpleName());
                                     }
                                 }
-                                enableButtons();
+                                
                             } else {
                                 LOGGER.warn("no aggregation values found!");
                                 maxParameterValueSelectionPanel.setAggregationValues(null);
                             }
-                            parameterPanel.validate();
-                            parameterPanel.repaint();
+                            
                             synchronized (filterInitializedLock) {
                                 filterInitialized = true;
                             }
                         } catch (Exception ex) {
                             LOGGER.error(ex.getMessage(), ex);
+                            JOptionPane.showMessageDialog(
+                        CommonSampleValuesPostFilterGui.this,
+                        org.openide.util.NbBundle.getMessage(
+                            CommonSampleValuesPostFilterGui.this.getClass(),
+                                CommonSampleValuesPostFilterGui.this.getClass().getSimpleName() +
+                            ".initializeFilter.error.message"),               // NOI18N
+                        org.openide.util.NbBundle.getMessage(
+                            CommonSampleValuesPostFilterGui.this.getClass(),
+                                CommonSampleValuesPostFilterGui.this.getClass().getSimpleName() +
+                            ".initializeFilter.error.title"),                 // NOI18N
+                        JOptionPane.ERROR_MESSAGE); 
+                        CommonSampleValuesPostFilterGui.this.parameterPanel.removeAll();
+                        
                         } finally {
+                            
+                            CommonSampleValuesPostFilterGui.this.parameterPanel.validate();
+                            CommonSampleValuesPostFilterGui.this.parameterPanel.repaint();
+                            enableButtons();
+                            
                             semaphore.release();
                             synchronized (filterInitializedLock) {
                                 filterInitializedLock.notifyAll();
@@ -567,7 +602,7 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_applyButtonActionPerformed
+    private void applyButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         this.firePostFilterChanged();
 
         final AggregationValues aggregationValues = this.getAggregationValues();
@@ -597,29 +632,29 @@ public abstract class CommonSampleValuesPostFilterGui extends AbstractPostFilter
 
             PostfilterProtocolRegistry.getInstance().createCascadingProtocolStep(this, protocolStep);
         }
-    } //GEN-LAST:event_applyButtonActionPerformed
+    }//GEN-LAST:event_applyButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_resetButtonActionPerformed
+    private void resetButtonActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         PostfilterProtocolRegistry.getInstance().clearProtocolStep(this);
         this.maxParameterValueSelectionPanel.reset();
         this.enableButtons();
         this.validate();
         this.repaint();
-    }                                                                               //GEN-LAST:event_resetButtonActionPerformed
+    }//GEN-LAST:event_resetButtonActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) { //GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
+    private void maxParameterValueSelectionPanelPropertyChange(final java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_maxParameterValueSelectionPanelPropertyChange
         this.enableButtons();
-    }                                                                                                      //GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
+    }//GEN-LAST:event_maxParameterValueSelectionPanelPropertyChange
 
     @Override
     public Integer getDisplayOrderKeyPrio() {
