@@ -17,7 +17,6 @@ import org.jdesktop.beansbinding.ELProperty;
 
 import org.openide.util.WeakListeners;
 
-import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -268,6 +267,12 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
                         for (final JCheckBox checkBox : chunks) {
                             VisualisationParameterSelectionPanel.this.selectionPanel.add(checkBox);
                         }
+                    }
+
+                    @Override
+                    protected void done() {
+                        VisualisationParameterSelectionPanel.this.selectionPanel.validate();
+                        VisualisationParameterSelectionPanel.this.selectionPanel.repaint();
                     }
                 };
             checkBoxWorker.execute();

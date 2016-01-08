@@ -15,12 +15,8 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
 
-import org.jfree.chart.JFreeChart;
-
 import org.openide.util.WeakListeners;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -379,6 +375,12 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
                         for (final JCheckBox checkBox : chunks) {
                             ExportParameterSelectionPanel.this.selectionPanel.add(checkBox);
                         }
+                    }
+
+                    @Override
+                    protected void done() {
+                        ExportParameterSelectionPanel.this.selectionPanel.validate();
+                        ExportParameterSelectionPanel.this.selectionPanel.repaint();
                     }
                 };
             checkBoxWorker.execute();

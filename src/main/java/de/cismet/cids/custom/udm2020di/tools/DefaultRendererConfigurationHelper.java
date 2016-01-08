@@ -86,28 +86,26 @@ public class DefaultRendererConfigurationHelper {
         }
 
         // register listener to save tab
-        jTabbedPane.addChangeListener(WeakListeners.create(
-                ChangeListener.class,
-                new ChangeListener() {
+        jTabbedPane.addChangeListener(
+            new ChangeListener() {
 
-                    @Override
-                    public void stateChanged(final ChangeEvent evt) {
-                        final Map<String, Object> settings;
-                        if (RendererConfigurationRegistry.getInstance().getSettings(rendererClass)
-                                    != null) {
-                            settings = RendererConfigurationRegistry.getInstance().getSettings(rendererClass);
-                        } else {
-                            settings = new HashMap<String, Object>();
-                            RendererConfigurationRegistry.getInstance().setSettings(rendererClass, settings);
-                        }
-                        final int selectedIndex = jTabbedPane.getSelectedIndex();
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("saving selected tab index #" + selectedIndex);
-                        }
-                        settings.put(SELECTED_TAB, selectedIndex);
+                @Override
+                public void stateChanged(final ChangeEvent evt) {
+                    final Map<String, Object> settings;
+                    if (RendererConfigurationRegistry.getInstance().getSettings(rendererClass)
+                                != null) {
+                        settings = RendererConfigurationRegistry.getInstance().getSettings(rendererClass);
+                    } else {
+                        settings = new HashMap<String, Object>();
+                        RendererConfigurationRegistry.getInstance().setSettings(rendererClass, settings);
                     }
-                },
-                jTabbedPane));
+                    final int selectedIndex = jTabbedPane.getSelectedIndex();
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("saving selected tab index #" + selectedIndex);
+                    }
+                    settings.put(SELECTED_TAB, selectedIndex);
+                }
+            });
     }
 
     /**
