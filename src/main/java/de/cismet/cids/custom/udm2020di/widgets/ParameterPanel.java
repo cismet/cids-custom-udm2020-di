@@ -56,40 +56,28 @@ public class ParameterPanel extends javax.swing.JPanel {
     public void setParameterNames(final Collection<String> parameterNames) {
         this.parameterNames.addAll(parameterNames);
 
-        final Runnable r = new Runnable() {
-
-                @Override
-                public void run() {
-                    removeAll();
-                    if ((parameterNames != null) && !parameterNames.isEmpty()) {
-                        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
-                        gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
-                        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 2);
-                        gridBagConstraints.gridy = 0;
-                        gridBagConstraints.gridx = 0;
-                        gridBagConstraints.weighty = 0.0;
-                        gridBagConstraints.weightx = 1.0;
-                        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-                        int i = 0;
-                        for (final String parameterName : parameterNames) {
-                            gridBagConstraints.gridy = i;
-                            if (i == (parameterNames.size() - 1)) {
-                                gridBagConstraints.weighty = 1.0;
-                            }
-                            final JLabel paramLabel = new JLabel("<html>" + parameterName + "</html>");
-                            // paramLabel.setMaximumSize(new Dimension(175, Integer.MAX_VALUE));
-                            // paramLabel.setMinimumSize(new Dimension(175, 21));
-                            add(paramLabel, gridBagConstraints);
-                            i++;
-                        }
-                    }
+        removeAll();
+        if ((parameterNames != null) && !parameterNames.isEmpty()) {
+            final GridBagConstraints gridBagConstraints = new GridBagConstraints();
+            gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
+            gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 2);
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.weighty = 0.0;
+            gridBagConstraints.weightx = 1.0;
+            gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+            int i = 0;
+            for (final String parameterName : parameterNames) {
+                gridBagConstraints.gridy = i;
+                if (i == (parameterNames.size() - 1)) {
+                    gridBagConstraints.weighty = 1.0;
                 }
-            };
-
-        if (EventQueue.isDispatchThread()) {
-            r.run();
-        } else {
-            EventQueue.invokeLater(r);
+                final JLabel paramLabel = new JLabel("<html>" + parameterName + "</html>");
+                // paramLabel.setMaximumSize(new Dimension(175, Integer.MAX_VALUE));
+                // paramLabel.setMinimumSize(new Dimension(175, 21));
+                add(paramLabel, gridBagConstraints);
+                i++;
+            }
         }
     }
 

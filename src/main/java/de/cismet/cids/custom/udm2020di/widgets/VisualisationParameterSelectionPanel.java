@@ -7,6 +7,8 @@
 ****************************************************/
 package de.cismet.cids.custom.udm2020di.widgets;
 
+import org.apache.log4j.Logger;
+
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
@@ -21,10 +23,12 @@ import java.awt.event.ItemListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.JCheckBox;
+import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
@@ -37,6 +41,10 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
  * @version  $Revision$, $Date$
  */
 public class VisualisationParameterSelectionPanel extends javax.swing.JPanel implements ItemListener {
+
+    //~ Static fields/initializers ---------------------------------------------
+
+    protected static final Logger LOGGER = Logger.getLogger(VisualisationParameterSelectionPanel.class);
 
     //~ Instance fields --------------------------------------------------------
 
@@ -224,22 +232,23 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
      * @param  parameters  new value of parameters
      */
     public final void setParameters(final Collection<Parameter> parameters) {
+        LOGGER.info("setting " + parameters.size() + " parameters");
         this.parameters.addAll(parameters);
+        VisualisationParameterSelectionPanel.this.selectionPanel.removeAll();
 
-        final Runnable r = new Runnable() {
+        if (!VisualisationParameterSelectionPanel.this.parameters.isEmpty()) {
+            final SwingWorker checkBoxWorker = new SwingWorker<Void, JCheckBox>() {
 
-                @Override
-                public void run() {
-                    VisualisationParameterSelectionPanel.this.selectionPanel.removeAll();
-                    bindingGroup.unbind();
-                    if ((parameters != null) && !VisualisationParameterSelectionPanel.this.parameters.isEmpty()) {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        bindingGroup.unbind();
                         for (final Parameter parameter : VisualisationParameterSelectionPanel.this.parameters) {
                             final JCheckBox checkBox = new JCheckBox(parameter.getParameterName());
                             checkBox.addItemListener(WeakListeners.create(
                                     ItemListener.class,
                                     VisualisationParameterSelectionPanel.this,
                                     checkBox));
-                            VisualisationParameterSelectionPanel.this.selectionPanel.add(checkBox);
+
                             final Binding binding = Bindings.createAutoBinding(
                                     AutoBinding.UpdateStrategy.READ_WRITE,
                                     parameter,
@@ -247,17 +256,23 @@ public class VisualisationParameterSelectionPanel extends javax.swing.JPanel imp
                                     checkBox,
                                     BeanProperty.create("selected"));
                             bindingGroup.addBinding(binding);
+
+                            publish(checkBox);
                         }
-
                         bindingGroup.bind();
+                        return null;
                     }
-                }
-            };
 
-        if (EventQueue.isDispatchThread()) {
-            r.run();
+                    @Override
+                    protected void process(final List<JCheckBox> chunks) {
+                        for (final JCheckBox checkBox : chunks) {
+                            VisualisationParameterSelectionPanel.this.selectionPanel.add(checkBox);
+                        }
+                    }
+                };
+            checkBoxWorker.execute();
         } else {
-            EventQueue.invokeLater(r);
+            LOGGER.warn("no parameters provided!");
         }
     }
 

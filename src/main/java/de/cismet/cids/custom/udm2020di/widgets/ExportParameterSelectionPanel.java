@@ -15,6 +15,8 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
 
+import org.jfree.chart.JFreeChart;
+
 import org.openide.util.WeakListeners;
 
 import java.awt.EventQueue;
@@ -31,6 +33,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.swing.JCheckBox;
+import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.ExportAction;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -339,29 +342,48 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      *
      * @param  parameters  new value of parameters
      */
-    public final void setParameters(final Collection<Parameter> parameters) {
-        this.parameters.addAll(parameters);
-
+    public final synchronized void setParameters(final Collection<Parameter> parameters) {
         ExportParameterSelectionPanel.this.selectionPanel.removeAll();
-        bindingGroup.unbind();
-        if ((parameters != null) && !ExportParameterSelectionPanel.this.parameters.isEmpty()) {
-            for (final Parameter parameter : ExportParameterSelectionPanel.this.parameters) {
-                final JCheckBox checkBox = new JCheckBox(parameter.getParameterName());
-                checkBox.addItemListener(WeakListeners.create(
-                        ItemListener.class,
-                        ExportParameterSelectionPanel.this,
-                        checkBox));
-                ExportParameterSelectionPanel.this.selectionPanel.add(checkBox);
-                final Binding binding = Bindings.createAutoBinding(
-                        AutoBinding.UpdateStrategy.READ_WRITE,
-                        parameter,
-                        ELProperty.create("${selected}"),
-                        checkBox,
-                        BeanProperty.create("selected"));
-                bindingGroup.addBinding(binding);
-            }
 
-            bindingGroup.bind();
+        if ((parameters != null) && !parameters.isEmpty()) {
+            LOGGER.info("setting " + parameters.size() + " parameters");
+            final SwingWorker checkBoxWorker = new SwingWorker<Void, JCheckBox>() {
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        ExportParameterSelectionPanel.this.parameters.addAll(parameters);
+                        bindingGroup.unbind();
+                        for (final Parameter parameter : ExportParameterSelectionPanel.this.parameters) {
+                            final JCheckBox checkBox = new JCheckBox(parameter.getParameterName());
+                            checkBox.addItemListener(WeakListeners.create(
+                                    ItemListener.class,
+                                    ExportParameterSelectionPanel.this,
+                                    checkBox));
+
+                            final Binding binding = Bindings.createAutoBinding(
+                                    AutoBinding.UpdateStrategy.READ_WRITE,
+                                    parameter,
+                                    ELProperty.create("${selected}"),
+                                    checkBox,
+                                    BeanProperty.create("selected"));
+                            bindingGroup.addBinding(binding);
+
+                            publish(checkBox);
+                        }
+                        bindingGroup.bind();
+                        return null;
+                    }
+
+                    @Override
+                    protected void process(final List<JCheckBox> chunks) {
+                        for (final JCheckBox checkBox : chunks) {
+                            ExportParameterSelectionPanel.this.selectionPanel.add(checkBox);
+                        }
+                    }
+                };
+            checkBoxWorker.execute();
+        } else {
+            LOGGER.warn("no parameters provided!");
         }
     }
 
@@ -426,6 +448,9 @@ public class ExportParameterSelectionPanel extends javax.swing.JPanel implements
      * @param  exportAction  DOCUMENT ME!
      */
     public void setExportAction(final ExportAction exportAction) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("setting export action '" + exportAction.getTitle() + "'");
+        }
         btnExport.setAction(exportAction);
     }
 

@@ -209,11 +209,6 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         }
 
         this.aggregationValues = aggregationValues;
-
-//        //EventQueue.invokeLater(new Runnable() {
-//
-//                @Override
-//                public void run() {
         if ((this.aggregationValues != null)
                     && !this.aggregationValues.isEmpty()) {
             if (LOGGER.isDebugEnabled()) {
@@ -231,8 +226,6 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             this.validate();
             LOGGER.warn("no valid aggregation values provided");
         }
-//                }
-//            });
     }
 
     /**

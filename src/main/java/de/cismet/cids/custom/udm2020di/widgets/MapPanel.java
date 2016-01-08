@@ -49,7 +49,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
 
     //~ Static fields/initializers ---------------------------------------------
 
-    protected static final Logger LOG = Logger.getLogger(MapPanel.class);
+    protected static final Logger LOGGER = Logger.getLogger(MapPanel.class);
 
     private static final Double GEOMETRY_BUFFER = 0.1d;
 
@@ -130,7 +130,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
             mappingComponent.gotoBoundingBox(boxToGoto, false, true, 500);
             return true;
         } else {
-            LOG.warn("selected cids bean not found in map of cids features!");
+            LOGGER.warn("selected cids bean not found in map of cids features!");
             return false;
         }
     }
@@ -155,27 +155,29 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
         this.cidsFeatures.clear();
 
         if ((this.cidsBeans != null) && !this.cidsBeans.isEmpty()) {
-            for (final CidsBean cidsBean : cidsBeans) {
-                final CidsFeature feature = new CidsFeature(cidsBean.getMetaObject());
-                cidsFeatures.put(cidsBean, feature);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("showing " + this.cidsBeans.size() + " objects on map");
             }
-
-            final Runnable r = new Runnable() {
+            final Runnable objectInitialisationThread = new Runnable() {
 
                     @Override
                     public void run() {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("adding " + cidsBeans.size() + " features to map");
+                        for (final CidsBean cidsBean : cidsBeans) {
+                            final CidsFeature feature = new CidsFeature(cidsBean.getMetaObject());
+                            cidsFeatures.put(cidsBean, feature);
                         }
+
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("adding " + cidsBeans.size() + " features to map");
+                        }
+
                         initMap();
                     }
                 };
 
-            if (EventQueue.isDispatchThread()) {
-                r.run();
-            } else {
-                EventQueue.invokeLater(r);
-            }
+            new Thread(objectInitialisationThread).start();
+        } else {
+            LOGGER.warn("no cids beans provided - no objects shown on map!");
         }
     }
 
@@ -195,7 +197,7 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
                 final Geometry geomUba = CrsTransformer.transformToGivenCrs(geom.getEnvelope(), UbaConstants.EPSG_UBA);
                 geometries.add(geomUba);
             } catch (Exception ex) {
-                LOG.warn(ex, ex);
+                LOGGER.warn(ex, ex);
             }
         }
 
@@ -234,18 +236,29 @@ public class MapPanel extends javax.swing.JPanel implements CidsBeanCollectionSt
             basemap.setName("Worldmap"); // NOI18N
             basemap.setTranslucency(0.25f);
 
-            mappingModel.addLayer(basemap);
+            final Runnable guiInitialisationThread = new Runnable() {
 
-            mappingComponent.setMappingModel(mappingModel);
+                    @Override
+                    public void run() {
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("performing GUI inititialisation");
+                        }
+                        mappingModel.addLayer(basemap);
 
-            mappingComponent.gotoInitialBoundingBox();
+                        mappingComponent.setMappingModel(mappingModel);
 
-            mappingComponent.setInteractionMode(MappingComponent.ZOOM);
-            mappingComponent.unlock();
+                        mappingComponent.gotoInitialBoundingBox();
 
-            mappingComponent.getFeatureCollection().addFeatures(cidsFeatures.values());
+                        mappingComponent.setInteractionMode(MappingComponent.ZOOM);
+                        mappingComponent.unlock();
+
+                        mappingComponent.getFeatureCollection().addFeatures(cidsFeatures.values());
+                    }
+                };
+
+            EventQueue.invokeLater(guiInitialisationThread);
         } catch (Exception e) {
-            LOG.error("cannot initialise mapping component", e);
+            LOGGER.error("cannot initialise mapping component", e);
         }
     }
 

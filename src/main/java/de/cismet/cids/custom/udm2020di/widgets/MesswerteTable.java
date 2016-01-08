@@ -59,8 +59,16 @@ public class MesswerteTable extends javax.swing.JPanel {
                         + aggregationValues.length + " aggregation Values");
         }
 
-        final MesswerteTableModel messwerteTableModel = new MesswerteTableModel(aggregationValues);
-        this.setModel(messwerteTableModel);
+        final Runnable objectUpdateThread = new Runnable() {
+
+                @Override
+                public void run() {
+                    final MesswerteTableModel messwerteTableModel = new MesswerteTableModel(aggregationValues);
+                    setModel(messwerteTableModel);
+                }
+            };
+
+        new Thread(objectUpdateThread).start();
     }
 
     /**
@@ -69,7 +77,7 @@ public class MesswerteTable extends javax.swing.JPanel {
      * @param  messwerteTableModel  DOCUMENT ME!
      */
     public void setModel(final MesswerteTableModel messwerteTableModel) {
-        final Runnable r = new Runnable() {
+        final Runnable guiUpdateThread = new Runnable() {
 
                 @Override
                 public void run() {
@@ -78,9 +86,9 @@ public class MesswerteTable extends javax.swing.JPanel {
             };
 
         if (EventQueue.isDispatchThread()) {
-            r.run();
+            guiUpdateThread.run();
         } else {
-            EventQueue.invokeLater(r);
+            EventQueue.invokeLater(guiUpdateThread);
         }
     }
 
