@@ -209,13 +209,8 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         }
 
         this.aggregationValues = aggregationValues;
-
-//        //EventQueue.invokeLater(new Runnable() {
-//
-//                @Override
-//                public void run() {
-        if ((MaxParameterValueSelectionPanel.this.aggregationValues != null)
-                    && !MaxParameterValueSelectionPanel.this.aggregationValues.isEmpty()) {
+        if ((this.aggregationValues != null)
+                    && !this.aggregationValues.isEmpty()) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("generating parameter selection panels for " + this.aggregationValues.size()
                             + " parameters");
@@ -224,15 +219,13 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
             this.addMeButton.setEnabled(true);
             this.initDate(aggregationValues.getMinDate(), aggregationValues.getMaxDate());
         } else {
-            MaxParameterValueSelectionPanel.this.addMeButton.setEnabled(false);
-            MaxParameterValueSelectionPanel.this.jdcStartDate.setEnabled(false);
-            MaxParameterValueSelectionPanel.this.jdcEndDate.setEnabled(false);
-            MaxParameterValueSelectionPanel.this.datePanel.setVisible(false);
+            this.addMeButton.setEnabled(false);
+            this.jdcStartDate.setEnabled(false);
+            this.jdcEndDate.setEnabled(false);
+            this.datePanel.setVisible(false);
             this.validate();
             LOGGER.warn("no valid aggregation values provided");
         }
-//                }
-//            });
     }
 
     /**
@@ -380,8 +373,10 @@ public class MaxParameterValueSelectionPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         parametersPanel.add(addMeButton, gridBagConstraints);
-        this.addMeButton.setEnabled(!this.aggregationValues.isEmpty());
-        this.initDate(this.aggregationValues.getMinDate(), this.aggregationValues.getMaxDate());
+        this.addMeButton.setEnabled((this.aggregationValues != null) && !this.aggregationValues.isEmpty());
+        this.initDate(
+            (this.aggregationValues != null) ? this.aggregationValues.getMinDate() : null,
+            (this.aggregationValues != null) ? this.aggregationValues.getMaxDate() : null);
         setSelectedValues(0);
         this.validate();
     }

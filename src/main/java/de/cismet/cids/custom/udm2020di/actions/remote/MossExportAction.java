@@ -58,9 +58,7 @@ public class MossExportAction extends AbstractExportAction {
     //~ Instance fields --------------------------------------------------------
 
     @JsonProperty(required = true)
-    @Getter
-    @Setter
-    protected Collection<String> sampleIds;
+    @Getter @Setter protected Collection<String> sampleIds;
 
     //~ Constructors -----------------------------------------------------------
 

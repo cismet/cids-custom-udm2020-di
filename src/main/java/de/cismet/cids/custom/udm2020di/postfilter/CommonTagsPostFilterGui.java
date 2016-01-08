@@ -38,9 +38,11 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingWorker;
 
@@ -76,10 +78,10 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
             "WAOW_STATION"
         };
 
-    protected static final ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>> QUEUE_MAP =
-        new ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>>();
-
     //~ Instance fields --------------------------------------------------------
+
+    protected final ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>> QUEUE_MAP =
+        new ConcurrentHashMap<Integer, LinkedBlockingDeque<Collection<MetaObject>>>();
 
     protected final TagKeyComparator tagKeyComparator = new TagKeyComparator();
 
@@ -171,6 +173,18 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             LOGGER.error("could not apply filter tags for '" + inputCollection.size() + " nodes: "
                                         + e.getMessage(),
                                 e);
+
+                            JOptionPane.showMessageDialog(
+                                CommonTagsPostFilterGui.this,
+                                org.openide.util.NbBundle.getMessage(
+                                    CommonTagsPostFilterGui.this.getClass(),
+                                    CommonTagsPostFilterGui.this.getClass().getSimpleName()
+                                            + ".applyFilter.error.message"), // NOI18N
+                                org.openide.util.NbBundle.getMessage(
+                                    CommonTagsPostFilterGui.this.getClass(),
+                                    CommonTagsPostFilterGui.this.getClass().getSimpleName()
+                                            + ".applyFilter.error.title"), // NOI18N
+                                JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         if (LOGGER.isDebugEnabled()) {
@@ -487,6 +501,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                             });
                     } catch (Exception ex) {
                         LOGGER.error("could not show progress bar: " + ex.getMessage(), ex);
+                        throw ex;
                     }
 
                     final Collection<JToggleButton> tagButtons = new ArrayList<JToggleButton>();
@@ -524,25 +539,40 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
 
                 @Override
                 protected void done() {
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("hiding progress bar");
+                    }
+
+                    CommonTagsPostFilterGui.this.tagsPanel.removeAll();
+                    CommonTagsPostFilterGui.this.tagsPanel.validate();
+                    CommonTagsPostFilterGui.this.tagsPanel.repaint();
+
                     try {
-                        if (LOGGER.isDebugEnabled()) {
-                            LOGGER.debug("hiding progress bar");
-                        }
                         final Collection<JToggleButton> tagButtons = this.get();
-                        CommonTagsPostFilterGui.this.tagsPanel.removeAll();
-                        CommonTagsPostFilterGui.this.tagsPanel.validate();
                         for (final JToggleButton tagButton : tagButtons) {
                             CommonTagsPostFilterGui.this.tagsPanel.add(tagButton);
                         }
-                        CommonTagsPostFilterGui.this.tagsPanel.validate();
-                        CommonTagsPostFilterGui.this.tagsPanel.repaint();
-                        enableButtons();
 //                        synchronized (filterInitializedLock) {
 //                            filterInitialized = true;
 //                        }
                     } catch (Exception ex) {
                         LOGGER.error(ex.getMessage(), ex);
+                        CommonTagsPostFilterGui.this.tagsPanel.removeAll();
+                        JOptionPane.showMessageDialog(
+                            CommonTagsPostFilterGui.this,
+                            org.openide.util.NbBundle.getMessage(
+                                CommonTagsPostFilterGui.this.getClass(),
+                                CommonTagsPostFilterGui.this.getClass().getSimpleName()
+                                        + ".initializeFilter.error.message"), // NOI18N
+                            org.openide.util.NbBundle.getMessage(
+                                CommonTagsPostFilterGui.this.getClass(),
+                                CommonTagsPostFilterGui.this.getClass().getSimpleName()
+                                        + ".initializeFilter.error.title"), // NOI18N
+                            JOptionPane.ERROR_MESSAGE);
                     } finally {
+                        CommonTagsPostFilterGui.this.tagsPanel.validate();
+                        CommonTagsPostFilterGui.this.tagsPanel.repaint();
+                        enableButtons();
                         semaphore.release();
 //                        synchronized (filterInitializedLock) {
 //                            filterInitializedLock.notifyAll();
@@ -608,7 +638,7 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 LOGGER.debug("retrieveFilterTags request '" + key + "' is queued");
             }
             final LinkedBlockingDeque<Collection<MetaObject>> queue = QUEUE_MAP.get(nodes.hashCode());
-            final Collection<MetaObject> metaObjects = queue.take();
+            final Collection<MetaObject> metaObjects = queue.poll(30, TimeUnit.SECONDS);
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug(metaObjects.size() + " tag objects '" + key + "' retrieved from queue");
             }
@@ -646,6 +676,8 @@ public class CommonTagsPostFilterGui extends AbstractPostFilterGUI implements Ac
                 metaObjects.addAll(result);
             } catch (Exception e) {
                 LOGGER.error("could not retrieve tags for " + nodes.size() + " nodes!", e);
+                QUEUE_MAP.clear();
+                throw e;
             }
 
             if (LOGGER.isDebugEnabled()) {

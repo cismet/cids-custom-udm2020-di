@@ -42,8 +42,7 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
 
     private static final Logger LOGGER = Logger.getLogger(SampleValuesPostFilterProtocolStep.class);
 
-    @JsonIgnore
-    protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
+    @JsonIgnore protected static final ProtocolStepMetaInfo META_INFO = new ProtocolStepMetaInfo(
             SampleValuesPostFilterProtocolStep.class.getSimpleName(),
             "Max Values Post Filter Protocol");
 
@@ -52,8 +51,7 @@ public class SampleValuesPostFilterProtocolStep extends CommonPostFilterProtocol
     @Getter
     @JsonProperty(required = true)
     final AggregationValues aggregationValues;
-    @JsonIgnore
-    transient SampleValuesPostFilterProtocolStepPanel protocolStepPanel = null;
+    @JsonIgnore transient SampleValuesPostFilterProtocolStepPanel protocolStepPanel = null;
     @Getter
     @JsonProperty(required = true)
     private final Map<String, Float> selectedValues;

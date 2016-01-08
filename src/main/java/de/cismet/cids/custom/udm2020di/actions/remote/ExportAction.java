@@ -28,16 +28,18 @@ import de.cismet.cids.custom.udm2020di.types.Parameter;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
+
+/**
+ * SubTypes Defintiion only required if used with NAME property! see
+ * http://stackoverflow.com/questions/31665620/is-jacksons-jsonsubtypes-still-necessary-for-polymorphic-deserialization
+ *
+ * @version  $Revision$, $Date$
+ */
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY,
     property = "@type"
 )
-
-/**
- * SubTypes Defintiion only required if used with NAME property!
- * see http://stackoverflow.com/questions/31665620/is-jacksons-jsonsubtypes-still-necessary-for-polymorphic-deserialization
- */
 @JsonSubTypes(
     {
         @Type(

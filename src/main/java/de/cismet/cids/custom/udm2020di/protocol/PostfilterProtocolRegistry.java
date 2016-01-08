@@ -45,9 +45,7 @@ public class PostfilterProtocolRegistry {
     private final Map<PostFilterGUI, CommonPostFilterProtocolStep> protocolMap = Collections.synchronizedMap(
             new HashMap<PostFilterGUI, CommonPostFilterProtocolStep>());
 
-    @Getter
-    @Setter
-    private String masterPostFilter = null;
+    @Getter @Setter private String masterPostFilter = null;
 
     //~ Constructors -----------------------------------------------------------
 

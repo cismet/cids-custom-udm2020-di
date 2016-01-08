@@ -57,15 +57,10 @@ public abstract class CommonPostFilterProtocolStep extends AbstractProtocolStep 
     @JsonProperty(required = true)
     protected final String postFilter;
 
-    @Getter
-    @JsonIgnore
-    protected final transient ImageIcon icon;
+    @Getter @JsonIgnore protected final transient ImageIcon icon;
 
     /** Back-reference to parent step. ignored in serialized json! */
-    @Getter
-    @Setter
-    @JsonIgnore
-    protected transient CascadingPostFilterProtocolStep cascadingProtocolStep;
+    @Getter @Setter @JsonIgnore protected transient CascadingPostFilterProtocolStep cascadingProtocolStep;
 
     //~ Constructors -----------------------------------------------------------
 

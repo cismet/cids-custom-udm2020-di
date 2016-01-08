@@ -58,8 +58,7 @@ public class WaExportAction extends AbstractExportAction {
 
     //~ Instance fields --------------------------------------------------------
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @JsonProperty(required = true)
     protected Collection<String> messstellen;
     @JsonProperty(required = true)

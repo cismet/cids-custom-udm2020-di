@@ -52,10 +52,8 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
 
     //~ Instance fields --------------------------------------------------------
 
-    @Getter
-    protected ExportAction exportAction;
-    @Getter
-    protected final ArrayList<MetaObjectNode> metaObjectNodes = new ArrayList<MetaObjectNode>();
+    @Getter protected ExportAction exportAction;
+    @Getter protected final ArrayList<MetaObjectNode> metaObjectNodes = new ArrayList<MetaObjectNode>();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXHyperlink exportActionHyperlink;
