@@ -122,27 +122,17 @@ public class BorisVisualisationAction extends AbstractVisualisationAction {
 
     @Override
     protected String getStationName(final String stationPk) {
-        if (this.stationMap.containsKey(stationPk)) {
-            final Standort station = this.stationMap.get(stationPk);
-            final String stationName =
-                ((station.getStandortbezeichnung() != null)
-                            && !station.getStandortbezeichnung().isEmpty()) ? station.getStandortbezeichnung()
-                                                                            : station.getStandortnummer();
-            return stationName;
-        } else {
-            LOGGER.warn("unknown station: " + stationPk);
-            return stationPk;
-        }
+        return stationPk;
     }
 
     @Override
     protected int getDateIndex() {
-        return 4;
+        return 2;
     }
 
     @Override
     protected int getParameterOffset() {
-        return 7;
+        return 5;
     }
 
     @Override

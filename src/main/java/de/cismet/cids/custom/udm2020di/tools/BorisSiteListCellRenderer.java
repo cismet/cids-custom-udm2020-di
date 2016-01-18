@@ -21,7 +21,7 @@ import de.cismet.cids.dynamics.CidsBean;
  * @author   Pascal Dihé
  * @version  $Revision$, $Date$
  */
-public final class WagwListCellRenderer extends DefaultListCellRenderer {
+public final class BorisSiteListCellRenderer extends DefaultListCellRenderer {
 
     //~ Methods ----------------------------------------------------------------
 
@@ -47,7 +47,7 @@ public final class WagwListCellRenderer extends DefaultListCellRenderer {
         if ((comp instanceof JLabel) && (value instanceof CidsBean)) {
             final JLabel label = (JLabel)comp;
             final CidsBean obj = (CidsBean)value;
-            final String name = obj.getProperty("src_messstelle_pk").toString(); // NOI18N
+            final String name = obj.getProperty("src_standort_pk").toString(); // NOI18N
             label.setText(name);
         }
 

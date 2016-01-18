@@ -24,6 +24,7 @@ import de.cismet.cids.custom.udm2020di.actions.remote.BorisExportAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.BorisVisualisationAction;
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
+import de.cismet.cids.custom.udm2020di.tools.BorisSiteListCellRenderer;
 import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.tools.MesswerteTableModel;
 import de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer;
@@ -246,6 +247,8 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
 
                     @Override
                     public void run() {
+                        mapPanel.setGeometryBuffer(1.5d);
+                        mapPanel.setGeometryBufferMultiplier(1.5d);
                         mapPanel.setCidsBeans(cidsBeans);
 
                         final Collection<Standort> standorte = new ArrayList<Standort>();
@@ -258,7 +261,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                         for (final CidsBean cidsBean : cidsBeans) {
                             listModel.addElement(cidsBean);
                             objectIds.put(cidsBean.getPrimaryKeyValue().longValue(),
-                                cidsBean.getProperty("name").toString());
+                                cidsBean.getProperty("src_standort_pk").toString());
 
                             try {
                                 final Standort borisStandort = OracleImport.JSON_MAPPER.readValue(
@@ -286,7 +289,7 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                         }
 
                         featuresList.setModel(listModel);
-                        // parameterPanel.setParameterNames(parameterNamesSet);
+                        featuresList.setCellRenderer(new BorisSiteListCellRenderer());
 
                         // Messwerte Tab ---------------------------------------
                         final MesswerteTableModel messwerteTableModel = new BorisMesswerteTableModel(
@@ -302,6 +305,10 @@ public class BorisSiteAggregationRenderer extends CidsBeanAggregationRendererPan
                                 objectIds,
                                 standortPks);
                         parameterSelectionPanel.setExportAction(borisExportAction);
+                        // disable SHP export for BORIS Standort
+                        parameterSelectionPanel.setExportFormatEnabled(
+                            de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP,
+                            false);
 
                         // Visualisation -------------------------------------------
                         visualisationPanel.setParameters(parametersSet);

@@ -205,8 +205,10 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
                     JLabel label;
                     int i = 0;
                     for (final Standortparameter standortparameter : borisStandort.getStandortparameter()) {
+                        // exclude standortbezecihnung -> see #24
                         if ((standortparameter.getWert() != null) && !standortparameter.getWert().isEmpty()
-                                    && !standortparameter.getWert().equalsIgnoreCase("null")) {
+                                    && !standortparameter.getWert().equalsIgnoreCase("null")
+                                    && !standortparameter.getPk().equalsIgnoreCase("S100")) {
                             gridBagConstraints.gridy = i;
                             gridBagConstraints.gridx = 0;
                             gridBagConstraints.weightx = 0.0;
@@ -250,6 +252,10 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
                             objectIds,
                             Arrays.asList(new String[] { borisStandort.getPk() }));
                     parameterSelectionPanel.setExportAction(borisExportAction);
+                    // disable SHP export for BORIS Standort
+                    parameterSelectionPanel.setExportFormatEnabled(
+                        de.cismet.cids.custom.udm2020di.serveractions.AbstractExportAction.PARAM_EXPORTFORMAT_SHP,
+                        false);
 
                     // Visualisation -------------------------------------------
                     visualisationPanel.setParameters(parameters);
@@ -301,7 +307,7 @@ public class BorisSiteRenderer extends AbstractCidsBeanRenderer implements Confi
         String desc = "BORIS Standort";
         if (this.getCidsBean() != null) {
             desc += ": ";
-            desc += this.getCidsBean().getProperty("name").toString();
+            desc += this.getCidsBean().getProperty("src_standort_pk").toString();
         }
         return desc;
     }
