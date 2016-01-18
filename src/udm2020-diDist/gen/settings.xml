@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <settings>
-<localRepository>########## Pfad zum m2-Verzeichnis ##########</localRepository>  
+<localRepository>../lib/m2</localRepository>  
   <profiles>
     <profile>
       <id>global-properties</id>
