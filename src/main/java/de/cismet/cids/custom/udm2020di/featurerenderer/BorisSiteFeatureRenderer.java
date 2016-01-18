@@ -10,15 +10,11 @@ package de.cismet.cids.custom.udm2020di.featurerenderer;
 import org.apache.log4j.Logger;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 import de.cismet.cids.featurerenderer.CustomCidsFeatureRenderer;
 
+import de.cismet.cismap.commons.features.ScaleAwareFeatureRenderer;
+import de.cismet.cismap.commons.gui.featurecontrolwidget.CoordHider;
 import de.cismet.cismap.commons.gui.piccolo.FeatureAnnotationSymbol;
 
 import static de.cismet.cids.custom.udm2020di.treeicons.BorisSiteIconFactory.BORIS_SITE_ICON;
@@ -29,7 +25,8 @@ import static de.cismet.cids.custom.udm2020di.treeicons.BorisSiteIconFactory.BOR
  * @author   Pascal Dihé
  * @version  0.1
  */
-public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer {
+public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer implements ScaleAwareFeatureRenderer,
+    CoordHider {
 
     //~ Static fields/initializers ---------------------------------------------
 
@@ -91,6 +88,16 @@ public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer {
         }
     }
 
+    @Override
+    public int getMinScale() {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public int getMaxScale() {
+        return 126000;
+    }
+
     /**
      * DOCUMENT ME!
      *
@@ -99,5 +106,10 @@ public class BorisSiteFeatureRenderer extends CustomCidsFeatureRenderer {
     @Override
     public float getTransparency() {
         return 0.9f;
+    }
+
+    @Override
+    public String getAlternativeName() {
+        return cidsBean.getProperty("src_standort_pk").toString();
     }
 }

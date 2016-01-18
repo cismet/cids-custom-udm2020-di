@@ -23,7 +23,7 @@ import de.cismet.cids.custom.udm2020di.actions.remote.WaVisualisationAction;
 import de.cismet.cids.custom.udm2020di.indeximport.OracleImport;
 import de.cismet.cids.custom.udm2020di.tools.DefaultRendererConfigurationHelper;
 import de.cismet.cids.custom.udm2020di.tools.NameListCellRenderer;
-import de.cismet.cids.custom.udm2020di.tools.WagwListCellRenderer;
+import de.cismet.cids.custom.udm2020di.tools.WagwStationListCellRenderer;
 import de.cismet.cids.custom.udm2020di.types.AggregationValue;
 import de.cismet.cids.custom.udm2020di.types.AggregationValues;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -292,7 +292,7 @@ public class WagwStationAggregationRenderer extends CidsBeanAggregationRendererP
 
                         featuresList.setModel(listModel);
                         if (stationType.equals(WaExportAction.WAGW)) {
-                            featuresList.setCellRenderer(new WagwListCellRenderer());
+                            featuresList.setCellRenderer(new WagwStationListCellRenderer());
                         }
 
                         // parameterPanel.setParameterNames(parameterNamesSet);

@@ -39,7 +39,8 @@ public abstract class BasicGeometryFromCidsObjectPermissionProvider extends Abst
 
     @Override
     public boolean getCustomReadPermissionDecisionforUser(final User user) {
-        if (user.getUserGroup().getName().equalsIgnoreCase("administratoren")) {
+        if (user.getUserGroup().getName().equalsIgnoreCase("administratoren")
+                    || user.getUserGroup().getName().equalsIgnoreCase("UDM2020")) {
 //            if (LOGGER.isDebugEnabled()) {
 //                LOGGER.debug("member of admin group. access is granted");
 //            }
