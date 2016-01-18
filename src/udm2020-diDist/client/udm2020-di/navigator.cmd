@@ -1,0 +1,1 @@
+java -Djnlp.directory.extension=Udm2020di -Duser.language=de -Duser.country=AT -Duser.variant=udm2020-di -Xms512m -Xmx2048m -jar ..\..\lib\starterUdm2020-di\cids-custom-udm2020-di-1.0-SNAPSHOT-starter.jar %cd%\config\log4j.properties %cd%\config\navigator.cfg %cd% %cd%\plugins %cd%\search %cd%\profiles

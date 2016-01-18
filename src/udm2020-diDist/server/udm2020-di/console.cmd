@@ -1,0 +1,1 @@
+java -jar ..\..\lib\starterUdm2020-di\cids-custom-udm2020-di-server-1.0-SNAPSHOT-starter.jar

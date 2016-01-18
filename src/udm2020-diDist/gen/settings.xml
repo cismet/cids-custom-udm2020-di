@@ -1,17 +1,63 @@
 <?xml version="1.0"?>
 <settings>
-  <localRepository></localRepository>
+<localRepository>########## Pfad zum m2-Verzeichnis ##########</localRepository>  
   <profiles>
     <profile>
       <id>global-properties</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      <properties>
-        <de.cismet.keystore.path></de.cismet.keystore.path>
-        <de.cismet.keystore.pass></de.cismet.keystore.pass>
-      </properties>
     </profile>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>dev</id>
+            <repositories>
+                <repository>
+                    <id>eig-cismet-repo</id>
+                    <url>http://repo.cismet.de/repo</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>cismet-repo</id>
+                    <url>http://repo.cismet.de/repo</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>cismet-dev</id>
+                    <url>http://repo.cismet.de/repo</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>eig-cismet-repo</id>
+                    <url>http://repo.cismet.de/repo</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
   </profiles>
   <mirrors>
     <mirror>
@@ -21,4 +67,31 @@
       <mirrorOf>central</mirrorOf>
     </mirror>
   </mirrors>
+    <servers>
+        <server>
+            <id>cismet-dev</id>
+	    <username>***</username>
+	    <password>***</password>
+        </server>
+        <server>
+            <id>eig-cismet-repo</id>
+            <username>***</username>
+            <password>***</password>
+        </server>
+        <server>
+            <id>cismet-repo</id>
+            <username>***</username>
+            <password>***</password>
+        </server>
+        <server>
+            <id>central</id>
+            <username>***</username>
+            <password>***</password>
+        </server>
+        <server>
+            <id>central-proxy</id>
+             <username>***</username>
+            <password>***</password>
+       </server>
+    </servers>
 </settings>

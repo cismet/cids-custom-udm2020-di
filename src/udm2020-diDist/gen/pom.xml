@@ -9,24 +9,24 @@
     </parent>
 
     <groupId>de.cismet.cids.custom.udm2020</groupId>
-    <artifactId>udm2020di-dist</artifactId>
+    <artifactId>udm2020-di-dist</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>cids Custom UDM 2020 DI Distribution</name>
+    <name>UDM2020-di Distribution</name>
     <description>Generates a cids distribution</description>
 
     <dependencies>
         <dependency>
-            <groupId>de.cismet.cids.custom.udm2020</groupId>
-            <artifactId>cids-custom-udm2020-di</artifactId>
-            <version>1.0-SNAPSHOT</version>
+	    <groupId>de.cismet.cids.custom.udm2020</groupId>
+	    <artifactId>cids-custom-udm2020-di</artifactId>
+	    <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>de.cismet.cids</groupId>
-            <artifactId>cids-server</artifactId>
-            <version>2.0-SNAPSHOT</version>
-        </dependency>
+            <groupId>de.cismet.cids.custom.udm2020</groupId>
+            <artifactId>cids-custom-udm2020-di-server</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>    
     </dependencies>
 
     <build>
@@ -34,7 +34,7 @@
             <plugin>
                 <groupId>de.cismet.cids</groupId>
                 <artifactId>cids-maven-plugin</artifactId>
-                <version>2.0.1</version>
+                <version>2.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -45,14 +45,14 @@
                 <configuration>
                     <vendor>cismet</vendor>
                     <homepage>http://www.cismet.de</homepage>
-                    <codebase>TODO</codebase>
+                    <codebase>http://localhost/</codebase></codebase>
                     <m2codebase>lib/m2</m2codebase>
-                    <accountExtension>udm2020di</accountExtension>
+                    <accountExtension>Udm2020-di</accountExtension>
                     <outputDirectory>..</outputDirectory>
                     <dependencyConfiguration>
                         <dependencyEx>
-                            <groupId>de.cismet.cids</groupId>
-                            <artifactId>cids-server</artifactId>
+                            <groupId>de.cismet.cids.custom.udm2020</groupId>
+                            <artifactId>cids-custom-udm2020-di-server</artifactId>
                             <generateJnlp>false</generateJnlp>
                             <additionalDependencies>
                                 <dependency>
@@ -62,47 +62,55 @@
                                 </dependency>
                             </additionalDependencies>
                             <starterConfiguration>
+                                <localConfiguration>
+                                    <jarNames>
+                                        <jarName>res.jar</jarName>
+                                        <jarName>resources.jar</jarName>
+                                    </jarNames>
+                                </localConfiguration>
                                 <mainClass>de.cismet.cids.admin.serverManagement.HeadlessServerConsole</mainClass>
                             </starterConfiguration>
                         </dependencyEx>
                         <dependencyEx>
                             <groupId>de.cismet.cids.custom.udm2020</groupId>
                             <artifactId>cids-custom-udm2020-di</artifactId>
-                            <generateJar>false</generateJar>
+                            <generateJnlp>true</generateJnlp>
                             <starterConfiguration>
-                            	<title>UDM 2020 Prototyp</title>
-                                <java>
-                                    <version>1.7+</version>
-                                    <initialHeapSize>512M</initialHeapSize>
-                                    <maximalHeapSize>1024M</maximalHeapSize>
-                                    <jvmArgs>-XX:MaxPermSize=128m</jvmArgs>
-                                </java>
-                                <mainClass>Sirius.navigator.Navigator</mainClass>
-                                <arguments>
-                                    <argument>client/udm2020-di/config/log4j.debug.properties</argument>
-                                    <argument>client/udm2020-di/config/navigator.cfg</argument>
-                                    <argument>client/udm2020-di</argument>
-                                    <argument>client/udm2020-di/plugins</argument>
-                                    <argument>client/udm2020-di/search</argument>
-                                </arguments>
-                                <properties>
-                                    <property>
-                                        <name>directory.extension</name>
-                                        <value>UDM2020DI</value>
-                                    </property>
-                                    <property>
-                                        <name>user.variant</name>
-                                        <value>udm2020-di</value>
-                                    </property>
-                                </properties>
-                                <localConfiguration>
+		                <localConfiguration>
                                     <jarNames>
                                         <jarName>res.jar</jarName>
                                         <jarName>navigatorImages.jar</jarName>
                                     </jarNames>
                                 </localConfiguration>
+                                <mainClass>Sirius.navigator.Navigator</mainClass>
+                                <arguments>
+                                    <argument>client/udm2020-di/config/log4j.properties</argument>
+                                    <argument>client/udm2020-di/config/navigator.cfg</argument>
+                                    <argument>client/udm2020-di</argument>
+                                    <argument>client/udm2020-di/plugins</argument>
+                                    <argument>client/udm2020-di/search</argument>
+                                </arguments>
+																<properties>
+                                    <properties>
+                                    <property>
+                                        <name>jnlp.directory.extension</name>
+                                        <value>Udm2020di</value>
+                                    </property>
+                                    <property>
+                                        <name>jnlp.user.language</name>
+                                        <value>de</value>
+                                    </property>
+                                    <property>
+                                        <name>jnlp.user.variant=</name>
+                                        <value>udm2020-di</value>
+                                    </property>
+                                    <property>
+                                        <name>jnlp.user.country</name>
+                                        <value>AT</value>
+                                    </property>
+                                </properties>
                             </starterConfiguration>
-                        </dependencyEx>
+                        </dependencyEx>                     
                     </dependencyConfiguration>
                 </configuration>
             </plugin>
