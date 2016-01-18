@@ -73,6 +73,9 @@ public abstract class AbstractExportAction extends AbstractAction implements Exp
         super(NbBundle.getMessage(
                 AbstractExportAction.class,
                 "AbstractExportAction.name")); // NOI18N
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("creating new Export Action");
+        }
     }
 
     /**

@@ -27,7 +27,10 @@ import java.awt.EventQueue;
 import java.text.SimpleDateFormat;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+
+import javax.swing.SwingWorker;
 
 import de.cismet.cids.custom.udm2020di.actions.remote.VisualisationAction;
 import de.cismet.cids.custom.udm2020di.types.Parameter;
@@ -53,7 +56,8 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
     protected javax.swing.JPanel chartsPanel;
     protected javax.swing.Box.Filler filler;
     protected javax.swing.Box.Filler filler2;
-    protected javax.swing.JLabel jLabel1;
+    protected javax.swing.JProgressBar jProgressBar;
+    protected javax.swing.JLabel messageLabel;
     protected javax.swing.JPanel parameterPanel;
     protected javax.swing.JPanel progressPanel;
     protected de.cismet.cids.custom.udm2020di.widgets.VisualisationParameterSelectionPanel
@@ -98,7 +102,8 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
                 new java.awt.Dimension(32767, 32767));
         progressPanel = new javax.swing.JPanel();
         waitingLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        messageLabel = new javax.swing.JLabel();
+        jProgressBar = new javax.swing.JProgressBar();
         chartsPanel = new javax.swing.JPanel();
         filler = new javax.swing.Box.Filler(new java.awt.Dimension(0, 5),
                 new java.awt.Dimension(0, 5),
@@ -136,20 +141,28 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
         gridBagConstraints.weighty = 0.75;
         progressPanel.add(waitingLabel, gridBagConstraints);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        messageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         org.openide.awt.Mnemonics.setLocalizedText(
-            jLabel1,
-            org.openide.util.NbBundle.getMessage(VisualisationPanel.class, "VisualisationPanel.jLabel1.text")); // NOI18N
+            messageLabel,
+            org.openide.util.NbBundle.getMessage(VisualisationPanel.class, "VisualisationPanel.messageLabel.text")); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 57;
         gridBagConstraints.ipady = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         gridBagConstraints.weightx = 1.0;
+        progressPanel.add(messageLabel, gridBagConstraints);
+
+        jProgressBar.setIndeterminate(true);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        progressPanel.add(jLabel1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 50);
+        progressPanel.add(jProgressBar, gridBagConstraints);
 
         add(progressPanel, "progress");
 
@@ -190,23 +203,36 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
             LOGGER.debug("visualising " + chartData.size() + " charts");
         }
 
-        EventQueue.invokeLater(new Runnable() {
+        chartsPanel.removeAll();
+        final SwingWorker chartRenderWorker = new SwingWorker<Void, JFreeChart>() {
 
                 @Override
-                public void run() {
-                    chartsPanel.removeAll();
+                protected Void doInBackground() throws Exception {
                     for (final String title : chartData.keySet()) {
                         final JFreeChart chart = createChart(title, chartData.get(title));
+                        publish(chart);
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void process(final List<JFreeChart> chunks) {
+                    for (final JFreeChart chart : chunks) {
                         final ChartPanel chartPanel = new ChartPanel(chart);
                         chartsPanel.add(chartPanel);
                     }
+                }
 
+                @Override
+                protected void done() {
                     chartsPanel.add(filler);
                     chartsPanel.add(backButton);
                     ((CardLayout)getLayout()).show(VisualisationPanel.this, "charts");
                     chartsPanel.validate();
                 }
-            });
+            };
+
+        chartRenderWorker.execute();
     }
 
     @Override
@@ -243,6 +269,9 @@ public class VisualisationPanel extends javax.swing.JPanel implements ChartVisua
      * @param  visualisationAction  DOCUMENT ME!
      */
     public void setVisualisationAction(final VisualisationAction visualisationAction) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("setting visualisation action");
+        }
         this.visualisationParameterSelectionPanel.setVisualisationActionAction(visualisationAction);
     }
 
