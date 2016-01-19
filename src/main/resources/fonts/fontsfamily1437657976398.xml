@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+   <fontFamily name="Arial">
+       <normal><![CDATA[fonts/arial.ttf]]></normal>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="Arial Narrow">
+       <normal><![CDATA[fonts/ARIALN.TTF]]></normal>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="arial">
+       <normal><![CDATA[fonts/arialK.ttf]]></normal>
+       <pdfEmbedded><![CDATA[false]]></pdfEmbedded>
+   </fontFamily>
+
+
+</fontFamilies>
