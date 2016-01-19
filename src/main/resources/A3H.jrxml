@@ -70,7 +70,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial Narrow" size="5"/>
+					<font fontName="Arial Narrow" pdfFontName="ARIALN.TTF" isPdfEmbedded="true" size="5"/>
 				</textElement>
 				<text><![CDATA[Vervielfältigungen, Umarbeiten, Veröffentlichungen oder die Weitergabe an Dritte nur mit Zustimmung des Herausgebers, ausgenommen Vervielfältigungen und Umarbeitungen zur ínnerbetrieblichen Verwendung bei Behörden oder zum eigenen Gebrauch.]]></text>
 			</staticText>
