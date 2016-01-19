@@ -147,17 +147,31 @@
             <scale selected="false" denominator="100000">1:100000</scale>
             <scale selected="false" denominator="150000">1:150000</scale>
             <scale selected="false" denominator="250000">1:250000</scale>
+
+            <resolution selected="false" dpi="72">72 dpi  (PDF ca. 0,5MB bei DIN A4)</resolution>
+            <resolution selected="true" dpi="100">100 dpi (PDF ca. 1,0MB bei DIN A4)</resolution>
+            <resolution selected="false" dpi="150">150 dpi (PDF ca. 2,0MB bei DIN A4)</resolution>
+            <resolution selected="false" dpi="300">300 dpi (PDF ca. 4,0MB bei DIN A4)</resolution>
+
+            <template selected="true" title="Standard DIN-A4 hochkant" file="/A4H.jasper" className="de.cismet.cismap.printing.templateinscriber.A4HPersistent" mapPlaceholder="map" mapWidth="508" mapHeight="699" scaleDenominatorPlaceholder="scale" />
+            <template selected="false" title="Standard DIN-A4 quer" file="/A4Q.jasper" className="de.cismet.cismap.printing.templateinscriber.A4HPersistent" mapPlaceholder="map" mapWidth="751" mapHeight="483" scaleDenominatorPlaceholder="scale" />
+            <template selected="false" title="Standard DIN-A3 hochkant" file="/A3H.jasper" className="de.cismet.cismap.printing.templateinscriber.A4H" mapPlaceholder="map" mapWidth="751" mapHeight="1049" scaleDenominatorPlaceholder="scale" />
+            <template selected="false" title="Standard DIN-A3 quer" file="/A3Q.jasper" className="de.cismet.cismap.printing.templateinscriber.A4H" mapPlaceholder="map" mapWidth="1104" mapHeight="699" scaleDenominatorPlaceholder="scale" />
+
+            <action selected="false" id="print">Drucken</action>
+            <action selected="false" id="printpreview">Druckvorschau</action>
+            <action selected="true" id="pdf">PDF anzeigen</action>
         </printing>
     </cismapMappingPreferences>
 
     <cismapActiveLayerConfiguration>
         <Layers>
       
-            <WMSServiceLayer name="opentopomap.org" title="opentopomap.org" visible="true" enabled="true" translucency="0.75" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+            <WMSServiceLayer name="opentopomap.org" title="opentopomap.org" visible="true" enabled="true" translucency="0.5" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
                 <capabilities type="OGC" active="false"><![CDATA[http://tl-243.xtr.deltares.nl/mapproxy/service?REQUEST=GetCapabilities]]></capabilities>
                 <wmsLayer name="opentopomap.org" title="opentopomap.org" enabled="true" info="false" />
             </WMSServiceLayer>
-            <WMSServiceLayer name="Basemap.AT" title="opentopomap.org" visible="true" enabled="true" translucency="0.75" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+            <WMSServiceLayer name="Basemap.AT" title="opentopomap.org" visible="true" enabled="true" translucency="0.5" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
                 <capabilities type="OGC" active="false"><![CDATA[http://tl-243.xtr.deltares.nl/mapproxy/service?REQUEST=GetCapabilities]]></capabilities>
                 <wmsLayer name="basemap.at" title="Basemap.AT" enabled="true" info="false" />
             </WMSServiceLayer>
