@@ -7,3 +7,5 @@ release.properties
 src/udm2020-diDist/lib/cidsLibBase/resource/__tmp_build.xml
 *.log
 /src/udm2020-diDist/server/udm2020-di/boris-export.csv
+/desktop.ini
+/.icon.ico

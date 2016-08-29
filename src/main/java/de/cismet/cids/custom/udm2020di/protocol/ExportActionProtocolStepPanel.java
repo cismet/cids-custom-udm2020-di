@@ -97,7 +97,9 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
                     domain,
                     object.getKey().intValue(),
                     this.exportAction.getClassId(),
-                    object.getValue(),null,null);// TODO: Check4CashedGeomAndLightweightJson
+                    object.getValue(),
+                    null,
+                    null); // TODO: Check4CashedGeomAndLightweightJson
 
             metaObjectNodes.add(metaObjectNode);
         }
@@ -283,7 +285,7 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void exportParameterHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportParameterHyperlinkActionPerformed
+    private void exportParameterHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_exportParameterHyperlinkActionPerformed
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("restoring export panel for " + this.metaObjectNodes.size() + " objects");
@@ -324,16 +326,16 @@ public class ExportActionProtocolStepPanel extends AbstractProtocolStepPanel {
             LOGGER.error("cannot restore meta objects: no meta object nodes available: "
                         + this.metaObjectNodes.size() + " (" + objectIds.size() + ")");
         }
-    }//GEN-LAST:event_exportParameterHyperlinkActionPerformed
+    } //GEN-LAST:event_exportParameterHyperlinkActionPerformed
 
     /**
      * DOCUMENT ME!
      *
      * @param  evt  DOCUMENT ME!
      */
-    private void exportObjectsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportObjectsHyperlinkActionPerformed
+    private void exportObjectsHyperlinkActionPerformed(final java.awt.event.ActionEvent evt) { //GEN-FIRST:event_exportObjectsHyperlinkActionPerformed
         this.toggleObjectsPanelVisibility();
-    }//GEN-LAST:event_exportObjectsHyperlinkActionPerformed
+    }                                                                                          //GEN-LAST:event_exportObjectsHyperlinkActionPerformed
 
     @Override
     public Component getIconComponent() {
