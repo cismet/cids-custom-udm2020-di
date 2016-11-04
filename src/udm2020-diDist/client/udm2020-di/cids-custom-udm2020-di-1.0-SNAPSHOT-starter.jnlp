@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<jnlp spec="1.0+" codebase="http://localhost/udmAutoDist" href="http://localhost/udmAutoDist/client/udm2020-di/cids-custom-udm2020-di-1.0-SNAPSHOT-starter.jnlp">
+<jnlp spec="1.0+" codebase="http://localhost" href="http://localhost/client/udm2020-di/cids-custom-udm2020-di-1.0-SNAPSHOT-starter.jnlp">
     <information>
         <title>cids Custom UDM 2020 - DI Starter</title>
         <vendor>cismet</vendor>
@@ -11,15 +11,18 @@
     <resources>
         <j2se version="1.6" initial-heap-size="128m" max-heap-size="256m"/>
         <property name="jnlp.directory.extension" value="Udm2020di"/>
-        <jar href="http://localhost/udmAutoDist/lib/localUdm2020-di/res.jar"/>
-        <jar href="http://localhost/udmAutoDist/lib/localUdm2020-di/navigatorImages.jar"/>
-        <extension href="http://localhost/udmAutoDist/lib/classpathUdm2020-di/cids-custom-udm2020-di-1.0-SNAPSHOT-classpath.jnlp"/>
+        <property name="jnlp.user.language" value="de"/>
+        <property name="jnlp.user.variant=" value="udm2020-di"/>
+        <property name="jnlp.user.country" value="AT"/>
+        <jar href="http://localhost/lib/localUdm2020-di/res.jar"/>
+        <jar href="http://localhost/lib/localUdm2020-di/navigatorImages.jar"/>
+        <extension href="http://localhost/lib/classpathUdm2020-di/cids-custom-udm2020-di-1.0-SNAPSHOT-classpath.jnlp"/>
     </resources>
     <application-desc main-class="Sirius.navigator.Navigator">
-        <argument>http://localhost/udmAutoDist/client/udm2020-di/config/log4j.properties</argument>
-        <argument>http://localhost/udmAutoDist/client/udm2020-di/config/navigator.cfg</argument>
-        <argument>http://localhost/udmAutoDist/client/udm2020-di</argument>
-        <argument>http://localhost/udmAutoDist/client/udm2020-di/plugins</argument>
-        <argument>http://localhost/udmAutoDist/client/udm2020-di/search</argument>
+        <argument>http://localhost/client/udm2020-di/config/log4j.properties</argument>
+        <argument>http://localhost/client/udm2020-di/config/navigator.cfg</argument>
+        <argument>http://localhost/client/udm2020-di</argument>
+        <argument>http://localhost/client/udm2020-di/plugins</argument>
+        <argument>http://localhost/client/udm2020-di/search</argument>
     </application-desc>
 </jnlp>

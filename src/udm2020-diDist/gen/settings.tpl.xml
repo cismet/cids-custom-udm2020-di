@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <settings>
-<localRepository>../lib/m2</localRepository>  
-  <profiles>
-    <profile>
-      <id>global-properties</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
+    <localRepository>../lib/m2</localRepository>  
+    <profiles>
+        <profile>
+            <id>global-properties</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
         <profile>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -16,7 +16,7 @@
             <repositories>
                 <repository>
                     <id>eig-cismet-repo</id>
-                    <url>http://repo.cismet.de/repo</url>
+                    <url>https://repo.cismet.de/repo</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -26,7 +26,7 @@
                 </repository>
                 <repository>
                     <id>cismet-repo</id>
-                    <url>http://repo.cismet.de/repo</url>
+                    <url>https://repo.cismet.de/repo</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -36,7 +36,7 @@
                 </repository>
                 <repository>
                     <id>cismet-dev</id>
-                    <url>http://repo.cismet.de/repo</url>
+                    <url>https://repo.cismet.de/repo</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -48,7 +48,7 @@
             <pluginRepositories>
                 <pluginRepository>
                     <id>eig-cismet-repo</id>
-                    <url>http://repo.cismet.de/repo</url>
+                    <url>https://repo.cismet.de/repo</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -58,40 +58,40 @@
                 </pluginRepository>
             </pluginRepositories>
         </profile>
-  </profiles>
-  <mirrors>
-    <mirror>
-      <id>central-proxy</id>
-      <name>cismet-repo</name>
-      <url>https://repo.cismet.de/repo</url>
-      <mirrorOf>central</mirrorOf>
-    </mirror>
-  </mirrors>
+    </profiles>
+    <mirrors>
+        <mirror>
+            <id>central-proxy</id>
+            <name>cismet-repo</name>
+            <url>https://repo.cismet.de/repo</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
     <servers>
         <server>
             <id>cismet-dev</id>
-	    <username>***</username>
-	    <password>***</password>
+            <username>****</username>
+            <password>****</password>
         </server>
         <server>
             <id>eig-cismet-repo</id>
-            <username>***</username>
-            <password>***</password>
+            <username>****</username>
+            <password>****</password>
         </server>
         <server>
             <id>cismet-repo</id>
-            <username>***</username>
-            <password>***</password>
+            <username>****</username>
+            <password>****</password>
         </server>
         <server>
             <id>central</id>
-            <username>***</username>
-            <password>***</password>
+            <username>****</username>
+            <password>****</password>
         </server>
         <server>
             <id>central-proxy</id>
-             <username>***</username>
-            <password>***</password>
-       </server>
+            <username>****</username>
+            <password>****</password>
+        </server>
     </servers>
 </settings>
