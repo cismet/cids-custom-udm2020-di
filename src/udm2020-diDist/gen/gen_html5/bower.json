@@ -1,0 +1,20 @@
+{
+  "name": "uim2020-html5-demonstrator",
+  "description": "UIM2020 Demonstrator Datenintegration HTML",
+  "version": "0.0.1",
+  "homepage": "https://github.com/cismet/uim2020-html5-demonstrator",
+  "license": "LGPL",
+  "authors": [
+    "Pascal Dihé <pascal@cismet.de>"
+  ],
+  "private": true,
+  "dependencies": {
+    "udm2020-di-html5": "https://github.com/cismet/uim2020-html5-demonstrator.git"
+  },
+  "resolutions": {
+    "angular": "^1.5.8",
+    "leaflet": "^0.7.7",
+    "angular-ui-router": "^0.3.1",
+    "leaflet.draw": "^0.3.2"
+  }
+}

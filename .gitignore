@@ -19,3 +19,10 @@ settings.xml
 /src/udm2020-diDist/bin/wget-1.11.4-1
 /src/udm2020-diDist/server/udm2020-di/udm2020-di-server-log.html
 /src/udm2020-diDist/server/udm2020-di-rest/udm2020-di-server-rest-log.html
+/src/udm2020-diDist/lib/starterUdm2020-di
+/src/udm2020-diDist/lib/starterUDM2020-di-REST
+/src/udm2020-diDist/lib/classpathUdm2020-di
+/src/udm2020-diDist/lib/classpathUDM2020-di-REST
+/src/udm2020-diDist/client/udm2020-di/cids-custom-udm2020-di-1.0-SNAPSHOT-starter.jnlp
+/src/udm2020-diDist/client/udm2020-di/config/*.bak
+/src/udm2020-diDist/client/uim2020-html5-demonstrator-master
