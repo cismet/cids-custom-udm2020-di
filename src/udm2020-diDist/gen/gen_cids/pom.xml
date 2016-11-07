@@ -51,10 +51,10 @@
                 <configuration>
                     <vendor>cismet</vendor>
                     <homepage>http://www.cismet.de</homepage>
-                    <codebase>http://localhost:3030/</codebase>
+                    <codebase>http://localhost/</codebase>
                     <m2codebase>lib/m2</m2codebase>
-                    <accountExtension>Udm2020-di</accountExtension>
-                    <outputDirectory>..</outputDirectory>
+                    <accountExtension>UDM2020-di</accountExtension>
+                    <outputDirectory>../..</outputDirectory>
                     <dependencyConfiguration>
                         <dependencyEx>
                             <groupId>de.cismet.cids.custom.udm2020</groupId>
