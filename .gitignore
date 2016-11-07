@@ -26,3 +26,6 @@ settings.xml
 /src/udm2020-diDist/client/udm2020-di/cids-custom-udm2020-di-1.0-SNAPSHOT-starter.jnlp
 /src/udm2020-diDist/client/udm2020-di/config/*.bak
 /src/udm2020-diDist/client/uim2020-html5-demonstrator-master
+/src/udm2020-diDist/udm2020-di-server-rest-log.html
+/src/udm2020-diDist/udm2020-di-server-log.html
+/src/udm2020-diDist/client/uim2020-html5-demonstrator-master.zip

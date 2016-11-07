@@ -1,10 +1,13 @@
 @ECHO OFF
 
 chdir /d %~dp0
-call %~dp0gen\gen_cids\update.cmd > install-cids.log
+call %~dp0gen\bin\setenv.cmd
 
 chdir /d %~dp0
-call %~dp0gen\gen_rest\update.cmd > install-rest.log
+call %~dp0gen\gen_cids\install.cmd > install-cids.log
 
 chdir /d %~dp0
-call %~dp0gen\gen_html5\update.cmd > install-html5.log
+call %~dp0gen\gen_rest\install.cmd > install-rest.log
+
+chdir /d %~dp0
+call %~dp0gen\gen_html5\install.cmd > install-html5.log

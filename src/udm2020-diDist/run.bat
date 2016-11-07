@@ -1,6 +1,9 @@
 @ECHO OFF
 
 chdir /d %~dp0
+call %~dp0gen\bin\setenv.cmd
+
+chdir /d %~dp0
 start server\udm2020-di\console.cmd
 
 chdir /d %~dp0
