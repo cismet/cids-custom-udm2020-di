@@ -1,7 +1,7 @@
 @ECHO OFF
 
 chdir /d %~dp0
-call %~dp0gen\bin\setenv.cmd
+call %~dp0bin\setenv.cmd
 
 chdir /d %~dp0
 call %~dp0gen\gen_cids\update.cmd > update-cids.log

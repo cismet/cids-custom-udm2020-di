@@ -8,5 +8,5 @@ wget -q --no-check-certificate -Ouim2020-html5-demonstrator-master.zip https://g
 jar xf uim2020-html5-demonstrator-master.zip
 
 chdir /D uim2020-html5-demonstrator-master
-npm install
-bower install
+call npm update
+call bower update
