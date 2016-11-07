@@ -10,4 +10,4 @@ chdir /d %~dp0
 start server\udm2020-di-rest\console.cmd
 
 chdir /d %~dp0client\uim2020-html5-demonstrator-master\
-start http-server -a 0.0.0.0 -p 80 -c-1 ./app
+start http-server ./app -a 0.0.0.0 -p 80 --cors -c-1
