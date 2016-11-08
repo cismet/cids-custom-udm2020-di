@@ -59,12 +59,27 @@
                         <dependencyEx>
                             <groupId>de.cismet.cids.custom.udm2020</groupId>
                             <artifactId>cids-custom-udm2020-di-server</artifactId>
+                            <version>1.0-SNAPSHOT</version>
                             <generateJnlp>false</generateJnlp>
                             <additionalDependencies>
                                 <dependency>
                                     <groupId>de.cismet.commons</groupId>
                                     <artifactId>cids-utils</artifactId>
                                     <version>2.0-SNAPSHOT</version>
+                                    <exclusions>
+                                        <exclusion>
+                                            <groupId>de.cismet.cids</groupId>
+                                            <artifactId>cids-server</artifactId>
+                                        </exclusion>
+                                        <exclusion>
+                                            <groupId>org.slf4j</groupId>
+                                            <artifactId>*</artifactId>
+                                        </exclusion>
+                                        <exclusion>
+                                            <groupId>de.cismet.commons</groupId>
+                                            <artifactId>cismet-gui-commons</artifactId>
+                                        </exclusion>
+                                    </exclusions>
                                 </dependency>
                             </additionalDependencies>
                             <starterConfiguration>
@@ -80,6 +95,7 @@
                         <dependencyEx>
                             <groupId>de.cismet.cids.custom.udm2020</groupId>
                             <artifactId>cids-custom-udm2020-di</artifactId>
+                            <version>1.0-SNAPSHOT</version>
                             <generateJnlp>true</generateJnlp>
                             <starterConfiguration>
                                 <localConfiguration>

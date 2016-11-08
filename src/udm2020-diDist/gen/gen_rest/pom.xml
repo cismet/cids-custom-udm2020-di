@@ -49,7 +49,7 @@
                     <homepage>http://www.cismet.de</homepage>
                     <codebase>http://</codebase>
                     <m2codebase>lib/m2</m2codebase>
-                    <accountExtension>UDM2020-di-REST</accountExtension>
+                    <accountExtension>UDM2020-di-rest</accountExtension>
                     <outputDirectory>../..</outputDirectory>
                     <dependencyConfiguration>
                         <dependencyEx>
