@@ -27,7 +27,7 @@
         <dependency>
             <groupId>de.cismet.cids</groupId>
             <artifactId>cids-server-rest-legacy</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0-UBA-SNAPSHOT</version>
         </dependency>        
     </dependencies>
 
@@ -55,6 +55,7 @@
                         <dependencyEx>
                             <groupId>de.cismet.cids</groupId>
                             <artifactId>cids-server-rest-legacy</artifactId>
+                            <version>1.0-UBA-SNAPSHOT</version>
                             <generateJnlp>false</generateJnlp>
                             <additionalDependencies>
                                 <dependency>
