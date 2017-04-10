@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cismetConfigurationManager>
+    <metaSearch>
+        <!-- name = Menu-name, desc = Menu-tooltip, key = id, icon = Button icon (location: package /de/cismet/cismap/commons/gui/metasearch/), selected = is selected by default -->
+        <searchTopic name="Bundesländer" 
+                     description="Suche nach österreichischen Bundesländern" 
+                     key="cmdBdl" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/austria_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="NAMED_AREA"/>
+        </searchTopic>        
+        <searchTopic name="Grundwasserkörper" 
+                     description="Suche nach Grundwasserkörpern" 
+                     key="cmdGwk" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/polygon_16.png" 
+                     selected="true">
+            <searchClass domain="UDM2020-DI" cidsClass="GWK"/>
+        </searchTopic>
+        <searchTopic name="Bodenmesstellen" 
+                     description="Suche nach Bodenmessstellen" 
+                     key="cmdBoden" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/showel_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="BORIS_SITE"/>
+        </searchTopic>
+        <searchTopic name="Grundwassermesstellen" 
+                     description="Suche nach Grundwassermessstellen" 
+                     key="cmdWagw" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/wagw_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="WAGW_STATION"/>
+        </searchTopic>
+        <searchTopic name="Wassermesstellen" 
+                     description="Suche nach Oberflächengewässermessstellen" 
+                     key="cmdWagw" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/waow_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="WAOW_STATION"/>
+        </searchTopic>
+        <searchTopic name="ePRTR Emittenten" 
+                     description="Suche nach PRTR Betriebseinrichtungen" 
+                     key="cmdEprtr" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/factory_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="EPRTR_INSTALLATION"/>
+        </searchTopic>
+        <searchTopic name="Moose" 
+                     description="Suche nach Moosmessstellen" 
+                     key="cmdMoss" 
+                     icon="/de/cismet/cids/custom/udm2020di/treeicons/moss_16.png" 
+                     selected="false">
+            <searchClass domain="UDM2020-DI" cidsClass="MOSS"/>
+        </searchTopic>
+        
+    </metaSearch>
+    <cismapOverviewComponentPreferences srs="EPSG:4326">
+        <overviewExtent>
+            <BoundingBox x1="9.110340826635039" y1="44.341261528760704" x2="17.24781417336493" y2="50.93470147123928" srs="EPSG:4326" metric="false" />        
+        </overviewExtent>
+        <background>
+            <simpleWms skip="false" enabled="true">
+                <![CDATA[
+                http://www2.demis.nl/wms/wms.asp?wms=WorldMap&&WMTVER=1.0.0&REQUEST=map&BBOX=<cismap:boundingBox>&WIDTH=<cismap:width>&HEIGHT=<cismap:height>&SRS=EPSG:4326&FORMAT=image/png&TRANSPARENT=true&BGCOLOR=0xF0F0F0&EXCEPTIONS=application/vnd.ogc.se_inimage&LAYERS=Bathymetry,Countries,Topography,Hillshading,Builtup%20areas,Coastlines,Waterbodies,Inundated,Rivers,Streams,Railroads,Highways,Roads,Trails,Borders,Cities,Settlements,Spot%20elevations,Airports,Ocean%20features
+                 ]]>
+            </simpleWms>
+        </background>
+    </cismapOverviewComponentPreferences>
+
+    <cismapCapabilitiesPreferences>		
+        <capabilities type="OGC" active="true"><![CDATA[http://tl-243.xtr.deltares.nl/mapproxy/service?REQUEST=GetCapabilities&version=1.1.1&service=wms]]></capabilities>
+        <capabilities type="OGC" active="false"><![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/ortophoto_at.xml?service=WMS&version=1.1.1]]></capabilities>
+        <capabilities type="OGC" active="false"><![CDATA[    https://secure.umweltbundesamt.at/spatial-r/services/public/clc/MapServer/WMSServer?request=GetCapabilities&service=WMS&version=1.1.1]]></capabilities>
+        <capabilities type="OGC" active="false"><![CDATA[https://secure.umweltbundesamt.at/spatial-r/services/gewaessernetztool/hydrography/MapServer/WMSServer?Service=WMS&Request=GetCapabilities&version=1.1.0]]></capabilities>
+        <capabilities type="OGC" active="false"><![CDATA[http://gis.lebensministerium.at/wmsgw/gs100804/?&service=wms&version=1.1.0&request=GetCapabilities]]></capabilities>
+				
+
+        <capabilitiesList 
+            titlestring="Demis Worldmap"  
+            type="OGC-WMS"
+            active="true">
+            <![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]>
+        </capabilitiesList>
+        <!--<capabilitiesList 
+            titlestring="Basemap Austria" 
+            type="OGC-WMS" 
+            active="true">
+            <![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/basemap_at.xml?service=WMS&version=1.1.0]]>
+        </capabilitiesList>-->
+        <capabilitiesList 
+            titlestring="OpenTopo" 
+            type="OGC-WMS" 
+            active="true">
+            <![CDATA[http://tl-243.xtr.deltares.nl/mapproxy/service?REQUEST=GetCapabilities&version=1.1.1]]>
+        </capabilitiesList>
+        <capabilitiesList 
+            titlestring="Orthophoto Austria" 
+            type="OGC-WMS" 
+            active="true">
+            <![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/ortophoto_at.xml?service=WMS&version=1.1.1]]>
+        </capabilitiesList>
+        <capabilitiesList 
+            titlestring="Corine Landcover" 
+            type="OGC-WMS" 
+            active="true">
+            <![CDATA[https://secure.umweltbundesamt.at/spatial-r/services/public/clc/MapServer/WMSServer?request=GetCapabilities&service=WMS&version=1.1.1]]>
+        </capabilitiesList>
+				
+        <capabilitiesList 
+            titlestring="eBod Austria" 
+            type="OGC-WMS" 
+            active="true">
+            <![CDATA[http://gis.lebensministerium.at/wmsgw/gs100804/?&service=wms&version=1.1.0&request=GetCapabilities]]>
+        </capabilitiesList>
+        <capabilitiesList 
+            titlestring="Hydrography Austria" 
+            type="OGC-WMS" 
+            active="true">
+            <![CDATA[https://secure.umweltbundesamt.at/spatial-r/services/gewaessernetztool/hydrography/MapServer/WMSServer?Service=WMS&Request=GetCapabilities&version=1.1.0]]>
+        </capabilitiesList>        
+    </cismapCapabilitiesPreferences>
+
+    <cismapWFSFormsPreferences/>
+
+    <cismapMappingPreferences interactionMode="ZOOM" creationMode="POLYGON" handleInteractionMode="MOVE_HANDLE" snapping="false">
+        <home default="true" srs="EPSG:4326" metric="false">
+            <BoundingBox x1="9.110340826635039" y1="44.341261528760704" x2="17.24781417336493" y2="50.93470147123928" srs="EPSG:4326" metric="false" />        
+        </home>
+        <Position CRS="EPSG:4326">
+            <BoundingBox x1="9.110340826635039" y1="44.341261528760704" x2="17.24781417336493" y2="50.93470147123928" srs="EPSG:4326" metric="false" />        
+        </Position>
+        <crsList>
+            <crs shortname="EPSG:4326" name="EPSG:4326" code="EPSG:4326" metric="false" selected="true" hideInCrsSwitcher="false" defaultCrs="true">GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]]</crs>
+            <crs shortname="EPSG:31287" name="EPSG:31287" code="EPSG:31287" metric="true" selected="false" hideInCrsSwitcher="true">PROJCS["MGI_Austria_Lambert",GEOGCS["GCS_MGI",DATUM["D_MGI",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic"],PARAMETER["standard_parallel_1",49],PARAMETER["standard_parallel_2",46],PARAMETER["latitude_of_origin",47.5],PARAMETER["central_meridian",13.33333333333333],PARAMETER["false_easting",400000],PARAMETER["false_northing",400000],UNIT["Meter",1]]</crs>
+            <crs shortname="EPSG:31259" name="EPSG:31259" code="EPSG:31259" metric="true" selected="false" hideInCrsSwitcher="true">PROJCS["MGI_Austria_GK_M34",GEOGCS["GCS_MGI",DATUM["D_MGI",SPHEROID["Bessel_1841",6377397.155,299.1528128]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",16.33333333333333],PARAMETER["scale_factor",1],PARAMETER["false_easting",750000],PARAMETER["false_northing",-5000000],UNIT["Meter",1]]</crs>
+        </crsList>
+        <defaultCrs geometrySridAlias="4326"/>
+        <printing>
+            <scale selected="true" denominator="0">frei</scale>
+            <scale selected="false" denominator="-1">Benutzerdefiniert</scale>
+            <scale selected="false" denominator="2500">1:2500</scale>
+            <scale selected="false" denominator="5000">1:5000</scale>
+            <scale selected="false" denominator="10000">1:10000</scale>
+            <scale selected="false" denominator="15000">1:15000</scale>
+            <scale selected="false" denominator="20000">1:20000</scale>
+            <scale selected="false" denominator="25000">1:25000</scale>
+            <scale selected="false" denominator="50000">1:50000</scale>
+            <scale selected="false" denominator="75000">1:75000</scale>
+            <scale selected="false" denominator="100000">1:100000</scale>
+            <scale selected="false" denominator="150000">1:150000</scale>
+            <scale selected="false" denominator="250000">1:250000</scale>
+
+            <resolution selected="false" dpi="72">72 dpi  (PDF ca. 0,5MB bei DIN A4)</resolution>
+            <resolution selected="true" dpi="100">100 dpi (PDF ca. 1,0MB bei DIN A4)</resolution>
+            <resolution selected="false" dpi="150">150 dpi (PDF ca. 2,0MB bei DIN A4)</resolution>
+            <resolution selected="false" dpi="300">300 dpi (PDF ca. 4,0MB bei DIN A4)</resolution>
+
+            <template selected="true" title="Standard DIN-A4 hochkant" file="/A4H.jasper" className="de.cismet.cismap.printing.templateinscriber.A4HPersistent" mapPlaceholder="map" mapWidth="508" mapHeight="699" scaleDenominatorPlaceholder="scale" />
+            <template selected="false" title="Standard DIN-A4 quer" file="/A4Q.jasper" className="de.cismet.cismap.printing.templateinscriber.A4HPersistent" mapPlaceholder="map" mapWidth="751" mapHeight="483" scaleDenominatorPlaceholder="scale" />
+            <template selected="false" title="Standard DIN-A3 hochkant" file="/A3H.jasper" className="de.cismet.cismap.printing.templateinscriber.A4H" mapPlaceholder="map" mapWidth="751" mapHeight="1049" scaleDenominatorPlaceholder="scale" />
+            <template selected="false" title="Standard DIN-A3 quer" file="/A3Q.jasper" className="de.cismet.cismap.printing.templateinscriber.A4H" mapPlaceholder="map" mapWidth="1104" mapHeight="699" scaleDenominatorPlaceholder="scale" />
+
+            <action selected="false" id="print">Drucken</action>
+            <action selected="false" id="printpreview">Druckvorschau</action>
+            <action selected="true" id="pdf">PDF anzeigen</action>
+        </printing>
+    </cismapMappingPreferences>
+
+    <cismapActiveLayerConfiguration>
+        <Layers>
+      
+            <WMSServiceLayer name="opentopomap.org" title="opentopomap.org" visible="true" enabled="true" translucency="0.5" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+                <capabilities type="OGC" active="false"><![CDATA[http://tl-243.xtr.deltares.nl/mapproxy/service?REQUEST=GetCapabilities]]></capabilities>
+                <wmsLayer name="opentopomap.org" title="opentopomap.org" enabled="true" info="false" />
+            </WMSServiceLayer>
+            <WMSServiceLayer name="Basemap.AT" title="opentopomap.org" visible="true" enabled="true" translucency="0.5" bgColor="0xF0F0F0" imageFormat="image/png" exceptionFormat="application/vnd.ogc.se_xml">
+                <capabilities type="OGC" active="false"><![CDATA[http://tl-243.xtr.deltares.nl/mapproxy/service?REQUEST=GetCapabilities]]></capabilities>
+                <wmsLayer name="basemap.at" title="Basemap.AT" enabled="true" info="false" />
+            </WMSServiceLayer>
+			
+            <!--<WMSServiceLayer name="DEMIS World Map" 
+                             title="DEMIS World Map" 
+                             visible="true" 
+                             enabled="true" 
+                             translucency="0.25" 
+                             bgColor="0xF0F0F0" 
+                             imageFormat="image/png" 
+                             exceptionFormat="application/vnd.ogc.se_xml">
+              <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/wms/wms.ashx?Service=WMS&WMS=WorldMap&Version=1.1.0&Request=GetCapabilities]]></capabilities>
+              <wmsLayer name="Bathymetry" title="Bathymetry" enabled="true" info="false" />
+              <wmsLayer name="Countries" title="Countries" enabled="true" info="false" />
+              <wmsLayer name="Topography" title="Topography" enabled="true" info="false" />
+              <wmsLayer name="Hillshading" title="Hillshading" enabled="true" info="false" />
+              <wmsLayer name="Builtup areas" title="Builtup areas" enabled="true" info="false" />
+              <wmsLayer name="Coastlines" title="Coastlines" enabled="true" info="false" />
+              <wmsLayer name="Waterbodies" title="Waterbodies" enabled="true" info="false" />
+              <wmsLayer name="Inundated" title="Inundated" enabled="true" info="false" />
+              <wmsLayer name="Rivers" title="Rivers" enabled="true" info="false" />
+              <wmsLayer name="Streams" title="Streams" enabled="true" info="false" />
+              <wmsLayer name="Railroads" title="Railroads" enabled="true" info="false" />
+              <wmsLayer name="Highways" title="Highways" enabled="true" info="false" />
+              <wmsLayer name="Roads" title="Roads" enabled="true" info="false" />
+              <wmsLayer name="Trails" title="Trails" enabled="true" info="false" />
+              <wmsLayer name="Borders" title="Borders" enabled="true" info="false" />
+              <wmsLayer name="Cities" title="Cities" enabled="true" info="false" />
+              <wmsLayer name="Settlements" title="Settlements" enabled="true" info="false" />
+              <wmsLayer name="Spot elevations" title="Spot elevations" enabled="true" info="false" />
+              <wmsLayer name="Airports" title="Airports" enabled="true" info="false" />
+              <wmsLayer name="Ocean features" title="Ocean features" enabled="true" info="false" />
+            </WMSServiceLayer>
+            <WMSServiceLayer name="Orthophoto Österreich" 
+                             title="Orthophoto Österreich" 
+                             visible="true" 
+                             enabled="true" 
+                             translucency="0.50" 
+                             bgColor="0xF0F0F0" 
+                             imageFormat="image/png" 
+                             exceptionFormat="application/vnd.ogc.se_xml">
+              <capabilities type="OGC" active="false"><![CDATA[http://gis.lebensministerium.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS]]></capabilities>
+              <wmsLayer name="Orthophoto" title="Orthophoto" enabled="true" info="false" />
+              <wmsLayer name="Satellitenbild_30m" title="Satellitenbild_30m" enabled="true" style="default" info="false" />
+              <wmsLayer name="Luftbild_8m" title="Luftbild_8m_LB" enabled="true" style="default" info="false" />
+              <wmsLayer name="Luftbild_1m" title="Luftbild_1m_LB" enabled="true" style="default" info="false" />
+              <wmsLayer name="Luftbild_MR" title="Luftbild_MR" enabled="true" style="default" info="false" />
+            </WMSServiceLayer>
+            <WMSServiceLayer name="DEMIS World Map Overlay" 
+                             title="DEMIS World Map Overlay" 
+                             visible="true" 
+                             enabled="true" 
+                             translucency="0.80" 
+                             bgColor="0xF0F0F0" 
+                             imageFormat="image/png" 
+                             exceptionFormat="application/vnd.ogc.se_xml">
+              <capabilities type="OGC" active="false"><![CDATA[http://www2.demis.nl/worldmap/wms.asp?Service=WMS&Version=1.1.0&Request=GetCapabilities]]></capabilities>
+              <wmsLayer name="Builtup areas" title="Builtup areas" enabled="true" info="false" />
+              <wmsLayer name="Airports" title="Airports" enabled="true" info="false" />
+              <wmsLayer name="Spot elevations" title="Spot elevations" enabled="true" info="false" />
+              <wmsLayer name="Settlements" title="Settlements" enabled="true" info="false" />
+              <wmsLayer name="Cities" title="Cities" enabled="true" info="false" />
+              <wmsLayer name="Borders" title="Borders" enabled="true" info="false" />
+              <wmsLayer name="Trails" title="Trails" enabled="true" info="false" />
+              <wmsLayer name="Roads" title="Roads" enabled="true" info="false" />
+              <wmsLayer name="Highways" title="Highways" enabled="true" info="false" />
+              <wmsLayer name="Railroads" title="Railroads" enabled="true" info="false" />
+              <wmsLayer name="Streams" title="Streams" enabled="true" info="false" />
+              <wmsLayer name="Rivers" title="Rivers" enabled="true" info="false" />
+              <wmsLayer name="Inundated" title="Inundated" enabled="true" info="false" />
+              <wmsLayer name="Waterbodies" title="Waterbodies" enabled="true" info="false" />
+              <wmsLayer name="Coastlines" title="Coastlines" enabled="true" info="false" />
+            </WMSServiceLayer>
+            <WMSServiceLayer name="Basiskarte Österreich" 
+                             title="Basiskarte Österreich" 
+                             visible="false" 
+                             enabled="false" 
+                             translucency="0.35" 
+                             bgColor="0xF0F0F0" 
+                             imageFormat="image/png" 
+                             exceptionFormat="application/vnd.ogc.se_xml">
+              <capabilities type="OGC" active="false"><![CDATA[https://raw.githubusercontent.com/cismet/cids-custom-udm2020-di/dev/src/udm2020-diDist/client/udm2020-di/plugins/cismap/res/capabilities/basemap_at.xml?service=WMS&version=1.1.0]]></capabilities>
+              <wmsLayer name="Staatsgrenze" title="Staatsgrenze" enabled="true" style="default" info="false" />
+              <wmsLayer name="Landesgrenze" title="Landesgrenze" enabled="true" style="default" info="false" />
+              <wmsLayer name="Bezirksgrenze" title="Bezirksgrenze" enabled="true" style="default" info="false" />
+              <wmsLayer name="Gemeindegrenze" title="Gemeindegrenze" enabled="true" style="default" info="false" />
+              <wmsLayer name="Katastralgemeindegrenze" title="Katastralgemeindegrenze" enabled="true" style="default" info="false" />
+              <wmsLayer name="OEK500" title="OEK500" enabled="true" style="default" info="false" />
+              <wmsLayer name="OEK200" title="OEK200" enabled="true" style="default" info="false" />
+              <wmsLayer name="OEK50" title="OEK50" enabled="true" style="default" info="false" />
+            </WMSServiceLayer>-->
+        </Layers>
+    </cismapActiveLayerConfiguration>
+    <cismapPluginSelectedSearchClasses/>
+    <cismapPluginUIPreferences>
+    </cismapPluginUIPreferences>
+    <cismapFeatureControl/>
+    <serverProfiles/>
+</cismetConfigurationManager>
+

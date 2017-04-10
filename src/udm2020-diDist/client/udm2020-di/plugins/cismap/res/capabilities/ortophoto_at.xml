@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- end of DOCTYPE declaration -->
+<WMT_MS_Capabilities version="1.1.1">
+
+    <!-- WMS -->
+
+    <Service>
+        <Name>OGC:WMS</Name>
+        <Title>Geoimage DOP WMS MaxRes (2011-07-01)</Title>
+        <Abstract>Dieser Geoimage WMS Dienst stellt ab Juli 2011 hochauflösende Orthophotos von Österreich ausschließlich für die nicht kommerzielle Nutzung zur Verfügung, bitte beachten Sie unbedingt die Nutzungsbedingungen (siehe &lt;AccessConstraints&gt;)! Der Dienst ist insbesondere für die Nutzung durch Open Data Communities gedacht. Der Dienst wird ohne Garantie auf Verfügbarkeit, Performance und dauerhafte Bereitstellung zur Verfügung gestellt. Weitere Informationen finden Sie unter www.geoimage.at. Der Zugang zum Dienst erfordert eine Selbsregistrierung unter https://kunden.bmlfuw.lfrz.at/lfrz.at/wmsgw/customergui. Nach erfolgter Registrierung erhalten Sie ein Email mit dem Link zu einer Anwendung, in welcher Sie Ihre Zugangs-URLs verwalten können.</Abstract>
+        <KeywordList>
+            <Keyword>GEOIMAGE</Keyword>
+            <Keyword>ORTHOPHOTO</Keyword>
+            <Keyword>ORTHOFOTO</Keyword>
+            <Keyword>REMOTE SENSING</Keyword>
+            <Keyword>AUSTRIA</Keyword>
+            <Keyword>LFRZ</Keyword>
+            <Keyword>humanGeographicViewer</Keyword>
+            <Keyword>infoMapAccessService</Keyword>
+        </KeywordList>
+        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+        <ContactInformation>
+            <ContactPersonPrimary>
+                <ContactPerson>Manuel Illmeyer, MSc</ContactPerson>
+                <ContactOrganization>http://www.geoimage.at</ContactOrganization>
+            </ContactPersonPrimary>
+            <ContactPosition>pointOfContact</ContactPosition>
+            <ContactElectronicMailAddress>office@geoimage.at</ContactElectronicMailAddress>
+        </ContactInformation>
+        <AccessConstraints>Das angebotene elektronische Service (WMS) wird in weiterer Folge als 'Dienst' bezeichnet. Die Inhalte der angebotenen Dienste sind urheberrechtlich geschützt und unterliegen dem Markenschutz von GEOIMAGE-AUSTRIA®. Die Dienste und deren Inhalte können für folgende nicht kommerzielle Zwecke (jeweils und ausschließlich) verwendet werden: 1. Private Nutzung, 2. Forschung, 3. Bildung, 4. Schulische Nutzung / Unterricht, 5. Erzeugung von Open Data Folgeprodukten, 6. Nutzung für Vereinszwecke, 7. Nutzung innerhalb von Blaulichtorganisationen, 8. Nutzung innerhalb von Behörden, jedoch nur zur Erfüllung gesetz-licher Aufgaben und ohne Darstellung im Internet. Für die Verwendung des Dienstes ist eine Selbstregistrierung erforderlich, die hierbei dem Benutzer zur Verfügung gestellten Zugangsdaten dürfen nicht an Dritte weitergegeben werden. Alle auf Basis des Dienstes und seiner Inhalte erzeugten Werke müssen folgenden Copyrighthinweis enthalten: 'Orthophoto: www.geoimage.at (c)'. Die Nutzung des Dienstes für die Erzeugung von Folgeprodukten (siehe 5. oben) ist unter der Voraussetzung gestattet, dass die erzeugten Folgeprodukte der Creative Common Lizenz 'Namensnennung-Weitergabe unter gleichen Bedingungen 2.0 Österreich (CC BY-SA 2.0)', siehe http://creativecommons.org/licenses/by-sa/2.0/at/ oder 'Namensnennung-Weitergabe unter gleichen Bedingungen 3.0 Österreich (CC BY-SA 3.0)', siehe http://creativecommons.org/licenses/by-sa/3.0/at/ oder der 'Open Database License (ODbL) v1.0', siehe http://opendatacommons.org/licenses/odbl/1.0/, unterliegen. [WICHTIGER HINWEIS: der hier angebotene Dienst und die darin enthaltenen Daten unterliegen NICHT der oben angegebenen CC BY-SA 2.0 bzw. CC BY-SA 3.0 bzw. ODbL v1.0 !]. Die erstellten Folgeprodukte dürfen keine Orthophotos oder Orthophotoausschnitte aus dem Geoimage Dienst beinhalten. Das Einbinden dieses Dienstes in andere Anwendungen (Cascading) ist nicht erlaubt. Innerbetriebliche und/oder kommerzielle Nutzung in Unternehmen ist ausnahmslos NICHT erlaubt. Das systematische permanente Abspeichern der Daten des Dienstes zur Generierung eines Paralleldatensatzes (Tiling, permanent Caching) ist ausnahmslos NICHT erlaubt, das gewöhnliche Browsercaching ist von diesen Verbot ausgenommen. Der Benutzer ist verpflichtet gegenüber den Mitarbeitern von GEOIMAGE AUSTRIA bei Anfrage Auskunft über die Verwendung des Dienstes und der darin eingebunden Daten zu geben. Ein Verstoß gegen die Nutzungsbedingungen hat einen Entzug der Nutzungsberechtigung sowie rechtliche Schritte gegen den Verstoßenden zur Folge. Darüber hinaus behält sich das LFRZ das Recht vor, jederzeit die Nutzungsberechtigung des Dienstes von einzelnen Nutzern ohne Angabe von Gründen zu entziehen. Im Katastrophenfall kann der Dienst sofort von allen Stellen, welche bei der Bewältigung der Katastrophe mitarbeiten, für die Dauer der Katastrophenbewältigung verwendet werden. Danach ist eine kurze Mitteilung über die Verwendung des Dienstes an office@geoimage.at zu richten. Für den Dienst wird keine Verfügbarkeit und/oder Performance garantiert. Für Daten und Datenqualität wird keinerlei Gewähr gegeben. Für Schäden oder Folgeschäden aus der Verwendung des Dienstes und der darin enthaltenen Daten wird keinerlei Haftung übernommen. Dieser Dienst wird derzeit angeboten, es besteht jedoch kein Anspruch auf spätere Verfügbarkeit des Dienstes. Für jede von den oben beschriebenen Nutzungsbedingungen abweichende Nutzung (z.B. kommerzielle Nutzung oder innerbetriebliche Nutzung) des Dienstes und der darin enthaltenen Daten kontaktieren Sie bitte office@geoimage.at oder besuchen die Webseite www.geoimage.at für unser Angebot an garantierten kommerziellen Diensten.</AccessConstraints>
+    </Service>
+
+    <Capability>
+        <Request>
+            <GetCapabilities>
+                <Format>application/vnd.ogc.wms_xml</Format>
+                <DCPType>
+                    <HTTP>
+                        <Get>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Get>
+                        <Post>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Post>
+                    </HTTP>
+                </DCPType>
+            </GetCapabilities>
+            <GetMap>
+                <Format>image/png</Format>
+                <Format>image/jpg</Format>
+                <Format>image/gif</Format>
+                <Format>image/png; mode=24bit</Format>
+                <Format>image/vnd.wap.wbmp</Format>
+                <Format>image/jpeg</Format>
+                <Format>image/tiff</Format>
+                <Format>image/svg+xml</Format>
+                <DCPType>
+                    <HTTP>
+                        <Get>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Get>
+                        <Post>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Post>
+                    </HTTP>
+                </DCPType>
+            </GetMap>
+            <GetFeatureInfo>
+                <Format>text/plain</Format>
+                <Format>application/vnd.ogc.gml</Format>
+                <DCPType>
+                    <HTTP>
+                        <Get>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Get>
+                        <Post>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Post>
+                    </HTTP>
+                </DCPType>
+            </GetFeatureInfo>
+            <DescribeLayer>
+                <Format>text/xml</Format>
+                <DCPType>
+                    <HTTP>
+                        <Get>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Get>
+                        <Post>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Post>
+                    </HTTP>
+                </DCPType>
+            </DescribeLayer>
+            <GetLegendGraphic>
+                <Format>image/png</Format>
+                <Format>image/jpg</Format>
+                <Format>image/gif</Format>
+                <Format>image/png; mode=24bit</Format>
+                <Format>image/vnd.wap.wbmp</Format>
+                <Format>image/jpeg</Format>
+                <DCPType>
+                    <HTTP>
+                        <Get>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Get>
+                        <Post>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Post>
+                    </HTTP>
+                </DCPType>
+            </GetLegendGraphic>
+            <GetStyles>
+                <Format>text/xml</Format>
+                <DCPType>
+                    <HTTP>
+                        <Get>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Get>
+                        <Post>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;"/>
+                        </Post>
+                    </HTTP>
+                </DCPType>
+            </GetStyles>
+        </Request>
+        <Exception>
+            <Format>application/vnd.ogc.se_xml</Format>
+            <Format>application/vnd.ogc.se_inimage</Format>
+            <Format>application/vnd.ogc.se_blank</Format>
+        </Exception>
+        <VendorSpecificCapabilities/>
+        <UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0"/>
+        <Layer>
+            <Name>DOP</Name>
+            <Title>Öffentlicher Geoimage DOP WMS MaxRes (2011-07-01)</Title>
+            <Abstract>Dieser Geoimage WMS Dienst stellt ab Juli 2011 hochauflösende Orthophotos von Österreich ausschließlich für die nicht kommerzielle Nutzung zur Verfügung, bitte beachten Sie unbedingt die Nutzungsbedingungen (siehe &lt;AccessConstraints&gt;)! Der Dienst ist insbesondere für die Nutzung durch Open Data Communities gedacht. Der Dienst wird ohne Garantie auf Verfügbarkeit, Performance und dauerhafte Bereitstellung zur Verfügung gestellt. Weitere Informationen finden Sie unter www.geoimage.at. Der Zugang zum Dienst erfordert eine Selbsregistrierung unter https://kunden.bmlfuw.lfrz.at/lfrz.at/wmsgw/customergui. Nach erfolgter Registrierung erhalten Sie ein Email mit dem Link zu einer Anwendung, in welcher Sie Ihre Zugangs-URLs verwalten können.</Abstract>
+            <KeywordList>
+                <Keyword>GEOIMAGE</Keyword>
+                <Keyword>ORTHOPHOTO</Keyword>
+                <Keyword>ORTHOFOTO</Keyword>
+                <Keyword>REMOTE SENSING</Keyword>
+                <Keyword>AUSTRIA</Keyword>
+                <Keyword>LFRZ</Keyword>
+                <Keyword>humanGeographicViewer</Keyword>
+                <Keyword>infoMapAccessService</Keyword>
+            </KeywordList>
+            <SRS>EPSG:3857</SRS>
+            <SRS>EPSG:900913</SRS>
+            <SRS>EPSG:31287</SRS>
+            <SRS>EPSG:3034</SRS>
+            <SRS>EPSG:3035</SRS>
+            <SRS>EPSG:3044</SRS>
+            <SRS>EPSG:3045</SRS>
+            <SRS>EPSG:31254</SRS>
+            <SRS>EPSG:31255</SRS>
+            <SRS>EPSG:31256</SRS>
+            <SRS>EPSG:31257</SRS>
+            <SRS>EPSG:31258</SRS>
+            <SRS>EPSG:31259</SRS>
+            <SRS>EPSG:32632</SRS>
+            <SRS>EPSG:32633</SRS>
+            <SRS>EPSG:3416</SRS>
+            <SRS>EPSG:4258</SRS>
+            <SRS>EPSG:4326</SRS>
+            <SRS>CRS:84</SRS>
+            <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+            <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+            <Layer>
+                <Name>Orthophoto</Name>
+                <Title>Orthophoto</Title>
+                <Abstract>Orthophoto</Abstract>
+                <Layer queryable="0" opaque="0" cascaded="0">
+                    <Name>Luftbild_MR</Name>
+                    <Title>Luftbild_MR</Title>
+                    <Abstract>Aktuelle Digitale Orthophotos des LFRZ aus gemeinsamen Befliegungen mit den Landesregierungen</Abstract>
+                    <KeywordList>
+                        <Keyword>Orthofotografie</Keyword>
+                    </KeywordList>
+                    <SRS>EPSG:3857</SRS>
+                    <SRS>EPSG:900913</SRS>
+                    <SRS>EPSG:31287</SRS>
+                    <SRS>EPSG:3034</SRS>
+                    <SRS>EPSG:3035</SRS>
+                    <SRS>EPSG:3044</SRS>
+                    <SRS>EPSG:3045</SRS>
+                    <SRS>EPSG:31254</SRS>
+                    <SRS>EPSG:31255</SRS>
+                    <SRS>EPSG:31256</SRS>
+                    <SRS>EPSG:31257</SRS>
+                    <SRS>EPSG:31258</SRS>
+                    <SRS>EPSG:31259</SRS>
+                    <SRS>EPSG:32632</SRS>
+                    <SRS>EPSG:32633</SRS>
+                    <SRS>EPSG:3416</SRS>
+                    <SRS>EPSG:4258</SRS>
+                    <SRS>EPSG:4326</SRS>
+                    <SRS>CRS:84</SRS>
+                    <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+                    <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+                    <MetadataURL type="ISO19115:2003">
+                        <Format>application/xml</Format>
+                        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geometadaten.lfrz.at/at.lfrz.discoveryservices/srv/de/csw202?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;ElementSetName=full&amp;id=67fdecc6-de0c-4512-afbb-2b1f135c1802"/>
+                    </MetadataURL>
+                    <Style>
+                        <Name>default</Name>
+                        <Title>default</Title>
+                        <LegendURL width="101" height="25">
+                            <Format>image/png</Format>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Luftbild_MR&amp;format=image/png&amp;STYLE=default"/>
+                        </LegendURL>
+                    </Style>
+                    <ScaleHint min="0.0498902848429637" max="1.24725712107409"/>
+                </Layer>
+                <Layer queryable="0" opaque="0" cascaded="0">
+                    <Name>Luftbild_1m</Name>
+                    <Title>Luftbild_1m_LB</Title>
+                    <Abstract>Aktuelle Digitale Orthophotos des LFRZ aus gemeinsamen Befliegungen mit den Landesregierungen</Abstract>
+                    <KeywordList>
+                        <Keyword>Orthofotografie</Keyword>
+                    </KeywordList>
+                    <SRS>EPSG:3857</SRS>
+                    <SRS>EPSG:900913</SRS>
+                    <SRS>EPSG:31287</SRS>
+                    <SRS>EPSG:3034</SRS>
+                    <SRS>EPSG:3035</SRS>
+                    <SRS>EPSG:3044</SRS>
+                    <SRS>EPSG:3045</SRS>
+                    <SRS>EPSG:31254</SRS>
+                    <SRS>EPSG:31255</SRS>
+                    <SRS>EPSG:31256</SRS>
+                    <SRS>EPSG:31257</SRS>
+                    <SRS>EPSG:31258</SRS>
+                    <SRS>EPSG:31259</SRS>
+                    <SRS>EPSG:32632</SRS>
+                    <SRS>EPSG:32633</SRS>
+                    <SRS>EPSG:3416</SRS>
+                    <SRS>EPSG:4258</SRS>
+                    <SRS>EPSG:4326</SRS>
+                    <SRS>CRS:84</SRS>
+                    <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+                    <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+                    <MetadataURL type="ISO19115:2003">
+                        <Format>application/xml</Format>
+                        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geometadaten.lfrz.at/at.lfrz.discoveryservices/srv/de/csw202?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;ElementSetName=full&amp;id=67fdecc6-de0c-4512-afbb-2b1f135c1802"/>
+                    </MetadataURL>
+                    <Style>
+                        <Name>default</Name>
+                        <Title>default</Title>
+                        <LegendURL width="99" height="25">
+                            <Format>image/png</Format>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Luftbild_1m&amp;format=image/png&amp;STYLE=default"/>
+                        </LegendURL>
+                    </Style>
+                    <ScaleHint min="1.24725712107409" max="7.73299415065938"/>
+                </Layer>
+                <Layer queryable="0" opaque="0" cascaded="0">
+                    <Name>Luftbild_8m</Name>
+                    <Title>Luftbild_8m_LB</Title>
+                    <Abstract>Aktuelle Digitale Orthophotos des LFRZ aus gemeinsamen Befliegungen mit den Landesregierungen</Abstract>
+                    <KeywordList>
+                        <Keyword>Orthofotografie</Keyword>
+                    </KeywordList>
+                    <SRS>EPSG:3857</SRS>
+                    <SRS>EPSG:900913</SRS>
+                    <SRS>EPSG:31287</SRS>
+                    <SRS>EPSG:3034</SRS>
+                    <SRS>EPSG:3035</SRS>
+                    <SRS>EPSG:3044</SRS>
+                    <SRS>EPSG:3045</SRS>
+                    <SRS>EPSG:31254</SRS>
+                    <SRS>EPSG:31255</SRS>
+                    <SRS>EPSG:31256</SRS>
+                    <SRS>EPSG:31257</SRS>
+                    <SRS>EPSG:31258</SRS>
+                    <SRS>EPSG:31259</SRS>
+                    <SRS>EPSG:32632</SRS>
+                    <SRS>EPSG:32633</SRS>
+                    <SRS>EPSG:3416</SRS>
+                    <SRS>EPSG:4258</SRS>
+                    <SRS>EPSG:4326</SRS>
+                    <SRS>CRS:84</SRS>
+                    <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+                    <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+                    <MetadataURL type="ISO19115:2003">
+                        <Format>application/xml</Format>
+                        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geometadaten.lfrz.at/at.lfrz.discoveryservices/srv/de/csw202?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;ElementSetName=full&amp;id=67fdecc6-de0c-4512-afbb-2b1f135c1802"/>
+                    </MetadataURL>
+                    <Style>
+                        <Name>default</Name>
+                        <Title>default</Title>
+                        <LegendURL width="99" height="25">
+                            <Format>image/png</Format>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Luftbild_8m&amp;format=image/png&amp;STYLE=default"/>
+                        </LegendURL>
+                    </Style>
+                    <ScaleHint min="7.48404162929299" max="75.0848786886604"/>
+                </Layer>
+                <Layer queryable="0" opaque="0" cascaded="0">
+                    <Name>Satellitenbild_30m</Name>
+                    <Title>Satellitenbild_30m</Title>
+                    <Abstract>Aktuelle Digitale Orthophotos des LFRZ aus gemeinsamen Befliegungen mit den Landesregierungen</Abstract>
+                    <KeywordList>
+                        <Keyword>Orthofotografie</Keyword>
+                    </KeywordList>
+                    <SRS>EPSG:3857</SRS>
+                    <SRS>EPSG:900913</SRS>
+                    <SRS>EPSG:31287</SRS>
+                    <SRS>EPSG:3034</SRS>
+                    <SRS>EPSG:3035</SRS>
+                    <SRS>EPSG:3044</SRS>
+                    <SRS>EPSG:3045</SRS>
+                    <SRS>EPSG:31254</SRS>
+                    <SRS>EPSG:31255</SRS>
+                    <SRS>EPSG:31256</SRS>
+                    <SRS>EPSG:31257</SRS>
+                    <SRS>EPSG:31258</SRS>
+                    <SRS>EPSG:31259</SRS>
+                    <SRS>EPSG:32632</SRS>
+                    <SRS>EPSG:32633</SRS>
+                    <SRS>EPSG:3416</SRS>
+                    <SRS>EPSG:4258</SRS>
+                    <SRS>EPSG:4326</SRS>
+                    <SRS>CRS:84</SRS>
+                    <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+                    <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+                    <MetadataURL type="ISO19115:2003">
+                        <Format>application/xml</Format>
+                        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geometadaten.lfrz.at/at.lfrz.discoveryservices/srv/de/csw202?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;ElementSetName=full&amp;id=67fdecc6-de0c-4512-afbb-2b1f135c1802"/>
+                    </MetadataURL>
+                    <Style>
+                        <Name>default</Name>
+                        <Title>default</Title>
+                        <LegendURL width="134" height="25">
+                            <Format>image/png</Format>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Satellitenbild_30m&amp;format=image/png&amp;STYLE=default"/>
+                        </LegendURL>
+                    </Style>
+                    <ScaleHint min="74.835926167294" max="4989.02848429637"/>
+                </Layer>
+            </Layer>
+            <Layer>
+                <Name>Metadata</Name>
+                <Title>Metadata</Title>
+                <Abstract>Metadata</Abstract>
+                <Layer queryable="0" opaque="0" cascaded="0">
+                    <Name>Metadata_Tiles</Name>
+                    <Title>Metadata_Tiles</Title>
+                    <Abstract>Aktuelle Digitale Orthophotos des LFRZ aus gemeinsamen Befliegungen mit den Landesregierungen</Abstract>
+                    <KeywordList>
+                        <Keyword>Orthofotografie</Keyword>
+                    </KeywordList>
+                    <SRS>EPSG:3857</SRS>
+                    <SRS>EPSG:900913</SRS>
+                    <SRS>EPSG:31287</SRS>
+                    <SRS>EPSG:3034</SRS>
+                    <SRS>EPSG:3035</SRS>
+                    <SRS>EPSG:3044</SRS>
+                    <SRS>EPSG:3045</SRS>
+                    <SRS>EPSG:31254</SRS>
+                    <SRS>EPSG:31255</SRS>
+                    <SRS>EPSG:31256</SRS>
+                    <SRS>EPSG:31257</SRS>
+                    <SRS>EPSG:31258</SRS>
+                    <SRS>EPSG:31259</SRS>
+                    <SRS>EPSG:32632</SRS>
+                    <SRS>EPSG:32633</SRS>
+                    <SRS>EPSG:3416</SRS>
+                    <SRS>EPSG:4258</SRS>
+                    <SRS>EPSG:4326</SRS>
+                    <SRS>CRS:84</SRS>
+                    <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+                    <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+                    <MetadataURL type="ISO19115:2003">
+                        <Format>application/xml</Format>
+                        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geometadaten.lfrz.at/at.lfrz.discoveryservices/srv/de/csw202?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;ElementSetName=full&amp;id=67fdecc6-de0c-4512-afbb-2b1f135c1802"/>
+                    </MetadataURL>
+                    <Style>
+                        <Name>default</Name>
+                        <Title>default</Title>
+                        <LegendURL width="102" height="25">
+                            <Format>image/png</Format>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Metadata_Tiles&amp;format=image/png&amp;STYLE=default"/>
+                        </LegendURL>
+                    </Style>
+                    <ScaleHint min="0.0498902848429637" max="75.0848786886604"/>
+                </Layer>
+                <Layer queryable="0" opaque="0" cascaded="0">
+                    <Name>Metadata-dissolve</Name>
+                    <Title>Metadata-dissolve</Title>
+                    <Abstract>Aktuelle Digitale Orthophotos des LFRZ aus gemeinsamen Befliegungen mit den Landesregierungen</Abstract>
+                    <KeywordList>
+                        <Keyword>Orthofotografie</Keyword>
+                    </KeywordList>
+                    <SRS>EPSG:3857</SRS>
+                    <SRS>EPSG:900913</SRS>
+                    <SRS>EPSG:31287</SRS>
+                    <SRS>EPSG:3034</SRS>
+                    <SRS>EPSG:3035</SRS>
+                    <SRS>EPSG:3044</SRS>
+                    <SRS>EPSG:3045</SRS>
+                    <SRS>EPSG:31254</SRS>
+                    <SRS>EPSG:31255</SRS>
+                    <SRS>EPSG:31256</SRS>
+                    <SRS>EPSG:31257</SRS>
+                    <SRS>EPSG:31258</SRS>
+                    <SRS>EPSG:31259</SRS>
+                    <SRS>EPSG:32632</SRS>
+                    <SRS>EPSG:32633</SRS>
+                    <SRS>EPSG:3416</SRS>
+                    <SRS>EPSG:4258</SRS>
+                    <SRS>EPSG:4326</SRS>
+                    <SRS>CRS:84</SRS>
+                    <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+                    <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+                    <MetadataURL type="ISO19115:2003">
+                        <Format>application/xml</Format>
+                        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geometadaten.lfrz.at/at.lfrz.discoveryservices/srv/de/csw202?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;ElementSetName=full&amp;id=67fdecc6-de0c-4512-afbb-2b1f135c1802"/>
+                    </MetadataURL>
+                    <Style>
+                        <Name>default</Name>
+                        <Title>default</Title>
+                        <LegendURL width="90" height="25">
+                            <Format>image/png</Format>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Metadata-dissolve&amp;format=image/png&amp;STYLE=default"/>
+                        </LegendURL>
+                    </Style>
+                    <ScaleHint min="1.24725712107409" max="4989.02848429637"/>
+                </Layer>
+                <Layer queryable="0" opaque="0" cascaded="0">
+                    <Name>Metadata-dissolve-res</Name>
+                    <Title>Metadata-dissolve-res</Title>
+                    <Abstract>Aktuelle Digitale Orthophotos des LFRZ aus gemeinsamen Befliegungen mit den Landesregierungen</Abstract>
+                    <KeywordList>
+                        <Keyword>Orthofotografie</Keyword>
+                    </KeywordList>
+                    <SRS>EPSG:3857</SRS>
+                    <SRS>EPSG:900913</SRS>
+                    <SRS>EPSG:31287</SRS>
+                    <SRS>EPSG:3034</SRS>
+                    <SRS>EPSG:3035</SRS>
+                    <SRS>EPSG:3044</SRS>
+                    <SRS>EPSG:3045</SRS>
+                    <SRS>EPSG:31254</SRS>
+                    <SRS>EPSG:31255</SRS>
+                    <SRS>EPSG:31256</SRS>
+                    <SRS>EPSG:31257</SRS>
+                    <SRS>EPSG:31258</SRS>
+                    <SRS>EPSG:31259</SRS>
+                    <SRS>EPSG:32632</SRS>
+                    <SRS>EPSG:32633</SRS>
+                    <SRS>EPSG:3416</SRS>
+                    <SRS>EPSG:4258</SRS>
+                    <SRS>EPSG:4326</SRS>
+                    <SRS>CRS:84</SRS>
+                    <LatLonBoundingBox minx="9.35647" miny="46.0867" maxx="17.3085" maxy="49.2085"/>
+                    <BoundingBox SRS="EPSG:31287" minx="110000" miny="250000" maxx="690000" maxy="590000"/>
+                    <MetadataURL type="ISO19115:2003">
+                        <Format>application/xml</Format>
+                        <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geometadaten.lfrz.at/at.lfrz.discoveryservices/srv/de/csw202?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&amp;ElementSetName=full&amp;id=67fdecc6-de0c-4512-afbb-2b1f135c1802"/>
+                    </MetadataURL>
+                    <Style>
+                        <Name>default</Name>
+                        <Title>default</Title>
+                        <LegendURL width="118" height="25">
+                            <Format>image/png</Format>
+                            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://gis.bmlfuw.gv.at/wmsgw/?key=a7c937a5909281cfa8c0d16617ccf7f7&amp;version=1.1.1&amp;service=WMS&amp;request=GetLegendGraphic&amp;layer=Metadata-dissolve-res&amp;format=image/png&amp;STYLE=default"/>
+                        </LegendURL>
+                    </Style>
+                    <ScaleHint min="0.0498902848429637" max="1.24725712107409"/>
+                </Layer>
+            </Layer>
+        </Layer>
+    </Capability>
+</WMT_MS_Capabilities>

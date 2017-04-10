@@ -1,0 +1,200 @@
+{
+    "id": 150881,
+    "name": "Sunpor Kunststoff GesmbH Werk I",
+    "longitude": 15.637139320373535,
+    "latitude": 48.19416809082031,
+    "tags": [{
+            "id": 781,
+            "key": "2007",
+            "name": "PRTR-Meldung 2007",
+            "description": "PRTR-Meldung 2007",
+            "taggroupid": 101,
+            "taggroupkey": "EPRTR.NOTIFICATION_PERIOD"
+        }, {
+            "id": 782,
+            "key": "2008",
+            "name": "PRTR-Meldung 2008",
+            "description": "PRTR-Meldung 2008",
+            "taggroupid": 101,
+            "taggroupkey": "EPRTR.NOTIFICATION_PERIOD"
+        }, {
+            "id": 784,
+            "key": "2010",
+            "name": "PRTR-Meldung 2010",
+            "description": "PRTR-Meldung 2010",
+            "taggroupid": 101,
+            "taggroupkey": "EPRTR.NOTIFICATION_PERIOD"
+        }, {
+            "id": 788,
+            "key": "WASSER DIREKT",
+            "name": "Wasser (direkt)",
+            "description": "Freisetzung in das Wasser (Direkteinleitung)",
+            "taggroupid": 102,
+            "taggroupkey": "EPRTR.RELEASE_TYPE"
+        }, {
+            "id": 789,
+            "key": "WASSER INDIREKT",
+            "name": "Wasser (indirekt)",
+            "description": "Verbringung von im Abwasser enthaltenen Schadstoffen außerhalb des Standorts",
+            "taggroupid": 102,
+            "taggroupkey": "EPRTR.RELEASE_TYPE"
+        }, {
+            "id": 199,
+            "key": "P",
+            "name": "Phosphor",
+            "description": "Gesamtphosphor (P)",
+            "taggroupid": 2,
+            "taggroupkey": "POLLUTANT"
+        }, {
+            "id": 228,
+            "key": "TOC",
+            "name": "TOC",
+            "description": "Gesamter organischer Kohlenstoff (TOC) (als Gesamt-C oder CSB/3)",
+            "taggroupid": 2,
+            "taggroupkey": "POLLUTANT"
+        }, {
+            "id": 151,
+            "key": "DNM",
+            "name": "Düngemittel",
+            "description": "Düngemittel",
+            "taggroupid": 1,
+            "taggroupkey": "POLLUTANTGROUP"
+        }, {
+            "id": 227,
+            "key": "TOC",
+            "name": "Gesamter organischer Kohlenstoff ",
+            "description": "Gesamter organischer Kohlenstoff ",
+            "taggroupid": 1,
+            "taggroupkey": "POLLUTANTGROUP"
+        }],
+    "notifications": [{
+            "id": 10481,
+            "mnemonic": "2007",
+            "name": "PRTR-Meldung 2007",
+            "notificationstartdate": "2007-01-01",
+            "notificationenddate": "2007-12-31",
+            "reportingstartdate": "2008-01-01",
+            "reportingenddate": "2008-05-31"
+        }, {
+            "id": 62074,
+            "mnemonic": "2008",
+            "name": "PRTR-Meldung 2008",
+            "notificationstartdate": "2008-01-01",
+            "notificationenddate": "2008-12-31",
+            "reportingstartdate": "2009-01-01",
+            "reportingenddate": "2009-05-31"
+        }, {
+            "id": 150875,
+            "mnemonic": "2010",
+            "name": "PRTR-Meldung 2010",
+            "notificationstartdate": "2010-01-01",
+            "notificationenddate": "2010-12-31",
+            "reportingstartdate": "2011-01-01",
+            "reportingenddate": "2011-05-31"
+        }],
+    "activities": [{
+            "name": "Chemieanlagen zur industriellen Herstellung von organischen Grundchemikalien wie i) einfachen Kohlenwasserstoffen (linearen oder ringförmigen, gesättigten oder ungesättigten, aliphatischen oder aromatischen) ii) sauerstoffhaltigen Kohlenwasserstoffen wie Alkoholen, Aldehyden, Ketonen, Carbonsäuren, Estern, Acetaten, Ethern, Peroxiden, Epoxidharzen iii) schwefelhaltigen Kohlenwasserstoffen iv) stickstoffhaltigen Kohlenwasserstoffen wie Aminen, Amiden, Nitroso-, Nitro- oder Nitratverbindungen, Nitrilen, Cyanaten, Isocyanaten v) phosphorhaltigen Kohlenwasserstoffen vi) halogenhaltigen Kohlenwasserstoffen vii) metallorganischen Verbindungen viii) Basiskunststoffen (Polymeren, Chemiefasern, Fasern auf Zellstoffbasis) ix) synthetischen Kautschuken x) Farbstoffe und Pigmente xi) Tensiden",
+            "code": "dfaru7hwqi2zr2",
+            "mnemonic": "4.a",
+            "product": null,
+            "notificationperiod": "2007",
+            "primaryactivity": "Y",
+            "productionvolume": -1,
+            "operatinghours": -1
+        }, {
+            "name": "Chemieanlagen zur industriellen Herstellung von organischen Grundchemikalien wie i) einfachen Kohlenwasserstoffen (linearen oder ringförmigen, gesättigten oder ungesättigten, aliphatischen oder aromatischen) ii) sauerstoffhaltigen Kohlenwasserstoffen wie Alkoholen, Aldehyden, Ketonen, Carbonsäuren, Estern, Acetaten, Ethern, Peroxiden, Epoxidharzen iii) schwefelhaltigen Kohlenwasserstoffen iv) stickstoffhaltigen Kohlenwasserstoffen wie Aminen, Amiden, Nitroso-, Nitro- oder Nitratverbindungen, Nitrilen, Cyanaten, Isocyanaten v) phosphorhaltigen Kohlenwasserstoffen vi) halogenhaltigen Kohlenwasserstoffen vii) metallorganischen Verbindungen viii) Basiskunststoffen (Polymeren, Chemiefasern, Fasern auf Zellstoffbasis) ix) synthetischen Kautschuken x) Farbstoffe und Pigmente xi) Tensiden",
+            "code": "dfaru7hwqi2zr2",
+            "mnemonic": "4.a",
+            "product": null,
+            "notificationperiod": "2008",
+            "primaryactivity": "Y",
+            "productionvolume": -1,
+            "operatinghours": -1
+        }, {
+            "name": "Chemieanlagen zur industriellen Herstellung von organischen Grundchemikalien wie i) einfachen Kohlenwasserstoffen (linearen oder ringförmigen, gesättigten oder ungesättigten, aliphatischen oder aromatischen) ii) sauerstoffhaltigen Kohlenwasserstoffen wie Alkoholen, Aldehyden, Ketonen, Carbonsäuren, Estern, Acetaten, Ethern, Peroxiden, Epoxidharzen iii) schwefelhaltigen Kohlenwasserstoffen iv) stickstoffhaltigen Kohlenwasserstoffen wie Aminen, Amiden, Nitroso-, Nitro- oder Nitratverbindungen, Nitrilen, Cyanaten, Isocyanaten v) phosphorhaltigen Kohlenwasserstoffen vi) halogenhaltigen Kohlenwasserstoffen vii) metallorganischen Verbindungen viii) Basiskunststoffen (Polymeren, Chemiefasern, Fasern auf Zellstoffbasis) ix) synthetischen Kautschuken x) Farbstoffe und Pigmente xi) Tensiden",
+            "code": "dfaru7hwqi2zr2",
+            "mnemonic": "4.a",
+            "product": null,
+            "notificationperiod": "2010",
+            "primaryactivity": "Y",
+            "productionvolume": -1,
+            "operatinghours": -1
+        }],
+    "addresses": [{
+            "type": "Adresse der Anlage",
+            "region": "Niederösterreich",
+            "district": "Sankt Pölten(Stadt)",
+            "city": "St. Pölten",
+            "postcode": 3100,
+            "streetname": "Stattersdorfer Hauptstraße"
+        }, {
+            "type": "Firmenadresse des Anlagenbetreibers",
+            "region": "Niederösterreich",
+            "district": "Sankt Pölten(Stadt)",
+            "city": "Stattersdorf",
+            "postcode": 3100,
+            "streetname": "Stattersdorfer Hauptstraße"
+        }],
+    "erasid": 11958,
+    "naceclass": "Herstellung von Kunststoffen in Primärformen",
+    "obligatedparty": "Sunpor Kunststoff GesmbH,",
+    "rivercatchment": "Donau unterhalb Jochenstein",
+    "aggregationvalues": [{
+            "name": "Gesamter organischer Kohlenstoff",
+            "pollutantkey": "TOC",
+            "pollutantgroupkey": "TOC",
+            "mindate": "2007-01-01",
+            "maxdate": "2007-12-31",
+            "minvalue": 75000.0,
+            "maxvalue": 75000.0,
+            "unit": null,
+            "probepk": null,
+            "releasetype": "WASSER DIREKT"
+        }, {
+            "name": "Gesamter organischer Kohlenstoff",
+            "pollutantkey": "TOC",
+            "pollutantgroupkey": "TOC",
+            "mindate": "2008-01-01",
+            "maxdate": "2008-12-31",
+            "minvalue": 54000.0,
+            "maxvalue": 54000.0,
+            "unit": null,
+            "probepk": null,
+            "releasetype": "WASSER INDIREKT"
+        }, {
+            "name": "Gesamtphosphor",
+            "pollutantkey": "P",
+            "pollutantgroupkey": "DNM",
+            "mindate": "2007-01-01",
+            "maxdate": "2007-12-31",
+            "minvalue": 6000.0,
+            "maxvalue": 6000.0,
+            "unit": null,
+            "probepk": null,
+            "releasetype": "WASSER DIREKT"
+        }, {
+            "name": "Gesamtphosphor",
+            "pollutantkey": "P",
+            "pollutantgroupkey": "DNM",
+            "mindate": "2010-01-01",
+            "maxdate": "2008-12-31",
+            "minvalue": 6412.5,
+            "maxvalue": 7273.0,
+            "unit": null,
+            "probepk": null,
+            "releasetype": "WASSER INDIREKT"
+        }],
+    "releaseparameters": [{
+            "parameterpk": "jnmeennvf5w8dm",
+            "parametergruppepk": "WASSER DIREKT",
+            "parametername": "Gesamter organischer Kohlenstoff (TOC) (als Gesamt-C oder CSB/3)",
+            "parametergruppename": "Freisetzung in das Wasser (Direkteinleitung)",
+            "parametereinheit": "kg/Jahr"
+        }, {
+            "parameterpk": "qud5fj33wufpsm",
+            "parametergruppepk": "WASSER DIREKT",
+            "parametername": "Gesamtphosphor",
+            "parametergruppename": "Freisetzung in das Wasser (Direkteinleitung)",
+            "parametereinheit": "kg/Jahr"
+        }]
+}

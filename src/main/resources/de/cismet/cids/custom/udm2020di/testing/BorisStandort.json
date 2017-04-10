@@ -1,0 +1,37 @@
+    {
+        "pk": "9000099",
+        "standortbezeichnung": "16,Willhelminenstraße / Sandleitengasse  ( Wohnpark )",
+        "standortnummer": "1605",
+        "hochwert": 484027.53125,
+        "institut": "MA 22, Umweltschutz Wien",
+        "literatur": "Flächendeckende Schwermetalluntersuchung des Wiener Bodens an 257 Stellen, 1994.",
+        "rechtswert": 620898.8125,
+        "standortparameter": [{
+                "pk": "S129",
+                "name": "Auflösung des digitalen GM bei d. Berechnung der Seehöhe",
+                "wert": null
+            }],
+        "probenparameter": [{
+                "parameterpk": "BAS1",
+                "parametergruppepk": "B30000",
+                "parametername": "As [mg/kg]",
+                "parametergruppename": "Metalle, Schwermetalle",
+                "parametereinheit": "mg/kg"
+            }],
+        "proben": ["9006000162", "9036000097", "9926000099", "9946000099", "9986000099"],
+        "aggregationvalues": [{
+                "name": "As [mg/kg]",
+                "pollutantkey": "As",
+                "pollutantgroupkey": "MET",
+                "mindate": "2006-08-10",
+                "maxdate": "2006-08-07",
+                "minvalue": 5.900000095367432E-3,
+                "maxvalue": 9.399999618530273E-3,
+                "unit": "mg/kg",
+                "probepk": null,
+                "releasetype": null
+            }]
+    }
+    
+    
+    
