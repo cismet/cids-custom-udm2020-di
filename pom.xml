@@ -10,7 +10,7 @@
 
     <groupId>de.cismet.cids.custom.udm2020</groupId>
     <artifactId>cids-custom-udm2020-di</artifactId>
-    <version>5.0-SNAPSHOT</version>
+    <version>5.0</version>
     <packaging>jar</packaging>
 
     <name>cids Custom UIM 2020 - DI</name>
@@ -21,7 +21,7 @@
         <connection>scm:git:https://github.com/cismet/cids-custom-udm2020-di.git</connection>
         <developerConnection>scm:git:git@github.com:cismet/cids-custom-udm2020-di.git</developerConnection>
         <url>https://github.com/cismet/cids-custom-udm2020-di</url>
-        <tag>HEAD</tag> 
+        <tag>v5.0</tag> 
     </scm>
   
     <issueManagement>
