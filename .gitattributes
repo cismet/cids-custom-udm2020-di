@@ -1,0 +1,18 @@
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text=auto
+
+*.java       text
+*.jrxml      text
+*.form       text
+*.xml        text
+*.properties text
+*.cfg        text
+default.mf   text
+policy.file  text
+
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.jasper binary
+
