@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-X-COMMENT: created with cidsABF, resource archive, no main-class
+X-COMMENT: created with cids ABF, resource archive, no main-class
 Permissions: all-permissions
 Codebase: *
