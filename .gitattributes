@@ -6,6 +6,9 @@
 *.form       text
 *.xml        text
 *.properties text
+*.cfg        text
+default.mf   text
+policy.file  text
 
 *.png    binary
 *.jpg    binary
