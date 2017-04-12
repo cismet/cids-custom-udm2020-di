@@ -266,6 +266,7 @@
               <wmsLayer name="OEK50" title="OEK50" enabled="true" style="default" info="false" />
             </WMSServiceLayer>-->
         </Layers>
+        
     </cismapActiveLayerConfiguration>
     <cismapPluginSelectedSearchClasses/>
     <cismapPluginUIPreferences>
