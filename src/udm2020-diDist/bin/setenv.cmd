@@ -1,6 +1,6 @@
 @ECHO OFF
 SET JAVA_HOME=%~dp0jdk-8u112-windows-x64
-SET MAVEN_HOME=%~dp0apache-maven-3.3.9
+SET MAVEN_HOME=%~dp0apache-maven-3.5.0
 SET M2_HOME=%MAVEN_HOME%
 SET NODE_HOME=%~dp0node-v7.0.0-win-x64
 SET WGET_HOME=%~dp0wget-1.11.4-1
