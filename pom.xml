@@ -5,12 +5,12 @@
     <parent>
         <groupId>de.cismet</groupId>
         <artifactId>cismet-parent</artifactId>
-        <version>5.0.1</version>
+        <version>5.1.1</version>
     </parent>
 
     <groupId>de.cismet.cids.custom.udm2020</groupId>
     <artifactId>cids-custom-udm2020-di</artifactId>
-    <version>5.1-SNAPSHOT</version>
+    <version>5.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>cids Custom UIM 2020 - DI</name>
@@ -65,7 +65,7 @@
             <dependency>
                 <groupId>de.cismet</groupId>
                 <artifactId>cismet-ext-bom</artifactId>
-                <version>5.0.1</version>
+                <version>5.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>de.cismet.cids.custom.udm2020</groupId>
                 <artifactId>cids-custom-udm2020-di-server</artifactId>
-                <version>5.0.2</version>
+                <version>5.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>stax</groupId>
@@ -95,7 +95,7 @@
             <dependency>
                 <groupId>de.cismet.commons</groupId>
                 <artifactId>cismap-commons</artifactId>
-                <version>5.0.3</version>
+                <version>5.0.8</version>
             </dependency>
             <dependency>
                 <groupId>de.cismet.cids</groupId>
@@ -105,7 +105,7 @@
             <dependency>
                 <groupId>de.cismet.cids</groupId>
                 <artifactId>cids-server</artifactId>
-                <version>5.0-UBA</version>
+                <version>5.0.1-UBA</version>
             </dependency>
             <dependency>
                 <groupId>de.cismet.cids.navigator</groupId>
@@ -161,6 +161,10 @@
                 <exclusion>
                     <groupId>com.vividsolutions</groupId>
                     <artifactId>jts</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.orbisgis</groupId>
+                    <artifactId>spatial-utilities</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
